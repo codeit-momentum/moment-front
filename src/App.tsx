@@ -1,10 +1,12 @@
-function App() {
+import { RouterProvider } from 'react-router-dom';
+import router from './router/Router';
 
+function App() {
   return (
     <>
-      모멘텀 클라이언트
+      <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
