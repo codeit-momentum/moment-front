@@ -5,6 +5,7 @@ import tsParser from "@typescript-eslint/parser";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import react from "eslint-plugin-react";
+import jsxA11y from "eslint-plugin-jsx-a11y"; // 접근성 플러그인 추가
 
 export default [
   {
@@ -22,13 +23,26 @@ export default [
       react,
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
+      "jsx-a11y": jsxA11y, // 접근성 관련 플러그인 추가
     },
     rules: {
       ...js.configs.recommended.rules,
       ...tsPlugin.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
 
-      // TypeScript 규칙: 명확하게 @typescript-eslint 설정 적용
+      // 태그 관련 규칙 (경고 수준)
+      "react/no-unknown-property": "warn", // HTML 속성 잘못 사용 경고
+      "jsx-a11y/alt-text": "warn", // 이미지 태그의 alt 속성 누락 시 경고
+      "react/self-closing-comp": [
+        "warn",
+        { component: true, html: true }, // children이 없는 경우 단일 태그 사용 권장
+      ],
+      "react/jsx-no-useless-fragment": "warn", // 불필요한 Fragment 사용 제한
+      "react/jsx-pascal-case": "warn", // 컴포넌트 네이밍 PascalCase 권장
+      "react/jsx-no-duplicate-props": "warn", // JSX에서 중복 props 방지
+      "react/jsx-boolean-value": ["warn", "never"], // 불필요한 `={true}` 생략 권장
+
+      // TypeScript 네이밍 컨벤션 (유연한 적용)
       "@typescript-eslint/naming-convention": [
         "warn",
         {
@@ -53,7 +67,7 @@ export default [
       // React 관련 규칙
       "arrow-body-style": ["warn", "as-needed"],
       "prefer-arrow-callback": "warn",
-      "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
+      "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }], // JSX 파일 확장자 제한
       "react/prop-types": "off", // TypeScript 사용 시 PropTypes 필요 없음
 
       // 반복문, 조건문 관련
@@ -83,6 +97,11 @@ export default [
           allowExpressions: true, // 함수 표현식에서는 반환 타입 생략 가능
         },
       ],
+
+      // 새로운 기타 규칙 (warn 추가)
+      "prefer-destructuring": ["warn", { object: true, array: false }], // 구조분해 할당 권장
+      "prefer-template": "warn", // 템플릿 리터럴 사용 권장
+      "react/no-array-index-key": "warn", // key로 index 사용 경고
     },
   },
 ];
