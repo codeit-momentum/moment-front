@@ -91,12 +91,14 @@ export default [
         'error',
         { maximum: 1, when: 'multiline' },
       ],
-      '@typescript-eslint/explicit-function-return-type': [
+      '@typescript-eslint/explicit-function-return-type': off,
+      /*
+      [
         'warn',
         {
           allowExpressions: true, // 함수 표현식에서는 반환 타입 생략 가능
         },
-      ],
+      ],*/
 
       // 새로운 기타 규칙 (warn 추가)
       'prefer-destructuring': ['warn', { object: true, array: false }], // 구조분해 할당 권장
