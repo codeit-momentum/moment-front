@@ -91,6 +91,7 @@ export default [
         'error',
         { maximum: 1, when: 'multiline' },
       ],
+
       '@typescript-eslint/explicit-function-return-type': off,
       /*
       [
