@@ -18,6 +18,7 @@ export default [
       globals: globals.browser, // 브라우저 환경에서 사용되는 전역 변수 허용
       parser: tsParser, // TypeScript 파서 적용
     },
+    extends: ['prettier'],
     plugins: {
       "@typescript-eslint": tsPlugin, // @typescript-eslint 플러그인 추가
       react,
