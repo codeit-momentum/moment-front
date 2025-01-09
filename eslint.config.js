@@ -92,7 +92,7 @@ export default [
         { maximum: 1, when: 'multiline' },
       ],
 
-      '@typescript-eslint/explicit-function-return-type': off,
+      '@typescript-eslint/explicit-function-return-type': 'off',
       /*
       [
         'warn',
