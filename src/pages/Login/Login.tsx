@@ -1,4 +1,5 @@
 import * as S from './Login.style';
+import IcKakaoLogin from '../../assets/svg/IcKakaoLogin';
 
 const REST_API_KEY: string = import.meta.env.VITE_REST_API_KEY;
 const REDIRECT_URI: string = import.meta.env.VITE_REDIRECT_URI;
@@ -12,7 +13,9 @@ const Login = () => {
   return (
     <S.Container>
       <span>로그인 페이지</span>
-      <S.KakaoLogin onClick={handleLogin}>카카오 로그인</S.KakaoLogin>
+      <S.KakaoLogin onClick={handleLogin}>
+        <IcKakaoLogin />
+      </S.KakaoLogin>
     </S.Container>
   );
 };
