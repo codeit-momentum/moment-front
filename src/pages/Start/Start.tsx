@@ -1,9 +1,4 @@
-const Start = () => {
-  return(
-    <>
-      모멘텀
-    </>
-  );
-};
+import GNB from '../../components/GNB/GNB';
+const Start = () => <GNB />;
 
 export default Start;
