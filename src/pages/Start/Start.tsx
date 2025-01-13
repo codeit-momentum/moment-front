@@ -1,8 +1,3 @@
-import GNB from '../../components/GNB/GNB';
-const Start = () => (
-  <div>
-    <GNB />
-  </div>
-);
+const Start = () => <div />;
 
 export default Start;
