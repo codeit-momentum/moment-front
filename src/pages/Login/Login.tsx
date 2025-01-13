@@ -7,7 +7,7 @@ const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST
 
 const Login = () => {
   const handleLogin = () => {
-    window.location.replace(KAKAO_AUTH_URL);
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   return (
