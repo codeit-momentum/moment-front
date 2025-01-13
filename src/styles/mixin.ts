@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components';
 
 interface MixinProps {
   direction?: string;
@@ -8,9 +8,9 @@ interface MixinProps {
 
 const mixin = {
   flexBox: ({
-    direction = "row",
-    align = "center",
-    justify = "center",
+    direction = 'row',
+    align = 'center',
+    justify = 'center',
   }: MixinProps) => css`
     display: flex;
     flex-direction: ${direction};
@@ -18,9 +18,9 @@ const mixin = {
     justify-content: ${justify};
   `,
   inlineFlexBox: ({
-    direction = "row",
-    align = "center",
-    justify = "center",
+    direction = 'row',
+    align = 'center',
+    justify = 'center',
   }: MixinProps) => css`
     display: inline-flex;
     flex-direction: ${direction};
