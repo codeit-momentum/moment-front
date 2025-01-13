@@ -2,17 +2,17 @@ import * as S from './GNB.style';
 
 const GNB = () => {
   const navList = [
-    { label: 'main', path: '/main', icon: null },
-    { label: 'moment', path: '/moment', icon: null },
-    { label: 'feed', path: '/feed', icon: null },
-    { label: 'mypage', path: '/mypage', icon: null },
+    { label: 'main', name: '홈', path: '/main', icon: null },
+    { label: 'moment', name: '모멘트', path: '/moment', icon: null },
+    { label: 'feed', name: '피드', path: '/feed', icon: null },
+    { label: 'mypage', name: '마이', path: '/mypage', icon: null },
   ];
   return (
     <S.GNBLayout>
       {navList.map((nav) => (
         <S.NavItem key={nav.label}>
           <S.NavIcon />
-          <S.NavLabelSpan>{nav.label}</S.NavLabelSpan>
+          <S.NavLabelSpan>{nav.name}</S.NavLabelSpan>
         </S.NavItem>
       ))}
     </S.GNBLayout>
