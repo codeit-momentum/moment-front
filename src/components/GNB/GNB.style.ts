@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const GNBLayout = styled.div`
-  ${({ theme: mixin }) => mixin.flexBox({ justify: 'space-between' })};
+  ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'space-between' })};
   position: fixed;
   bottom: 0;
 `;
