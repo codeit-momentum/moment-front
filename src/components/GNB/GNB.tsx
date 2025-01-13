@@ -7,6 +7,7 @@ const GNB = () => {
     { label: 'feed', name: '피드', path: '/feed', icon: null },
     { label: 'mypage', name: '마이', path: '/mypage', icon: null },
   ];
+
   return (
     <S.GNBLayout>
       {navList.map((nav) => (

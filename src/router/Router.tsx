@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../layouts/Layout';
 import Start from './../pages/Start/Start';
 import Home from '../pages/Home/Home';
+import LayoutWithGNB from '../layouts/LayoutWithGNB';
 
 const router = createBrowserRouter([
   {
@@ -12,39 +13,18 @@ const router = createBrowserRouter([
         path: '/',
         element: <Start />,
       },
+    ],
+  },
+  {
+    path: '/',
+    element: <LayoutWithGNB />,
+    children: [
       {
-        path: 'home',
+        path: '/home',
         element: <Home />,
       },
     ],
   },
-  //   {
-  //     path: '/',
-  //     element: <Layout />,
-  //     children: [
-  //       {
-  //         path: '',
-  //         element: <Main />,
-  //       },
-  //       {
-  //         path: 'products',
-  //         children: [
-  //           {
-  //             path: '',
-  //             element: <ProductList />,
-  //           },
-  //           {
-  //             path: ':productId',
-  //             element: <ProductDetail />,
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         path: '*',
-  //         element: <NotFound />,
-  //       },
-  //     ],
-  //   },
 ]);
 
 export default router;
