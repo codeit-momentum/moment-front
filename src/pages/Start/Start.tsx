@@ -1,9 +1,3 @@
-const Start = () => {
-  return(
-    <>
-      모멘텀
-    </>
-  );
-};
+const Start = () => <div />;
 
 export default Start;

@@ -65,7 +65,6 @@ export default [
       indent: ['error', 2], // 2탭 들여쓰기 적용
 
       // React 관련 규칙
-      'arrow-body-style': ['warn', 'as-needed'],
       'prefer-arrow-callback': 'warn',
       'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }], // JSX 파일 확장자 제한
       'react/prop-types': 'off', // TypeScript 사용 시 PropTypes 필요 없음
