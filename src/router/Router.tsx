@@ -3,6 +3,11 @@ import Layout from '../layouts/Layout';
 import Start from './../pages/Start/Start';
 import Login from '../pages/Login/Login';
 import KakaoCallback from '../pages/KakaoCallback/KakaoCallback';
+import Home from '../pages/Home/Home';
+import LayoutWithGNB from '../layouts/LayoutWithGNB';
+import Feed from '../pages/Feed/Feed';
+import Moment from '../pages/Moment/Moment';
+import MyPage from '../pages/MyPage/MyPage';
 
 const router = createBrowserRouter([
   {
@@ -23,33 +28,28 @@ const router = createBrowserRouter([
       },
     ],
   },
-  //   {
-  //     path: '/',
-  //     element: <Layout />,
-  //     children: [
-  //       {
-  //         path: '',
-  //         element: <Main />,
-  //       },
-  //       {
-  //         path: 'products',
-  //         children: [
-  //           {
-  //             path: '',
-  //             element: <ProductList />,
-  //           },
-  //           {
-  //             path: ':productId',
-  //             element: <ProductDetail />,
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         path: '*',
-  //         element: <NotFound />,
-  //       },
-  //     ],
-  //   },
+  {
+    path: '/',
+    element: <LayoutWithGNB />,
+    children: [
+      {
+        path: '/home',
+        element: <Home />,
+      },
+      {
+        path: '/feed',
+        element: <Feed />,
+      },
+      {
+        path: '/moment',
+        element: <Moment />,
+      },
+      {
+        path: '/mypage',
+        element: <MyPage />,
+      },
+    ],
+  },
 ]);
 
 export default router;
