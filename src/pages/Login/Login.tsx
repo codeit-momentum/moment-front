@@ -11,12 +11,19 @@ const Login = () => {
   };
 
   return (
-    <S.Container>
-      <span>로그인 페이지</span>
-      <S.KakaoLogin onClick={handleLogin}>
-        <IcKakaoLogin />
-      </S.KakaoLogin>
-    </S.Container>
+    <S.LoginPageLayout>
+      <S.OnboardingContainer>
+        <S.LogoWrapper />
+        <S.DescriptionWrapper>
+          당신의 중요한 <S.BoldSpan>모멘트</S.BoldSpan>를
+          <br />
+          기록하고, 달성하세요.
+        </S.DescriptionWrapper>
+        <S.LoginButton onClick={handleLogin}>
+          <IcKakaoLogin />
+        </S.LoginButton>
+      </S.OnboardingContainer>
+    </S.LoginPageLayout>
   );
 };
 
