@@ -9,7 +9,8 @@ interface LoginResponse {
 }
 
 const fetchKakaoLogin = async (code: string): Promise<LoginResponse> => {
-  const response = await instance.get(`${code}`);
+  // API path 백엔드 구현 후 수정 필요!
+  const response = await instance.get(`/member/oauth/kakao?code=${code}`);
   return response.data;
 };
 
