@@ -1,9 +1,19 @@
 import * as S from './Feed.style';
 
 const Feed = () => {
+  const mockFriends = [
+    {
+      id: 1,
+      name: '필수',
+    },
+  ];
+
   return (
     <S.FeedLayout>
-      <div>피드 페이지입니다.</div>
+      <S.FeedHeaderContatiner>
+        <S.FeedTitleHeader>친구들의 모멘트</S.FeedTitleHeader>
+        {mockFriends.length > 0 && <S.MenuIcon>메뉴</S.MenuIcon>}
+      </S.FeedHeaderContatiner>
     </S.FeedLayout>
   );
 };
