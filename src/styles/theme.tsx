@@ -1,6 +1,13 @@
 import mixin from './mixin';
 
-const colors = {};
+const colors = {
+  white: '#FCFCFC',
+  black: '#020202',
+  gray: '#DBDBDB',
+  yellow: '#FAED46',
+  blue: '#6A7CB7',
+};
+
 const theme = { mixin, colors };
 
 export default theme;
