@@ -1,8 +1,15 @@
 import { createGlobalStyle } from 'styled-components';
+import NeoDunggeunmoProRegular from '../assets/fonts/NeoDunggeunmoPro-Regular.woff2';
 import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
   ${reset};
+
+  @font-face {
+    font-family: 'NeoDunggeunmoPro-Regular';
+    src: url(${NeoDunggeunmoProRegular}) format('woff2');
+    font-style: normal;
+  }
 
   * {
     box-sizing: border-box;
@@ -53,6 +60,9 @@ const GlobalStyle = createGlobalStyle`
   --vh: 100%;
   }
 
+  #root{
+    font-family: NeoDunggeunmoPro-Regular;
+  }
   #root, body, html {
     scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
     margin: 0 auto;
