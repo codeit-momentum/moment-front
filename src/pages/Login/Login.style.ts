@@ -1,10 +1,4 @@
 import styled from 'styled-components';
-export {
-  OnboardingContainer,
-  LogoWrapper,
-  DescriptionWrapper,
-  BoldSpan,
-} from '../Start/Start.style';
 
 export const LoginPageLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
