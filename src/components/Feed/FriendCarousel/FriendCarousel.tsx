@@ -26,7 +26,7 @@ const FriendCarousel = () => {
       name: '윤지',
     },
     {
-      id: 5,
+      id: 6,
       name: '주희',
     },
   ];
