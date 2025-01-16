@@ -1,9 +1,13 @@
+import { useState } from 'react';
+import MomentTabBar from '../../components/Moment/MomentTabBar/MomentTabBar';
 import * as S from './Moment.style';
 
 const Moment = () => {
+  const [selected, setSelected] = useState<'moment' | 'bucket'>('moment');
+
   return (
     <S.MomentLayout>
-      <div>모멘트 페이지입니다.</div>
+      <MomentTabBar selected={selected} setSelected={setSelected} />
     </S.MomentLayout>
   );
 };
