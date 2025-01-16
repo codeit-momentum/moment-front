@@ -1,8 +1,10 @@
 import * as S from './FriendCarousel.style';
+import { EmblaOptionsType } from 'embla-carousel';
+import useEmblaCarousel from 'embla-carousel-react';
 
 const FriendCarousel = () => {
-  /*api 연결해서 fetch 해오기
-  const friedList = [
+  //api 연결해서 fetch 해오기
+  const friendList = [
     {
       id: 1,
       name: '필수',
@@ -23,11 +25,23 @@ const FriendCarousel = () => {
       id: 5,
       name: '윤지',
     },
-  ];*/
+    {
+      id: 5,
+      name: '주희',
+    },
+  ];
 
+  const option: EmblaOptionsType = { dragFree: true };
+  const [emblaRef] = useEmblaCarousel(option);
   return (
     <S.FriednCarouselLayout>
-      <div> 으아</div>
+      <S.EmblaViewport ref={emblaRef}>
+        <S.EmblaContainer>
+          {friendList.map((friend) => (
+            <S.FriendItem key={friend.id}>{friend.name}</S.FriendItem>
+          ))}
+        </S.EmblaContainer>
+      </S.EmblaViewport>
     </S.FriednCarouselLayout>
   );
 };
