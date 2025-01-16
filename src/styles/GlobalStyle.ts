@@ -50,6 +50,7 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     border: none;
     background: none;
+    font-family: 'NeoDunggeunmoPro-Regular', sans-serif;
   }
 
   input {
