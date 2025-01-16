@@ -1,5 +1,5 @@
 import * as S from './Feed.style';
-import EmptyFeed from '../../components/EmptyFeed/EmptyFeed';
+import EmptyFeed from '../../components/Feed/EmptyFeed/EmptyFeed';
 import IcAddFriend from '../../assets/svg/IcAddFriend';
 const Feed = () => {
   const mockFriends = [
