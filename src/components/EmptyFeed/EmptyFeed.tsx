@@ -1,16 +1,16 @@
-//import { Component } from 'react';
+import { ReactNode } from 'react';
 import * as S from './EmptyFeed.style';
 
 interface EmptyFeedProps {
   title: string;
-  //image: Component;
+  image: ReactNode;
 }
 
-const EmptyFeed = ({ title }: EmptyFeedProps) => {
+const EmptyFeed = ({ title, image }: EmptyFeedProps) => {
   return (
     <S.EmptyFeedLayout>
       <S.EmptyFeedTitleBox>{title}</S.EmptyFeedTitleBox>
-      <S.EmptyFeedImage />
+      {image}
       <S.Button>친구 추가하러가기</S.Button>
     </S.EmptyFeedLayout>
   );
