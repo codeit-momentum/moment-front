@@ -1,5 +1,4 @@
 import * as S from './Feed.style';
-import { useState } from 'react';
 import EmptyFeed from '../../components/Feed/EmptyFeed/EmptyFeed';
 import IcAddFriend from '../../assets/svg/IcAddFriend';
 import FriendCarousel from '../../components/Feed/FriendCarousel/FriendCarousel';
@@ -9,6 +8,7 @@ import { FriendType } from './../../types/feed/index.d';
 import useModal from '../../hooks/common/useModal';
 import Modal from '../../components/Modal/Modal';
 import SelectModal from '../../components/Modal/SelectModal/SelectModal';
+import useCurrentFriend from '../../hooks/useCurrentFriend';
 
 const Feed = () => {
   //페이지에서 친구 리스트 받아와야 데이터 다루기 편할 듯하다.
@@ -46,18 +46,9 @@ const Feed = () => {
   ];
 
   //현재 친구 id를 FeedList 에 전달
-  const [currentFriend, setCurrentFriend] = useState<FriendType | undefined>(
-    friendList.length > 0 ? friendList[0] : undefined,
-  );
+
+  const { currentFriend, handleClickFriend } = useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
-  const handleFriendClick = (friendId: number | undefined) => {
-    if (friendId !== undefined) {
-      const selectedFriend = friendList.find(
-        (friend) => friend.friendId === friendId,
-      );
-      setCurrentFriend(selectedFriend);
-    }
-  };
   const handleDelete = () => {
     alert('친구 삭제');
     closeModal();
@@ -91,7 +82,7 @@ const Feed = () => {
         <FriendCarousel
           friendList={friendList}
           currentFriendId={currentFriend?.friendId}
-          onClickFriend={handleFriendClick}
+          onClickFriend={handleClickFriend}
         />
       </S.FeedHeaderContatiner>
       {friendList.length === 0 ? (
