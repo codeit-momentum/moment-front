@@ -1,26 +1,17 @@
 import * as S from './MomentTabBar.style';
 
-interface MomentTabBarProps {
-  selected: 'moment' | 'bucket';
-  setSelected: (value: 'moment' | 'bucket') => void;
-}
-
-const MomentTabBar = ({ selected, setSelected }: MomentTabBarProps) => {
+const MomentTabBar = () => {
   return (
     <S.MomentTabBarLayout>
-      <S.TabButton
-        $isSelected={selected === 'moment'}
-        onClick={() => setSelected('moment')}
-      >
-        모멘트
-      </S.TabButton>
+      <S.TabWrapper to="/moment" end>
+        {({ isActive }) => <S.TabSpan $isActive={isActive}>모멘트</S.TabSpan>}
+      </S.TabWrapper>
       <S.Divider />
-      <S.TabButton
-        $isSelected={selected === 'bucket'}
-        onClick={() => setSelected('bucket')}
-      >
-        버킷리스트
-      </S.TabButton>
+      <S.TabWrapper to="/moment/bucket">
+        {({ isActive }) => (
+          <S.TabSpan $isActive={isActive}>버킷리스트</S.TabSpan>
+        )}
+      </S.TabWrapper>
     </S.MomentTabBarLayout>
   );
 };
