@@ -15,7 +15,6 @@ export const FeedHeaderContatiner = styled.div`
   position: fixed;
   z-index: 100;
   width: 100%;
-  padding-bottom: 1rem;
 `;
 export const FeedTitleContainer = styled.div`
   ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'center' })};
@@ -30,4 +29,8 @@ export const FeedTitleHeader = styled.div`
 export const MenuIcon = styled.div`
   width: 2rem;
   height: 2rem;
+`;
+export const EmptyFeedWrapper = styled.div`
+  padding-top: 17rem;
+  padding-bottom: 10rem;
 `;

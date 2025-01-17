@@ -44,7 +44,7 @@ const Feed = () => {
 
   //현재 친구 id를 FeedList 에 전달
   const [currentFriend, setCurrentFriend] = useState<number>(
-    friendList[0].friendId,
+    friendList.length > 0 ? friendList[0].friendId : 0,
   );
 
   return (
@@ -61,11 +61,13 @@ const Feed = () => {
         />
       </S.FeedHeaderContatiner>
       {friendList.length === 0 ? (
-        <EmptyFeed
-          title="친구를 추가해서
+        <S.EmptyFeedWrapper>
+          <EmptyFeed
+            title="친구를 추가해서
         달성기록을 공유해보세요."
-          image={<IcAddFriend />}
-        />
+            image={<IcAddFriend />}
+          />
+        </S.EmptyFeedWrapper>
       ) : (
         <FeedList friendId={currentFriend} />
       )}
