@@ -13,7 +13,7 @@ export const FeedLayout = styled.div`
 export const FeedHeaderContatiner = styled.div`
   ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'center' })};
   width: 100%;
-  padding-bottom: 10rem;
+  padding-bottom: 5rem;
 `;
 export const FeedTitleHeader = styled.div`
   font-size: 20px;

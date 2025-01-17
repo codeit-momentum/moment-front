@@ -1,44 +1,42 @@
 import * as S from './FriendCarousel.style';
 import { EmblaOptionsType } from 'embla-carousel';
 import useEmblaCarousel from 'embla-carousel-react';
+import { FriendType } from '../../../types/feed';
 
-const FriendCarousel = () => {
-  //api 연결해서 fetch 해오기
-  const friendList = [
-    {
-      id: 1,
-      name: '필수',
-    },
-    {
-      id: 2,
-      name: '도희',
-    },
-    {
-      id: 3,
-      name: '지윤',
-    },
-    {
-      id: 4,
-      name: '가연',
-    },
-    {
-      id: 5,
-      name: '윤지',
-    },
-    {
-      id: 6,
-      name: '주희',
-    },
-  ];
+interface FriendCarouselProps {
+  friendList: FriendType[];
+  currentFriendId: number;
+  onClickFriend: (friendId: number) => void;
+}
 
+const FriendCarousel = ({
+  friendList,
+  currentFriendId,
+  onClickFriend,
+}: FriendCarouselProps) => {
   const option: EmblaOptionsType = { dragFree: true };
   const [emblaRef] = useEmblaCarousel(option);
+
+  const isClick = (id: number) => {
+    return currentFriendId === id;
+  };
+
   return (
     <S.FriednCarouselLayout>
       <S.EmblaViewport ref={emblaRef}>
         <S.EmblaContainer>
-          {friendList.map((friend) => (
-            <S.FriendItem key={friend.id}>{friend.name}</S.FriendItem>
+          {friendList.map((friend: FriendType) => (
+            <S.FriendItem
+              key={friend.friendId}
+              onClick={() => onClickFriend(friend.friendId)}
+            >
+              <S.FriendProfileImage
+                src={friend.image}
+                alt={`${friend.name}님의 프로필`}
+                $isClicked={isClick(friend.friendId)}
+              />
+              {friend.name}
+            </S.FriendItem>
           ))}
         </S.EmblaContainer>
       </S.EmblaViewport>

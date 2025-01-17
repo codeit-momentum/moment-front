@@ -2,8 +2,13 @@ import * as S from './FeedList.style';
 import FeedItem from '../FeedItem/FeedItem';
 import mockImage from '../../../assets/images/mockImage.jpg';
 
-const FeedList = () => {
+interface FeedListProps {
+  friendId: number;
+}
+
+const FeedList = ({ friendId }: FeedListProps) => {
   //api 로 리스트 fetch
+  //친구 아이디를 props로 받아서 api 연결
   const feedListArray = [
     {
       id: 1,
@@ -27,6 +32,9 @@ const FeedList = () => {
       image: mockImage,
     },
   ];
+
+  console.log(friendId);
+
   return (
     <S.FeedListLayout>
       {feedListArray.map((feed) => (
