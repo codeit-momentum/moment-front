@@ -15,6 +15,27 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
+        element: <LayoutWithGNB />,
+        children: [
+          {
+            path: '/home',
+            element: <Home />,
+          },
+          {
+            path: '/feed',
+            element: <Feed />,
+          },
+          {
+            path: '/moment',
+            element: <Moment />,
+          },
+          {
+            path: '/mypage',
+            element: <MyPage />,
+          },
+        ],
+      },
+      {
         path: '/',
         element: <Start />,
       },
@@ -25,28 +46,6 @@ const router = createBrowserRouter([
       {
         path: 'auth/kakao/callback',
         element: <KakaoCallback />,
-      },
-    ],
-  },
-  {
-    path: '/',
-    element: <LayoutWithGNB />,
-    children: [
-      {
-        path: '/home',
-        element: <Home />,
-      },
-      {
-        path: '/feed',
-        element: <Feed />,
-      },
-      {
-        path: '/moment',
-        element: <Moment />,
-      },
-      {
-        path: '/mypage',
-        element: <MyPage />,
       },
     ],
   },
