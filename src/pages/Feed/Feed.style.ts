@@ -8,12 +8,19 @@ export const FeedLayout = styled.div`
     })};
   width: 100%;
   height: 100vh;
-  padding-top: 5rem;
 `;
 export const FeedHeaderContatiner = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
+  background-color: ${({ theme }) => theme.colors.white};
+  position: fixed;
+  z-index: 100;
   width: 100%;
-  padding-bottom: 5rem;
+  padding-bottom: 1rem;
+`;
+export const FeedTitleContainer = styled.div`
+  ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'center' })};
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 `;
 export const FeedTitleHeader = styled.div`
   font-size: 20px;

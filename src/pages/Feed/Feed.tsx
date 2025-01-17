@@ -50,14 +50,16 @@ const Feed = () => {
   return (
     <S.FeedLayout>
       <S.FeedHeaderContatiner>
-        <S.FeedTitleHeader>친구들의 모멘트</S.FeedTitleHeader>
-        {friendList.length > 0 && <S.MenuIcon>메뉴</S.MenuIcon>}
+        <S.FeedTitleContainer>
+          <S.FeedTitleHeader>친구들의 모멘트</S.FeedTitleHeader>
+          {friendList.length > 0 && <S.MenuIcon>메뉴</S.MenuIcon>}
+        </S.FeedTitleContainer>
+        <FriendCarousel
+          friendList={friendList}
+          currentFriendId={currentFriend}
+          onClickFriend={setCurrentFriend}
+        />
       </S.FeedHeaderContatiner>
-      <FriendCarousel
-        friendList={friendList}
-        currentFriendId={currentFriend}
-        onClickFriend={setCurrentFriend}
-      />
       {friendList.length === 0 ? (
         <EmptyFeed
           title="친구를 추가해서
