@@ -6,6 +6,9 @@ import FriendCarousel from '../../components/Feed/FriendCarousel/FriendCarousel'
 import FeedList from '../../components/Feed/FeedList/FeedList';
 import image from '../../assets/images/mockImage.jpg';
 import { FriendType } from './../../types/feed/index.d';
+import useModal from '../../hooks/common/useModal';
+import Modal from '../../components/Modal/Modal';
+import SelectModal from '../../components/Modal/SelectModal/SelectModal';
 
 const Feed = () => {
   //페이지에서 친구 리스트 받아와야 데이터 다루기 편할 듯하다.
@@ -43,21 +46,52 @@ const Feed = () => {
   ];
 
   //현재 친구 id를 FeedList 에 전달
-  const [currentFriend, setCurrentFriend] = useState<number>(
-    friendList.length > 0 ? friendList[0].friendId : 0,
+  const [currentFriend, setCurrentFriend] = useState<FriendType | undefined>(
+    friendList.length > 0 ? friendList[0] : undefined,
   );
+  const [isOpen, openModal, closeModal] = useModal();
+  const handleFriendClick = (friendId: number | undefined) => {
+    if (friendId !== undefined) {
+      const selectedFriend = friendList.find(
+        (friend) => friend.friendId === friendId,
+      );
+      setCurrentFriend(selectedFriend);
+    }
+  };
+  const handleDelete = () => {
+    alert('친구 삭제');
+    closeModal();
+  };
 
   return (
     <S.FeedLayout>
+      {isOpen && (
+        <Modal>
+          <SelectModal
+            title={`${currentFriend?.name}님을 삭제하겠습니까?`}
+            content="이 행위는 되돌릴 수 없습니다."
+            onClose={closeModal}
+            onSubmit={handleDelete}
+          />
+        </Modal>
+      )}
       <S.FeedHeaderContatiner>
         <S.FeedTitleContainer>
           <S.FeedTitleHeader>친구들의 모멘트</S.FeedTitleHeader>
-          {friendList.length > 0 && <S.MenuIcon>메뉴</S.MenuIcon>}
+          {friendList.length > 0 && (
+            <S.MenuIcon
+              onClick={() => {
+                openModal();
+              }}
+            >
+              메뉴
+            </S.MenuIcon>
+          )}
         </S.FeedTitleContainer>
         <FriendCarousel
           friendList={friendList}
-          currentFriendId={currentFriend}
-          onClickFriend={setCurrentFriend}
+          currentFriendId={currentFriend?.friendId}
+          onClickFriend={handleFriendClick}
         />
       </S.FeedHeaderContatiner>
       {friendList.length === 0 ? (
@@ -69,7 +103,7 @@ const Feed = () => {
           />
         </S.EmptyFeedWrapper>
       ) : (
-        <FeedList friendId={currentFriend} />
+        <FeedList friendId={currentFriend?.friendId} />
       )}
     </S.FeedLayout>
   );

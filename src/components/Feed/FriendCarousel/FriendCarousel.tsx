@@ -5,8 +5,8 @@ import { FriendType } from '../../../types/feed';
 
 interface FriendCarouselProps {
   friendList: FriendType[];
-  currentFriendId: number;
-  onClickFriend: (friendId: number) => void;
+  currentFriendId: number | undefined;
+  onClickFriend: (friendId: number | undefined) => void;
 }
 
 const FriendCarousel = ({

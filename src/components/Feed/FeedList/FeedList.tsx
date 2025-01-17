@@ -6,7 +6,7 @@ import mockImage from '../../../assets/images/mockImage.jpg';
 import { FeedType } from '../../../types/feed';
 
 interface FeedListProps {
-  friendId: number;
+  friendId: number | undefined;
 }
 
 const FeedList = ({ friendId }: FeedListProps) => {
