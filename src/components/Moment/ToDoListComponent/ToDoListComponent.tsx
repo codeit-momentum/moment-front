@@ -5,12 +5,14 @@ import { useEditable } from '../../../hooks/useEditable';
 
 /**
  * ToDoListComponent Props
+ * - mode: auto | manual => 자동/수동 모드 구분
  * -todoList: 투두리스트 항목 배열
  * -isLoading: 투두리스트 로딩 여부
  * -onUpdate : 투두리스트 수정 콜백 함수
  */
 
 interface ToDoListProps {
+  mode: 'auto' | 'manual';
   todoList: string[];
   duration: number;
   isLoading: boolean;
@@ -24,6 +26,7 @@ interface ToDoListProps {
  */
 
 export const ToDoListComponent: React.FC<ToDoListProps> = ({
+  mode,
   todoList,
   duration,
   isLoading,
@@ -33,14 +36,16 @@ export const ToDoListComponent: React.FC<ToDoListProps> = ({
   const [currentList, setCurrentList] = useState(todoList);
 
   useEffect(() => {
-    setCurrentList(todoList);
-  }, [todoList]);
+    if (mode === 'auto') {
+      setCurrentList(todoList); //자동 모드에서는 API 값 초기화
+    }
+  }, [mode, todoList]);
 
   const handleInputChange = (index: number, value: string) => {
     const updatedList = [...currentList];
     updatedList[index] = value;
     setCurrentList(updatedList);
-    onUpdate(updatedList);
+    onUpdate(updatedList); //실시간 업데이트 반영
   };
 
   /**
@@ -50,6 +55,7 @@ export const ToDoListComponent: React.FC<ToDoListProps> = ({
    */
   const handleSave = () => {
     onUpdate(currentList); //최종 저장
+    toggleEditing(); //수정 완료 상태로 변경
     alert('확정되었습니다.');
   };
 
@@ -61,6 +67,7 @@ export const ToDoListComponent: React.FC<ToDoListProps> = ({
     <S.ToDoListContainer>
       <S.Label>{duration}일 동안 진행할 모멘트는 다음과 같습니다!</S.Label>
       <S.ToDoBox>
+        <S.ToDoBoxLabel>방법</S.ToDoBoxLabel>
         <S.ToDoList>
           {currentList.map((item, index) => (
             <S.ToDoItem key={index}>
@@ -75,7 +82,6 @@ export const ToDoListComponent: React.FC<ToDoListProps> = ({
                   type="text"
                   value={item}
                   onChange={(e) => handleInputChange(index, e.target.value)}
-                  disabled={!isEditing}
                 />
               ) : (
                 <label htmlFor={`todo-${index}`}>{item}</label>
@@ -86,13 +92,11 @@ export const ToDoListComponent: React.FC<ToDoListProps> = ({
       </S.ToDoBox>
       <S.BtnContainer>
         <S.ActionButton onClick={toggleEditing}>
-          {isEditing ? '수정완료' : '수정하기'} //수정하기 버튼 클릭 시 모두
-          input tag로 변환하기 (수정하기 눌렀을 경우, 수정완료 버튼으로 변환)
+          {isEditing ? '수정완료' : '수정하기'}
         </S.ActionButton>
         <S.ActionButton onClick={handleSave} disabled={isEditing}>
           확정하기
-        </S.ActionButton>{' '}
-        //확정하기 버튼 클릭 시 실행빈도 컴포넌트 보이기
+        </S.ActionButton>
       </S.BtnContainer>
     </S.ToDoListContainer>
   );

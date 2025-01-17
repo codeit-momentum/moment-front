@@ -15,8 +15,7 @@ export const HeaderContainer = styled.div`
  */
 
 export const Title = styled.h1`
-  font-size: 36px;
-  font-weight: 600;
+  font-size: 20px;
   line-height: 37px;
   text-align: center;
   letter-spacing: -0.32px;
@@ -27,10 +26,9 @@ export const Title = styled.h1`
  * Subtitle : 제목 아래의 표시될 부제목
  */
 export const Subtitle = styled.h2`
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 16px;
   line-height: 37px;
   letter-spacing: -0.32px;
   text-align: center;
-  color: #000000;
+  color: ${({ theme }) => theme.colors.black};
 `;

@@ -15,14 +15,29 @@ export const ToDoListContainer = styled.div`
  * Label : 투두리스트 제목 라벨 텍스트
  */
 export const Label = styled.h3`
-  font-size: 18px;
-  color: #000000;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.black};
   text-align: center;
   margin-bottom: 10px;
 `;
 
+export const ToDoBoxLabel = styled.div`
+  position: absolute; /*ToDoBox 내부에서 겹치도록 설정*/
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.black};
+  font-size: 12px;
+  padding: 4px 16px;
+  border-radius: 15px;
+  white-space: nowrap;
+  z-index: 1; /*ToDoBox 내부에서 겹치도록 설정*/
+`;
+
 export const ToDoBox = styled.div`
-  background-color: #d9d9d9;
+  position: relative; /*ToDoBox 내부에서 겹치도록 설정*/
+  background-color: ${({ theme }) => theme.colors.gray};
   padding: 16px;
   witdh: 100%;
   max-width: 400px;
@@ -44,19 +59,19 @@ export const ToDoItem = styled.li`
   display: flex;
   algign-items: flex-start;
   gap: 12px;
-  font-size: 16px;
+  font-size: 12px;
   padding: 8px 0;
 
   input[type='checkbox'] {
     width: 24px;
     height: 24px;
     border-radius: 5px;
-    border: 2px solid #000000;
+    border: 2px solid ${({ theme }) => theme.colors.black};
     background-color: #white;
     appearance: none;
 
     &:checked { //필요한가..? 
-      background-color: #000000;
+      background-color: ${({ theme }) => theme.colors.white};
     }
       &:after {
       content: '✔';
@@ -64,7 +79,7 @@ export const ToDoItem = styled.li`
       left: 6px;
       top: 1px;
       height: 24px;
-      border: solid #white;
+      border: solid ${({ theme }) => theme.colors.black};
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
   }
@@ -74,10 +89,10 @@ export const ToDoItem = styled.li`
  */
 export const ToDoInput = styled.input`
   padding: 8px;
-  font-size: 16px;
+  font-size: 12px;
   flex: 1;
   border-radius: 4px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid ${({ theme }) => theme.colors.black};
 
   &:disabled {
     background-color: trasparent;
@@ -91,7 +106,7 @@ export const ToDoInput = styled.input`
  */
 export const LoadingText = styled.p`
   font-size: 16px;
-  color: #555;
+  color: ${({ theme }) => theme.colors.black};
   text-align: center;
   margin: 20px 0;
 `;
@@ -112,14 +127,14 @@ export const ActionButton = styled.button`
   width: 107px;
   height: 43px;
   padding: 16px 12px;
-  font-size: 20px;
-  color: #fff;
-  background-color: #000000;
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.black};
   border: none;
   border-radius: 8px;
   cursor: pointer;
 
   &:hover {
-    background-color: #e5e5e5;
+    background-color: ${({ theme }) => theme.colors.gray};
   }
 `;

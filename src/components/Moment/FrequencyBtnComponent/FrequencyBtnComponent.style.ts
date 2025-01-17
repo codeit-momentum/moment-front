@@ -14,7 +14,7 @@ margin-top: 20px;
  * Label : 실행 빈도 선택 섹션의 제목
  */
 export const Label = style.h3`
-font-size: 18px;
+font-size: 16px;
 margin-bottom: 15px;
 `;
 
@@ -37,7 +37,7 @@ export const CircleBtn = style.button<{ isSelected: boolean }>`
 width: 100px;
 height: 100px;
 border-radius: 50%;
-font-size: 24px;
+font-size: 20px;
 border: none;
 display: flex;
 align-items: center;
@@ -62,16 +62,16 @@ margin-top: 20px;
  * - disabled: 비활성화 여부
  */
 export const NextBtn = style.button`
-font-size: 16px;
+font-size: 12px;
 padding: 8px 12px;
-background-color: #000000;
-color: #fff;
+background-color: ${({ theme }) => theme.colors.black};
+color: ${({ theme }) => theme.colors.white};
 border: none;
 border-radius: 4px;
 cusror: pointer;
 
 &:disabled {
-background-color: #E5E5E5;
+background-color: ${({ theme }) => theme.colors.gray};
 cursor: not-allowed;
 }
 `;

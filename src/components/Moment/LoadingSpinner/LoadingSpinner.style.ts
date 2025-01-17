@@ -14,7 +14,7 @@ export const SpinnerContainer = styled.div`
 `;
 
 /**
- * Spinner : 로딩 스피너
+ * Spinner : 로딩 스피너 : 아마 디자인 측에서 이미지 제공 받을 것 같음
  */
 export const Spinner = styled.div`
   width: 40px;
@@ -39,6 +39,6 @@ export const Spinner = styled.div`
  */
 export const LoadingText = styled.p`
   margin-top: 20px;
-  font-size: 24px;
-  color: #000000;
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.black};
 `;

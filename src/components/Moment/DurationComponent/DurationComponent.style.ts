@@ -14,8 +14,7 @@ export const DurationContainer = styled.div`
  * Label : 예상 소요 기간을 나타내는 라벨 텍스트
  */
 export const Label = styled.h3`
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 16px;
   margin-right: 10px;
 `;
 /**
@@ -44,22 +43,21 @@ export const DurationInput = styled.input`
   width: 60px;
   height: 40px;
   padding: 8px;
-  font-size: 36px;
+  font-size: 20px;
   text-align: center;
-  border: 1px solid #000000;
+  border: 1px solid ${({ theme }) => theme.colors.black};
   border-radius: 4px;
 
   &:focus {
   outline: none;
-  border-color: #000000;
+  border-color: ${({ theme }) => theme.colors.primary};
 `;
 
 /**
  * DurationText: 예상 소요 기간을 표시하는 텍스트
  */
 export const DurationText = styled.span`
-  font-size: 36px;
-  font-weight: 600;
+  font-size: 20px;
   margin-right: 5px;
 `;
 
@@ -67,8 +65,7 @@ export const DurationText = styled.span`
  * Unit : 예상 소요 기간의 단위를 나타내는 텍스트
  */
 export const Unit = styled.span`
-  font-size: 36px;
-  font-weight: 600;
+  font-size: 20px;
   margin-left: 5px;
 `;
 
@@ -88,14 +85,14 @@ export const ActionButton = styled.button`
   width: 107px;
   height: 43px;
   padding: 16px 12px;
-  font-size: 20px;
-  color: #fff;
-  background-color: #000000;
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.black};
   border: none;
   border-radius: 8px;
   cursor: pointer;
 
   &:hover {
-    background-color: #e5e5e5;
+    background-color: ${({ theme }) => theme.colors.gray};
   }
 `;
