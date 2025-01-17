@@ -1,4 +1,5 @@
 import style from 'styled-components';
+import { ActionBtn } from '../../../styles/commonStyles';
 
 /**
  * ㄹFrequencyBtnContainer : 실행 빈도 선택 버튼 전체를 감싸는 컨테이너
@@ -61,17 +62,4 @@ margin-top: 20px;
  * NextBtn : 다음 페이지로 이동하는 버튼
  * - disabled: 비활성화 여부
  */
-export const NextBtn = style.button`
-font-size: 12px;
-padding: 8px 12px;
-background-color: ${({ theme }) => theme.colors.black};
-color: ${({ theme }) => theme.colors.white};
-border: none;
-border-radius: 4px;
-cusror: pointer;
-
-&:disabled {
-background-color: ${({ theme }) => theme.colors.gray};
-cursor: not-allowed;
-}
-`;
+export const NextBtn = style(ActionBtn)``;

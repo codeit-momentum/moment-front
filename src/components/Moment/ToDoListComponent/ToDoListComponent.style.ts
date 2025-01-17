@@ -1,4 +1,9 @@
 import styled from 'styled-components';
+import {
+  CommonBox,
+  CommonBoxLabel,
+  ActionBtn,
+} from '../../../styles/commonStyles';
 
 /**
  * ToDoListContainer : 투두리스트 전체를 감싸는 컨테이너
@@ -21,27 +26,8 @@ export const Label = styled.h3`
   margin-bottom: 10px;
 `;
 
-export const ToDoBoxLabel = styled.div`
-  position: absolute; /*ToDoBox 내부에서 겹치도록 설정*/
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.black};
-  font-size: 12px;
-  padding: 4px 16px;
-  border-radius: 15px;
-  white-space: nowrap;
-  z-index: 1; /*ToDoBox 내부에서 겹치도록 설정*/
-`;
-
-export const ToDoBox = styled.div`
-  position: relative; /*ToDoBox 내부에서 겹치도록 설정*/
-  background-color: ${({ theme }) => theme.colors.gray};
-  padding: 16px;
-  witdh: 100%;
-  max-width: 400px;
-`;
+export const ToDoBox = styled(CommonBox)``;
+export const ToDoBoxLabel = styled(CommonBoxLabel)``;
 
 export const ToDoList = styled.ul`
   list-style: none;
@@ -120,21 +106,6 @@ export const BtnContainer = styled.div`
 `;
 
 /**
- * ActionButton : 수정 및 완료 버튼
+ * Btn : 수정 및 완료 버튼
  */
-export const ActionButton = styled.button`
-  margin-left: 10px;
-  width: 107px;
-  height: 43px;
-  padding: 16px 12px;
-  font-size: 12px;
-  color: ${({ theme }) => theme.colors.white};
-  background-color: ${({ theme }) => theme.colors.black};
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.gray};
-  }
-`;
+export const Btn = styled(ActionBtn)``;

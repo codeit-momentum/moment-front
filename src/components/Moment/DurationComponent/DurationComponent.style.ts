@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ActionBtn } from '../../../styles/commonStyles';
 
 /**
  * DurationContainer : DurationInput과 ActionButton을 포함하는 최상위 컨테이너
@@ -78,21 +79,6 @@ export const BtnContainer = styled.div`
   gap: 8px;
 `;
 /**
- * ActionButton : 수정 및 저장 버튼
+ * Btn : 수정 및 저장 버튼
  */
-export const ActionButton = styled.button`
-  margin-left: 10px;
-  width: 107px;
-  height: 43px;
-  padding: 16px 12px;
-  font-size: 12px;
-  color: ${({ theme }) => theme.colors.white};
-  background-color: ${({ theme }) => theme.colors.black};
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.gray};
-  }
-`;
+export const Btn = styled(ActionBtn)``;

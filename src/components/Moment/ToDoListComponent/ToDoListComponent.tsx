@@ -91,12 +91,12 @@ export const ToDoListComponent: React.FC<ToDoListProps> = ({
         </S.ToDoList>
       </S.ToDoBox>
       <S.BtnContainer>
-        <S.ActionButton onClick={toggleEditing}>
+        <S.Btn onClick={toggleEditing}>
           {isEditing ? '수정완료' : '수정하기'}
-        </S.ActionButton>
-        <S.ActionButton onClick={handleSave} disabled={isEditing}>
+        </S.Btn>
+        <S.Btn onClick={handleSave} disabled={isEditing}>
           확정하기
-        </S.ActionButton>
+        </S.Btn>
       </S.BtnContainer>
     </S.ToDoListContainer>
   );

@@ -71,12 +71,12 @@ export const DurationComponent: React.FC<DurationProps> = ({
         </S.DisplayWarpper>
       )}
       <S.BtnContainer>
-        <S.ActionButton onClick={toggleEditing}>
+        <S.Btn onClick={toggleEditing}>
           {isEditing ? '수정완료' : '수정하기'}
-        </S.ActionButton>
-        <S.ActionButton onClick={handleSave} disabled={!isEditing}>
+        </S.Btn>
+        <S.Btn onClick={handleSave} disabled={!isEditing}>
           확정하기
-        </S.ActionButton>
+        </S.Btn>
       </S.BtnContainer>
     </S.DurationContainer>
   );
