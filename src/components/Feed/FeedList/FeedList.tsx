@@ -43,7 +43,12 @@ const FeedList = ({ friendId }: FeedListProps) => {
       {
         //feedListArray가 비어있을 때 EmptyFeed 컴포넌트 렌더링
         feedListArray.length === 0 ? (
-          <EmptyFeed title="친구들의 모멘트가 없어요" image={<IcAddFriend />} />
+          <EmptyFeed
+            title="친구가 피드를 안 올리네요 ..
+            노크를 해서 재촉해보세요!"
+            image={<IcAddFriend />}
+            buttonLabel="노크하러 가기"
+          />
         ) : (
           feedListArray.map((feed) => (
             <FeedItem

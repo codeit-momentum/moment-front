@@ -89,8 +89,9 @@ const Feed = () => {
         <S.EmptyFeedWrapper>
           <EmptyFeed
             title="친구를 추가해서
-        달성기록을 공유해보세요."
+            달성기록을 공유해보세요."
             image={<IcAddFriend />}
+            buttonLabel="친구 찾으러 가기"
           />
         </S.EmptyFeedWrapper>
       ) : (

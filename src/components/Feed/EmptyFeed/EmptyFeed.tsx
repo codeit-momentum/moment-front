@@ -4,14 +4,15 @@ import * as S from './EmptyFeed.style';
 interface EmptyFeedProps {
   title: string;
   image: ReactNode;
+  buttonLabel: string;
 }
 
-const EmptyFeed = ({ title, image }: EmptyFeedProps) => {
+const EmptyFeed = ({ title, image, buttonLabel }: EmptyFeedProps) => {
   return (
     <S.EmptyFeedLayout>
       <S.EmptyFeedTitleBox>{title}</S.EmptyFeedTitleBox>
       {image}
-      <S.Button>친구 추가하러가기</S.Button>
+      <S.Button>{buttonLabel}</S.Button>
     </S.EmptyFeedLayout>
   );
 };
