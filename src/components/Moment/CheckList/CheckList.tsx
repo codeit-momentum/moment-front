@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
+import { BucketListType, CheckListVariant } from '../../../types/moment';
 import * as S from './CheckList.style';
-import { BucketListType } from '../../../types/moment';
 
 // 목 데이터
 const bucketlist: BucketListType[] = [
@@ -17,7 +17,11 @@ const StateIcons = {
   pending: '',
 } as const;
 
-const CheckList = () => {
+type CheckListProps = {
+  variant: CheckListVariant;
+};
+
+const CheckList = ({ variant }: CheckListProps) => {
   const [bucketList, setBucketList] = useState<BucketListType[]>(bucketlist);
   const [newItem, setNewItem] = useState<string>('');
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -51,7 +55,7 @@ const CheckList = () => {
 
   return (
     <S.CheckListLayout>
-      <S.TitleSpan>반복형</S.TitleSpan>
+      <S.TitleSpan>{variant}</S.TitleSpan>
 
       {/* 새 버킷리스트 추가 */}
       <S.ListItemWrapper onSubmit={handleAddItem}>
