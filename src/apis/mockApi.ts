@@ -1,10 +1,16 @@
+// 타입 정의
+interface TodoResponse {
+  duration: number;
+  todoList: string[];
+}
+
 /**
  * fetchMockData
  * - 가상 API 요청 함수
  * - Promise를 사용해 비동기 흐름 시뮬레이션
  * - 2초 후 목데이터 반환
  */
-export const fetchMockData = async (): Promise<any> => {
+export const fetchMockData = async (): Promise<TodoResponse> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({

@@ -40,13 +40,17 @@ export const FrequencyBtnComponent: React.FC<FrequencyBtnProps> = ({
   };
 
   const handleNext = () => {
+    console.log('Next 버튼 클릭됨');
     if (selectedOption) {
-      onNext(); //상위 컴포넌트의 onNext 호출
+      onNext(); // 상위에서 전달된 onNext 호출
+    } else {
+      alert('실행 빈도를 선택해주세요!');
     }
   };
 
   return (
     <S.FrequencyBtnContainer>
+      <S.Divider />
       <S.Label>모멘트의 실행 빈도는</S.Label>
       <S.BtnGrid>
         {frequencyOptions.map((option) => (
