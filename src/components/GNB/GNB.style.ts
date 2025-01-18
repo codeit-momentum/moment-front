@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const GNBLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'space-between' })};
+  background-color: ${({ theme }) => theme.colors.white};
   position: fixed;
   width: 37.5rem;
   height: 5.7rem;
