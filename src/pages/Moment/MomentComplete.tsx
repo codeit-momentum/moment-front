@@ -27,10 +27,11 @@ const mockMomentData = [
 export const MomentComplete: React.FC = () => {
   return (
     <S.Container>
-      <S.Title>모멘트 설게 완료 !</S.Title>
+      <S.Title>모멘트 설계 완료 !</S.Title>
       <S.DateContainer>
         <S.DateBox>2024.01.01</S.DateBox>
         <S.Arrow>▼</S.Arrow>
+        <S.DateBox>2024.01.14</S.DateBox>
       </S.DateContainer>
       <S.MethodBox>
         <S.MethodLabel>방법</S.MethodLabel>
