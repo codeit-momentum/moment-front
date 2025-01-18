@@ -1,9 +1,19 @@
 import styled from 'styled-components';
 
+/** 공통 구분선 */
+
+export const CommonDiv = styled.hr`
+  width: 100%;
+  height: 1px;
+  background-color: ${({ theme }) => theme.colors.gray};
+  border: none;
+  margin: 10px;
+`;
+
 /**
  * 공통 버튼 스타일
  */
-export const ActionBtn = styled.button`
+export const CommonBtn = styled.button`
   display: flex;
   width: 107px;
   height: 43px;
@@ -11,7 +21,7 @@ export const ActionBtn = styled.button`
   justify-content: center;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 16px;
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.black};
   border: 4px solid var ${({ theme }) => theme.colors.black};
@@ -29,6 +39,16 @@ export const ActionBtn = styled.button`
 `;
 
 /**
+ * 공통 박스 컨테이너
+ */
+
+export const CommonBtnContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+`;
+
+/**
  * 공통 박스 스타일 (예: ToDoBox, MethodBox)
  */
 export const CommonBox = styled.div`
@@ -37,7 +57,6 @@ export const CommonBox = styled.div`
   padding: 16px;
   width: 100%;
   max-width: 400px;
-  border-radius: 8px;
 `;
 
 /**
@@ -48,11 +67,10 @@ export const CommonBoxLabel = styled.div`
   top: -10px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.black};
-  font-size: 12px;
-  padding: 4px 16px;
+  background-color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 14px;
+  padding: 5px 16px;
   border-radius: 15px;
-  white-space: nowrap;
-  z-index: 1;
+  justify-content: center;
 `;

@@ -8,7 +8,7 @@ export const Container = styled.div`
   width: 100%;
   height: 100vh;
 `;
-
+//임시 아이콘 mockBackIcon.png 적용
 export const BackBtn = styled.button`
   position: absolute;
   top: 24px;
@@ -24,7 +24,7 @@ export const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 80px 24px 0;
+  padding: 80px 0 0;
 `;
 export const TitleWrapper = styled.div`
   display: flex;
@@ -35,13 +35,13 @@ export const TitleWrapper = styled.div`
   margin-bottom: 37px;
 `;
 export const Header = styled.h1`
-  font-size: 24px;
+  font-size: 36px;
   text-align: center;
   margin-bottom: 20px;
 `;
 
 export const Subtitle = styled.p`
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
 `;
 
