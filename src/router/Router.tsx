@@ -7,7 +7,9 @@ import Home from '../pages/Home/Home';
 import LayoutWithGNB from '../layouts/LayoutWithGNB';
 import Feed from '../pages/Feed/Feed';
 import Moment from '../pages/Moment/Moment';
+import MomentComplete from '../pages/Moment/MomentComplete';
 import MyPage from '../pages/MyPage/MyPage';
+import SelectMode from '../pages/Moment/SelectMode';
 
 const router = createBrowserRouter([
   {
@@ -26,8 +28,16 @@ const router = createBrowserRouter([
             element: <Feed />,
           },
           {
+            path: 'moment/select-mode',
+            element: <SelectMode />,
+          },
+          {
             path: '/moment',
             element: <Moment />,
+          },
+          {
+            path: './moment-complete',
+            element: <MomentComplete />,
           },
           {
             path: '/mypage',

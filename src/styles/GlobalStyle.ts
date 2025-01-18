@@ -15,8 +15,8 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  body {
-    font-family: apple-system, sans-serif;
+  body { 
+    font-family: 'NeoDunggeunmoPro-Regular', sans-serif;
   }
   ol, ul {
     list-style: none;
