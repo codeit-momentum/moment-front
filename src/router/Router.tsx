@@ -28,8 +28,16 @@ const router = createBrowserRouter([
             element: <Feed />,
           },
           {
+            path: 'moment/select-mode',
+            element: <SelectMode />,
+          },
+          {
             path: '/moment',
             element: <Moment />,
+          },
+          {
+            path: './moment-complete',
+            element: <MomentComplete />,
           },
           {
             path: '/mypage',
