@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import { ActionBtn } from '../../../styles/commonStyles';
+import {
+  CommonBtn,
+  CommonBtnContainer,
+  CommonDiv,
+} from '../../../styles/CommonStyles';
 
 /**
  * DurationContainer : DurationInput과 ActionButton을 포함하는 최상위 컨테이너
@@ -8,13 +12,16 @@ export const DurationContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  position: relative;
 `;
+
+export const Divider = styled(CommonDiv)``;
 
 /**
  * Label : 예상 소요 기간을 나타내는 라벨 텍스트
  */
 export const Label = styled.h3`
+  margin-top: 10px;
   font-size: 16px;
 `;
 /**
@@ -24,8 +31,8 @@ export const InputWarpper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  maring-bottom: 20px;
-  gap: 5px;
+  margin: 15px;
+  height: 40px;
 `;
 /**
  * DisplayWarpper: 텍스트와 버튼을 포함하는 컨테이너
@@ -34,7 +41,8 @@ export const DisplayWarpper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px;
+  margin: 15px;
+  height: 40px;
 `;
 
 /**
@@ -43,11 +51,15 @@ export const DisplayWarpper = styled.div`
 export const DurationInput = styled.input`
   width: 60px;
   height: 40px;
-  padding: 8px;
-  font-size: 20px;
+  font-size: 24px;
   text-align: center;
   border: 1px solid ${({ theme }) => theme.colors.black};
-  border-radius: 4px;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none; // 브라우저 기본 스핀 버튼 제거
+    margin: 0;
+  }
 
   &:focus {
   outline: none;
@@ -58,27 +70,22 @@ export const DurationInput = styled.input`
  * DurationText: 예상 소요 기간을 표시하는 텍스트
  */
 export const DurationText = styled.span`
-  font-size: 20px;
-  margin-right: 2px;
+  font-size: 24px;
 `;
 
 /**
  * Unit : 예상 소요 기간의 단위를 나타내는 텍스트
  */
 export const Unit = styled.span`
-  font-size: 20px;
-  margin-left: 5px;
+  font-size: 24px;
+  margin-left: 10px;
 `;
 
 /**
  * BtnContainer : 버튼을 포함하는 컨테이너
  */
-export const BtnContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 40px;
-`;
+export const BtnContainer = styled(CommonBtnContainer)``;
 /**
  * Btn : 수정 및 저장 버튼
  */
-export const Btn = styled(ActionBtn)``;
+export const Btn = styled(CommonBtn)``;

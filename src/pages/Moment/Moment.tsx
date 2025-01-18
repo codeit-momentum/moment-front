@@ -115,7 +115,7 @@ const Moment: React.FC = () => {
               todoList={todoList}
               duration={duration || 0}
               isLoading={isLoading}
-              onUpdate={handleTodoConfirm}
+              onSave={handleTodoConfirm}
             />
           )}
 

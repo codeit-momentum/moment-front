@@ -2,8 +2,10 @@ import styled from 'styled-components';
 import {
   CommonBox,
   CommonBoxLabel,
-  ActionBtn,
-} from '../../../styles/commonStyles';
+  CommonDiv,
+  CommonBtnContainer,
+  CommonBtn,
+} from '../../../styles/CommonStyles';
 
 /**
  * ToDoListContainer : 투두리스트 전체를 감싸는 컨테이너
@@ -12,9 +14,10 @@ import {
 export const ToDoListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
   align-items: center;
 `;
+
+export const Divider = styled(CommonDiv)``;
 
 /**
  * Label : 투두리스트 제목 라벨 텍스트
@@ -23,19 +26,21 @@ export const Label = styled.h3`
   font-size: 16px;
   color: ${({ theme }) => theme.colors.black};
   text-align: center;
-  margin-bottom: 10px;
+  white-space: pre-wrap;
+  line-height: 25px;
+  margin: 10px;
 `;
 
-export const ToDoBox = styled(CommonBox)``;
+export const ToDoBox = styled(CommonBox)`
+  margin: 20px;
+`;
 export const ToDoBoxLabel = styled(CommonBoxLabel)``;
 
 export const ToDoList = styled.ul`
   list-style: none;
   padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 `;
 
 /**
@@ -43,48 +48,42 @@ export const ToDoList = styled.ul`
  */
 export const ToDoItem = styled.li`
   display: flex;
-  algign-items: flex-start;
-  gap: 12px;
+  align-items: flex-start;
+  gap: 10px;
   font-size: 12px;
   padding: 8px 0;
+`;
+export const Checkbox = styled.input`
+  width: 25px;
+  height: 25px;
+  border: 2px solid ${({ theme }) => theme.colors.black};
+  border-radius: 5px;
+  cursor: pointer;
 
-  input[type='checkbox'] {
-    width: 24px;
-    height: 24px;
-    border-radius: 5px;
-    border: 2px solid ${({ theme }) => theme.colors.black};
-    background-color: #white;
-    appearance: none;
-
-    &:checked { //필요한가..? 
-      background-color: ${({ theme }) => theme.colors.white};
-    }
-      &:after {
-      content: '✔';
-      position: absolute;
-      left: 6px;
-      top: 1px;
-      height: 24px;
-      border: solid ${({ theme }) => theme.colors.black};
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
+  &:checked {
+    background-color: ${({ theme }) => theme.colors.black};
+    border-color: ${({ theme }) => theme.colors.black};
   }
 `;
-/**
- * TodoInput : 투두리스트 항목 입력창
- */
-export const ToDoInput = styled.input`
-  padding: 8px;
-  font-size: 12px;
-  flex: 1;
-  border-radius: 4px;
-  border: 1px solid ${({ theme }) => theme.colors.black};
 
-  &:disabled {
-    background-color: trasparent;
-    border: none;
-    padding: 0;
+export const Input = styled.input`
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+
+  color: ${({ theme }) => theme.colors.black};
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.gray};
   }
+`;
+
+export const TodoContent = styled.span`
+  flex: 1;
+  font-size: 14px;
+  border: none;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 /**
@@ -99,13 +98,12 @@ export const LoadingText = styled.p`
 /**
  * BtnContainer : 버튼을 포함하는 컨테이너
  */
-export const BtnContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
+export const BtnContainer = styled(CommonBtnContainer)`
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 /**
  * Btn : 수정 및 완료 버튼
  */
-export const Btn = styled(ActionBtn)``;
+export const Btn = styled(CommonBtn)``;

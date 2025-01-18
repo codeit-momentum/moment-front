@@ -1,62 +1,84 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './ToDoListComponent.style';
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner';
-import { useEditable } from '../../../hooks/useEditable';
+import { useTodoList } from '../../../hooks/queries/useTodoList';
 
 /**
- * ToDoListComponent Props
- * - mode: auto | manual => 자동/수동 모드 구분
- * -todoList: 투두리스트 항목 배열
- * -isLoading: 투두리스트 로딩 여부
- * -onUpdate : 투두리스트 수정 콜백 함수
+ * ToDoListProps 인터페이스
+ * @property mode - 'auto': API에서 데이터를 불러오는 모드, 'manual': 사용자 직접 입력 모드
+ * @property duration - 진행 기간 (일 수)
+ * @property onSave - 저장 시 호출될 콜백 함수
  */
-
 interface ToDoListProps {
   mode: 'auto' | 'manual';
-  todoList: string[];
   duration: number;
+  todoList: string[];
   isLoading: boolean;
-  onUpdate: (updateList: string[]) => void;
+  onSave: (todoList: string[]) => void;
 }
-
-/**
- * ToDoListComponent
- * - 투두리스트를 표시하며, 로딩 중일 때 로딩 상태를 표시
- * - 수정 버튼을 통해 투두리스트를 수정 가능
- */
 
 export const ToDoListComponent: React.FC<ToDoListProps> = ({
   mode,
-  todoList,
   duration,
-  isLoading,
-  onUpdate,
+  onSave,
 }) => {
-  const { isEditing, toggleEditing } = useEditable(); //수정 상태 관리
-  const [currentList, setCurrentList] = useState(todoList);
+  // 편집 모드 상태 관리: 수동 모드일 경우 초기값 true
+  const [isEditing, setIsEditing] = useState(mode === 'manual');
+  const [isConfirmed, setIsConfirmed] = useState(false); //확정상태 관리
+  // 할 일 목록 상태 관리
+  const [todos, setTodos] = useState<string[]>([]);
 
+  // React Query를 사용하여 자동 모드의 데이터 가져오기
+  const { data, isLoading } = useTodoList(mode);
+
+  // 데이터가 변경되면 todos 상태 업데이트
   useEffect(() => {
-    if (mode === 'auto') {
-      setCurrentList(todoList); //자동 모드에서는 API 값 초기화
+    if (data && data.todoList) {
+      setTodos(data.todoList);
     }
-  }, [mode, todoList]);
+  }, [data]);
 
-  const handleInputChange = (index: number, value: string) => {
-    const updatedList = [...currentList];
-    updatedList[index] = value;
-    setCurrentList(updatedList);
-    onUpdate(updatedList); //실시간 업데이트 반영
+  /**
+   * 새로운 할 일 항목 추가
+   * - 편집 모드일 때만 동작
+   * - 새 항목의 id는 현재 목록 길이 + 1
+   */
+  const handleAddTodo = () => {
+    if (isEditing) {
+      setTodos([...todos, '']);
+    }
   };
 
   /**
-   * handleSave
-   * - 수정된 투두리스트를 최종 저장하고, 수정 완료 상태로 변경
-   * - 수정 중일 때 비활성화하여, 사용자가 수정 완료 후에만 확정 가능
+   * 할 일 내용 수정
+   * @param id - 수정할 항목의 id
+   * @param content - 새로운 내용
    */
-  const handleSave = () => {
-    onUpdate(currentList); //최종 저장
-    toggleEditing(); //수정 완료 상태로 변경
-    alert('확정되었습니다.');
+  const handleEditTodo = (id: number, content: string) => {
+    const newTodos = [...todos];
+    newTodos[id] = content;
+    setTodos(newTodos);
+  };
+
+  /// 수정완료 핸들러
+  const handleEditComplete = () => {
+    if (todos.every((todo) => todo.trim() === '')) {
+      alert('최소 한 개의 할 일을 입력해주세요.');
+      return;
+    }
+    setIsEditing(false);
+  };
+
+  // 확정하기 핸들러
+  const handleConfirm = () => {
+    const validTodos = todos.filter((todo) => todo.trim() !== '');
+    if (validTodos.length === 0) {
+      alert('최소 한 개의 할 일을 입력해주세요.');
+      return;
+    }
+    onSave(validTodos);
+    setIsConfirmed(true);
+    setIsEditing(false);
   };
 
   if (isLoading) {
@@ -65,38 +87,52 @@ export const ToDoListComponent: React.FC<ToDoListProps> = ({
 
   return (
     <S.ToDoListContainer>
-      <S.Label>{duration}일 동안 진행할 모멘트는 다음과 같습니다!</S.Label>
+      <S.Divider />
+      <S.Label>
+        {duration}일 동안 진행할 모멘트는{'\n'} 다음과 같습니다!
+      </S.Label>
       <S.ToDoBox>
         <S.ToDoBoxLabel>방법</S.ToDoBoxLabel>
         <S.ToDoList>
-          {currentList.map((item, index) => (
+          {todos.map((todo, index) => (
             <S.ToDoItem key={index}>
               <input
                 type="checkbox"
-                id={`todo-${index}`}
+                disabled={!isEditing} //수정상태에서만 활성화
                 defaultChecked={false}
-                disabled={!isEditing}
               />
               {isEditing ? (
-                <S.ToDoInput
+                <S.Input
                   type="text"
-                  value={item}
-                  onChange={(e) => handleInputChange(index, e.target.value)}
+                  value={todo}
+                  onChange={(e) => handleEditTodo(index, e.target.value)}
+                  placeholder="할 일을 입력하세요"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') handleAddTodo();
+                  }}
                 />
               ) : (
-                <label htmlFor={`todo-${index}`}>{item}</label>
+                <label>{todo}</label>
               )}
             </S.ToDoItem>
           ))}
         </S.ToDoList>
       </S.ToDoBox>
       <S.BtnContainer>
-        <S.Btn onClick={toggleEditing}>
-          {isEditing ? '수정완료' : '수정하기'}
-        </S.Btn>
-        <S.Btn onClick={handleSave} disabled={isEditing}>
-          확정하기
-        </S.Btn>
+        {!isConfirmed && (
+          <>
+            {isEditing ? (
+              // 수정 중일 때는 수정완료와 확정하기 버튼 표시
+              <>
+                <S.Btn onClick={handleEditComplete}>수정완료</S.Btn>
+                <S.Btn onClick={handleConfirm}>확정하기</S.Btn>
+              </>
+            ) : (
+              // 수정 중이 아닐 때는 수정하기 버튼만 표시
+              <S.Btn onClick={() => setIsEditing(true)}>수정하기</S.Btn>
+            )}
+          </>
+        )}
       </S.BtnContainer>
     </S.ToDoListContainer>
   );

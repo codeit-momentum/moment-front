@@ -26,38 +26,61 @@ export const DurationComponent: React.FC<DurationProps> = ({
   onEdit,
 }) => {
   const { isEditing, toggleEditing } = useEditable(); //수정 상태 관리
-  const [inputValue, setInputValue] = useState(initialDuration || 0);
+  const [inputValue, setInputValue] = useState<string>(
+    initialDuration?.toString() || '',
+  );
+  const [isConfirmed, setIsConfirmed] = useState(false); // 확정 상태 관리
 
   //자동 모드에서 API 데이터 로딩이 완료된 경우 초깃값 설정
   useEffect(() => {
     if (mode === 'auto' && initialDuration !== null) {
-      setInputValue(initialDuration);
+      setInputValue(initialDuration.toString()); //문자열로 변환하여 설정
     }
   }, [mode, initialDuration]);
 
   /**
-   * handleSave
-   * - 입력된 값을 저장하고 수정 모드를 종료
-   * - 유효성 검사: 1일 이상으로 설정해야 함
+   * handleInputChange
+   * - 입력값을 상태에 문자열로 저장
+   * - 숫자 유효성 검사
    */
-  const handleSave = () => {
-    if (inputValue < 1) {
+  const handleInputChange = (value: string) => {
+    if (/^\d*$/.test(value)) {
+      setInputValue(value);
+    }
+  };
+
+  // 수정완료 핸들러
+  const handleEditComplete = () => {
+    const duration = Number(inputValue);
+    if (duration < 1) {
       alert('1일 이상으로 설정해주세요.');
       return;
     }
-    onEdit(inputValue); //수정된 값 전달
-    toggleEditing(); //수정 상태 종료
+    toggleEditing(); //수정 모드 종료
+  };
+
+  // 확정하기 핸들러
+  const handleConfirm = () => {
+    const duration = Number(inputValue);
+    if (duration < 1) {
+      alert('1일 이상으로 설정해주세요.');
+      return;
+    }
+    onEdit(duration);
+    setIsConfirmed(true); //확정 상태 설정
+    toggleEditing(); //수정모드 종료
   };
 
   return (
     <S.DurationContainer>
-      <S.Label>예상 소요 기간</S.Label>
+      <S.Divider />
+      <S.Label>예상 소요 기간은</S.Label>
       {isEditing ? (
         <S.InputWarpper>
           <S.DurationInput
-            type="number"
+            type="text"
             value={inputValue}
-            onChange={(e) => setInputValue(Number(e.target.value))}
+            onChange={(e) => handleInputChange(e.target.value)}
             min={1}
           />
           <S.Unit>일</S.Unit>
@@ -71,12 +94,20 @@ export const DurationComponent: React.FC<DurationProps> = ({
         </S.DisplayWarpper>
       )}
       <S.BtnContainer>
-        <S.Btn onClick={toggleEditing}>
-          {isEditing ? '수정완료' : '수정하기'}
-        </S.Btn>
-        <S.Btn onClick={handleSave} disabled={!isEditing}>
-          확정하기
-        </S.Btn>
+        {!isConfirmed && (
+          <>
+            {isEditing ? (
+              // 수정 중일 때는 수정완료와 확정하기 버튼 표시
+              <>
+                <S.Btn onClick={handleEditComplete}>수정완료</S.Btn>
+                <S.Btn onClick={handleConfirm}>확정하기</S.Btn>
+              </>
+            ) : (
+              // 수정 중이 아닐 때는 수정하기 버튼만 표시
+              <S.Btn onClick={toggleEditing}>수정하기</S.Btn>
+            )}
+          </>
+        )}
       </S.BtnContainer>
     </S.DurationContainer>
   );

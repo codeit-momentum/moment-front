@@ -6,5 +6,7 @@ export const MomentLayout = styled.div`
   aligen-items: center;
   padding: 20px;
   width: 100%;
-  height: 100vh;
+  justify-content: flex-start;
+  height: calc(100vh - 60px); // 네비게이션 바 높이를 제외한 전체 높이 설정
+  overflow-y: auto; // 스크롤 가능
 `;
