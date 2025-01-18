@@ -17,11 +17,28 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: '/',
-        element: <SelectMode />,
+        element: <LayoutWithGNB />,
+        children: [
+          {
+            path: '/home',
+            element: <Home />,
+          },
+          {
+            path: '/feed',
+            element: <Feed />,
+          },
+          {
+            path: '/moment',
+            element: <Moment />,
+          },
+          {
+            path: '/mypage',
+            element: <MyPage />,
+          },
+        ],
       },
       {
-        path: 'start', // 이전 기본 페이지를 별도 경로로 이동
+        path: '/',
         element: <Start />,
       },
       {
@@ -31,36 +48,6 @@ const router = createBrowserRouter([
       {
         path: 'auth/kakao/callback',
         element: <KakaoCallback />,
-      },
-    ],
-  },
-  {
-    path: '/',
-    element: <LayoutWithGNB />,
-    children: [
-      {
-        path: '/home',
-        element: <Home />,
-      },
-      {
-        path: '/feed',
-        element: <Feed />,
-      },
-      {
-        path: 'moment/select-mode',
-        element: <SelectMode />,
-      },
-      {
-        path: '/moment',
-        element: <Moment />,
-      },
-      {
-        path: '/moment-complete',
-        element: <MomentComplete />,
-      },
-      {
-        path: '/mypage',
-        element: <MyPage />,
       },
     ],
   },
