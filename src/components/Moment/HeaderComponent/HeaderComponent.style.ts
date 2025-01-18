@@ -6,6 +6,7 @@ import styled from 'styled-components';
  */
 
 export const HeaderContainer = styled.div`
+  margin-top: 76px;
   margin-bottom: 30px;
   text-align: center;
 `;
@@ -19,7 +20,7 @@ export const Title = styled.h1`
   line-height: 37px;
   text-align: center;
   letter-spacing: -0.32px;
-  margin-bottom: 10px; //제목과 부제목 사이의 간격
+  margin-bottom: 5px; //제목과 부제목 사이의 간격
 `;
 
 /**

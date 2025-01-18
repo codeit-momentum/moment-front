@@ -16,7 +16,6 @@ export const DurationContainer = styled.div`
  */
 export const Label = styled.h3`
   font-size: 16px;
-  margin-right: 10px;
 `;
 /**
  * InputWarpper: 입력 필드와 버튼을 포함하는 컨테이너
@@ -25,7 +24,8 @@ export const InputWarpper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  maring-bottom: 20px;
+  gap: 5px;
 `;
 /**
  * DisplayWarpper: 텍스트와 버튼을 포함하는 컨테이너
@@ -34,7 +34,7 @@ export const DisplayWarpper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px 0;
+  margin: 20px;
 `;
 
 /**
@@ -59,7 +59,7 @@ export const DurationInput = styled.input`
  */
 export const DurationText = styled.span`
   font-size: 20px;
-  margin-right: 5px;
+  margin-right: 2px;
 `;
 
 /**
@@ -76,7 +76,7 @@ export const Unit = styled.span`
 export const BtnContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 40px;
 `;
 /**
  * Btn : 수정 및 저장 버튼

@@ -4,13 +4,17 @@ import styled from 'styled-components';
  * 공통 버튼 스타일
  */
 export const ActionBtn = styled.button`
+  display: flex;
   width: 107px;
   height: 43px;
-  padding: 16px 12px;
-  font-size: 12px;
+  padding: 12px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.black};
-  border: none;
+  border: 4px solid var ${({ theme }) => theme.colors.black};
   border-radius: 8px;
   cursor: pointer;
 
