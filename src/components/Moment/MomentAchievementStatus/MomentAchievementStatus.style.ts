@@ -6,7 +6,7 @@ export const MomentAchievementStatusLayout = styled.div`
   width: 100%;
   padding: 2rem;
   border-radius: 2rem;
-  background: #d9d9d9;
+  background-color: #d9d9d9;
 `;
 
 export const TitleSpan = styled.span`
@@ -14,7 +14,7 @@ export const TitleSpan = styled.span`
   top: -1.9rem;
   padding: 0.3rem 1.7rem;
   border-radius: 1.5rem;
-  background: #000;
+  background-color: #000;
   color: #fff;
   text-align: center;
   font-size: 18px;
@@ -27,7 +27,7 @@ export const MomentContainer = styled.div`
   padding: 2.5rem;
   gap: 1.1rem;
   border-radius: 2.5rem;
-  background: #fff;
+  background-color: #fff;
 `;
 
 export const MomentItem = styled.div`

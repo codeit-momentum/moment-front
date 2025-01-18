@@ -4,12 +4,12 @@ export const ProgressBar = styled.div`
   width: 100%;
   height: 2.3rem;
   border-radius: 2rem;
-  background: #d9d9d9;
+  background-color: #d9d9d9;
 `;
 
 export const ProgressValue = styled.div<{ $value: number }>`
   width: ${({ $value }) => `${$value}%`};
   height: 2.3rem;
   border-radius: 2rem;
-  background: #000;
+  background-color: #000;
 `;
