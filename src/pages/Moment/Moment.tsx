@@ -1,9 +1,14 @@
+import MomentTabBar from '../../components/Moment/MomentTabBar/MomentTabBar';
+import MomentAchievementStatus from '../../components/Moment/MomentAchievementStatus/MomentAchievementStatus';
+import MomentUploadStatus from '../../components/Moment/MomentUploadStatus/MomentUploadStatus';
 import * as S from './Moment.style';
 
 const Moment = () => {
   return (
     <S.MomentLayout>
-      <div>모멘트 페이지입니다.</div>
+      <MomentTabBar />
+      <MomentAchievementStatus />
+      <MomentUploadStatus />
     </S.MomentLayout>
   );
 };

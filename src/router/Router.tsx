@@ -8,6 +8,7 @@ import LayoutWithGNB from '../layouts/LayoutWithGNB';
 import Feed from '../pages/Feed/Feed';
 import Moment from '../pages/Moment/Moment';
 import MyPage from '../pages/MyPage/MyPage';
+import BucketList from '../pages/BucketList/BucketList';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,16 @@ const router = createBrowserRouter([
           },
           {
             path: '/moment',
-            element: <Moment />,
+            children: [
+              {
+                path: '',
+                element: <Moment />,
+              },
+              {
+                path: 'bucket',
+                element: <BucketList />,
+              },
+            ],
           },
           {
             path: '/mypage',
