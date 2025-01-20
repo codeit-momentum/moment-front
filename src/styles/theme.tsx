@@ -6,6 +6,7 @@ const colors = {
   gray: '#DBDBDB',
   yellow: '#FAED46',
   blue: '#6A7CB7',
+  red: '#FF0000',
 };
 
 const theme = { mixin, colors };
