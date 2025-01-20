@@ -7,6 +7,7 @@ import LoadingSpinner from '../../components/Moment/LoadingSpinner/LoadingSpinne
 import ToDoListComponent from '../../components/Moment/ToDoListComponent/ToDoListComponent';
 import FrequencyBtnComponent from '../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
 import { useApi } from '../../hooks/useApi';
+import { ModeType } from '../../types/modeType';
 
 /**
  * Moment
@@ -26,19 +27,14 @@ const CreateMoment = () => {
   const navigate = useNavigate();
   const location = useLocation(); //Query String을 읽기 위한 useLocation
   const query = new URLSearchParams(location.search);
-  const mode = query.get('mode') as 'auto' | 'manual'; // Query String에서 mode 추출
+  const mode = query.get('mode') as ModeType; // Query String에서 mode 추출
 
-  /**
-   * mode 값 유효성 검증
-   * - mode 값이 없거나 유효하지 않은 경우 오류 메시지 표시
-   */
+  // mode 유효성 검사
   if (!mode || (mode !== 'auto' && mode !== 'manual')) {
     return <div>올바른 모드를 선택해주세요.</div>;
   }
 
-  /**
-   * 자동 모드일 경우 API 호출 시뮬레이션 시작
-   */
+  //자동 모드일 경우 API 호출 시뮬레이션 시작
   useEffect(() => {
     if (mode === 'auto') {
       fetchData(); // 목데이터 가져오기

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import * as S from './SelectMode.style';
+import { ModeType } from '../../types/modeType';
 
 /**
  * SelectMode
@@ -12,9 +13,8 @@ const SelectMode = () => {
   /**
    * handleSelect
    * - 선택된 모드에 따라 경로 이동
-   * @param mode 'auto' | 'manual'
    */
-  const handleSelect = (mode: 'auto' | 'manual') => {
+  const handleSelect = (mode: ModeType) => {
     navigate(`/moment?mode=${mode}`); //Query String으로 mode 전달
   };
 

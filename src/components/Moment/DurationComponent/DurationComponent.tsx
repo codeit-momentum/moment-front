@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import * as S from './DurationComponent.style';
 import { useEditable } from '../../../hooks/useEditable';
+import { ModeType } from '../../../types/modeType';
 
 /**
  * DurationComponent Props
- * - mode : 'auto' | 'manual' - 자동/수동 모드 구분
+ * - mode : 자동/수동 모드 구분
  * -initialDuration : API에서 받아온 초기 예상 소요 기간(자동 모드의 경우)
  * -onEdit : 수정된 기간을 상위 컴포넌트에 전달하는 콜백 함수
  */
 interface DurationProps {
-  mode: 'auto' | 'manual';
+  mode: ModeType;
   initialDuration?: number | null;
   onEdit: (duration: number) => void;
 }

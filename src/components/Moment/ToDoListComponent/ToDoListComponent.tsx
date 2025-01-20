@@ -2,15 +2,13 @@ import { useState, useEffect } from 'react';
 import * as S from './ToDoListComponent.style';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import useTodoList from '../../../hooks/queries/useTodoList';
+import { ModeType } from '../../../types/modeType';
 
 /**
  * ToDoListProps 인터페이스
- * @property mode - 'auto': API에서 데이터를 불러오는 모드, 'manual': 사용자 직접 입력 모드
- * @property duration - 진행 기간 (일 수)
- * @property onSave - 저장 시 호출될 콜백 함수
  */
 interface ToDoListProps {
-  mode: 'auto' | 'manual';
+  mode: ModeType;
   duration: number;
   todoList: string[];
   isLoading: boolean;
