@@ -4,9 +4,8 @@ export const GNBLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'space-between' })};
   background-color: ${({ theme }) => theme.colors.white};
   position: fixed;
-  width: 37.5rem;
-  height: 5.7rem;
-  padding: 0 4rem 2rem 4rem;
+  width: 33.5rem;
+  height: 6rem;
   bottom: 0;
 `;
 export const NavItem = styled.ul`
