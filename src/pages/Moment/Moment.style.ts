@@ -1,9 +1,8 @@
 import styled from 'styled-components';
+import mixin from '../../styles/mixin';
 
 export const MomentLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  aligen-items: center;
+  ${mixin.flexBox({ direction: 'column', align: 'center' })};
   padding: 20px;
   width: 100%;
   justify-content: flex-start;

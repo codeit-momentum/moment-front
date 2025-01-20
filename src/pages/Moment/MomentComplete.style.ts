@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 import { CommonBox, CommonBoxLabel } from '../../styles/CommonStyles';
+import mixin from '../../styles/mixin';
 
 /**
  * Container : 전체 페이지 컨테이너
  */
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  ${mixin.flexBox({ direction: 'column', align: 'center' })};
   padding: 20px;
   gap: 20px;
   height: calc(100vh - 60px); // 네비게이션 바 높이를 제외한 전체 높이 설정
@@ -26,9 +25,7 @@ export const Title = styled.h1`
  * DateContainer : 날짜 박스 컨테이너
  */
 export const DateContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  ${mixin.flexBox({ direction: 'column', align: 'center' })};
   gap: 5px;
   padding: 26px 36px;
   background-color: ${({ theme }) => theme.colors.gray};
@@ -81,8 +78,7 @@ export const MethodList = styled.ul`
  * MethodItem : 각각의 방법 항목
  */
 export const MethodItem = styled.li`
-  display: flex;
-  align-items: center;
+  ${mixin.flexBox({ direction: 'column', align: 'center' })};
   gap: 14px;
   font-size: 14px;
   padding: 10px 5px;

@@ -6,15 +6,14 @@ import {
   CommonBtnContainer,
   CommonBtn,
 } from '../../../styles/CommonStyles';
+import mixin from '../../../styles/mixin';
 
 /**
  * ToDoListContainer : 투두리스트 전체를 감싸는 컨테이너
  */
 
 export const ToDoListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  ${mixin.flexBox({ direction: 'column', align: 'center' })};
 `;
 
 export const Divider = styled(CommonDiv)``;

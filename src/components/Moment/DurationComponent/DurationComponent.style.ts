@@ -4,14 +4,12 @@ import {
   CommonBtnContainer,
   CommonDiv,
 } from '../../../styles/CommonStyles';
-
+import mixin from '../../../styles/mixin';
 /**
  * DurationContainer : DurationInput과 ActionButton을 포함하는 최상위 컨테이너
  */
 export const DurationContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  ${mixin.flexBox({ direction: 'column', align: 'center', justify: 'center' })};
   position: relative;
 `;
 
@@ -28,9 +26,7 @@ export const Label = styled.h3`
  * InputWarpper: 입력 필드와 버튼을 포함하는 컨테이너
  */
 export const InputWarpper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${mixin.flexBox({ align: 'center', justify: 'center' })};
   margin: 15px;
   height: 40px;
 `;
@@ -38,9 +34,7 @@ export const InputWarpper = styled.div`
  * DisplayWarpper: 텍스트와 버튼을 포함하는 컨테이너
  */
 export const DisplayWarpper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${mixin.flexBox({ align: 'center', justify: 'center' })};
   margin: 15px;
   height: 40px;
 `;

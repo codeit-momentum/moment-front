@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 import { CommonBtn, CommonDiv } from '../../../styles/CommonStyles';
+import mixin from '../../../styles/mixin';
 
 /**
  * FrequencyBtnContainer : 실행 빈도 선택 버튼 전체를 감싸는 컨테이너
  */
 export const FrequencyBtnContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  ${mixin.flexBox({ direction: 'column', align: 'center' })};
   gap: 20px;
 `;
 
@@ -43,9 +42,7 @@ export const CircleBtn = styled.button<{ isSelected: boolean }>`
   border-radius: 50%;
   font-size: 20px;
   border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${mixin.flexBox({ align: 'center', justify: 'center' })};
   background-color: ${({ isSelected }) => (isSelected ? '#000000' : '#E5E5E5')};
   color: ${({ isSelected }) => (isSelected ? '#fff' : '#000')};
   cursor: pointer;
@@ -57,8 +54,7 @@ export const CircleBtn = styled.button<{ isSelected: boolean }>`
 `;
 
 export const BtnContainer = styled.div`
-  display: flex;
-  justify-content: center;
+  ${mixin.flexBox({ justify: 'center' })};
   margin-top: 20px;
 `;
 
