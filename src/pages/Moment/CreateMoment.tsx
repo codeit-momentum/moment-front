@@ -1,11 +1,11 @@
 import * as S from './Moment.style';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { HeaderComponent } from '../../components/Moment/HeaderComponent/HeaderComponent';
-import { DurationComponent } from '../../components/Moment/DurationComponent/DurationComponent';
-import { ToDoListComponent } from '../../components/Moment/ToDoListComponent/ToDoListComponent';
-import { FrequencyBtnComponent } from '../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
-import { LoadingSpinner } from '../../components/Moment/LoadingSpinner/LoadingSpinner';
+import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
+import DurationComponent from '../../components/Moment/DurationComponent/DurationComponent';
+import LoadingSpinner from '../../components/Moment/LoadingSpinner/LoadingSpinner';
+import ToDoListComponent from '../../components/Moment/ToDoListComponent/ToDoListComponent';
+import FrequencyBtnComponent from '../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
 import { useApi } from '../../hooks/useApi';
 
 /**
@@ -13,7 +13,7 @@ import { useApi } from '../../hooks/useApi';
  * - 자동/수동 모드에 따라 동작하며, 컴포넌트를 순차적으로 렌더링
  * - 스크롤 뷰 형태로 구성
  */
-const CreateMoment: React.FC = () => {
+const CreateMoment = () => {
   // 상태 관리
   const [duration, setDuration] = useState<number | null>(null); // 예상 소요 기간
   const [todoList, setTodoList] = useState<string[]>([]); // 투두리스트 데이터

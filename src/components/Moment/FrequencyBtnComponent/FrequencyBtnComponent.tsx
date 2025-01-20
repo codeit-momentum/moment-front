@@ -17,10 +17,7 @@ interface FrequencyBtnProps {
  * - 실행 빈도를 선택할 수 있는 버튼 그룹 컴포넌트
  * - 선택된 옵션을 강조 표시, "다음" 버튼을 통해 다음 페이지로 이동 가능
  */
-export const FrequencyBtnComponent: React.FC<FrequencyBtnProps> = ({
-  onSelect,
-  onNext,
-}) => {
+const FrequencyBtnComponent = ({ onSelect, onNext }: FrequencyBtnProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const frequencyOptions = [
@@ -76,3 +73,5 @@ export const FrequencyBtnComponent: React.FC<FrequencyBtnProps> = ({
     </S.FrequencyBtnContainer>
   );
 };
+
+export default FrequencyBtnComponent;

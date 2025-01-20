@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchMockData } from '../../apis/mockApi';
+import fetchMockData from '../../apis/mockApi';
 
-export const useTodoList = (mode: 'auto' | 'manual') => {
+const useTodoList = (mode: 'auto' | 'manual') => {
   return useQuery({
     queryKey: ['todos', mode],
     queryFn: async () => {
@@ -22,3 +22,5 @@ export const useTodoList = (mode: 'auto' | 'manual') => {
     },
   });
 };
+
+export default useTodoList;

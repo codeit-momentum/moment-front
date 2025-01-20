@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './DurationComponent.style';
 import { useEditable } from '../../../hooks/useEditable';
 
@@ -20,11 +20,11 @@ interface DurationProps {
  * - 예상 소요 기간을 표시하거나 수정할 수 있는 컴포넌트
  * - 수정모드 (isEditing)에 따라 입력 필드와 텍스트가 전환됨 -> 수정 중일 때는 확정하기 불가
  */
-export const DurationComponent: React.FC<DurationProps> = ({
+const DurationComponent = ({
   mode,
   initialDuration = null,
   onEdit,
-}) => {
+}: DurationProps) => {
   const { isEditing, toggleEditing } = useEditable(); //수정 상태 관리
   const [inputValue, setInputValue] = useState<string>(
     initialDuration?.toString() || '',
@@ -112,3 +112,5 @@ export const DurationComponent: React.FC<DurationProps> = ({
     </S.DurationContainer>
   );
 };
+
+export default DurationComponent;

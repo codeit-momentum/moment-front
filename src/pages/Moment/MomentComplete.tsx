@@ -1,4 +1,3 @@
-import React from 'react';
 import * as S from './MomentComplete.style';
 
 /**
@@ -24,7 +23,7 @@ const mockMomentData = [
  * MomentComlete
  * 임시 데이터를 사용하여 "모멘트 설계 완료" 페이지 렌더링
  */
-export const MomentComplete: React.FC = () => {
+const MomentComplete = () => {
   return (
     <S.Container>
       <S.Title>모멘트 설계 완료 !</S.Title>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './SelectMode.style';
 
@@ -7,7 +6,7 @@ import * as S from './SelectMode.style';
  * - 자동/수동 모드를 선택하는 페이지
  * - 선택된 모드에 따라 다음페이지로 이동
  */
-const SelectMode: React.FC = () => {
+const SelectMode = () => {
   const navigate = useNavigate();
 
   /**

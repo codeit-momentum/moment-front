@@ -17,9 +17,11 @@ interface HeaderProps {
  * -title과 subtitle을 받아 화면 상단에 제목과 부제목을 표시하는 컴포넌트
  */
 
-export const HeaderComponent: React.FC<HeaderProps> = ({ title, subtitle }) => (
+const HeaderComponent = ({ title, subtitle }: HeaderProps) => (
   <S.HeaderContainer>
     <S.Title>{title}</S.Title>
     <S.Subtitle>{subtitle}</S.Subtitle>
   </S.HeaderContainer>
 );
+
+export default HeaderComponent;

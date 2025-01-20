@@ -10,7 +10,7 @@ interface TodoResponse {
  * - Promise를 사용해 비동기 흐름 시뮬레이션
  * - 2초 후 목데이터 반환
  */
-export const fetchMockData = async (): Promise<TodoResponse> => {
+const fetchMockData = async (): Promise<TodoResponse> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
@@ -25,3 +25,5 @@ export const fetchMockData = async (): Promise<TodoResponse> => {
     }, 2000); // 2초 지연 후 데이터 반환
   });
 };
+
+export default fetchMockData;

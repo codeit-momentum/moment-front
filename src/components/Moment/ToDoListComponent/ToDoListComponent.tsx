@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './ToDoListComponent.style';
-import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner';
-import { useTodoList } from '../../../hooks/queries/useTodoList';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import useTodoList from '../../../hooks/queries/useTodoList';
 
 /**
  * ToDoListProps 인터페이스
@@ -17,11 +17,7 @@ interface ToDoListProps {
   onSave: (todoList: string[]) => void;
 }
 
-export const ToDoListComponent: React.FC<ToDoListProps> = ({
-  mode,
-  duration,
-  onSave,
-}) => {
+const ToDoListComponent = ({ mode, duration, onSave }: ToDoListProps) => {
   // 편집 모드 상태 관리: 수동 모드일 경우 초기값 true
   const [isEditing, setIsEditing] = useState(mode === 'manual');
   const [isConfirmed, setIsConfirmed] = useState(false); //확정상태 관리
@@ -137,3 +133,5 @@ export const ToDoListComponent: React.FC<ToDoListProps> = ({
     </S.ToDoListContainer>
   );
 };
+
+export default ToDoListComponent;
