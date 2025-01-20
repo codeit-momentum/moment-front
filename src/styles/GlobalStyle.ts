@@ -62,7 +62,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html{
-    padding: 3rem 2rem 0 2rem;
+    padding: 3rem 2rem 9rem 2rem;
     background-color: ${({ theme }) => theme.colors.black};
   }
   #root{
