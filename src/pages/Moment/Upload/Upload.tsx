@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import ImageUpload from '../../../components/Moment/ImageUpload/ImageUpload';
 import * as S from './Upload.style';
 
 type UploadProps = {
@@ -46,6 +47,7 @@ const Upload = ({ variant }: UploadProps) => {
         </S.TitleSpan>
         <S.SubTitleSpan>{subTitle[variant]}</S.SubTitleSpan>
       </S.TitleContainer>
+      <ImageUpload />
     </S.UploadLayout>
   );
 };
