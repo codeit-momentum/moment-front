@@ -70,7 +70,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: NeoDunggeunmoPro-Regular;
   }
   #root, body, html {
-\    scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
+    scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
     margin: 0 auto;
     font-size: 62.5%;
     -ms-overflow-style: none; /* 인터넷 익스플로러  스크롤바 숨김 */
