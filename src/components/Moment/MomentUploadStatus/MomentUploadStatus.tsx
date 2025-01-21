@@ -26,7 +26,7 @@ const MomentUploadStatus = () => {
               ) : (
                 <S.UploadLinkWrapper>
                   {/* SVG 파일로 대체 */}
-                  <S.UploadLink to="/home">+</S.UploadLink>
+                  <S.UploadLink to="upload/1">+</S.UploadLink>
                 </S.UploadLinkWrapper>
               )}
               <S.MomentTitleSpan>{moment.title}</S.MomentTitleSpan>

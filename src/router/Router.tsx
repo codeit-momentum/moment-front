@@ -9,8 +9,9 @@ import Feed from '../pages/Feed/Feed';
 import CreateMoment from '../pages/Moment/CreateMoment';
 import MomentComplete from '../pages/Moment/MomentComplete';
 import MyPage from '../pages/MyPage/MyPage';
+import BucketList from '../pages/Moment/BucketList/BucketList';
+import Upload from '../pages/Moment/Upload/Upload';
 import SelectMode from '../pages/Moment/SelectMode';
-import BucketList from '../pages/BucketList/BucketList';
 import Moment from '../pages/Moment/Moment';
 
 const router = createBrowserRouter([
@@ -49,8 +50,16 @@ const router = createBrowserRouter([
                 element: <Moment />,
               },
               {
+                path: 'upload/:id',
+                element: <Upload variant="moment" />,
+              },
+              {
                 path: 'bucket',
                 element: <BucketList />,
+              },
+              {
+                path: 'bucket/upload/:id',
+                element: <Upload variant="bucket" />,
               },
             ],
           },
