@@ -55,5 +55,4 @@ export const EmptyMomentSpan = styled.span`
   text-align: center;
   font-size: 18px;
   line-height: 26px;
-  letter-spacing: -0.32px;
 `;

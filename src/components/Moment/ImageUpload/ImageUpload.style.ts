@@ -38,7 +38,6 @@ export const DescriptionSpan = styled.span`
   text-align: center;
   font-size: 24px;
   line-height: 37px;
-  letter-spacing: -0.32px;
 `;
 
 export const UploadButton = styled.button`

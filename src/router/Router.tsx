@@ -6,10 +6,13 @@ import KakaoCallback from '../pages/KakaoCallback/KakaoCallback';
 import Home from '../pages/Home/Home';
 import LayoutWithGNB from '../layouts/LayoutWithGNB';
 import Feed from '../pages/Feed/Feed';
-import Moment from '../pages/Moment/Moment';
+import CreateMoment from '../pages/Moment/CreateMoment';
+import MomentComplete from '../pages/Moment/MomentComplete';
 import MyPage from '../pages/MyPage/MyPage';
 import BucketList from '../pages/Moment/BucketList/BucketList';
 import Upload from '../pages/Moment/Upload/Upload';
+import SelectMode from '../pages/Moment/SelectMode';
+import Moment from '../pages/Moment/Moment';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +29,18 @@ const router = createBrowserRouter([
           {
             path: '/feed',
             element: <Feed />,
+          },
+          {
+            path: 'moment/select-mode',
+            element: <SelectMode />,
+          },
+          {
+            path: '/moment/create-moment',
+            element: <CreateMoment />,
+          },
+          {
+            path: '/moment-complete',
+            element: <MomentComplete />,
           },
           {
             path: '/moment',

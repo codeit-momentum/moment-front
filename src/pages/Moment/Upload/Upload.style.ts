@@ -23,7 +23,6 @@ export const TitleContainer = styled.div`
   color: #000;
   text-align: center;
   line-height: 37px;
-  letter-spacing: -0.32px;
 `;
 
 export const TitleSpan = styled.span`
