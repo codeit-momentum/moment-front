@@ -36,7 +36,7 @@ const router = createBrowserRouter([
             element: <CreateMoment />,
           },
           {
-            path: './moment-complete',
+            path: '/moment-complete',
             element: <MomentComplete />,
           },
           {

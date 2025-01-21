@@ -56,8 +56,9 @@ export const DurationInput = styled.input`
   }
 
   &:focus {
-  outline: none;
-  border-color: ${({ theme }) => theme.colors.primary};
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 /**
