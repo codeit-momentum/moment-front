@@ -5,23 +5,20 @@ export const ImageUploadLayout = styled.form`
   gap: 2.5rem;
 `;
 
-export const ImageInputWrapper = styled.div`
+export const ImageInputLabel = styled.label`
   position: relative;
   width: 27.3rem;
   height: 27.3rem;
+  cursor: pointer;
 `;
 
 export const ImageInput = styled.input`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
+  display: none;
+  background-color: red;
 `;
 
 export const PreviewPlaceholder = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
-  position: absolute;
   width: 100%;
   height: 100%;
   border-radius: 2px;
@@ -29,7 +26,6 @@ export const PreviewPlaceholder = styled.div`
 `;
 
 export const PreviewImage = styled.img`
-  position: absolute;
   width: 100%;
   height: 100%;
   border-radius: 2px;

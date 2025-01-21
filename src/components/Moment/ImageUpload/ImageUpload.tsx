@@ -23,7 +23,6 @@ const ImageUpload = () => {
       return;
     }
 
-    if (image) URL.revokeObjectURL(image);
     // 미리보기 이미지 URL 생성
     setImage(URL.createObjectURL(newImage));
   };
@@ -37,14 +36,14 @@ const ImageUpload = () => {
 
   return (
     <S.ImageUploadLayout onSubmit={handleOnSubmit}>
-      <S.ImageInputWrapper>
+      <S.ImageInputLabel>
         {image ? (
           <S.PreviewImage src={image} alt="preview" />
         ) : (
           <S.PreviewPlaceholder>이미지 미리보기</S.PreviewPlaceholder>
         )}
         <S.ImageInput type="file" accept="image/*" onChange={handleOnChange} />
-      </S.ImageInputWrapper>
+      </S.ImageInputLabel>
       <S.DescriptionSpan>사진을 첨부해 인증해주세요!</S.DescriptionSpan>
       <S.UploadButton type="submit" disabled={!image}>
         인증하기
