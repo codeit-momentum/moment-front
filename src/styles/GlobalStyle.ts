@@ -16,8 +16,8 @@ const GlobalStyle = createGlobalStyle`
     letter-spacing: -0.32px;
   }
 
-  body {
-    font-family: apple-system, sans-serif;
+  body { 
+    font-family: 'NeoDunggeunmoPro-Regular', sans-serif;
   }
   ol, ul {
     list-style: none;
