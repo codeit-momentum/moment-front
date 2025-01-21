@@ -4,12 +4,12 @@ import {
   CommonBtnContainer,
   CommonDiv,
 } from '../../../styles/CommonStyles';
-import mixin from '../../../styles/mixin';
+
 /**
  * DurationContainer : DurationInput과 ActionButton을 포함하는 최상위 컨테이너
  */
 export const DurationContainer = styled.div`
-  ${mixin.flexBox({ direction: 'column', align: 'center', justify: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   position: relative;
 `;
 
@@ -26,7 +26,7 @@ export const Label = styled.h3`
  * InputWarpper: 입력 필드와 버튼을 포함하는 컨테이너
  */
 export const InputWarpper = styled.div`
-  ${mixin.flexBox({ align: 'center', justify: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   margin: 15px;
   height: 40px;
 `;
@@ -34,7 +34,7 @@ export const InputWarpper = styled.div`
  * DisplayWarpper: 텍스트와 버튼을 포함하는 컨테이너
  */
 export const DisplayWarpper = styled.div`
-  ${mixin.flexBox({ align: 'center', justify: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   margin: 15px;
   height: 40px;
 `;
@@ -48,6 +48,11 @@ export const DurationInput = styled.input`
   font-size: 24px;
   text-align: center;
   border: 1px solid ${({ theme }) => theme.colors.black};
+  background-color: ${({ readOnly, theme }) =>
+    readOnly ? theme.colors.gray : theme.colors.white};
+  color: ${({ readOnly, theme }) =>
+    readOnly ? theme.colors.black : theme.colors.primary};
+  cursor: ${({ readOnly }) => (readOnly ? 'default' : 'text')};
 
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {

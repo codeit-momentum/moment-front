@@ -6,14 +6,13 @@ import {
   CommonBtnContainer,
   CommonBtn,
 } from '../../../styles/CommonStyles';
-import mixin from '../../../styles/mixin';
 
 /**
  * ToDoListContainer : 투두리스트 전체를 감싸는 컨테이너
  */
 
 export const ToDoListContainer = styled.div`
-  ${mixin.flexBox({ direction: 'column', align: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
 `;
 
 export const Divider = styled(CommonDiv)``;
@@ -68,13 +67,18 @@ export const Checkbox = styled.input`
 export const Input = styled.input`
   flex: 1;
   border: none;
-  background: transparent;
+  background: ${({ readOnly, theme }) =>
+    readOnly ? theme.colors.gray : theme.colors.white};
   font-size: 14px;
-
   color: ${({ theme }) => theme.colors.black};
+  cursor: ${({ readOnly }) => (readOnly ? 'default' : 'text')};
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.gray};
+  }
+
+  &:focus {
+    outline: none;
   }
 `;
 

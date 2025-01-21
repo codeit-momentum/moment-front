@@ -12,7 +12,6 @@ import MyPage from '../pages/MyPage/MyPage';
 import SelectMode from '../pages/Moment/SelectMode';
 import BucketList from '../pages/BucketList/BucketList';
 import Moment from '../pages/Moment/Moment';
-import MyPage from '../pages/MyPage/MyPage';
 
 const router = createBrowserRouter([
   {

@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import { CommonBtn, CommonDiv } from '../../../styles/CommonStyles';
-import mixin from '../../../styles/mixin';
 
 /**
  * FrequencyBtnContainer : 실행 빈도 선택 버튼 전체를 감싸는 컨테이너
  */
 export const FrequencyBtnContainer = styled.div`
-  ${mixin.flexBox({ direction: 'column', align: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   gap: 20px;
 `;
 
@@ -36,25 +35,27 @@ export const BtnGrid = styled.div`
  * CircleBtn : 실행 빈도 선택 동그라미 버튼
  * - isSelected: 선택된 버튼인지 여부
  */
-export const CircleBtn = styled.button<{ isSelected: boolean }>`
+export const CircleBtn = styled.button<{ $isSelected: boolean }>`
   width: 100px;
   height: 100px;
   border-radius: 50%;
   font-size: 20px;
   border: none;
-  ${mixin.flexBox({ align: 'center', justify: 'center' })};
-  background-color: ${({ isSelected }) => (isSelected ? '#000000' : '#E5E5E5')};
-  color: ${({ isSelected }) => (isSelected ? '#fff' : '#000')};
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({ align: 'center', justify: 'center' })};
+  background-color: ${({ $isSelected }) =>
+    $isSelected ? '#000000' : '#E5E5E5'};
+  color: ${({ $isSelected }) => ($isSelected ? '#fff' : '#000')};
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ isSelected }) =>
-      isSelected ? '#000000' : '#D3D3D3'};
+    background-color: ${({ $isSelected }) =>
+      $isSelected ? '#000000' : '#D3D3D3'};
   }
 `;
 
 export const BtnContainer = styled.div`
-  ${mixin.flexBox({ justify: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'center' })};
   margin-top: 20px;
 `;
 

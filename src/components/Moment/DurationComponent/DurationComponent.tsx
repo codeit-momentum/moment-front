@@ -76,24 +76,16 @@ const DurationComponent = ({
     <S.DurationContainer>
       <S.Divider />
       <S.Label>예상 소요 기간은</S.Label>
-      {isEditing ? (
-        <S.InputWarpper>
-          <S.DurationInput
-            type="text"
-            value={inputValue}
-            onChange={(e) => handleInputChange(e.target.value)}
-            min={1}
-          />
-          <S.Unit>일</S.Unit>
-        </S.InputWarpper>
-      ) : (
-        <S.DisplayWarpper>
-          <S.DurationText>
-            {inputValue ? `${inputValue}` : '미정'}
-          </S.DurationText>
-          <S.Unit>일</S.Unit>
-        </S.DisplayWarpper>
-      )}
+      <S.InputWarpper>
+        <S.DurationInput
+          type="text"
+          value={inputValue}
+          onChange={(e) => handleInputChange(e.target.value)}
+          min={1}
+          readOnly={!isEditing}
+        />
+        <S.Unit>일</S.Unit>
+      </S.InputWarpper>
       <S.BtnContainer>
         {!isConfirmed && (
           <>

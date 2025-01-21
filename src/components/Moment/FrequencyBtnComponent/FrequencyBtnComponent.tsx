@@ -53,7 +53,7 @@ const FrequencyBtnComponent = ({ onSelect, onNext }: FrequencyBtnProps) => {
         {frequencyOptions.map((option) => (
           <S.CircleBtn
             key={option.value}
-            isSelected={selectedOption === option.value}
+            $isSelected={selectedOption === option.value}
             onClick={() => handleSelect(option.value)}
           >
             {option.label.split('\n').map((text, index) => (

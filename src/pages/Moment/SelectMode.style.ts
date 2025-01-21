@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import mixin from '../../styles/mixin';
 
 export const Container = styled.div`
-  ${mixin.flexBox({ direction: 'column', align: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
+  position: relative;
   padding: 20px;
   width: 100%;
   height: 100vh;
@@ -19,12 +19,12 @@ export const BackBtn = styled.button`
   margin-top: 20px;
 `;
 export const ContentWrapper = styled.div`
-  ${mixin.flexBox({ direction: 'column', align: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 100%;
   padding: 80px 0 0;
 `;
 export const TitleWrapper = styled.div`
-  ${mixin.flexBox({ direction: 'column', align: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 100%;
   margin-top: 64px;
   margin-bottom: 37px;
@@ -41,14 +41,15 @@ export const Subtitle = styled.p`
 `;
 
 export const ButtonGroup = styled.div`
-  ${mixin.flexBox({ direction: 'column', align: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   gap: 60px;
   width: 100%;
   align-items: center;
 `;
 
 export const SelectButton = styled.button`
-  ${mixin.flexBox({ align: 'center', justify: 'center' })};
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({ align: 'center', justify: 'center' })};
   width: 100%;
   max-width: 300px; // 최대 너비 설정
   height: 100px; // 고정 높이 설정

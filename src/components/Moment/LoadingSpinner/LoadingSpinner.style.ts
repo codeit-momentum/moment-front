@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import mixin from '../../../styles/mixin';
 
 /**
  * SpinnerContainer : 로딩 스피너 전체를 감싸는 컨테이너
  */
 
 export const SpinnerContainer = styled.div`
-  ${mixin.flexBox({ direction: 'column', align: 'center', justify: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   height: 100vh;
   margin: 20px 0;
 `;

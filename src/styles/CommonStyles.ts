@@ -18,8 +18,7 @@ export const CommonBtn = styled.button`
   width: 107px;
   height: 43px;
   padding: 12px 16px;
-  justify-content: center;
-  align-items: center;
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   gap: 8px;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.white};
@@ -43,8 +42,7 @@ export const CommonBtn = styled.button`
  */
 
 export const CommonBtnContainer = styled.div`
-  display: flex;
-  align-items: center;
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   gap: 30px;
 `;
 

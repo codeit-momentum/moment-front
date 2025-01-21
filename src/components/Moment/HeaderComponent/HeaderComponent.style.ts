@@ -6,6 +6,7 @@ import styled from 'styled-components';
  */
 
 export const HeaderContainer = styled.div`
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   margin-top: 76px;
   margin-bottom: 5px;
   text-align: center;

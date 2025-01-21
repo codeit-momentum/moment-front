@@ -29,10 +29,17 @@ const CreateMoment = () => {
   const query = new URLSearchParams(location.search);
   const mode = query.get('mode') as ModeType; // Query String에서 mode 추출
 
-  // mode 유효성 검사
-  if (!mode || (mode !== 'auto' && mode !== 'manual')) {
-    return <div>올바른 모드를 선택해주세요.</div>;
-  }
+  // 유효성 검사 상태 추가
+  const [isModeValid, setIsModeValid] = useState(true);
+
+  useEffect(() => {
+    // mode 유효성 검사
+    if (!mode || (mode !== 'auto' && mode !== 'manual')) {
+      setIsModeValid(false);
+    } else {
+      setIsModeValid(true);
+    }
+  }, [mode]);
 
   //자동 모드일 경우 API 호출 시뮬레이션 시작
   useEffect(() => {
@@ -82,6 +89,10 @@ const CreateMoment = () => {
     navigate('/moment-complete');
     console.log('Move to MomentComplete Page');
   };
+
+  if (!isModeValid) {
+    return <div>올바른 모드를 선택해주세요.</div>;
+  }
 
   return (
     <S.MomentLayout>

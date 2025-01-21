@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import * as S from './SelectMode.style';
 import { ModeType } from '../../types/modeType';
+import IcBack from '../../assets/svg/IcBack';
 
 /**
  * SelectMode
@@ -24,12 +25,7 @@ const SelectMode = () => {
   return (
     <S.Container>
       <S.BackBtn onClick={handleBack}>
-        <img
-          src="/src/assets/images/mockBackIcon.png"
-          alt="뒤로가기"
-          width={24}
-          height={24}
-        />
+        <IcBack />
       </S.BackBtn>
       <S.ContentWrapper>
         <S.TitleWrapper>
