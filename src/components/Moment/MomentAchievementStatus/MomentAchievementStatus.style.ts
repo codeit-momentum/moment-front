@@ -49,3 +49,10 @@ export const MomentDetailsBox = styled.div`
   font-size: 18px;
   line-height: 26px;
 `;
+
+export const EmptyMomentSpan = styled.span`
+  color: #000;
+  text-align: center;
+  font-size: 18px;
+  line-height: 26px;
+`;

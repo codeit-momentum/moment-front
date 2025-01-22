@@ -5,7 +5,4 @@ export const MomentLayout = styled.div`
     mixin.flexBox({ direction: 'column', justify: 'flex-start' })};
   width: 100%;
   gap: 3.8rem;
-  padding: 2rem;
-  // GNB 높이
-  padding-bottom: 7.7rem;
 `;
