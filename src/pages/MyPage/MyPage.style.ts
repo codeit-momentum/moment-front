@@ -60,7 +60,8 @@ export const MyPageItem = styled.ul`
   width: 100%;
   height: 3.5rem;
 `;
-export const ItemLabelSpan = styled.span`
+export const ItemLabelSpan = styled.span<{ $isDelete: boolean }>`
+  ${({ theme, $isDelete }) => $isDelete && `color: ${theme.colors.red}`};
   width: 14rem;
   text-align: left;
   font-size: 12px;

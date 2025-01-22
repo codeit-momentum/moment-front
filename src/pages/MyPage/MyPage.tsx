@@ -1,8 +1,10 @@
 import * as S from './MyPage.style';
 import mockImage from '../../assets/images/mockImage.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
   //내 정보 fetch
+  const navigate = useNavigate();
   const user = {
     userId: 1,
     name: '필수',
@@ -14,25 +16,29 @@ const MyPage = () => {
       label: '내 정보 수정하기',
       name: 'edit',
       icon: '',
-      action: '',
+      action: () => {
+        navigate('edit');
+      },
     },
     {
       label: '친구 추가하기',
       name: 'friend',
       icon: '',
-      action: '',
+      action: () => {
+        navigate('friend');
+      },
     },
     {
       label: '로그아웃',
       name: 'logout',
       icon: '',
-      action: '',
+      action: () => {},
     },
     {
       label: '회원탈퇴',
       name: 'cancel',
       icon: '',
-      action: '',
+      action: () => {},
     },
   ];
   return (
@@ -54,8 +60,10 @@ const MyPage = () => {
         {navItems.map((navItem) => (
           <S.MyPageItem key={navItem.label}>
             <S.Icon />
-            <S.ItemLabelSpan>{navItem.label}</S.ItemLabelSpan>
-            <S.BtnNavigate />
+            <S.ItemLabelSpan $isDelete={navItem.name === 'cancel'}>
+              {navItem.label}
+            </S.ItemLabelSpan>
+            <S.BtnNavigate onClick={navItem.action} />
           </S.MyPageItem>
         ))}
       </S.MyPageList>

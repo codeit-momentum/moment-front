@@ -10,6 +10,7 @@ export const TitleSpan = styled.span`
   font-size: 20px;
   line-height: 3.7rem;
 `;
-export const IconWrapper = styled.div`
+export const IconButton = styled.button`
   position: absolute;
+  left: 0;
 `;
