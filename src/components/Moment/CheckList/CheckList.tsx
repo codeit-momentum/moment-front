@@ -1,6 +1,9 @@
 import { FormEvent, useState } from 'react';
 import { BucketListType, CheckListVariant } from '../../../types/moment';
 import * as S from './CheckList.style';
+import useModal from '../../../hooks/common/useModal';
+import Modal from '../../Modal/Modal';
+import CheckListModal from '../../Modal/CheckListModal/CheckListModal';
 
 // 목 데이터
 const bucketlist: BucketListType[] = [
@@ -24,6 +27,8 @@ type CheckListProps = {
 const CheckList = ({ variant }: CheckListProps) => {
   const [bucketList, setBucketList] = useState<BucketListType[]>(bucketlist);
   const [newItem, setNewItem] = useState<string>('');
+  const [isOpen, openModal, closeModal] = useModal();
+  const [selectedItem, setSelectedItem] = useState<BucketListType | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const handleAddItem = (e: FormEvent<HTMLFormElement>) => {
@@ -38,7 +43,7 @@ const CheckList = ({ variant }: CheckListProps) => {
     setNewItem('');
   };
 
-  const handleEdit = (e: FormEvent<HTMLFormElement>, id: number) => {
+  const onSubmitEdit = (e: FormEvent<HTMLFormElement>, id: number) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const newTitle = String(formData.get('title'));
@@ -53,37 +58,66 @@ const CheckList = ({ variant }: CheckListProps) => {
     alert(`${newTitle} 저장`);
   };
 
+  const handleOnClick = (item: BucketListType) => {
+    if (editingId === item.id) return;
+
+    setSelectedItem(item);
+    openModal();
+  };
+
+  const handleOnEdit = () => {
+    setEditingId(selectedItem?.id ?? null);
+    closeModal();
+  };
+
+  const handleOnClose = () => {
+    setSelectedItem(null);
+    closeModal();
+  };
+
   return (
-    <S.CheckListLayout>
-      <S.TitleSpan>{variant}</S.TitleSpan>
+    <>
+      <S.CheckListLayout>
+        <S.TitleSpan>{variant}</S.TitleSpan>
 
-      {/* 새 버킷리스트 추가 */}
-      <S.ListItemWrapper onSubmit={handleAddItem}>
-        <S.CheckBox />
-        <S.ListItemInput
-          type="text"
-          value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
-        />
-      </S.ListItemWrapper>
-
-      {/* 기존 버킷리스트 목록 */}
-      {bucketList.map((item) => (
-        <S.ListItemWrapper
-          key={item.id}
-          onSubmit={(e) => handleEdit(e, item.id)}
-        >
-          <S.CheckBox>{StateIcons[item.state]}</S.CheckBox>
+        {/* 새 버킷리스트 추가 */}
+        <S.ListItemWrapper onSubmit={handleAddItem}>
+          <S.CheckBox />
           <S.ListItemInput
-            name="title"
             type="text"
-            defaultValue={item.title}
-            readOnly={editingId !== item.id}
-            onClick={() => setEditingId(item.id)}
+            value={newItem}
+            onChange={(e) => setNewItem(e.target.value)}
           />
         </S.ListItemWrapper>
-      ))}
-    </S.CheckListLayout>
+
+        {/* 기존 버킷리스트 목록 */}
+        {bucketList.map((item) => (
+          <S.ListItemWrapper
+            key={item.id}
+            onSubmit={(e) => onSubmitEdit(e, item.id)}
+          >
+            <S.CheckBox>{StateIcons[item.state]}</S.CheckBox>
+            <S.ListItemInput
+              name="title"
+              type="text"
+              defaultValue={item.title}
+              readOnly={editingId !== item.id}
+              onClick={() => handleOnClick(item)}
+            />
+          </S.ListItemWrapper>
+        ))}
+      </S.CheckListLayout>
+      {isOpen && selectedItem && (
+        <Modal>
+          <CheckListModal
+            variant={variant}
+            title={selectedItem.title}
+            onClose={handleOnClose}
+            onEdit={handleOnEdit}
+          />
+        </Modal>
+      )}
+    </>
   );
 };
 
