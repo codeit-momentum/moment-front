@@ -37,15 +37,24 @@ const MyPage = () => {
   ];
   return (
     <S.MyPageLayout>
-      <S.ProfileImage src={user.profileImage} alt={`${user.name}님의 프로필`} />
-      <S.NicknameSpan>{user.name}님</S.NicknameSpan>
-      <S.EmailSpan>{user.email}</S.EmailSpan>
-      <S.Horizontal />
+      <S.ProfileContainer>
+        <S.ProfileImage
+          src={user.profileImage}
+          alt={`${user.name}님의 프로필`}
+        />
+        <S.UserInfoContainer>
+          <S.NicknameSpan>
+            <span>{user.name}</span>님
+          </S.NicknameSpan>
+          <S.EmailSpan>{user.email}</S.EmailSpan>
+        </S.UserInfoContainer>
+        <S.Horizontal />
+      </S.ProfileContainer>
       <S.MyPageList>
         {navItems.map((navItem) => (
           <S.MyPageItem key={navItem.label}>
-            {navItem.icon}
-            <span>{navItem.label}</span>
+            <S.Icon />
+            <S.ItemLabelSpan>{navItem.label}</S.ItemLabelSpan>
             <S.BtnNavigate />
           </S.MyPageItem>
         ))}
