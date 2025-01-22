@@ -14,6 +14,7 @@ import Upload from '../pages/Moment/Upload/Upload';
 import SelectMode from '../pages/Moment/SelectMode';
 import Moment from '../pages/Moment/Moment';
 import Friend from '../pages/MyPage/Friend/Friend';
+import EditProfile from '../pages/MyPage/EditProfile/EditProfile';
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
               {
                 path: 'friend',
                 element: <Friend />,
+              },
+              {
+                path: 'edit',
+                element: <EditProfile />,
               },
             ],
           },
