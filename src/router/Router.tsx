@@ -31,7 +31,7 @@ const router = createBrowserRouter([
             element: <Feed />,
           },
           {
-            path: 'moment/select-mode',
+            path: '/moment/select-mode',
             element: <SelectMode />,
           },
           {
@@ -71,7 +71,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/',
-        element: <Start />,
+        element: <SelectMode />, //Start
       },
       {
         path: 'login',

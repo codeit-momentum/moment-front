@@ -1,84 +1,62 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
+export const SelectModeLayout = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'column',
+      justify: 'flex-start',
+    })};
   position: relative;
-  padding: 20px;
   width: 100%;
   height: 100vh;
 `;
-//임시 아이콘 mockBackIcon.png 적용
-export const BackBtn = styled.button`
+
+export const SelectModeBackBtn = styled.button`
   position: absolute;
-  top: 24px;
-  left: 24px;
+  top: 0.1rem;
+  left: 0.1rem;
+  width: 4rem; /* 40px */
+  height: 4rem; /* 40px */
   background: none;
   border: none;
-  padding: 8px;
-  cursor: pointer;
-  margin-top: 20px;
+  padding: 0.5rem;
 `;
-export const ContentWrapper = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
+export const ContentContainer = styled.div`
+  ${({ theme: { mixin } }) => mixin.flexBox({ direction: 'column' })};
   width: 100%;
-  padding: 80px 0 0;
+  padding: 9.5rem 4rem 0;
 `;
-export const TitleWrapper = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  width: 100%;
-  margin-top: 64px;
-  margin-bottom: 37px;
-`;
-export const Header = styled.h1`
-  font-size: 36px;
-  text-align: center;
-  margin-bottom: 20px;
-`;
-
-export const Subtitle = styled.p`
-  font-size: 20px;
-  text-align: center;
-`;
-
-export const ButtonGroup = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  gap: 60px;
-  width: 100%;
-  align-items: center;
-`;
-
-export const SelectButton = styled.button`
+export const SelectModeTitleContainer = styled.div`
   ${({ theme: { mixin } }) =>
-    mixin.flexBox({ align: 'center', justify: 'center' })};
-  width: 100%;
-  max-width: 300px; // 최대 너비 설정
-  height: 100px; // 고정 높이 설정
-  padding: 32px 50px;
-  font-size: 16px;
-  background-color: ${({ theme }) => theme.colors.gray};
-  border-radius: 15px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.gray};
-  }
+    mixin.flexBox({ direction: 'row', align: 'center', justify: 'center' })};
+  margin-bottom: 2rem;
+  gap: 1.5rem;
+`;
+export const IconWrapper = styled.div`
+width:4.2rem
+height:4.2rem
+${({ theme: { mixin } }) => mixin.flexBox({ align: 'center', justify: 'center' })}
+`;
+export const SelectModeTitle = styled.h1`
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.white};
 `;
 
-export const ButtonText = styled.span`
+export const SelectModeSubtitle = styled.p`
   font-size: 16px;
-  font-weight: 500;
-  white-space: pre-wrap; // \n 줄 바꿈 처리
   text-align: center;
-  line-height: 30px;
-  letter-spacing: -0.32px;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
+  margin-bottom: 8.5rem;
 `;
 
-// 임시 아이콘 플레이스홀더
-export const IconPlaceholder = styled.div`
-  width: 48px;
-  height: 48px;
-  background-color: white;
-  border-radius: 50%;
-  margin-left: auto;
+export const BtnContainer = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'column',
+    })};
+  gap: 5.7rem;
+`;
+export const BtnHighlightedText = styled.span<{ color: string }>`
+  color: ${(props) => props.color || 'inherit'};
+  font-weight: bold;
 `;
