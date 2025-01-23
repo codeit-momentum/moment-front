@@ -1,6 +1,8 @@
 import * as S from './MyPage.style';
 import mockImage from '../../assets/images/mockImage.jpg';
 import { useNavigate } from 'react-router-dom';
+import MyProfile from '../../components/MyPage/MyProfile/MyProfile';
+import MyMenu from '../../components/MyPage/MyMenu/MyMenu';
 
 const MyPage = () => {
   //내 정보 fetch
@@ -11,7 +13,7 @@ const MyPage = () => {
     email: 'example@example.com',
     profileImage: mockImage,
   };
-  const navItems = [
+  const menuItems = [
     {
       label: '내 정보 수정하기',
       name: 'edit',
@@ -43,30 +45,13 @@ const MyPage = () => {
   ];
   return (
     <S.MyPageLayout>
-      <S.ProfileContainer>
-        <S.ProfileImage
-          src={user.profileImage}
-          alt={`${user.name}님의 프로필`}
-        />
-        <S.UserInfoContainer>
-          <S.NicknameSpan>
-            <span>{user.name}</span>님
-          </S.NicknameSpan>
-          <S.EmailSpan>{user.email}</S.EmailSpan>
-        </S.UserInfoContainer>
-        <S.Horizontal />
-      </S.ProfileContainer>
-      <S.MyPageList>
-        {navItems.map((navItem) => (
-          <S.MyPageItem key={navItem.label}>
-            <S.Icon />
-            <S.ItemLabelSpan $isDelete={navItem.name === 'cancel'}>
-              {navItem.label}
-            </S.ItemLabelSpan>
-            <S.BtnNavigate onClick={navItem.action} />
-          </S.MyPageItem>
-        ))}
-      </S.MyPageList>
+      <MyProfile
+        name={user.name}
+        email={user.email}
+        profileImage={user.profileImage}
+      />
+      <S.Horizontal />
+      <MyMenu menuItems={menuItems} />
     </S.MyPageLayout>
   );
 };
