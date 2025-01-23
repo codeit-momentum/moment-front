@@ -5,6 +5,4 @@ export const BucketListLayout = styled.div`
     mixin.flexBox({ direction: 'column', justify: 'flex-start' })};
   width: 100%;
   gap: 5rem;
-  padding: 2rem;
-  padding-bottom: 7.7rem;
 `;

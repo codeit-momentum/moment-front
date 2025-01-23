@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { fetchMockData } from '../apis/mockApi';
+import fetchMockData from '../apis/mockApi';
 
 /**
  * useApi

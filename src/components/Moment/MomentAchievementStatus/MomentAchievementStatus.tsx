@@ -25,7 +25,11 @@ const MomentAchievementStatus = () => {
           ))
         ) : (
           // 진행 중 모멘트가 없는 경우
-          <span>모멘트 없음</span>
+          <S.EmptyMomentSpan>
+            모멘트를 등록하고
+            <br />
+            현황을 확인해보세요 !
+          </S.EmptyMomentSpan>
         )}
       </S.MomentContainer>
     </S.MomentAchievementStatusLayout>
