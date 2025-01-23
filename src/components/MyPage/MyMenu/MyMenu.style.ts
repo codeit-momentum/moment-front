@@ -15,7 +15,7 @@ export const Icon = styled.div`
   width: 3rem;
   height: 3rem;
 `;
-export const MyPageItem = styled.ul`
+export const MyMenuItem = styled.ul`
   ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'space-between' })};
   width: 100%;
   height: 3.5rem;
