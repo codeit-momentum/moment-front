@@ -30,12 +30,3 @@ export const Spinner = styled.div`
     }
   }
 `;
-
-/**
- * LoadingText : 로딩 중 텍스트
- */
-export const LoadingText = styled.p`
-  margin-top: 20px;
-  font-size: 20px;
-  color: ${({ theme }) => theme.colors.black};
-`;

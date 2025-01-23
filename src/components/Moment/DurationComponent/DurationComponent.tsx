@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import * as S from './DurationComponent.style';
 import { useEditable } from '../../../hooks/useEditable';
 import { ModeType } from '../../../types/modeType';
+import Button from '../../Button/Button';
 
 /**
  * DurationComponent Props
@@ -73,10 +74,10 @@ const DurationComponent = ({
   };
 
   return (
-    <S.DurationContainer>
+    <S.DurationLayout>
       <S.Divider />
       <S.Label>예상 소요 기간은</S.Label>
-      <S.InputWarpper>
+      <S.InputContainer>
         <S.DurationInput
           type="text"
           value={inputValue}
@@ -85,24 +86,24 @@ const DurationComponent = ({
           readOnly={!isEditing}
         />
         <S.Unit>일</S.Unit>
-      </S.InputWarpper>
+      </S.InputContainer>
       <S.BtnContainer>
         {!isConfirmed && (
           <>
             {isEditing ? (
               // 수정 중일 때는 수정완료와 확정하기 버튼 표시
               <>
-                <S.Btn onClick={handleEditComplete}>수정완료</S.Btn>
-                <S.Btn onClick={handleConfirm}>확정하기</S.Btn>
+                <Button onClick={handleEditComplete}>수정완료</Button>
+                <Button onClick={handleConfirm}>확정하기</Button>
               </>
             ) : (
               // 수정 중이 아닐 때는 수정하기 버튼만 표시
-              <S.Btn onClick={toggleEditing}>수정하기</S.Btn>
+              <Button onClick={toggleEditing}>수정하기</Button>
             )}
           </>
         )}
       </S.BtnContainer>
-    </S.DurationContainer>
+    </S.DurationLayout>
   );
 };
 

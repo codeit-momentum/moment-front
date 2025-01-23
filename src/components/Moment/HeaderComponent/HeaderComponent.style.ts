@@ -50,5 +50,4 @@ export const HeaderSubtitle = styled.p`
   font-size: 16px;
   text-align: center;
   color: ${({ theme }) => theme.colors.white};
-  margin-bottom: 8.5rem;
 `;
