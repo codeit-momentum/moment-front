@@ -3,6 +3,7 @@ import * as S from './ToDoListComponent.style';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import useTodoList from '../../../hooks/queries/useTodoList';
 import { ModeType } from '../../../types/modeType';
+import Button from '../../Button/Button';
 
 /**
  * ToDoListProps 인터페이스
@@ -83,7 +84,7 @@ const ToDoListComponent = ({ mode, duration, onSave }: ToDoListProps) => {
   }
 
   return (
-    <S.ToDoListContainer>
+    <S.ToDoListLayout>
       <S.Divider />
       <S.Label>
         {duration}일 동안 진행할 모멘트는{'\n'} 다음과 같습니다!
@@ -118,17 +119,17 @@ const ToDoListComponent = ({ mode, duration, onSave }: ToDoListProps) => {
             {isEditing ? (
               // 수정 중일 때는 수정완료와 확정하기 버튼 표시
               <>
-                <S.Btn onClick={handleEditComplete}>수정완료</S.Btn>
-                <S.Btn onClick={handleConfirm}>확정하기</S.Btn>
+                <Button onClick={handleEditComplete}>수정완료</Button>
+                <Button onClick={handleConfirm}>확정하기</Button>
               </>
             ) : (
               // 수정 중이 아닐 때는 수정하기 버튼만 표시
-              <S.Btn onClick={() => setIsEditing(true)}>수정하기</S.Btn>
+              <Button onClick={() => setIsEditing(true)}>수정하기</Button>
             )}
           </>
         )}
       </S.BtnContainer>
-    </S.ToDoListContainer>
+    </S.ToDoListLayout>
   );
 };
 

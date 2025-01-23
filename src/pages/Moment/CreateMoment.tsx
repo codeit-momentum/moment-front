@@ -1,4 +1,4 @@
-import * as S from './Moment.style';
+import * as S from './CreateMoment.style';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
@@ -86,7 +86,7 @@ const CreateMoment = () => {
    * - MomentComplete 페이지로 이동
    */
   const handleNext = () => {
-    navigate('/moment-complete');
+    navigate('/moment/complete');
     console.log('Move to MomentComplete Page');
   };
 
@@ -95,7 +95,7 @@ const CreateMoment = () => {
   }
 
   return (
-    <S.MomentLayout>
+    <S.CreateMomentLayout>
       {/* HeaderComponent: 항상 렌더링 */}
       <HeaderComponent
         title="목도리 뜨기"
@@ -135,7 +135,7 @@ const CreateMoment = () => {
           )}
         </>
       )}
-    </S.MomentLayout>
+    </S.CreateMomentLayout>
   );
 };
 

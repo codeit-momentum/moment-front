@@ -1,106 +1,119 @@
 import styled from 'styled-components';
-import { CommonBox, CommonBoxLabel } from '../../styles/CommonStyles';
 
 /**
  * Container : 전체 페이지 컨테이너
  */
-export const Container = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  padding: 20px;
-  gap: 20px;
-  height: calc(100vh - 60px); // 네비게이션 바 높이를 제외한 전체 높이 설정
-  overflow-y: auto; // 스크롤 가능
+export const MomentCompleteLayout = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'column',
+      justify: 'flex-start',
+    })};
+  width: 100%;
+  gap: 1rem;
 `;
 /**
  * Title: 상단 제목
  */
-export const Title = styled.h1`
-  font-size: 36px;
+export const MomentCompleteTitle = styled.h1`
+  font-size: 20px;
   margin-bottom: 20px;
   margin-top: 40px;
+  color: ${({ theme }) => theme.colors.white};
 `;
 
 /**
  * DateContainer : 날짜 박스 컨테이너
  */
 export const DateContainer = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  gap: 5px;
-  padding: 26px 36px;
-  background-color: ${({ theme }) => theme.colors.gray};
-  width: 100%;
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({ direction: 'row', align: 'center', justify: 'center' })};
+  gap: 2.2rem;
+  width: 29.5rem;
+  height: 4.7rem;
+  margin-top: 2rem;
+  background-color: ${({ theme }) => theme.colors.yellow};
 `;
 
 /**
  * DateBox : 날짜 박스
  */
-export const DateBox = styled.div`
-  font-size: 24px;
-  background-color: ${({ theme }) => theme.colors.white};
-  padding: 8px 16px;
-  width: 100%;
-  text-align: center;
-`;
-/**
- * Arrow : 날짜 박스 사이 화살표
- */
-export const Arrow = styled.div`
-  font-size: 20px;
+export const DateText = styled.div`
+  font-size: 16px;
   color: ${({ theme }) => theme.colors.black};
+  text-align: center;
 `;
 
 /**
  * MethodBox : 방법 리스트를 감싸는 컨테이너
  */
-export const MethodBox = styled(CommonBox)`
-  margin-top: 15px;
+export const MethodContainer = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({ direction: 'column', align: 'center', justify: 'center' })};
+  margin-top: 1rem;
+  width: 100%;
+  padding: 1rem 1.8rem;
+  background-color: ${({ theme }) => theme.colors.blue};
 `;
 
 /**
  * MethodLabel : 방법 섹션의 제목
  */
-export const MethodLabel = styled(CommonBoxLabel)``;
+export const MethodLabel = styled.span`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({ align: 'center', justify: 'center' })};
+  padding: 0.5rem 2.4rem;
+  border-radius: 1rem;
+  background-color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
+  text-align: center;
+  font-size: 16px;
+`;
 
 /**
  * MethodList : 방법 리스트
  */
-export const MethodList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+export const MethodListItemWrapper = styled.div`
+  ${({ theme: { mixin } }) => mixin.flexBox({ direction: 'column' })};
+  gap: 1.5rem;
+  width: 100%;
+  padding: 1.5rem 0;
 `;
 
 /**
- * MethodItem : 각각의 방법 항목
+ * MethodItem : 방법 항목
  */
-export const MethodItem = styled.li`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  gap: 14px;
-  font-size: 14px;
-  padding: 10px 5px;
-  border-radius: 4px;
+export const MethodItem = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({ direction: 'row', align: 'flex-start' })};
+  gap: 1rem;
 `;
 
 /**
  * MethodId : 방법 항목 ID
  */
 export const MethodId = styled.span`
-  font-size: 14px;
-  font-weight: bold;
-  padding: 4px 6px;
-  background-color: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.black};
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({ align: 'center', justify: 'center' })};
+  width: 3.7rem;
+  height: 2.8rem;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.yellow};
 `;
 
 /**
  * MethodDescription : 방법 항목 설명
  */
 export const MethodDescription = styled.span`
+  width: 24.2rem;
+  height: auto;
   font-size: 14px;
   white-space: pre-wrap;
-  line-height: 20px;
-  color: ${({ theme }) => theme.colors.black};
+  line-height: 26px;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+export const BtnContainer = styled.div`
+  ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'center' })};
+  margin-top: 2rem;
 `;

@@ -1,36 +1,41 @@
 import styled from 'styled-components';
-import {
-  CommonBox,
-  CommonBoxLabel,
-  CommonDiv,
-  CommonBtnContainer,
-  CommonBtn,
-} from '../../../styles/CommonStyles';
+import { CommonBox, CommonBoxLabel } from '../../../styles/CommonStyles';
 
 /**
  * ToDoListContainer : 투두리스트 전체를 감싸는 컨테이너
  */
 
-export const ToDoListContainer = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
+export const ToDoListLayout = styled.div`
+  $${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'column',
+      justify: 'flex-start',
+    })};
+    position: relative;
+  width: 100%;
+  padding: 0rem 3rem;
 `;
 
-export const Divider = styled(CommonDiv)``;
+export const Divider = styled.hr`
+  width: 100%;
+  height: 1px;
+  background-color: ${({ theme }) => theme.colors.yellow};
+  border: none;
+`;
 
 /**
  * Label : 투두리스트 제목 라벨 텍스트
  */
 export const Label = styled.h3`
   font-size: 16px;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
   text-align: center;
   white-space: pre-wrap;
-  line-height: 25px;
-  margin: 10px;
+  margin-top: 3.2rem;
 `;
 
 export const ToDoBox = styled(CommonBox)`
-  margin: 20px;
+  margin-top: 2rem;
 `;
 export const ToDoBoxLabel = styled(CommonBoxLabel)``;
 
@@ -94,19 +99,18 @@ export const TodoContent = styled.span`
  */
 export const LoadingText = styled.p`
   font-size: 16px;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
   text-align: center;
   margin: 20px 0;
 `;
 /**
  * BtnContainer : 버튼을 포함하는 컨테이너
  */
-export const BtnContainer = styled(CommonBtnContainer)`
-  margin-top: 10px;
-  margin-bottom: 10px;
+export const BtnContainer = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'row',
+    })};
+  gap: 3rem;
+  margin-top: 3rem;
 `;
-
-/**
- * Btn : 수정 및 완료 버튼
- */
-export const Btn = styled(CommonBtn)``;

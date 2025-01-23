@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './FrequencyBtnComponent.style';
+import Button from '../../Button/Button';
 
 /**
  * FrequencyBtn Props
@@ -46,31 +47,33 @@ const FrequencyBtnComponent = ({ onSelect, onNext }: FrequencyBtnProps) => {
   };
 
   return (
-    <S.FrequencyBtnContainer>
+    <S.FrequencyBtnLayout>
       <S.Divider />
       <S.Label>모멘트의 실행 빈도는</S.Label>
-      <S.BtnGrid>
-        {frequencyOptions.map((option) => (
-          <S.CircleBtn
-            key={option.value}
-            $isSelected={selectedOption === option.value}
-            onClick={() => handleSelect(option.value)}
-          >
-            {option.label.split('\n').map((text, index) => (
-              <React.Fragment key={index}>
-                {text}
-                {index === 0 && <br />}
-              </React.Fragment>
-            ))}
-          </S.CircleBtn>
-        ))}
-      </S.BtnGrid>
+      <S.FrequencyBtnContainer>
+        <S.FrequencyBtnGrid>
+          {frequencyOptions.map((option) => (
+            <S.FrequencyBtn
+              key={option.value}
+              $isSelected={selectedOption === option.value}
+              onClick={() => handleSelect(option.value)}
+            >
+              {option.label.split('\n').map((text, index) => (
+                <React.Fragment key={index}>
+                  {text}
+                  {index === 0 && <br />}
+                </React.Fragment>
+              ))}
+            </S.FrequencyBtn>
+          ))}
+        </S.FrequencyBtnGrid>
+      </S.FrequencyBtnContainer>
       <S.BtnContainer>
-        <S.NextBtn disabled={!selectedOption} onClick={handleNext}>
-          다음{'>'}
-        </S.NextBtn>
+        <Button disabled={!selectedOption} onClick={handleNext}>
+          확인
+        </Button>
       </S.BtnContainer>
-    </S.FrequencyBtnContainer>
+    </S.FrequencyBtnLayout>
   );
 };
 

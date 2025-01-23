@@ -15,6 +15,7 @@ export const Divider = styled.hr`
   height: 1px;
   background-color: ${({ theme }) => theme.colors.yellow};
   border: none;
+  margin-top: 1.5rem;
 `;
 
 /**
@@ -82,7 +83,7 @@ export const DurationInput = styled.input`
 export const DurationText = styled.span`
   width: 8rem;
   height: 4rem;
-  font-size: 24px;
+  font-size: 32px;
 `;
 
 /**
