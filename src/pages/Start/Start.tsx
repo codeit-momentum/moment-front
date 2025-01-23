@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as S from './Start.style';
 import OnboardingSection from '../../components/OnboardingSection/OnboardingSection';
+import * as S from './Start.style';
 
 const Start = () => {
   const navigate = useNavigate();
@@ -17,7 +17,6 @@ const Start = () => {
   return (
     <S.StartPageLayout>
       <OnboardingSection />
-      <S.LoginSpaceBox />
     </S.StartPageLayout>
   );
 };
