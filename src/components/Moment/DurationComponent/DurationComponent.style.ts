@@ -51,7 +51,7 @@ export const DurationInput = styled.input`
   background-color: ${({ readOnly, theme }) =>
     readOnly ? theme.colors.gray : theme.colors.white};
   color: ${({ readOnly, theme }) =>
-    readOnly ? theme.colors.black : theme.colors.primary};
+    readOnly ? theme.colors.black : theme.colors.white};
   cursor: ${({ readOnly }) => (readOnly ? 'default' : 'text')};
 
   &::-webkit-inner-spin-button,
@@ -62,7 +62,7 @@ export const DurationInput = styled.input`
 
   &:focus {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }) => theme.colors.white};
   }
 `;
 

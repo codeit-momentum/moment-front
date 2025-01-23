@@ -5,32 +5,50 @@ import styled from 'styled-components';
  * - 제목과 부제목을 포함하는 최상위 컨테이너
  */
 
-export const HeaderContainer = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  margin-top: 76px;
-  margin-bottom: 5px;
-  text-align: center;
+export const HeaderLayout = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'column',
+      justify: 'flex-start',
+    })};
+  width: 100%;
+  position: relative;
+  padding-top: 5rem;
 `;
 
-/**
- * Title : 화면 상단의 주요 제목
- */
-
-export const Title = styled.h1`
-  font-size: 36px;
-  line-height: 37px;
-  text-align: center;
-  letter-spacing: -0.32px;
-  margin-bottom: 15px; //제목과 부제목 사이의 간격
+export const BackBtn = styled.button`
+  position: absolute;
+  top: 0.1rem;
+  left: 0.1rem;
+  width: 4rem;
+  height: 4rem;
+  background: none;
+  border: none;
 `;
 
-/**
- * Subtitle : 제목 아래의 표시될 부제목
- */
-export const Subtitle = styled.h2`
-  font-size: 24px;
-  line-height: 37px;
-  letter-spacing: -0.32px;
+export const HeaderTitleContainer = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({ direction: 'row', align: 'center', justify: 'center' })};
+  margin-bottom: 2rem;
+  gap: 1.5rem;
+  display: flex;
+  margin-top: 2rem;
+`;
+export const IconWrapper = styled.div`
+  width: 4.2rem;
+  height: 4.2rem;
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({ align: 'center', justify: 'center' })}
+`;
+
+export const HeaderTitle = styled.h1`
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+export const HeaderSubtitle = styled.p`
+  font-size: 16px;
   text-align: center;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
+  margin-bottom: 8.5rem;
 `;
