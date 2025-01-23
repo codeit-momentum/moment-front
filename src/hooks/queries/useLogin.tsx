@@ -16,11 +16,10 @@ interface UserResponse {
 }
 
 const fetchUser = async (token: string): Promise<UserResponse> => {
-  const userResponse = await instance.post('/auth/kakao-login/user', {
+  const response = await instance.post('/auth/kakao-login/user', {
     kakaoAccessToken: token,
   });
-
-  return userResponse.data;
+  return response.data;
 };
 
 const fetchKakaoLogin = async (code: string): Promise<UserResponse> => {
@@ -37,16 +36,12 @@ const useLogin = (code: string | null) => {
   const loginMutation = useMutation({
     mutationFn: (code: string) => fetchKakaoLogin(code),
     onSuccess: (data) => {
-      // 토큰을 로컬 스토리지에 저장
       localStorage.setItem('accessToken', data.accessToken);
-
-      // 로그인 성공 시 페이지 완전 리로드
-      window.location.replace('/home');
+      // 콜백 페이지 기록 삭제
+      navigate('/home', { replace: true });
     },
     onError: (error) => {
       console.error('Login failed:', error);
-
-      // 에러 메세지 확인을 위해 navigate 사용
       navigate('/login');
     },
   });
