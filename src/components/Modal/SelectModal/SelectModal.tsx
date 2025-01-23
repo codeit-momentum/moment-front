@@ -21,14 +21,8 @@ const SelectModal = ({
         <S.ModalContent>{content}</S.ModalContent>
       </S.InfoContainer>
       <S.SelectContainer>
+        <S.SelectButton onClick={onSubmit}>네</S.SelectButton>
         <S.SelectButton onClick={onClose}>아니오</S.SelectButton>
-        <S.SelectButton
-          onClick={() => {
-            onSubmit();
-          }}
-        >
-          네
-        </S.SelectButton>
       </S.SelectContainer>
     </S.SelectModalLayout>
   );
