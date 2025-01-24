@@ -2,6 +2,7 @@ import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';
 import * as S from './EditProfile.style';
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import mockImage from '../../../assets/images/mockImage.jpg';
+import Button from '../../../components/Button/Button';
 
 const EditProfile = () => {
   const values = {
@@ -60,7 +61,7 @@ const EditProfile = () => {
             <S.ProfileItemInput value={values.email} readOnly />
           </S.InputItemContainer>
         </S.InputContainer>
-        <S.Btn type="submit">저장하기</S.Btn>
+        <Button type="submit">저장하기</Button>
       </S.EditForm>
     </S.EditProfileLayout>
   );

@@ -1,4 +1,5 @@
 import IcSearch from '../../../assets/svg/IcSearch';
+import Button from '../../../components/Button/Button';
 import Modal from '../../../components/Modal/Modal';
 import SelectModal from '../../../components/Modal/SelectModal/SelectModal';
 import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';
@@ -61,7 +62,17 @@ const Friend = () => {
         }
       </S.SearchForm>
       <S.SubtitleSpan>나의 친구 코드</S.SubtitleSpan>
-      <S.CodeBox>dsadsada</S.CodeBox>
+      <Button
+        type="button"
+        customStyle={{
+          width: '15rem',
+          height: '4rem',
+          fontSize: '16px',
+          lineHeight: '20px',
+        }}
+      >
+        COUT0127
+      </Button>
       <S.InfoTextSpan>클릭 시 텍스트가 복사됩니다.</S.InfoTextSpan>
     </S.FriendLayout>
   );
