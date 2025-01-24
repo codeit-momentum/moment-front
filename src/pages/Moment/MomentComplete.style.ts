@@ -11,6 +11,7 @@ export const MomentCompleteLayout = styled.div`
     })};
   width: 100%;
   gap: 1rem;
+  position: relative;
 `;
 /**
  * Title: 상단 제목

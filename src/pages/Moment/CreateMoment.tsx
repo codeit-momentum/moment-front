@@ -1,6 +1,6 @@
 import * as S from './CreateMoment.style';
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigationType, useNavigate, useLocation } from 'react-router-dom';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import DurationComponent from '../../components/Moment/DurationComponent/DurationComponent';
 import LoadingSpinner from '../../components/Moment/LoadingSpinner/LoadingSpinner';
@@ -8,6 +8,7 @@ import ToDoListComponent from '../../components/Moment/ToDoListComponent/ToDoLis
 import FrequencyBtnComponent from '../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
 import { useApi } from '../../hooks/useApi';
 import { ModeType } from '../../types/modeType';
+import BackBtn from '../../components/BackBtn/BackBtn';
 
 /**
  * Moment
@@ -25,6 +26,7 @@ const CreateMoment = () => {
   const { isLoading, data, fetchData } = useApi();
   // 페이지 이동을 위한 useNavigate
   const navigate = useNavigate();
+  const navigationType = useNavigationType();
   const location = useLocation(); //Query String을 읽기 위한 useLocation
   const query = new URLSearchParams(location.search);
   const mode = query.get('mode') as ModeType; // Query String에서 mode 추출
@@ -93,10 +95,18 @@ const CreateMoment = () => {
   if (!isModeValid) {
     return <div>올바른 모드를 선택해주세요.</div>;
   }
+  // 이전 페이지가 moment 페이지인가..?
+  const handleBack = () => {
+    if (navigationType === 'POP') {
+      navigate('/moment'); // POP 상태에서는 지정된 경로로 이동
+    } else {
+      navigate(-1); // 다른 상태에서는 이전 페이지로 이동
+    }
+  };
 
   return (
     <S.CreateMomentLayout>
-      {/* HeaderComponent: 항상 렌더링 */}
+      <BackBtn onClick={handleBack} />
       <HeaderComponent
         title="목도리 뜨기"
         subtitle="버킷리스트를 시작해볼까요!"

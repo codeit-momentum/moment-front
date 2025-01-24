@@ -3,6 +3,7 @@ import * as S from './SelectMode.style';
 import { ModeType } from '../../types/modeType';
 import Button from '../../components/Button/Button';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
+import BackBtn from '../../components/BackBtn/BackBtn';
 /**
  * SelectMode
  * - 자동/수동 모드를 선택하는 페이지
@@ -23,13 +24,14 @@ const SelectMode = () => {
   // 이전 페이지가 moment 페이지인가..?
   const handleBack = () => {
     if (navigationType === 'POP') {
-      navigate('/moment');
+      navigate('/moment'); // POP 상태에서는 지정된 경로로 이동
     } else {
-      navigate(-1);
+      navigate(-1); // 다른 상태에서는 이전 페이지로 이동
     }
   };
   return (
     <S.SelectModeLayout>
+      <BackBtn onClick={handleBack} />
       {/* HeaderComponent 적용 */}
       <HeaderComponent
         title="목도리 뜨기"

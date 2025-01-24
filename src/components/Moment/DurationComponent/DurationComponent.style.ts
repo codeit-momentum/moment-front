@@ -46,7 +46,6 @@ export const DisplayContainer = styled.div`
     mixin.flexBox({
       direction: 'row',
     })};
-  margin: 1rem;
   gap: 1rem;
 `;
 
@@ -81,9 +80,8 @@ export const DurationInput = styled.input`
  * DurationText: 날짜을 표시하는 텍스트
  */
 export const DurationText = styled.span`
-  width: 8rem;
-  height: 4rem;
   font-size: 32px;
+  color: ${({ theme }) => theme.colors.yellow};
 `;
 
 /**

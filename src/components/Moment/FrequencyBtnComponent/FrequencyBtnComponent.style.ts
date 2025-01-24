@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { CommonBtn, CommonDiv } from '../../../styles/CommonStyles';
 
 /**
  * FrequencyBtnContainer : 실행 빈도 선택 버튼 전체를 감싸는 컨테이너

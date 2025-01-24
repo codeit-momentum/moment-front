@@ -16,16 +16,6 @@ export const HeaderLayout = styled.div`
   padding-top: 5rem;
 `;
 
-export const BackBtn = styled.button`
-  position: absolute;
-  top: 0.1rem;
-  left: 0.1rem;
-  width: 4rem;
-  height: 4rem;
-  background: none;
-  border: none;
-`;
-
 export const HeaderTitleContainer = styled.div`
   ${({ theme: { mixin } }) =>
     mixin.flexBox({ direction: 'row', align: 'center', justify: 'center' })};

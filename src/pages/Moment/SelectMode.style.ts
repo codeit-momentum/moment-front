@@ -17,6 +17,7 @@ export const BtnContainer = styled.div`
       direction: 'column',
     })};
   gap: 5.7rem;
+  margin-top: 9rem;
 `;
 export const BtnHighlightedText = styled.span<{ color: string }>`
   color: ${(props) => props.color || 'inherit'};

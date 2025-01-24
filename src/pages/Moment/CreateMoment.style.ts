@@ -7,4 +7,5 @@ export const CreateMomentLayout = styled.div`
       justify: 'flex-start',
     })};
   width: 100%;
+  position: relative;
 `;

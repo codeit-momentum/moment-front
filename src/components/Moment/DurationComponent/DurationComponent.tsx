@@ -77,16 +77,23 @@ const DurationComponent = ({
     <S.DurationLayout>
       <S.Divider />
       <S.Label>예상 소요 기간은</S.Label>
-      <S.InputContainer>
-        <S.DurationInput
-          type="text"
-          value={inputValue}
-          onChange={(e) => handleInputChange(e.target.value)}
-          min={1}
-          readOnly={!isEditing}
-        />
-        <S.Unit>일</S.Unit>
-      </S.InputContainer>
+      {isEditing || !isConfirmed ? (
+        <S.InputContainer>
+          <S.DurationInput
+            type="text"
+            value={inputValue}
+            onChange={(e) => handleInputChange(e.target.value)}
+            min={1}
+            readOnly={!isEditing}
+          />
+          <S.Unit>일</S.Unit>
+        </S.InputContainer>
+      ) : (
+        <S.DisplayContainer>
+          <S.DurationText>{inputValue}</S.DurationText>
+          <S.Unit>일</S.Unit>
+        </S.DisplayContainer>
+      )}
       <S.BtnContainer>
         {!isConfirmed && (
           <>
