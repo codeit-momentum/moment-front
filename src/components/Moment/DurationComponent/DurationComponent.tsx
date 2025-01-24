@@ -9,7 +9,7 @@ interface DurationProps {
   mode: ModeType; // 'auto' 또는 'manual'
   initialDuration?: number | null; // 자동 모드의 초기 값
   onEdit: (duration: number) => void; // 수정 및 확정 시 상위 컴포넌트로 전달
-  isLoading: boolean;
+  isLoading: boolean; //로딩 상태
 }
 
 /**
@@ -70,9 +70,9 @@ const DurationComponent = ({
       <S.Divider />
       <S.Label>예상 소요 기간은</S.Label>
       {isLoading ? (
-        <S.LoadingWrapper>
+        <S.DurationLoadingWrapper>
           <IcLoading />
-        </S.LoadingWrapper>
+        </S.DurationLoadingWrapper>
       ) : isEditing || (!isConfirmed && mode === 'manual') ? (
         // 입력 필드 노출
         <S.InputContainer>

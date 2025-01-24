@@ -39,7 +39,7 @@ const MomentComplete = ({ apiUrl }: MomentCompleteProps) => {
   const [data, setData] = useState<MomentData[]>(mockMomentData); // 초기값은 목데이터
   const [startDate, setStartDate] = useState('2024.01.01'); // 임시 시작 날짜
   const [endDate, setEndDate] = useState('2024.01.14'); // 임시 종료 날짜
-  const [loading, setLoading] = useState(false); // 로딩 상태 관리 -> 로딩 상태 관리 해야하는가..?
+  const [loading, setLoading] = useState(false); // 로딩 상태 관리 -> 로딩 상태 관리 해야하는가..? -> 백연결시 필요한가,,
   const [error, setError] = useState<string | null>(null); // 에러 메시지 관리 -> 추후 작업
 
   // API 연동 로직

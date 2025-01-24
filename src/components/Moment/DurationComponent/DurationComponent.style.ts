@@ -28,7 +28,7 @@ export const Label = styled.h3`
   font-size: 16px;
 `;
 
-export const LoadingWrapper = styled.div`
+export const DurationLoadingWrapper = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   margin-top: 1rem;
 `;
