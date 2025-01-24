@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as S from './ToDoListComponent.style';
-import { ModeType } from '../../../types/modeType';
+import { ModeType } from '../../../types/moment/modeType';
 import IcLoading from '../../../assets/svg/IcLoading';
 import IcEdit from '../../../assets/svg/IcEdit';
 import IcConfirm from '../../../assets/svg/IcConfirm';

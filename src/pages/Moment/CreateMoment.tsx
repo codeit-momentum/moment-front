@@ -5,9 +5,14 @@ import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderCompo
 import DurationComponent from '../../components/Moment/DurationComponent/DurationComponent';
 import ToDoListComponent from '../../components/Moment/ToDoListComponent/ToDoListComponent';
 import FrequencyBtnComponent from '../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
-import fetchMockData, { TodoResponse } from '../../apis/mockApi'; // 목데이터 가져오기
-import { ModeType } from '../../types/modeType';
+import {
+  fetchMockData,
+  fetchTodoListFromAI,
+  TodoResponse,
+} from '../../apis/mockApi';
+import { ModeType } from '../../types/moment/modeType';
 import BackBtn from '../../components/BackBtn/BackBtn';
+import { createMoment } from '../../apis/createMomentApi';
 
 /**
  * Moment
@@ -18,6 +23,8 @@ const CreateMoment = () => {
   // 상태 관리
   const [duration, setDuration] = useState<number | null>(null); // 예상 소요 기간
   const [todoList, setTodoList] = useState<string[]>([]); // 투두리스트 데이터
+  const [frequency, setFrequency] = useState<string | null>(null); // 빈도수 데이터
+
   const [isDurationConfirmed, setIsDurationConfirmed] = useState(false); // Duration 확정 여부
   const [isTodoConfirmed, setIsTodoConfirmed] = useState(false); // ToDoList 확정 여부
 
@@ -28,8 +35,11 @@ const CreateMoment = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const mode = query.get('mode') as ModeType; // auto 또는 manaul
-
   const [isModeValid, setIsModeValid] = useState(true); // 모드 유효성 검사 상태 추가
+
+  if (!isModeValid) {
+    return <div>올바른 모드를 선택해주세요.</div>;
+  }
 
   useEffect(() => {
     // mode 유효성 검사
@@ -44,7 +54,7 @@ const CreateMoment = () => {
   useEffect(() => {
     if (mode === 'auto') {
       setIsLoading(true);
-      fetchMockData()
+      fetchMockData() // 실제 API로 전환 시 fetchTodoListFromAI 호출
         .then((data: TodoResponse) => {
           setDuration(data.duration);
           setTodoList(data.todoList);
@@ -76,20 +86,37 @@ const CreateMoment = () => {
   /**
    * Frequency "다음" 버튼 핸들러
    * - 사용자가 FrequencyBtnComponent에서 "다음" 버튼을 누를 때 호출
+   * - 백엔드로 데이터 전달
    * - MomentComplete 페이지로 이동
    */
-  const handleNext = () => {
-    navigate('/moment/complete');
-    console.log('Move to MomentComplete Page');
-  };
+  const handleNext = async () => {
+    if (!frequency) {
+      alert('빈도를 선택해주세요!');
+      return;
+    }
 
-  if (!isModeValid) {
-    return <div>올바른 모드를 선택해주세요.</div>;
-  }
-  // 이전 페이지가 moment 페이지인가..?
+    const payload = {
+      duration,
+      todoList,
+      frequency,
+    };
+
+    try {
+      // API 호출 부분을 주석 처리
+      // const response = await createMoment(payload);
+      // console.log('Moment 저장 성공:', response);
+
+      alert('Moment가 임시로 저장되었습니다.'); // 임시 알림
+      navigate('/moment/complete'); // 다음 페이지로 이동
+    } catch (error) {
+      console.error('Moment 저장 실패:', error);
+      alert('Moment 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+  // BackBtn 기능 안함,, 추후 리팩토링할 예정
   const handleBack = () => {
     if (navigationType === 'POP') {
-      navigate('/moment'); // POP 상태에서는 지정된 경로로 이동
+      navigate('/moment/select-mode'); // POP 상태에서는 지정된 경로로 이동
     } else {
       navigate(-1); // 다른 상태에서는 이전 페이지로 이동
     }
@@ -122,7 +149,7 @@ const CreateMoment = () => {
 
       {isTodoConfirmed && (
         <FrequencyBtnComponent
-          onSelect={(selected) => console.log(selected)}
+          onSelect={(selected) => setFrequency(selected)} // 상태 저장
           onNext={handleNext}
         />
       )}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as S from './DurationComponent.style';
 import { useEditable } from '../../../hooks/useEditable';
-import { ModeType } from '../../../types/modeType';
+import { ModeType } from '../../../types/moment/modeType';
 import Button from '../../Button/Button';
 import IcLoading from '../../../assets/svg/IcLoading';
 

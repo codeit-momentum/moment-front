@@ -1,6 +1,6 @@
 import { useNavigationType, useNavigate } from 'react-router-dom';
 import * as S from './SelectMode.style';
-import { ModeType } from '../../types/modeType';
+import { ModeType } from '../../types/moment/modeType';
 import Button from '../../components/Button/Button';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import BackBtn from '../../components/BackBtn/BackBtn';
@@ -21,7 +21,7 @@ const SelectMode = () => {
     navigate(`/moment/create-moment?mode=${mode}`); //Query String으로 mode 전달
   };
 
-  // 이전 페이지가 moment 페이지인가..?
+  // 이전 페이지가 moment 페이지인가..? -> handleBack이 기능을 안함,,,
   const handleBack = () => {
     if (navigationType === 'POP') {
       navigate('/moment'); // POP 상태에서는 지정된 경로로 이동

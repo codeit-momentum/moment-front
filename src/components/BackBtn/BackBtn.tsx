@@ -7,7 +7,12 @@ interface BackBtnProps {
 
 const BackBtn = ({ onClick }: BackBtnProps) => {
   return (
-    <S.BackBtnWrapper onClick={onClick}>
+    <S.BackBtnWrapper
+      onClick={() => {
+        console.log('BackBtn clicked');
+        onClick();
+      }}
+    >
       <IcBack />
     </S.BackBtnWrapper>
   );
