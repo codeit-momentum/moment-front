@@ -27,6 +27,12 @@ export const Label = styled.h3`
   margin-bottom: 1rem;
   font-size: 16px;
 `;
+
+export const LoadingWrapper = styled.div`
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
+  margin-top: 1rem;
+`;
+
 /**
  * InputContainer: 입력 필드와 버튼을 포함하는 컨테이너
  */
@@ -46,7 +52,7 @@ export const DisplayContainer = styled.div`
     mixin.flexBox({
       direction: 'row',
     })};
-  gap: 1rem;
+  margin-top: 0.5rem;
 `;
 
 /**
@@ -68,11 +74,6 @@ export const DurationInput = styled.input`
   &::-webkit-outer-spin-button {
     -webkit-appearance: none; // 브라우저 기본 스핀 버튼 제거
     margin: 0;
-  }
-
-  &:focus {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.white};
   }
 `;
 
@@ -101,5 +102,5 @@ export const BtnContainer = styled.div`
       direction: 'row',
     })};
   gap: 3rem;
-  margin-top: 3rem;
+  margin-top: 2rem;
 `;
