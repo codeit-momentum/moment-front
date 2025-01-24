@@ -1,23 +1,28 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as S from './Start.style';
+import { getAccessToken } from '../../apis/client';
 import OnboardingSection from '../../components/OnboardingSection/OnboardingSection';
+import * as S from './Start.style';
 
 const Start = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('/login');
+      // access 토큰이 있는 경우 홈페이지로 리다이렉트
+      if (getAccessToken()) {
+        navigate('/home');
+      } else {
+        navigate('/login');
+      }
     }, 3000);
 
     return () => clearTimeout(timer);
-  });
+  }, []);
 
   return (
     <S.StartPageLayout>
       <OnboardingSection />
-      <S.LoginSpaceBox />
     </S.StartPageLayout>
   );
 };
