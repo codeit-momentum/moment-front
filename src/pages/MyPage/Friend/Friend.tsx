@@ -7,10 +7,12 @@ import useModal from '../../../hooks/common/useModal';
 import * as S from './Friend.style';
 import { useState } from 'react';
 import React from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const Friend = () => {
   const [friendCode, setFriendCode] = useState<string>('');
   const [isOpen, openModal, closeModal] = useModal();
+  const code = 'COUT0127';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -52,7 +54,7 @@ const Friend = () => {
         </S.InputContainer>
         {
           //추후 수정 예정
-          friendCode.length < 8 && (
+          friendCode.length > 8 && (
             <S.WarningSpan>
               코드는 8자리입니다.
               <br />
@@ -62,17 +64,22 @@ const Friend = () => {
         }
       </S.SearchForm>
       <S.SubtitleSpan>나의 친구 코드</S.SubtitleSpan>
-      <Button
-        type="button"
-        customStyle={{
-          width: '15rem',
-          height: '4rem',
-          fontSize: '16px',
-          lineHeight: '20px',
-        }}
+      <CopyToClipboard
+        text={code}
+        onCopy={() => alert('코드가 복사되었습니다.')}
       >
-        COUT0127
-      </Button>
+        <Button
+          type="button"
+          $customstyle={{
+            width: '15rem',
+            height: '4rem',
+            fontSize: '16px',
+            lineHeight: '20px',
+          }}
+        >
+          {code}
+        </Button>
+      </CopyToClipboard>
       <S.InfoTextSpan>클릭 시 텍스트가 복사됩니다.</S.InfoTextSpan>
     </S.FriendLayout>
   );
