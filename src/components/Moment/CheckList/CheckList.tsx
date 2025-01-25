@@ -46,6 +46,12 @@ const CheckList = ({ variant }: CheckListProps) => {
     setBucketList((prev) =>
       prev.map((it) => (it.id === id ? { ...it, title: newTitle } : it)),
     );
+    // 여기서 post api 요청
+  };
+
+  const handleDeleteItem = (id: number) => {
+    setBucketList((prev) => prev.filter((it) => it.id !== id));
+    // 여기서 delete api 요청
   };
 
   return (
@@ -75,6 +81,7 @@ const CheckList = ({ variant }: CheckListProps) => {
           value={item.title}
           state={item.state}
           onUpdateItem={handleUpdateItem}
+          onDeleteItem={handleDeleteItem}
         />
       ))}
     </S.CheckListLayout>

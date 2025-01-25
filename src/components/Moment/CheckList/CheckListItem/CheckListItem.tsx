@@ -8,6 +8,7 @@ import IcCheckboxProcessing from '../../../../assets/svg/IcCheckboxProcessing';
 import IcCheckboxCompleted from '../../../../assets/svg/IcCheckboxCompleted';
 import IcCheckboxPending from '../../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckListItem.style';
+import { useNavigate } from 'react-router-dom';
 
 interface CheckListItemProps {
   id: number;
@@ -15,6 +16,7 @@ interface CheckListItemProps {
   value: string;
   state: StateType | number;
   onUpdateItem: (arg0: number, arg1: string) => void;
+  onDeleteItem: (arg0: number) => void;
 }
 
 const StateIcons = {
@@ -29,19 +31,36 @@ const CheckListItem = ({
   value,
   state,
   onUpdateItem,
+  onDeleteItem,
 }: CheckListItemProps) => {
   const [isOpen, openModal, closeModal] = useModal();
   const [isEditing, setIsEditing] = useState(false);
   const [itemValue, setItemValue] = useState(value);
+  const navigate = useNavigate();
 
   const handleItemClick = () => {
-    if (isEditing) return;
+    // 시작 전인 버킷리스트에 대해서만 모달 띄움
+    if (state !== 'pending' || isEditing) return;
     openModal();
   };
 
   const handleEditClick = () => {
     setIsEditing(true);
     closeModal();
+  };
+
+  const hadleDeleteClick = () => {
+    onDeleteItem(id);
+    closeModal();
+  };
+
+  const handleCreateClick = () => {
+    // 여기서 버킷리스트 id 넘겨야 하는데,,, 어떻게 넘겨야 할지 지윤님과 논의 필요
+    navigate('/moment/select-mode');
+  };
+
+  const handleUploadClick = () => {
+    navigate(`upload/${id}`);
   };
 
   const handleUpdateItem = () => {
@@ -81,8 +100,11 @@ const CheckListItem = ({
           <CheckListModal
             variant={variant}
             title={itemValue}
-            onClose={() => closeModal()}
+            onClose={closeModal}
             onClickEdit={handleEditClick}
+            onClickDelete={hadleDeleteClick}
+            onClickCreate={handleCreateClick}
+            onClickUpload={handleUploadClick}
           />
         </Modal>
       )}
