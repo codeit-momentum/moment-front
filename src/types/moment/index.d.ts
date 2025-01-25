@@ -6,4 +6,5 @@ export interface BucketListType {
   state: StateType;
 }
 
-export type CheckListVariant = '반복형' | '달성형';
+export type CheckListType = 'recurring' | 'achievement';
+export type ListItemType = 'create' | CheckListType;

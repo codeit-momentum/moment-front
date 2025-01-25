@@ -1,6 +1,6 @@
 import { KeyboardEvent, useState } from 'react';
 import { handleResizeHeight } from '../../../utils/moment';
-import { BucketListType, CheckListVariant } from '../../../types/moment';
+import { BucketListType, CheckListType } from '../../../types/moment';
 import CheckListItem from './CheckListItem/CheckListItem';
 import IcCheckboxPending from '../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckList.style';
@@ -14,10 +14,10 @@ const bucketlist: BucketListType[] = [
 ];
 
 type CheckListProps = {
-  variant: CheckListVariant;
+  type: CheckListType;
 };
 
-const CheckList = ({ variant }: CheckListProps) => {
+const CheckList = ({ type }: CheckListProps) => {
   const [bucketList, setBucketList] = useState<BucketListType[]>(bucketlist);
   const [newItem, setNewItem] = useState<string>('');
 
@@ -56,7 +56,7 @@ const CheckList = ({ variant }: CheckListProps) => {
 
   return (
     <S.CheckListLayout>
-      <S.TitleSpan>{variant}</S.TitleSpan>
+      <S.TitleSpan>{type}</S.TitleSpan>
       {/* 새 버킷리스트 추가 */}
       <S.InputContainer>
         <S.CheckBoxWrapper>
@@ -77,7 +77,7 @@ const CheckList = ({ variant }: CheckListProps) => {
         <CheckListItem
           key={item.id}
           id={item.id}
-          variant={variant}
+          type={type}
           value={item.title}
           state={item.state}
           onUpdateItem={handleUpdateItem}

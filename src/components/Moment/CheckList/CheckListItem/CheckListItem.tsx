@@ -1,6 +1,5 @@
-import { useState, KeyboardEvent } from 'react';
-import { CheckListVariant, StateType } from '../../../../types/moment';
-import { handleResizeHeight } from '../../../../utils/moment';
+import { useState, useEffect, useRef, KeyboardEvent } from 'react';
+import { ListItemType, StateType } from '../../../../types/moment';
 import useModal from '../../../../hooks/common/useModal';
 import Modal from '../../../Modal/Modal';
 import CheckListModal from '../../../Modal/CheckListModal/CheckListModal';
@@ -12,11 +11,12 @@ import { useNavigate } from 'react-router-dom';
 
 interface CheckListItemProps {
   id: number;
-  variant: CheckListVariant;
+  type: ListItemType;
   value: string;
   state: StateType | number;
+  editState?: boolean;
   onUpdateItem: (arg0: number, arg1: string) => void;
-  onDeleteItem: (arg0: number) => void;
+  onDeleteItem?: (arg0: number) => void;
 }
 
 const StateIcons = {
@@ -27,21 +27,46 @@ const StateIcons = {
 
 const CheckListItem = ({
   id,
-  variant,
+  type,
   value,
   state,
+  editState = false,
   onUpdateItem,
-  onDeleteItem,
+  onDeleteItem = () => {},
 }: CheckListItemProps) => {
   const [isOpen, openModal, closeModal] = useModal();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(editState);
   const [itemValue, setItemValue] = useState(value);
   const navigate = useNavigate();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = ' 20px';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [value]);
 
   const handleItemClick = () => {
     // 시작 전인 버킷리스트에 대해서만 모달 띄움
-    if (state !== 'pending' || isEditing) return;
+    if (type === 'create' || state !== 'pending' || isEditing) return;
     openModal();
+  };
+
+  const handleUpdateItem = () => {
+    if (isEditing) {
+      onUpdateItem(id, itemValue);
+      if (type === 'create') return;
+      setIsEditing(false);
+      alert(`${itemValue}저장`);
+    }
+  };
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      handleUpdateItem();
+    }
   };
 
   const handleEditClick = () => {
@@ -63,21 +88,6 @@ const CheckListItem = ({
     navigate(`upload/${id}`);
   };
 
-  const handleUpdateItem = () => {
-    if (isEditing) {
-      onUpdateItem(id, itemValue);
-      setIsEditing(false);
-      alert(`${itemValue}저장`);
-    }
-  };
-
-  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
-      e.preventDefault();
-      handleUpdateItem();
-    }
-  };
-
   return (
     <>
       <S.CheckListItemLayout>
@@ -89,16 +99,15 @@ const CheckListItem = ({
           value={itemValue}
           onClick={handleItemClick}
           onChange={(e) => setItemValue(e.target.value)}
-          onInput={handleResizeHeight}
           onBlur={handleUpdateItem}
           onKeyDown={handleKeyPress}
           readOnly={!isEditing}
         />
       </S.CheckListItemLayout>
-      {isOpen && (
+      {type !== 'create' && isOpen && (
         <Modal>
           <CheckListModal
-            variant={variant}
+            type={type}
             title={itemValue}
             onClose={closeModal}
             onClickEdit={handleEditClick}
