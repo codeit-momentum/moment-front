@@ -1,6 +1,7 @@
 import { KeyboardEvent, useState } from 'react';
 import { handleResizeHeight } from '../../../utils/moment';
 import { BucketListType, CheckListType } from '../../../types/moment';
+import CheckListLayout from '../ContainerLayout/ContainerLayout';
 import CheckListItem from './CheckListItem/CheckListItem';
 import IcCheckboxPending from '../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckList.style';
@@ -55,8 +56,7 @@ const CheckList = ({ type }: CheckListProps) => {
   };
 
   return (
-    <S.CheckListLayout>
-      <S.TitleSpan>{type}</S.TitleSpan>
+    <CheckListLayout title={type}>
       {/* 새 버킷리스트 추가 */}
       <S.InputContainer>
         <S.CheckBoxWrapper>
@@ -84,7 +84,7 @@ const CheckList = ({ type }: CheckListProps) => {
           onDeleteItem={handleDeleteItem}
         />
       ))}
-    </S.CheckListLayout>
+    </CheckListLayout>
   );
 };
 

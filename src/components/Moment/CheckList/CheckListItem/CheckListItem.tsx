@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, KeyboardEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ListItemType, StateType } from '../../../../types/moment';
 import useModal from '../../../../hooks/common/useModal';
 import Modal from '../../../Modal/Modal';
@@ -7,7 +8,6 @@ import IcCheckboxProcessing from '../../../../assets/svg/IcCheckboxProcessing';
 import IcCheckboxCompleted from '../../../../assets/svg/IcCheckboxCompleted';
 import IcCheckboxPending from '../../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckListItem.style';
-import { useNavigate } from 'react-router-dom';
 
 interface CheckListItemProps {
   id: number;
@@ -49,14 +49,14 @@ const CheckListItem = ({
 
   const handleItemClick = () => {
     // 시작 전인 버킷리스트에 대해서만 모달 띄움
-    if (type === 'create' || state !== 'pending' || isEditing) return;
+    if (type === '생성형' || state !== 'pending' || isEditing) return;
     openModal();
   };
 
   const handleUpdateItem = () => {
     if (isEditing) {
       onUpdateItem(id, itemValue);
-      if (type === 'create') return;
+      if (type === '생성형') return;
       setIsEditing(false);
       alert(`${itemValue}저장`);
     }
@@ -104,7 +104,7 @@ const CheckListItem = ({
           readOnly={!isEditing}
         />
       </S.CheckListItemLayout>
-      {type !== 'create' && isOpen && (
+      {type !== '생성형' && isOpen && (
         <Modal>
           <CheckListModal
             type={type}

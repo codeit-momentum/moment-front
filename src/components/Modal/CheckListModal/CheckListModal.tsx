@@ -33,7 +33,7 @@ const CheckListModal = ({
         <S.ModalOptionButton onClick={onClickCreate}>
           나만의 모멘트 생성
         </S.ModalOptionButton>
-        {type === 'achievement' && (
+        {type === '달성형' && (
           <S.ModalOptionButton onClick={onClickUpload}>
             목표 달성 인증
           </S.ModalOptionButton>
