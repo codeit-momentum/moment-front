@@ -1,9 +1,9 @@
-import { FormEvent, useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
+import { handleResizeHeight } from '../../../utils/moment';
 import { BucketListType, CheckListVariant } from '../../../types/moment';
+import CheckListItem from './CheckListItem/CheckListItem';
+import IcCheckboxPending from '../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckList.style';
-import useModal from '../../../hooks/common/useModal';
-import Modal from '../../Modal/Modal';
-import CheckListModal from '../../Modal/CheckListModal/CheckListModal';
 
 // 목 데이터
 const bucketlist: BucketListType[] = [
@@ -13,13 +13,6 @@ const bucketlist: BucketListType[] = [
   { id: 4, title: '오픽 AL 따기 ', state: 'completed' },
 ];
 
-// SVG 아이콘으로 수정
-const StateIcons = {
-  completed: '완료',
-  inProgress: '진행',
-  pending: '',
-} as const;
-
 type CheckListProps = {
   variant: CheckListVariant;
 };
@@ -27,97 +20,64 @@ type CheckListProps = {
 const CheckList = ({ variant }: CheckListProps) => {
   const [bucketList, setBucketList] = useState<BucketListType[]>(bucketlist);
   const [newItem, setNewItem] = useState<string>('');
-  const [isOpen, openModal, closeModal] = useModal();
-  const [selectedItem, setSelectedItem] = useState<BucketListType | null>(null);
-  const [editingId, setEditingId] = useState<number | null>(null);
 
-  const handleAddItem = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!newItem.trim()) return;
+  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    // isComposing: 한글 입력 시 입력 중인 글자(마지막 글자)에 대해
+    // 이벤트 핸들러가 중복 실행되는 문제를 방지하기 위해 사용
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      const trimmedItem = newItem.trim();
+      if (!trimmedItem) return;
 
-    setBucketList((prev) => [
-      // 임의 id 생성
-      { id: Number(new Date()), title: newItem, state: 'pending' },
-      ...prev,
-    ]);
-    setNewItem('');
+      setBucketList((prev) => [
+        // 임의 id 생성
+        { id: Number(new Date()), title: trimmedItem, state: 'pending' },
+        ...prev,
+      ]);
+      alert(`${trimmedItem} 저장`);
+      setNewItem('');
+
+      const target = e.target as HTMLTextAreaElement;
+      target.style.height = '20px';
+    }
   };
 
-  const onSubmitEdit = (e: FormEvent<HTMLFormElement>, id: number) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const newTitle = String(formData.get('title'));
-    if (!newTitle.trim()) return;
-
+  const handleUpdateItem = (id: number, newTitle: string) => {
     setBucketList((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, title: newTitle } : item,
-      ),
+      prev.map((it) => (it.id === id ? { ...it, title: newTitle } : it)),
     );
-    setEditingId(null);
-    alert(`${newTitle} 저장`);
-  };
-
-  const handleOnClick = (item: BucketListType) => {
-    if (editingId === item.id) return;
-
-    setSelectedItem(item);
-    openModal();
-  };
-
-  const handleOnEdit = () => {
-    setEditingId(selectedItem?.id ?? null);
-    closeModal();
-  };
-
-  const handleOnClose = () => {
-    setSelectedItem(null);
-    closeModal();
   };
 
   return (
-    <>
-      <S.CheckListLayout>
-        <S.TitleSpan>{variant}</S.TitleSpan>
+    <S.CheckListLayout>
+      <S.TitleSpan>{variant}</S.TitleSpan>
+      {/* 새 버킷리스트 추가 */}
+      <S.InputContainer>
+        <S.CheckBoxWrapper>
+          <IcCheckboxPending />
+        </S.CheckBoxWrapper>
 
-        {/* 새 버킷리스트 추가 */}
-        <S.ListItemWrapper onSubmit={handleAddItem}>
-          <S.CheckBox />
-          <S.ListItemInput
-            type="text"
-            value={newItem}
-            onChange={(e) => setNewItem(e.target.value)}
-          />
-        </S.ListItemWrapper>
+        <S.NewItemInput
+          value={newItem}
+          maxLength={30}
+          onChange={(e) => setNewItem(e.target.value)}
+          onInput={handleResizeHeight}
+          onKeyDown={handleKeyPress}
+        />
+      </S.InputContainer>
 
-        {/* 기존 버킷리스트 목록 */}
-        {bucketList.map((item) => (
-          <S.ListItemWrapper
-            key={item.id}
-            onSubmit={(e) => onSubmitEdit(e, item.id)}
-          >
-            <S.CheckBox>{StateIcons[item.state]}</S.CheckBox>
-            <S.ListItemInput
-              name="title"
-              type="text"
-              defaultValue={item.title}
-              readOnly={editingId !== item.id}
-              onClick={() => handleOnClick(item)}
-            />
-          </S.ListItemWrapper>
-        ))}
-      </S.CheckListLayout>
-      {isOpen && selectedItem && (
-        <Modal>
-          <CheckListModal
-            variant={variant}
-            title={selectedItem.title}
-            onClose={handleOnClose}
-            onEdit={handleOnEdit}
-          />
-        </Modal>
-      )}
-    </>
+      {/* 기존 버킷리스트 목록 */}
+      {bucketList.map((item) => (
+        <CheckListItem
+          key={item.id}
+          id={item.id}
+          variant={variant}
+          value={item.title}
+          state={item.state}
+          onUpdateItem={handleUpdateItem}
+        />
+      ))}
+    </S.CheckListLayout>
   );
 };
 
