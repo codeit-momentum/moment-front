@@ -2,14 +2,10 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ImageUpload from '../../../components/Moment/ImageUpload/ImageUpload';
 import * as S from './Upload.style';
+import IcBack from '../../../assets/svg/IcBack';
 
 type UploadProps = {
   variant: 'moment' | 'bucket';
-};
-
-const subTitle = {
-  moment: '모멘트를 완료하셨나요?',
-  bucket: '버킷리스트를 완료하셨나요?',
 };
 
 const Upload = ({ variant }: UploadProps) => {
@@ -31,22 +27,13 @@ const Upload = ({ variant }: UploadProps) => {
   return (
     <S.UploadLayout>
       <S.Header>
-        {/* 아이콘으로 대체 */}
-        <button
-          style={{
-            fontSize: '36px',
-          }}
-          onClick={() => navigate(-1)}
-        >
-          ←
-        </button>
+        <S.BackButton onClick={() => navigate(-1)}>
+          <IcBack />
+        </S.BackButton>
       </S.Header>
-      <S.TitleContainer>
-        <S.TitleSpan>
-          {variant} id: {id}
-        </S.TitleSpan>
-        <S.SubTitleSpan>{subTitle[variant]}</S.SubTitleSpan>
-      </S.TitleContainer>
+      <S.TitleSpan>
+        {variant} id: {id}
+      </S.TitleSpan>
       <ImageUpload />
     </S.UploadLayout>
   );

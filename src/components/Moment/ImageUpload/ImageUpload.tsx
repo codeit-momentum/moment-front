@@ -1,6 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './ImageUpload.style';
+import IcUploadPreview from '../../../assets/svg/IcUploadPreview';
+import Button from '../../Button/Button';
 
 const ImageUpload = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -40,14 +42,14 @@ const ImageUpload = () => {
         {image ? (
           <S.PreviewImage src={image} alt="preview" />
         ) : (
-          <S.PreviewPlaceholder>이미지 미리보기</S.PreviewPlaceholder>
+          <IcUploadPreview />
         )}
         <S.ImageInput type="file" accept="image/*" onChange={handleOnChange} />
       </S.ImageInputLabel>
       <S.DescriptionSpan>사진을 첨부해 인증해주세요!</S.DescriptionSpan>
-      <S.UploadButton type="submit" disabled={!image}>
+      <Button type="submit" disabled={!image} customStyle={{ width: '13rem' }}>
         인증하기
-      </S.UploadButton>
+      </Button>
     </S.ImageUploadLayout>
   );
 };

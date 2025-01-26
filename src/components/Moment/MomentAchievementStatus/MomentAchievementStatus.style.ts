@@ -69,7 +69,6 @@ export const EmptyStateSpan = styled.span`
   text-align: center;
   font-size: 12px;
   line-height: 26px;
-  letter-spacing: -0.32px;
 `;
 
 export const HighlightSpan = styled.span`
