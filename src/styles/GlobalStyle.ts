@@ -12,13 +12,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   * {
+    font-family: 'NeoDunggeunmoPro-Regular', sans-serif;
     box-sizing: border-box;
     letter-spacing: -0.32px;
+    padding: 0;
   }
 
-  body { 
-    font-family: 'NeoDunggeunmoPro-Regular', sans-serif;
-  }
   ol, ul {
     list-style: none;
   }
