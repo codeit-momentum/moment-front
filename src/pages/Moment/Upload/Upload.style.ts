@@ -24,8 +24,14 @@ export const TitleSpan = styled.span`
   color: ${({ theme }) => theme.colors.white};
   text-align: center;
   line-height: 37px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 `;
 
 export const SubTitleSpan = styled.span`
   font-size: 24px;
+`;
+
+export const ImageUploadLayout = styled.form`
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
 `;

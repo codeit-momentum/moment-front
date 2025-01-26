@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
-export const ImageUploadLayout = styled.form`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-`;
-
 export const ImageInputLabel = styled.label`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   position: relative;

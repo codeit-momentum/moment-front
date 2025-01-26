@@ -1,14 +1,34 @@
-import { useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import useModal from '../../../hooks/common/useModal';
 import ImageUpload from '../../../components/Moment/ImageUpload/ImageUpload';
-import * as S from './Upload.style';
+import Modal from '../../../components/Modal/Modal';
+import OKModal from '../../../components/Modal/OKModal/OKModal';
+import Button from '../../../components/Button/Button';
 import IcBack from '../../../assets/svg/IcBack';
+import * as S from './Upload.style';
+
+const mockData = {
+  moment: {
+    id: Number(new Date()),
+    isComplete: false,
+    title: '뜨개질 10코 뜨기',
+  },
+  bucket: {
+    id: Number(new Date()),
+    isComplete: false,
+    title: '번지점프 하기',
+  },
+};
 
 type UploadProps = {
   variant: 'moment' | 'bucket';
 };
 
 const Upload = ({ variant }: UploadProps) => {
+  const [isOpen, openModal, closeModal] = useModal();
+  const [image, setImage] = useState<string | null>(null);
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -18,11 +38,29 @@ const Upload = ({ variant }: UploadProps) => {
 
   useEffect(() => {
     // id 에러일 때 리다이렉트 임시 구현
-    if (id === 'none') {
+    if (id === 'none' || mockData[variant].isComplete) {
       alert('존재하지 않는 페이지입니다.');
       navigate('/moment');
     }
   });
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (variant === 'bucket') {
+      // 버킷리스트 인증 API 연결
+      openModal();
+    } else {
+      // 모멘트 인증 API 연결
+      alert('모멘트 인증 완료');
+      navigate('/moment');
+    }
+  };
+
+  const handleCloseModal = () => {
+    closeModal();
+    navigate('/moment/bucket');
+  };
 
   return (
     <S.UploadLayout>
@@ -31,10 +69,27 @@ const Upload = ({ variant }: UploadProps) => {
           <IcBack />
         </S.BackButton>
       </S.Header>
-      <S.TitleSpan>
-        {variant} id: {id}
-      </S.TitleSpan>
-      <ImageUpload />
+      <S.TitleSpan>{mockData[variant].title}</S.TitleSpan>
+      <S.ImageUploadLayout onSubmit={handleSubmit}>
+        <ImageUpload image={image} setImage={setImage} />
+        <Button
+          disabled={!image}
+          type="submit"
+          customStyle={{ width: '13rem' }}
+        >
+          인증하기
+        </Button>
+      </S.ImageUploadLayout>
+      {isOpen && (
+        <Modal>
+          <OKModal
+            title={mockData[variant].title}
+            mainText=" 완료!"
+            subText="새로운 버킷리스트를 달성했네요"
+            onClose={handleCloseModal}
+          />
+        </Modal>
+      )}
     </S.UploadLayout>
   );
 };
