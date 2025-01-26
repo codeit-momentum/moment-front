@@ -1,4 +1,5 @@
 import * as S from './MomentAchievementStatus.style';
+import { Fragment } from 'react';
 import ProgressBar from './ProgressBar';
 
 // 목 데이터
@@ -14,22 +15,25 @@ const MomentAchievementStatus = () => {
       <S.TitleSpan>모멘트 달성 현황</S.TitleSpan>
       <S.MomentContainer>
         {moments.length > 0 ? (
-          moments.map((moment) => (
-            <S.MomentItem key={moment.id}>
-              <S.MomentDetailsBox>
-                <span>{moment.title}</span>
-                <span>{moment.value}%</span>
-              </S.MomentDetailsBox>
-              <ProgressBar value={moment.value} />
-            </S.MomentItem>
+          moments.map((moment, index) => (
+            <Fragment key={moment.id}>
+              <S.MomentItem>
+                <S.MomentDetailsBox>
+                  <span>{moment.title}</span>
+                  <S.PercentageSpan>{moment.value} %</S.PercentageSpan>
+                </S.MomentDetailsBox>
+                <ProgressBar value={moment.value} />
+              </S.MomentItem>
+              {index < moments.length - 1 && <S.Divider />}
+            </Fragment>
           ))
         ) : (
           // 진행 중 모멘트가 없는 경우
-          <S.EmptyMomentSpan>
-            모멘트를 등록하고
+          <S.EmptyStateSpan>
+            <S.HighlightSpan>모멘트</S.HighlightSpan>를 등록하고
             <br />
-            현황을 확인해보세요 !
-          </S.EmptyMomentSpan>
+            현황을 <S.HighlightSpan>확인</S.HighlightSpan>해보세요 !
+          </S.EmptyStateSpan>
         )}
       </S.MomentContainer>
     </S.MomentAchievementStatusLayout>
