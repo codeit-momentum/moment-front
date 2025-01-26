@@ -35,7 +35,9 @@ export const EmailSpan = styled.span`
   font-size: 16px;
 `;
 export const Horizontal = styled.hr`
-  border-color: ${({ theme }) => theme.colors.blue};
+  border: none;
+  height: 0.3rem;
+  background-color: ${({ theme }) => theme.colors.blue};
   width: 27.5rem;
   stroke-width: 3px;
   flex-shrink: 0;
