@@ -40,13 +40,19 @@ export const MomentDetailsBox = styled.div`
   ${({ theme: { mixin } }) => mixin.flexBox({ justify: `space-between` })};
   width: 100%;
   padding: 0rem 1rem;
+  gap: 1rem;
   font-size: 12px;
   line-height: 26px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 `;
 
 export const PercentageSpan = styled.span`
+  width: 4rem;
+  flex-shrink: 0;
   color: ${({ theme }) => theme.colors.yellow};
   font-size: 16px;
+  text-align: right;
 `;
 
 export const Divider = styled.hr`

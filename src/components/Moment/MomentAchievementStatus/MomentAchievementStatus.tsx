@@ -4,7 +4,11 @@ import ProgressBar from './ProgressBar';
 
 // 목 데이터
 const moments = [
-  { id: 1, title: '단어 500개 외우기', value: 40 },
+  {
+    id: 1,
+    title: '버킷리스트의 최대 글자수는 공백을 포함해서 서른자입니다',
+    value: 100,
+  },
   { id: 2, title: '오픽 AL 달성하기', value: 30 },
   { id: 3, title: '목도리 뜨개질로 만들기', value: 60 },
 ];
