@@ -15,7 +15,6 @@ import SelectMode from '../pages/Moment/SelectMode';
 import Moment from '../pages/Moment/Moment';
 import Friend from '../pages/MyPage/Friend/Friend';
 import EditProfile from '../pages/MyPage/EditProfile/EditProfile';
-import MyPageLogin from '../pages/MyPage/MyPageLogin/MyPageLogin';
 
 const router = createBrowserRouter([
   {
@@ -80,10 +79,6 @@ const router = createBrowserRouter([
               {
                 path: 'edit',
                 element: <EditProfile />,
-              },
-              {
-                path: 'login',
-                element: <MyPageLogin />,
               },
             ],
           },

@@ -18,11 +18,6 @@ const Friend = () => {
     e.preventDefault();
     setFriendCode(e.target.value);
   };
-  const handleSearchFriend = (e: React.FormEvent<HTMLFormElement>) => {
-    //친구 검색 api
-    e.preventDefault();
-    alert('친구 검색');
-  };
   const handleModal = () => {
     openModal();
   };
@@ -44,7 +39,7 @@ const Friend = () => {
         </Modal>
       )}
       <MyPageTitle>친구 추가하기</MyPageTitle>
-      <S.SearchForm onSubmit={handleSearchFriend}>
+      <S.SearchForm>
         <S.SubtitleSpan>친구를 찾아볼까요?</S.SubtitleSpan>
         <S.InputContainer>
           <S.CodeInput value={friendCode} onChange={handleChange} />
