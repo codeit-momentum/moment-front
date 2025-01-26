@@ -59,11 +59,12 @@ const Feed = () => {
       {isOpen && (
         <Modal>
           <SelectModal
-            title={`${currentFriend?.name}님을 삭제하겠습니까?`}
             content="이 행위는 되돌릴 수 없습니다."
             onClose={closeModal}
             onSubmit={handleDelete}
-          />
+          >
+            {`${currentFriend?.name}님을 삭제하겠습니까?`}
+          </SelectModal>
         </Modal>
       )}
       <S.FeedHeaderContatiner>
