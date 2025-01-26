@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const FriednCarouselLayout = styled.div`
   max-width: 37.5rem;
-  padding: 0 2rem 3rem 2rem;
+  padding: 0 2rem 2rem;
   --slide-height: 19rem;
   --slide-spacing: 1rem;
   --slide-size: 50%;
