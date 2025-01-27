@@ -9,6 +9,7 @@ import SelectModal from '../../components/Modal/SelectModal/SelectModal';
 import useCurrentFriend from '../../hooks/useCurrentFriend';
 import IcActiveFriends from '../../assets/svg/IcActiveFriends';
 import image from '../../assets/images/mockImage.jpg';
+import IcMenu from '../../assets/svg/IcMenu';
 
 const Feed = () => {
   //페이지에서 친구 리스트 받아와야 데이터 다루기 편할 듯하다.
@@ -71,13 +72,13 @@ const Feed = () => {
         <S.FeedTitleContainer>
           <S.FeedTitleHeader>친구들의 모멘트</S.FeedTitleHeader>
           {friendList.length > 0 && (
-            <S.MenuIcon
+            <S.IconWrapper
               onClick={() => {
                 openModal();
               }}
             >
-              메뉴
-            </S.MenuIcon>
+              <IcMenu />
+            </S.IconWrapper>
           )}
         </S.FeedTitleContainer>
         <FriendCarousel

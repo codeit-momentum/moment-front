@@ -29,7 +29,7 @@ export const FeedTitleHeader = styled.div`
 `;
 
 //임시 설정
-export const MenuIcon = styled.div`
+export const IconWrapper = styled.button`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   position: absolute;
   right: 3rem;
