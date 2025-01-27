@@ -37,6 +37,5 @@ export const MenuIcon = styled.div`
   height: 2rem;
 `;
 export const EmptyFeedWrapper = styled.div`
-  padding-top: 17rem;
-  padding-bottom: 10rem;
+  padding-top: 18rem;
 `;

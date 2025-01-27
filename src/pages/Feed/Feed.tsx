@@ -1,14 +1,14 @@
 import * as S from './Feed.style';
 import EmptyFeed from '../../components/Feed/EmptyFeed/EmptyFeed';
-import IcAddFriend from '../../assets/svg/IcAddFriend';
 import FriendCarousel from '../../components/Feed/FriendCarousel/FriendCarousel';
 import FeedList from '../../components/Feed/FeedList/FeedList';
-import image from '../../assets/images/mockImage.jpg';
 import { FriendType } from './../../types/feed/index.d';
 import useModal from '../../hooks/common/useModal';
 import Modal from '../../components/Modal/Modal';
 import SelectModal from '../../components/Modal/SelectModal/SelectModal';
 import useCurrentFriend from '../../hooks/useCurrentFriend';
+import IcActiveFriends from '../../assets/svg/IcActiveFriends';
+import image from '../../assets/images/mockImage.jpg';
 
 const Feed = () => {
   //페이지에서 친구 리스트 받아와야 데이터 다루기 편할 듯하다.
@@ -88,12 +88,10 @@ const Feed = () => {
       </S.FeedHeaderContatiner>
       {friendList.length === 0 ? (
         <S.EmptyFeedWrapper>
-          <EmptyFeed
-            title="친구를 추가해서
-            달성기록을 공유해보세요."
-            image={<IcAddFriend />}
-            buttonLabel="친구 찾으러 가기"
-          />
+          <EmptyFeed type="friend" icon={<IcActiveFriends />}>
+            친구를 추가해서
+            <br /> 달성기록을 공유해보세요.
+          </EmptyFeed>
         </S.EmptyFeedWrapper>
       ) : (
         <FeedList friendId={currentFriend?.friendId} />
