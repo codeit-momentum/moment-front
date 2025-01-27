@@ -60,11 +60,13 @@ const Feed = () => {
       {isOpen && (
         <Modal>
           <SelectModal
+            type="delete"
             content="이 행위는 되돌릴 수 없습니다."
             onClose={closeModal}
             onSubmit={handleDelete}
           >
-            {`${currentFriend?.name}님을 삭제하겠습니까?`}
+            <span style={{ color: '#FAED46' }}>{currentFriend?.name}</span>님을
+            삭제하겠습니까?
           </SelectModal>
         </Modal>
       )}
