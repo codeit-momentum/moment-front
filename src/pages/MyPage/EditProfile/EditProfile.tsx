@@ -3,16 +3,21 @@ import * as S from './EditProfile.style';
 import React, { useState, useEffect, ChangeEvent, useContext } from 'react';
 import UserInfoContext from '../../../store/User/UserContext';
 import Button from '../../../components/Button/Button';
+import usePatchProfile from '../../../hooks/queries/myPage/usePatchProfile';
 
 const EditProfile = () => {
   const { userInfo } = useContext(UserInfoContext);
   const [newNickname, setNewNickname] = useState<string>(userInfo.nickname);
+  const [file, setFile] = useState<File | null>(null);
   const [newImage, setNewImage] = useState<string | null>(
     userInfo.profileImage,
   );
+  const { mutate: patchProfile } = usePatchProfile();
+
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(e.target.value);
   };
+
   useEffect(() => {
     return () => {
       if (newImage) URL.revokeObjectURL(newImage);
@@ -28,14 +33,27 @@ const EditProfile = () => {
       e.target.value = '';
       return;
     }
-
+    setFile(newImage);
     setNewImage(URL.createObjectURL(newImage));
   };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // API로 변경 요청
     e.preventDefault();
-    alert('유저 정보 변경');
+    if (file) {
+      const formData = new FormData();
+      formData.append('profileImage', file);
+      formData.append('newNickname', newNickname);
+      patchProfile(formData, {
+        onSuccess: () => {
+          alert('프로필과 닉네임이 변경되었습니다.');
+        },
+        onError: (error) => {
+          alert(error.message);
+        },
+      });
+    }
   };
+
   return (
     <S.EditProfileLayout>
       <MyPageTitle>내 정보 수정하기</MyPageTitle>
