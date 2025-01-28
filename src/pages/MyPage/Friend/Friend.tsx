@@ -9,10 +9,16 @@ import { useState, useContext } from 'react';
 import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import UserInfoContext from '../../../store/User/UserContext';
+import usePostCheckFriend from '../../../hooks/queries/myPage/usePostCheckFriend';
+import usePostFriend from '../../../hooks/queries/myPage/usePostFriend';
 
 const Friend = () => {
   const { userInfo } = useContext(UserInfoContext);
+  const { mutate: postCheckFriend } = usePostCheckFriend();
+  const { mutate: postFriend } = usePostFriend();
   const [friendCode, setFriendCode] = useState<string>('');
+  const [friendNickname, setFriendNickname] = useState<string>('');
+  const [isFriend, setIsFriend] = useState(false);
   const [isOpen, openModal, closeModal] = useModal();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,23 +26,40 @@ const Friend = () => {
     setFriendCode(e.target.value);
   };
   const handleModal = () => {
+    postCheckFriend(friendCode, {
+      onSuccess: (data) => {
+        setFriendNickname(data.nickname);
+        console.log(data);
+      },
+    });
     openModal();
   };
   const handlePostFriend = () => {
-    alert('친구 추가 하기');
+    postFriend(friendCode, {
+      onSuccess: (data) => {
+        console.log(data);
+        setIsFriend(true);
+      },
+    });
   };
 
   return (
     <S.FriendLayout>
       {isOpen && (
         <Modal>
-          <SelectModal
-            content="상대방의 코드가 맞는지 확인해주세요..."
-            onSubmit={handlePostFriend}
-            onClose={closeModal}
-          >
-            손윤지님을 추가하시겠습니까?
-          </SelectModal>
+          {isFriend ? (
+            <SelectModal content="" onSubmit={closeModal} onClose={closeModal}>
+              {friendNickname}님과 친구가 되었습니다!
+            </SelectModal>
+          ) : (
+            <SelectModal
+              content="상대방의 코드가 맞는지 확인해주세요..."
+              onSubmit={handlePostFriend}
+              onClose={closeModal}
+            >
+              {friendNickname}님을 추가하시겠습니까?
+            </SelectModal>
+          )}
         </Modal>
       )}
       <MyPageTitle>친구 추가하기</MyPageTitle>
