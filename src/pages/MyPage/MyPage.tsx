@@ -1,16 +1,29 @@
 import * as S from './MyPage.style';
-import mockImage from '../../assets/images/mockImage.jpg';
 import { useNavigate } from 'react-router-dom';
 import MyProfile from '../../components/MyPage/MyProfile/MyProfile';
 import MyMenu from '../../components/MyPage/MyMenu/MyMenu';
+import UserInfoContext from '../../store/User/UserContext';
+import { useContext, useEffect } from 'react';
 import useGetUser from '../../hooks/queries/myPage/useGetUser';
 
 const MyPage = () => {
   //내 정보 fetch
-  const data = useGetUser();
-  console.log(data);
+  const { data } = useGetUser();
   const navigate = useNavigate();
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
 
+  useEffect(() => {
+    if (data) {
+      const userData = {
+        id: data.id,
+        nickname: data.nickname,
+        email: data.email,
+        friendCode: data.friendCode,
+        profileImage: data.profileImageUrl,
+      };
+      setUserInfo(userData);
+    }
+  }, [data, setUserInfo]);
   const menuItems = [
     {
       label: '내 정보 수정하기',
@@ -44,9 +57,9 @@ const MyPage = () => {
   return (
     <S.MyPageLayout>
       <MyProfile
-        name={data?.nickname}
-        email={data?.email}
-        profileImage={data?.profileImageUrl}
+        name={userInfo.nickname}
+        email={userInfo.email}
+        profileImage={userInfo.profileImage}
       />
       <S.Horizontal />
       <MyMenu menuItems={menuItems} />

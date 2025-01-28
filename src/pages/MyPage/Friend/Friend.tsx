@@ -5,14 +5,15 @@ import SelectModal from '../../../components/Modal/SelectModal/SelectModal';
 import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';
 import useModal from '../../../hooks/common/useModal';
 import * as S from './Friend.style';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import UserInfoContext from '../../../store/User/UserContext';
 
 const Friend = () => {
+  const { userInfo } = useContext(UserInfoContext);
   const [friendCode, setFriendCode] = useState<string>('');
   const [isOpen, openModal, closeModal] = useModal();
-  const code = 'COUT0127';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -60,7 +61,7 @@ const Friend = () => {
       </S.SearchForm>
       <S.SubtitleSpan>나의 친구 코드</S.SubtitleSpan>
       <CopyToClipboard
-        text={code}
+        text={userInfo.friendCode}
         onCopy={() => alert('코드가 복사되었습니다.')}
       >
         <Button
@@ -72,7 +73,7 @@ const Friend = () => {
             lineHeight: '20px',
           }}
         >
-          {code}
+          {userInfo.friendCode}
         </Button>
       </CopyToClipboard>
       <S.InfoTextSpan>클릭 시 텍스트가 복사됩니다.</S.InfoTextSpan>

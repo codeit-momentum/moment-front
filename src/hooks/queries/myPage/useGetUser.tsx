@@ -5,15 +5,15 @@ const USER_QUERY_KEY = ['user'];
 
 const getUser = async () => {
   const response = await instance.get('/api/users');
-  return response.data;
+  return response.data.user;
 };
 
 const useGetUser = () => {
-  const { data } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: USER_QUERY_KEY,
     queryFn: getUser,
   });
-  return data?.user;
+  return { data, isLoading, isError };
 };
 
 export default useGetUser;
