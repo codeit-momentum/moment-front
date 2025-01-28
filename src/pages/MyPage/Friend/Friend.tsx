@@ -48,6 +48,7 @@ const Friend = () => {
       {isOpen && (
         <Modal>
           {isFriend ? (
+            /*가연님 PR 받아와서 ok 모달로 수정정 */
             <SelectModal content="" onSubmit={closeModal} onClose={closeModal}>
               {friendNickname}님과 친구가 되었습니다!
             </SelectModal>
