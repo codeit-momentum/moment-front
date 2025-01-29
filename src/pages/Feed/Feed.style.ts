@@ -32,10 +32,8 @@ export const FeedTitleHeader = styled.div`
 export const IconWrapper = styled.button`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   position: absolute;
-  right: 3rem;
-  width: 2rem;
-  height: 2rem;
+  right: 2rem;
 `;
 export const EmptyFeedWrapper = styled.div`
-  padding-top: 18rem;
+  padding-top: 17rem;
 `;

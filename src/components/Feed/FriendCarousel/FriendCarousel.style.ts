@@ -23,15 +23,15 @@ export const FriendItem = styled.div`
   flex-shrink: 0;
   gap: 0.4rem;
   transform: translate3d(0, 0, 0);
+  font-size: 12px;
 `;
 export const FriendProfileImage = styled.img<{ $isClicked: boolean }>`
-  display: block;
   width: 5rem;
   height: 5rem;
   border-radius: 310px;
   ${({ theme, $isClicked }) =>
     $isClicked &&
     `
-    border: 2px solid ${theme.colors.blue};
+    outline: 2px solid ${theme.colors.blue};
   `}
 `;

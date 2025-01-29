@@ -4,10 +4,8 @@ export const FeedItemLayout = styled.div`
   display: flex;
   background-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.black};
-  width: 100%;
-  height: 14rem;
   width: 33.5rem;
-  height: 14rem;
+  height: 14.6rem;
   flex-shrink: 0;
   padding: 1rem 2.5rem;
   gap: 2.5rem;

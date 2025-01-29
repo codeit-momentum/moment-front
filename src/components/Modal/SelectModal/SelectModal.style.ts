@@ -7,7 +7,7 @@ export const SelectModalLayout = styled.div`
   color: ${({ theme }) => theme.colors.white};
   width: 30rem;
   height: 16rem;
-  border-radius: 14px;
+  border-radius: 10px;
   backdrop-filter: blur(27.182817459106445px);
   box-sizing: border-box;
 `;
@@ -39,9 +39,9 @@ export const SelectButton = styled.button<{ $type?: 'add' | 'delete' }>`
   border-left: 1px solid ${({ theme }) => theme.colors.blue};
 
   &:first-child {
-    border-radius: 0 0 0 14px;
+    border-radius: 0 0 0 10px;
   }
   &:last-child {
-    border-radius: 0 0 14px 0;
+    border-radius: 0 0 10px 0;
   }
 `;
