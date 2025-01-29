@@ -1,6 +1,6 @@
 import * as S from './Friend.style';
 import React from 'react';
-import { AxiosError } from 'axios';
+import axios from 'axios';
 import IcSearch from '../../../assets/svg/IcSearch';
 import Button from '../../../components/Button/Button';
 import Modal from '../../../components/Modal/Modal';
@@ -12,6 +12,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import UserInfoContext from '../../../store/User/UserContext';
 import usePostCheckFriend from '../../../hooks/queries/myPage/usePostCheckFriend';
 import usePostFriend from '../../../hooks/queries/myPage/usePostFriend';
+import OKModal from '../../../components/Modal/OKModal/OKModal';
 
 const Friend = () => {
   const { userInfo } = useContext(UserInfoContext);
@@ -32,7 +33,12 @@ const Friend = () => {
     postCheckFriend(friendCode, {
       onSuccess: (data) => {
         setFriendNickname(data.nickname);
-        console.log(data);
+      },
+      onError: (error: Error) => {
+        if (axios.isAxiosError(error)) {
+          const errorMessage = error.response?.data.message;
+          setError(errorMessage);
+        }
       },
     });
     openModal();
@@ -40,22 +46,11 @@ const Friend = () => {
 
   const handlePostFriend = () => {
     postFriend(friendCode, {
-      onError: (error: Error | AxiosError) => {
-        if (error instanceof AxiosError) {
-          if (
-            error.response &&
-            error.response.data &&
-            error.response.data.message
-          ) {
-            const errorMessage = error.response.data.message;
-            setError(errorMessage);
-          } else {
-            setError('An unknown error occurred.');
-          }
-        } else {
-          setError(error.message || 'An unexpected error occurred.');
+      onError: (error: Error) => {
+        if (axios.isAxiosError(error)) {
+          const errorMessage = error.response?.data.message;
+          setError(errorMessage);
         }
-        console.log(error);
       },
       onSettled: () => {
         setIsFriend(true);
@@ -73,12 +68,15 @@ const Friend = () => {
       {isOpen && (
         <Modal>
           {isFriend ? (
-            /*가연님 PR 받아와서 ok 모달로 수정정 */
-            <SelectModal content="" onSubmit={closeModal} onClose={handleClose}>
-              {error === ''
-                ? `${friendNickname}님과 친구가 되었습니다!`
-                : error}
-            </SelectModal>
+            <OKModal
+              title=""
+              mainText={
+                error === ''
+                  ? `${friendNickname}님과 친구가 되었습니다!`
+                  : error
+              }
+              onClose={handleClose}
+            />
           ) : (
             <SelectModal
               content="상대방의 코드가 맞는지 확인해주세요..."
