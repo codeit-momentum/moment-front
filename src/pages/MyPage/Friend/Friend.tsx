@@ -1,6 +1,5 @@
 import * as S from './Friend.style';
 import React from 'react';
-import axios from 'axios';
 import IcSearch from '../../../assets/svg/IcSearch';
 import Button from '../../../components/Button/Button';
 import Modal from '../../../components/Modal/Modal';
@@ -13,6 +12,7 @@ import UserInfoContext from '../../../store/User/UserContext';
 import usePostCheckFriend from '../../../hooks/queries/myPage/usePostCheckFriend';
 import usePostFriend from '../../../hooks/queries/myPage/usePostFriend';
 import OKModal from '../../../components/Modal/OKModal/OKModal';
+import useErrorHandler from '../../../hooks/common/useErrorHandler';
 
 const Friend = () => {
   const { userInfo } = useContext(UserInfoContext);
@@ -21,7 +21,7 @@ const Friend = () => {
   const [friendCode, setFriendCode] = useState<string>('');
   const [friendNickname, setFriendNickname] = useState<string>('');
   const [isFriend, setIsFriend] = useState(false);
-  const [error, setError] = useState('');
+  const { handleError, error } = useErrorHandler();
   const [isOpen, openModal, closeModal] = useModal();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,11 +34,9 @@ const Friend = () => {
       onSuccess: (data) => {
         setFriendNickname(data.nickname);
       },
-      onError: (error: Error) => {
-        if (axios.isAxiosError(error)) {
-          const errorMessage = error.response?.data.message;
-          setError(errorMessage);
-        }
+      onError: (error) => {
+        handleError(error);
+        setIsFriend(true);
       },
     });
     openModal();
@@ -46,11 +44,8 @@ const Friend = () => {
 
   const handlePostFriend = () => {
     postFriend(friendCode, {
-      onError: (error: Error) => {
-        if (axios.isAxiosError(error)) {
-          const errorMessage = error.response?.data.message;
-          setError(errorMessage);
-        }
+      onError: (error) => {
+        handleError(error);
       },
       onSettled: () => {
         setIsFriend(true);
