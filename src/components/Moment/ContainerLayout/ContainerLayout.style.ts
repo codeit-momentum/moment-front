@@ -5,13 +5,13 @@ export const ContainerLayout = styled.div`
   position: relative;
   width: 100%;
   padding: 0.5rem 1.7rem;
-  gap: 1rem;
   background-color: ${({ theme }) => theme.colors.blue};
   color: ${({ theme }) => theme.colors.white};
 `;
 
 export const TitleSpan = styled.span`
   padding: 0.5rem 1.6rem;
+  margin-bottom: 1rem;
   border-radius: 1.5rem;
   background-color: ${({ theme }) => theme.colors.black};
   text-align: center;
