@@ -101,12 +101,12 @@ const DurationComponent = ({
           ) : // 자동 모드: 수정/수정완료/확정하기 버튼 표시
           !isConfirmed ? (
             isEditing ? (
+              <Button onClick={handleEditComplete}>수정완료</Button>
+            ) : (
               <>
-                <Button onClick={handleEditComplete}>수정완료</Button>
+                <Button onClick={toggleEditing}>수정하기</Button>
                 <Button onClick={handleConfirm}>확정하기</Button>
               </>
-            ) : (
-              <Button onClick={toggleEditing}>수정하기</Button>
             )
           ) : null}
         </S.BtnContainer>
