@@ -4,14 +4,16 @@ import EmptyFeed from '../EmptyFeed/EmptyFeed';
 import mockImage from '../../../assets/images/mockImage.jpg';
 import { FeedType } from '../../../types/feed';
 import IcActiveFriends from './../../../assets/svg/IcActiveFriends';
+import useGetFeed from '../../../hooks/queries/Feed/useGetFeed';
 
 interface FeedListProps {
-  friendId: string | undefined;
+  friendId: string;
 }
 
 const FeedList = ({ friendId }: FeedListProps) => {
-  //api 로 리스트 fetch
-  //친구 아이디를 props로 받아서 api 연결
+  const { feed, isPending } = useGetFeed(friendId);
+  if (isPending) return <div>로딩중</div>;
+  console.log(feed);
   const feedListArray: FeedType[] = [
     {
       feedId: 1,

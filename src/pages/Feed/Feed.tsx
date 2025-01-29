@@ -51,7 +51,7 @@ const Feed = () => {
         </S.FeedTitleContainer>
         <FriendCarousel
           friendList={friendList}
-          currentFriendId={currentFriend?.userID}
+          currentFriendId={currentFriend.userID}
           onClickFriend={handleClickFriend}
         />
       </S.FeedHeaderContatiner>

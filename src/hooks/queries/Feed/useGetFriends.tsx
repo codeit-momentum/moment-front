@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 
 const FRIENDS_QUERY_KEY = ['friends'];
@@ -9,7 +9,7 @@ const getFriends = async () => {
 };
 
 const useGetFriends = () => {
-  const { data, isPending } = useQuery({
+  const { data, isPending } = useSuspenseQuery({
     queryKey: FRIENDS_QUERY_KEY,
     queryFn: getFriends,
   });
