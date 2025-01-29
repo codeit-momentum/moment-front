@@ -11,12 +11,6 @@ const postCheckFriend = async (code: string) => {
 const usePostCheckFriend = () => {
   return useMutation({
     mutationFn: postCheckFriend,
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
   });
 };
 

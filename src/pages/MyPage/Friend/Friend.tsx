@@ -1,12 +1,13 @@
+import * as S from './Friend.style';
+import React from 'react';
+import { AxiosError } from 'axios';
 import IcSearch from '../../../assets/svg/IcSearch';
 import Button from '../../../components/Button/Button';
 import Modal from '../../../components/Modal/Modal';
 import SelectModal from '../../../components/Modal/SelectModal/SelectModal';
 import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';
 import useModal from '../../../hooks/common/useModal';
-import * as S from './Friend.style';
 import { useState, useContext } from 'react';
-import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import UserInfoContext from '../../../store/User/UserContext';
 import usePostCheckFriend from '../../../hooks/queries/myPage/usePostCheckFriend';
@@ -19,12 +20,14 @@ const Friend = () => {
   const [friendCode, setFriendCode] = useState<string>('');
   const [friendNickname, setFriendNickname] = useState<string>('');
   const [isFriend, setIsFriend] = useState(false);
+  const [error, setError] = useState('');
   const [isOpen, openModal, closeModal] = useModal();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFriendCode(e.target.value);
   };
+
   const handleModal = () => {
     postCheckFriend(friendCode, {
       onSuccess: (data) => {
@@ -34,13 +37,35 @@ const Friend = () => {
     });
     openModal();
   };
+
   const handlePostFriend = () => {
     postFriend(friendCode, {
-      onSuccess: (data) => {
-        console.log(data);
+      onError: (error: Error | AxiosError) => {
+        if (error instanceof AxiosError) {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+          ) {
+            const errorMessage = error.response.data.message;
+            setError(errorMessage);
+          } else {
+            setError('An unknown error occurred.');
+          }
+        } else {
+          setError(error.message || 'An unexpected error occurred.');
+        }
+        console.log(error);
+      },
+      onSettled: () => {
         setIsFriend(true);
       },
     });
+  };
+
+  const handleClose = () => {
+    closeModal();
+    setIsFriend(false);
   };
 
   return (
@@ -49,14 +74,16 @@ const Friend = () => {
         <Modal>
           {isFriend ? (
             /*가연님 PR 받아와서 ok 모달로 수정정 */
-            <SelectModal content="" onSubmit={closeModal} onClose={closeModal}>
-              {friendNickname}님과 친구가 되었습니다!
+            <SelectModal content="" onSubmit={closeModal} onClose={handleClose}>
+              {error === ''
+                ? `${friendNickname}님과 친구가 되었습니다!`
+                : error}
             </SelectModal>
           ) : (
             <SelectModal
               content="상대방의 코드가 맞는지 확인해주세요..."
               onSubmit={handlePostFriend}
-              onClose={closeModal}
+              onClose={handleClose}
             >
               {friendNickname}님을 추가하시겠습니까?
             </SelectModal>
