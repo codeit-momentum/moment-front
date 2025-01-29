@@ -2,6 +2,7 @@ import * as S from './SelectModal.style';
 import React from 'react';
 
 interface SelectModalProps {
+  type: 'add' | 'delete';
   children: React.ReactNode;
   content: string;
   onClose: () => void;
@@ -9,6 +10,7 @@ interface SelectModalProps {
 }
 
 const SelectModal = ({
+  type,
   children,
   content,
   onClose,
@@ -21,7 +23,9 @@ const SelectModal = ({
         <S.ModalContent>{content}</S.ModalContent>
       </S.InfoContainer>
       <S.SelectContainer>
-        <S.SelectButton onClick={onSubmit}>네</S.SelectButton>
+        <S.SelectButton onClick={onSubmit} $type={type}>
+          네
+        </S.SelectButton>
         <S.SelectButton onClick={onClose}>아니오</S.SelectButton>
       </S.SelectContainer>
     </S.SelectModalLayout>

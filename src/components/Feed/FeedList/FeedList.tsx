@@ -1,9 +1,9 @@
 import * as S from './FeedList.style';
 import FeedItem from '../FeedItem/FeedItem';
 import EmptyFeed from '../EmptyFeed/EmptyFeed';
-import IcAddFriend from '../../../assets/svg/IcAddFriend';
 import mockImage from '../../../assets/images/mockImage.jpg';
 import { FeedType } from '../../../types/feed';
+import IcActiveFriends from './../../../assets/svg/IcActiveFriends';
 
 interface FeedListProps {
   friendId: number | undefined;
@@ -17,21 +17,21 @@ const FeedList = ({ friendId }: FeedListProps) => {
       feedId: 1,
       name: '필수',
       content: '1주일에 1권\n독서하기 목표를\n 유지 중이에요!',
-      date: '2025-01-01',
+      date: '01.09.',
       image: mockImage,
     },
     {
       feedId: 2,
       name: '필수',
       content: '1주일에 1권\n독서하기 목표를\n 유지 중이에요!',
-      date: '2025-01-01',
+      date: '01.09.',
       image: mockImage,
     },
     {
       feedId: 3,
       name: '필수',
       content: '1주일에 1권\n독서하기 목표를\n 유지 중이에요!',
-      date: '2025-01-01',
+      date: '01.09.',
       image: mockImage,
     },
   ];
@@ -43,12 +43,11 @@ const FeedList = ({ friendId }: FeedListProps) => {
       {
         //feedListArray가 비어있을 때 EmptyFeed 컴포넌트 렌더링
         feedListArray.length === 0 ? (
-          <EmptyFeed
-            title="친구가 피드를 안 올리네요 ..
-            노크를 해서 재촉해보세요!"
-            image={<IcAddFriend />}
-            buttonLabel="노크하러 가기"
-          />
+          <EmptyFeed type="feed" icon={<IcActiveFriends />}>
+            친구가 피드를 안 올리네요...
+            <br /> <span style={{ color: '#FAED46' }}>노크를 해서 </span>
+            재촉해보세요!
+          </EmptyFeed>
         ) : (
           feedListArray.map((feed) => (
             <FeedItem
