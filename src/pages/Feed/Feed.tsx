@@ -9,12 +9,10 @@ import useCurrentFriend from '../../hooks/useCurrentFriend';
 import IcActiveFriends from '../../assets/svg/IcActiveFriends';
 import IcMenu from '../../assets/svg/IcMenu';
 import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
-import useGetFeed from '../../hooks/queries/Feed/useGetFeed';
 
 const Feed = () => {
   const { friendList, isPending } = useGetFriends();
   const { currentFriend, handleClickFriend } = useCurrentFriend(friendList);
-  const { feed } = useGetFeed(currentFriend.userID);
   const [isOpen, openModal, closeModal] = useModal();
 
   const handleDelete = () => {
