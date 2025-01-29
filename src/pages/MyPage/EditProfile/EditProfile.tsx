@@ -39,19 +39,18 @@ const EditProfile = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (file) {
-      const formData = new FormData();
-      formData.append('profileImage', file);
-      formData.append('newNickname', newNickname);
-      patchProfile(formData, {
-        onSuccess: () => {
-          alert('프로필과 닉네임이 변경되었습니다.');
-        },
-        onError: (error) => {
-          alert(error.message);
-        },
-      });
-    }
+    const body = {
+      profileImage: file,
+      newNickname: newNickname,
+    };
+    patchProfile(body, {
+      onSuccess: () => {
+        alert('프로필과 닉네임이 변경되었습니다.');
+      },
+      onError: (error) => {
+        alert(error.message);
+      },
+    });
   };
 
   return (
