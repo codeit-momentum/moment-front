@@ -45,11 +45,10 @@ const CheckListItem = ({
       textareaRef.current.style.height = ' 20px';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  }, [value]);
+  }, [itemValue]);
 
   const handleItemClick = () => {
-    // 시작 전인 버킷리스트에 대해서만 모달 띄움
-    if (type === '생성형' || state !== 'pending' || isEditing) return;
+    if (isEditing || state !== 'pending') return;
     openModal();
   };
 
@@ -97,11 +96,13 @@ const CheckListItem = ({
         <S.ListItemInput
           name="title"
           value={itemValue}
+          ref={textareaRef}
           onClick={handleItemClick}
           onChange={(e) => setItemValue(e.target.value)}
           onBlur={handleUpdateItem}
           onKeyDown={handleKeyPress}
           readOnly={!isEditing}
+          maxLength={30}
         />
       </S.CheckListItemLayout>
       {type !== '생성형' && isOpen && (
