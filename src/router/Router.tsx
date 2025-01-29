@@ -71,7 +71,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/',
-        element: <SelectMode />, //Start
+        element: <Start />, //Start
       },
       {
         path: 'login',
