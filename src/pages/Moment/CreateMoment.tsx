@@ -132,8 +132,8 @@ const CreateMoment = () => {
 
       <DurationComponent
         mode={mode}
-        initialDuration={mode === 'auto' ? duration : null}
-        isLoading={mode === 'auto' && isLoading}
+        initialDuration={duration}
+        isLoading={isLoading}
         onEdit={handleDurationConfirm}
       />
 

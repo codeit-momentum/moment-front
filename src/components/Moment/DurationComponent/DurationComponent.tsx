@@ -4,6 +4,8 @@ import { useEditable } from '../../../hooks/useEditable';
 import { ModeType } from '../../../types/moment/modeType';
 import Button from '../../Button/Button';
 import IcLoading from '../../../assets/svg/IcLoading';
+import Divider from '../../Divider/Divider';
+import { CommonDiv } from '../../Divider/Divider.style';
 
 interface DurationProps {
   mode: ModeType; // 'auto' 또는 'manual'
@@ -67,7 +69,7 @@ const DurationComponent = ({
 
   return (
     <S.DurationLayout>
-      <S.Divider />
+      <Divider customStyle={{ marginTop: '1.5rem' }} />
       <S.Label>예상 소요 기간은</S.Label>
       {isLoading ? (
         <S.DurationLoadingWrapper>
@@ -81,7 +83,6 @@ const DurationComponent = ({
             value={inputValue}
             onChange={(e) => handleInputChange(e.target.value)}
             min={1}
-            readOnly={mode === 'auto' && !isEditing} // 자동 모드에서 수정 중이 아닐 때는 읽기 전용
           />
           <S.Unit>일</S.Unit>
         </S.InputContainer>

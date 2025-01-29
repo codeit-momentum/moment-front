@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as S from './FrequencyBtnComponent.style';
 import Button from '../../Button/Button';
+import Divider from '../../Divider/Divider';
 
 /**
  * FrequencyBtn Props
@@ -22,10 +23,10 @@ const FrequencyBtnComponent = ({ onSelect, onNext }: FrequencyBtnProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const frequencyOptions = [
-    { label: '1일에\n1번', value: '1day1' },
-    { label: '2일에\n1번', value: '2day1' },
-    { label: '1주에\n1번', value: '1week1' },
-    { label: '1달에\n1번', value: '1month1' },
+    { label: '1일에', value: '1day1' },
+    { label: '2일에', value: '2day1' },
+    { label: '1주에', value: '1week1' },
+    { label: '1달에', value: '1month1' },
   ];
 
   /**
@@ -48,7 +49,7 @@ const FrequencyBtnComponent = ({ onSelect, onNext }: FrequencyBtnProps) => {
 
   return (
     <S.FrequencyBtnLayout>
-      <S.Divider />
+      <Divider />
       <S.Label>모멘트의 실행 빈도는</S.Label>
       <S.FrequencyBtnContainer>
         <S.FrequencyBtnGrid>
@@ -58,12 +59,9 @@ const FrequencyBtnComponent = ({ onSelect, onNext }: FrequencyBtnProps) => {
               $isSelected={selectedOption === option.value}
               onClick={() => handleSelect(option.value)}
             >
-              {option.label.split('\n').map((text, index) => (
-                <React.Fragment key={index}>
-                  {text}
-                  {index === 0 && <br />}
-                </React.Fragment>
-              ))}
+              {option.label}
+              <br />
+              1번
             </S.FrequencyBtn>
           ))}
         </S.FrequencyBtnGrid>

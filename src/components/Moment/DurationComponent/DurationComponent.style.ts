@@ -10,14 +10,6 @@ export const DurationLayout = styled.div`
   padding: 0rem 3rem;
 `;
 
-export const Divider = styled.hr`
-  width: 100%;
-  height: 1px;
-  background-color: ${({ theme }) => theme.colors.yellow};
-  border: none;
-  margin-top: 1.5rem;
-`;
-
 /**
  * Label : 예상 소요 기간을 나타내는 라벨 텍스트
  */

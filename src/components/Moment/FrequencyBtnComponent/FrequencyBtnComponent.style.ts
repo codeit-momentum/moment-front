@@ -14,13 +14,6 @@ export const FrequencyBtnLayout = styled.div`
   padding: 0rem 3rem;
 `;
 
-export const Divider = styled.hr`
-  width: 100%;
-  height: 1px;
-  background-color: ${({ theme }) => theme.colors.yellow};
-  border: none;
-`;
-
 /**
  * Label : 실행 빈도 선택 섹션의 제목
  */
