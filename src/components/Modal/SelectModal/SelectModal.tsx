@@ -1,14 +1,15 @@
 import * as S from './SelectModal.style';
+import React from 'react';
 
 interface SelectModalProps {
-  title: string;
+  children: React.ReactNode;
   content: string;
   onClose: () => void;
   onSubmit: () => void;
 }
 
 const SelectModal = ({
-  title,
+  children,
   content,
   onClose,
   onSubmit,
@@ -16,24 +17,12 @@ const SelectModal = ({
   return (
     <S.SelectModalLayout>
       <S.InfoContainer>
-        <S.ModalTitle>{title}</S.ModalTitle>
+        <S.ModalTitle>{children}</S.ModalTitle>
         <S.ModalContent>{content}</S.ModalContent>
       </S.InfoContainer>
       <S.SelectContainer>
-        <S.SelectButton
-          onClick={() => {
-            onClose();
-          }}
-        >
-          아니오
-        </S.SelectButton>
-        <S.SelectButton
-          onClick={() => {
-            onSubmit();
-          }}
-        >
-          네
-        </S.SelectButton>
+        <S.SelectButton onClick={onSubmit}>네</S.SelectButton>
+        <S.SelectButton onClick={onClose}>아니오</S.SelectButton>
       </S.SelectContainer>
     </S.SelectModalLayout>
   );

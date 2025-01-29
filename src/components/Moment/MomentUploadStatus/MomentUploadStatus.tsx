@@ -1,11 +1,13 @@
+import { Link } from 'react-router-dom';
+import MomentUploadStatusLayout from '../ContainerLayout/ContainerLayout';
+import IcMomentUpload from '../../../assets/svg/IcMomentUpload';
 import * as S from './MomentUploadStatus.style';
 
 // 목 데이터
 const moments = [
   {
     id: 1,
-    title: '뜨개질 100코 뜨기',
-
+    title: '모멘트의 글자수는 공백포함스무자입니다',
     imgUrl:
       'https://soomgo.com/_next/image?url=https%3A%2F%2Fstatic.cdn.soomgo.com%2Fupload%2Fservice%2Fservice_popular_436.jpg%3Fwebp%3D1&w=3840&q=75',
   },
@@ -15,8 +17,11 @@ const moments = [
 
 const MomentUploadStatus = () => {
   return (
-    <S.MomentUploadStatusLayout>
-      <S.TitleSpan>모멘트 인증하기</S.TitleSpan>
+    <MomentUploadStatusLayout
+      title="모멘트 인증하기"
+      containerStyle={{ padding: '2rem 1.7rem', gap: '2rem' }}
+      titleStyle={{ padding: '0.5rem 1.9rem' }}
+    >
       <S.MomentContainer>
         {moments.length > 0 ? (
           moments.map((moment) => (
@@ -24,29 +29,24 @@ const MomentUploadStatus = () => {
               {moment.imgUrl ? (
                 <S.MomentImage src={moment.imgUrl} alt="인증이미지" />
               ) : (
-                <S.UploadLinkWrapper>
-                  {/* SVG 파일로 대체 */}
-                  <S.UploadLink to="upload/1">+</S.UploadLink>
-                </S.UploadLinkWrapper>
+                <Link to={`upload/${moment.id}`}>
+                  <IcMomentUpload />
+                </Link>
               )}
               <S.MomentTitleSpan>{moment.title}</S.MomentTitleSpan>
             </S.MomentItem>
           ))
         ) : (
           // 모멘트가 없는 경우
-          <>
-            <S.MomentItem />
-            <S.MomentItem>
-              <S.UploadLinkWrapper>
-                {/* SVG 파일로 대체 */}
-                <S.UploadLink to="">?</S.UploadLink>
-              </S.UploadLinkWrapper>
-              <S.MomentTitleSpan>새로운 모멘트를 등록하세요!</S.MomentTitleSpan>
-            </S.MomentItem>
-          </>
+          <S.MomentItem>
+            <Link to={'bucket'}>
+              <IcMomentUpload />
+            </Link>
+            <S.MomentTitleSpan>새로운 모멘트 등록하기</S.MomentTitleSpan>
+          </S.MomentItem>
         )}
       </S.MomentContainer>
-    </S.MomentUploadStatusLayout>
+    </MomentUploadStatusLayout>
   );
 };
 
