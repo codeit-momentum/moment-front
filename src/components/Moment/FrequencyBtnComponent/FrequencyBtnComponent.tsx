@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as S from './FrequencyBtnComponent.style';
+import Button from '../../Button/Button';
+import Divider from '../../Divider/Divider';
+import FrequentBtn from '../../FrequenctBtn/FrequentBtn';
 
 /**
  * FrequencyBtn Props
@@ -21,10 +24,10 @@ const FrequencyBtnComponent = ({ onSelect, onNext }: FrequencyBtnProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const frequencyOptions = [
-    { label: '1일에\n1번', value: '1day1' },
-    { label: '2일에\n1번', value: '2day1' },
-    { label: '1주에\n1번', value: '1week1' },
-    { label: '1달에\n1번', value: '1month1' },
+    { label: '1일에', value: '1day1' },
+    { label: '2일에', value: '2day1' },
+    { label: '1주에', value: '1week1' },
+    { label: '1달에', value: '1month1' },
   ];
 
   /**
@@ -46,31 +49,27 @@ const FrequencyBtnComponent = ({ onSelect, onNext }: FrequencyBtnProps) => {
   };
 
   return (
-    <S.FrequencyBtnContainer>
-      <S.Divider />
+    <S.FrequencyBtnLayout>
+      <Divider />
       <S.Label>모멘트의 실행 빈도는</S.Label>
-      <S.BtnGrid>
-        {frequencyOptions.map((option) => (
-          <S.CircleBtn
-            key={option.value}
-            $isSelected={selectedOption === option.value}
-            onClick={() => handleSelect(option.value)}
-          >
-            {option.label.split('\n').map((text, index) => (
-              <React.Fragment key={index}>
-                {text}
-                {index === 0 && <br />}
-              </React.Fragment>
-            ))}
-          </S.CircleBtn>
-        ))}
-      </S.BtnGrid>
+      <S.FrequencyBtnContainer>
+        <S.FrequencyBtnGrid>
+          {frequencyOptions.map((option) => (
+            <FrequentBtn
+              key={option.value}
+              isSelected={selectedOption === option.value}
+              onClick={() => handleSelect(option.value)}
+              label={option.label}
+            />
+          ))}
+        </S.FrequencyBtnGrid>
+      </S.FrequencyBtnContainer>
       <S.BtnContainer>
-        <S.NextBtn disabled={!selectedOption} onClick={handleNext}>
-          다음{'>'}
-        </S.NextBtn>
+        <Button disabled={!selectedOption} onClick={handleNext}>
+          확인
+        </Button>
       </S.BtnContainer>
-    </S.FrequencyBtnContainer>
+    </S.FrequencyBtnLayout>
   );
 };
 

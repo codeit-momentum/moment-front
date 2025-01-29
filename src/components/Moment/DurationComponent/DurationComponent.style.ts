@@ -1,57 +1,65 @@
 import styled from 'styled-components';
-import {
-  CommonBtn,
-  CommonBtnContainer,
-  CommonDiv,
-} from '../../../styles/CommonStyles';
 
 /**
- * DurationContainer : DurationInput과 ActionButton을 포함하는 최상위 컨테이너
+ * DurationLayout : DurationInput과 ActionButton을 포함하는 최상위 컨테이너
  */
-export const DurationContainer = styled.div`
+export const DurationLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   position: relative;
+  width: 100%;
+  padding: 0rem 3rem;
 `;
-
-export const Divider = styled(CommonDiv)``;
 
 /**
  * Label : 예상 소요 기간을 나타내는 라벨 텍스트
  */
 export const Label = styled.h3`
-  margin-top: 10px;
+  color: ${({ theme }) => theme.colors.white};
+  margin-top: 3rem;
+  margin-bottom: 1rem;
   font-size: 16px;
 `;
-/**
- * InputWarpper: 입력 필드와 버튼을 포함하는 컨테이너
- */
-export const InputWarpper = styled.div`
+
+export const DurationLoadingWrapper = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
-  margin: 15px;
-  height: 40px;
+  margin-top: 1rem;
+`;
+
+/**
+ * InputContainer: 입력 필드와 버튼을 포함하는 컨테이너
+ */
+export const InputContainer = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'row',
+    })};
+  margin: 1rem;
+  gap: 1rem;
 `;
 /**
  * DisplayWarpper: 텍스트와 버튼을 포함하는 컨테이너
  */
-export const DisplayWarpper = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  margin: 15px;
-  height: 40px;
+export const DisplayContainer = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'row',
+    })};
+  margin-top: 0.5rem;
 `;
 
 /**
- * DurationInput : 예상 소요 기간을 입력하는 input
+ * DurationInput : 날짜을 입력하는 input
  */
 export const DurationInput = styled.input`
-  width: 60px;
-  height: 40px;
+  width: 8rem;
+  height: 4rem;
   font-size: 24px;
   text-align: center;
-  border: 1px solid ${({ theme }) => theme.colors.black};
+  border: 0.5px solid $ ${({ theme }) => theme.colors.white};
   background-color: ${({ readOnly, theme }) =>
-    readOnly ? theme.colors.gray : theme.colors.white};
+    readOnly ? theme.colors.white : theme.colors.white};
   color: ${({ readOnly, theme }) =>
-    readOnly ? theme.colors.black : theme.colors.primary};
+    readOnly ? theme.colors.black : theme.colors.black};
   cursor: ${({ readOnly }) => (readOnly ? 'default' : 'text')};
 
   &::-webkit-inner-spin-button,
@@ -59,33 +67,32 @@ export const DurationInput = styled.input`
     -webkit-appearance: none; // 브라우저 기본 스핀 버튼 제거
     margin: 0;
   }
-
-  &:focus {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
-  }
 `;
 
 /**
- * DurationText: 예상 소요 기간을 표시하는 텍스트
+ * DurationText: 날짜을 표시하는 텍스트
  */
 export const DurationText = styled.span`
-  font-size: 24px;
+  font-size: 32px;
+  color: ${({ theme }) => theme.colors.yellow};
 `;
 
 /**
- * Unit : 예상 소요 기간의 단위를 나타내는 텍스트
+ * Unit : 날짜의 단위를 나타내는 텍스트
  */
 export const Unit = styled.span`
-  font-size: 24px;
-  margin-left: 10px;
+  font-size: 32px;
+  color: ${({ theme }) => theme.colors.yellow};
 `;
 
 /**
  * BtnContainer : 버튼을 포함하는 컨테이너
  */
-export const BtnContainer = styled(CommonBtnContainer)``;
-/**
- * Btn : 수정 및 저장 버튼
- */
-export const Btn = styled(CommonBtn)``;
+export const BtnContainer = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'row',
+    })};
+  gap: 3rem;
+  margin-top: 2rem;
+`;
