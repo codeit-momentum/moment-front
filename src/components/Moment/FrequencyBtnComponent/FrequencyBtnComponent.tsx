@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as S from './FrequencyBtnComponent.style';
 import Button from '../../Button/Button';
 import Divider from '../../Divider/Divider';
+import FrequentBtn from '../../FrequenctBtn/FrequentBtn';
 
 /**
  * FrequencyBtn Props
@@ -54,15 +55,12 @@ const FrequencyBtnComponent = ({ onSelect, onNext }: FrequencyBtnProps) => {
       <S.FrequencyBtnContainer>
         <S.FrequencyBtnGrid>
           {frequencyOptions.map((option) => (
-            <S.FrequencyBtn
+            <FrequentBtn
               key={option.value}
-              $isSelected={selectedOption === option.value}
+              isSelected={selectedOption === option.value}
               onClick={() => handleSelect(option.value)}
-            >
-              {option.label}
-              <br />
-              1번
-            </S.FrequencyBtn>
+              label={option.label}
+            />
           ))}
         </S.FrequencyBtnGrid>
       </S.FrequencyBtnContainer>
