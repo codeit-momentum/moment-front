@@ -1,13 +1,18 @@
-import * as S from './Moment.style';
+import * as S from './CreateMoment.style';
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigationType, useNavigate, useLocation } from 'react-router-dom';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import DurationComponent from '../../components/Moment/DurationComponent/DurationComponent';
-import LoadingSpinner from '../../components/Moment/LoadingSpinner/LoadingSpinner';
 import ToDoListComponent from '../../components/Moment/ToDoListComponent/ToDoListComponent';
 import FrequencyBtnComponent from '../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
-import { useApi } from '../../hooks/useApi';
-import { ModeType } from '../../types/modeType';
+import {
+  fetchMockData,
+  fetchTodoListFromAI,
+  TodoResponse,
+} from '../../apis/mockApi';
+import { ModeType } from '../../types/moment/modeType';
+import BackBtn from '../../components/BackBtn/BackBtn';
+import { createMoment } from '../../apis/createMomentApi';
 
 /**
  * Moment
@@ -18,19 +23,23 @@ const CreateMoment = () => {
   // 상태 관리
   const [duration, setDuration] = useState<number | null>(null); // 예상 소요 기간
   const [todoList, setTodoList] = useState<string[]>([]); // 투두리스트 데이터
+  const [frequency, setFrequency] = useState<string | null>(null); // 빈도수 데이터
+
   const [isDurationConfirmed, setIsDurationConfirmed] = useState(false); // Duration 확정 여부
   const [isTodoConfirmed, setIsTodoConfirmed] = useState(false); // ToDoList 확정 여부
 
   // API 요청 및 상태 관리 (useApi 훅 사용)
-  const { isLoading, data, fetchData } = useApi();
-  // 페이지 이동을 위한 useNavigate
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태
   const navigate = useNavigate();
-  const location = useLocation(); //Query String을 읽기 위한 useLocation
+  const navigationType = useNavigationType();
+  const location = useLocation();
   const query = new URLSearchParams(location.search);
-  const mode = query.get('mode') as ModeType; // Query String에서 mode 추출
+  const mode = query.get('mode') as ModeType; // auto 또는 manaul
+  const [isModeValid, setIsModeValid] = useState(true); // 모드 유효성 검사 상태 추가
 
-  // 유효성 검사 상태 추가
-  const [isModeValid, setIsModeValid] = useState(true);
+  if (!isModeValid) {
+    return <div>올바른 모드를 선택해주세요.</div>;
+  }
 
   useEffect(() => {
     // mode 유효성 검사
@@ -41,24 +50,18 @@ const CreateMoment = () => {
     }
   }, [mode]);
 
-  //자동 모드일 경우 API 호출 시뮬레이션 시작
+  // Mock API 사용 - 자동 모드일 경우
   useEffect(() => {
     if (mode === 'auto') {
-      fetchData(); // 목데이터 가져오기
+      setIsLoading(true);
+      fetchMockData() // 실제 API로 전환 시 fetchTodoListFromAI 호출
+        .then((data: TodoResponse) => {
+          setDuration(data.duration);
+          setTodoList(data.todoList);
+        })
+        .finally(() => setIsLoading(false));
     }
-  }, [mode, fetchData]);
-
-  /**
-   * API 데이터 수신 시 상태 업데이트
-   * - duration: 예상 소요 기간
-   * - todoList: 투두리스트 데이터
-   */
-  useEffect(() => {
-    if (mode === 'auto' && data) {
-      setDuration(data.duration);
-      setTodoList(data.todoList);
-    }
-  }, [mode, data]);
+  }, [mode]);
 
   /**
    * Duration 확정 핸들러
@@ -83,59 +86,74 @@ const CreateMoment = () => {
   /**
    * Frequency "다음" 버튼 핸들러
    * - 사용자가 FrequencyBtnComponent에서 "다음" 버튼을 누를 때 호출
+   * - 백엔드로 데이터 전달
    * - MomentComplete 페이지로 이동
    */
-  const handleNext = () => {
-    navigate('/moment-complete');
-    console.log('Move to MomentComplete Page');
+  const handleNext = async () => {
+    if (!frequency) {
+      alert('빈도를 선택해주세요!');
+      return;
+    }
+
+    const payload = {
+      duration,
+      todoList,
+      frequency,
+    };
+
+    try {
+      // API 호출 부분을 주석 처리
+      // const response = await createMoment(payload);
+      // console.log('Moment 저장 성공:', response);
+
+      alert('Moment가 임시로 저장되었습니다.'); // 임시 알림
+      navigate('/moment/complete'); // 다음 페이지로 이동
+    } catch (error) {
+      console.error('Moment 저장 실패:', error);
+      alert('Moment 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+  // BackBtn 기능 안함,, 추후 리팩토링할 예정
+  const handleBack = () => {
+    if (navigationType === 'POP') {
+      navigate('/moment/select-mode'); // POP 상태에서는 지정된 경로로 이동
+    } else {
+      navigate(-1); // 다른 상태에서는 이전 페이지로 이동
+    }
   };
 
-  if (!isModeValid) {
-    return <div>올바른 모드를 선택해주세요.</div>;
-  }
-
   return (
-    <S.MomentLayout>
-      {/* HeaderComponent: 항상 렌더링 */}
+    <S.CreateMomentLayout>
+      <BackBtn onClick={handleBack} />
       <HeaderComponent
         title="목도리 뜨기"
         subtitle="버킷리스트를 시작해볼까요!"
       />
 
-      {/* 자동 모드에서 로딩 중일 경우 LoadingSpinner 표시 */}
-      {mode === 'auto' && isLoading && <LoadingSpinner />}
+      <DurationComponent
+        mode={mode}
+        initialDuration={duration}
+        isLoading={isLoading}
+        onEdit={handleDurationConfirm}
+      />
 
-      {/* 로딩이 끝난 경우 다른 컴포넌트 순차적으로 렌더링 */}
-      {!isLoading && (
-        <>
-          {/* DurationComponent: 예상 소요 기간 입력 */}
-          <DurationComponent
-            mode={mode}
-            initialDuration={duration}
-            onEdit={handleDurationConfirm}
-          />
-
-          {/* ToDoListComponent: Duration 확정 후 렌더링 */}
-          {isDurationConfirmed && (
-            <ToDoListComponent
-              mode={mode}
-              todoList={todoList}
-              duration={duration || 0}
-              isLoading={isLoading}
-              onSave={handleTodoConfirm}
-            />
-          )}
-
-          {/* FrequencyBtnComponent: ToDoList 확정 후 렌더링 */}
-          {isTodoConfirmed && (
-            <FrequencyBtnComponent
-              onSelect={(selected) => console.log(selected)} // Frequency 선택 로그
-              onNext={handleNext} // "다음" 버튼 클릭 시 호출
-            />
-          )}
-        </>
+      {isDurationConfirmed && (
+        <ToDoListComponent
+          mode={mode}
+          todoList={todoList}
+          duration={duration || 0}
+          isLoading={isLoading}
+          onSave={handleTodoConfirm}
+        />
       )}
-    </S.MomentLayout>
+
+      {isTodoConfirmed && (
+        <FrequencyBtnComponent
+          onSelect={(selected) => setFrequency(selected)} // 상태 저장
+          onNext={handleNext}
+        />
+      )}
+    </S.CreateMomentLayout>
   );
 };
 

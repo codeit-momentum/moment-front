@@ -33,18 +33,6 @@ const router = createBrowserRouter([
             element: <Feed />,
           },
           {
-            path: 'moment/select-mode',
-            element: <SelectMode />,
-          },
-          {
-            path: '/moment/create-moment',
-            element: <CreateMoment />,
-          },
-          {
-            path: '/moment-complete',
-            element: <MomentComplete />,
-          },
-          {
             path: '/moment',
             children: [
               {
@@ -62,6 +50,18 @@ const router = createBrowserRouter([
               {
                 path: 'bucket/upload/:id',
                 element: <Upload variant="bucket" />,
+              },
+              {
+                path: 'select-mode',
+                element: <SelectMode />,
+              },
+              {
+                path: 'create-moment',
+                element: <CreateMoment />,
+              },
+              {
+                path: 'complete',
+                element: <MomentComplete />,
               },
             ],
           },
@@ -86,7 +86,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/',
-        element: <Start />,
+        element: <Start />, //Start
       },
       {
         path: 'login',
