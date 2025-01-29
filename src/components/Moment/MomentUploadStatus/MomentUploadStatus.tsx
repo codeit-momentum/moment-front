@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
+import MomentUploadStatusLayout from '../ContainerLayout/ContainerLayout';
 import IcMomentUpload from '../../../assets/svg/IcMomentUpload';
 import * as S from './MomentUploadStatus.style';
-import MomentUploadStatusLayout from '../ContainerLayout/ContainerLayout';
 
 // 목 데이터
 const moments = [

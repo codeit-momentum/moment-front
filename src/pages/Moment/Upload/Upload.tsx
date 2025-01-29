@@ -46,20 +46,16 @@ const Upload = ({ variant }: UploadProps) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (variant === 'bucket') {
-      // 버킷리스트 인증 API 연결
-      openModal();
-    } else {
-      // 모멘트 인증 API 연결
-      alert('모멘트 인증 완료');
-      navigate('/moment');
-    }
+    openModal();
   };
 
   const handleCloseModal = () => {
     closeModal();
-    navigate('/moment/bucket');
+    if (variant === 'bucket') {
+      navigate('/moment/bucket');
+    } else {
+      navigate('/moment');
+    }
   };
 
   return (
@@ -75,21 +71,31 @@ const Upload = ({ variant }: UploadProps) => {
         <Button
           disabled={!image}
           type="submit"
-          customStyle={{ width: '13rem' }}
+          $customstyle={{ width: '13rem' }}
         >
           인증하기
         </Button>
       </S.ImageUploadLayout>
-      {isOpen && (
-        <Modal>
-          <OKModal
-            title={mockData[variant].title}
-            mainText=" 완료!"
-            subText="새로운 버킷리스트를 달성했네요"
-            onClose={handleCloseModal}
-          />
-        </Modal>
-      )}
+      {isOpen &&
+        (variant === 'moment' ? (
+          <Modal>
+            <OKModal
+              title={mockData[variant].title}
+              mainText=" 완료!"
+              subText="새로운 모멘트를 인증했네요"
+              onClose={handleCloseModal}
+            />
+          </Modal>
+        ) : (
+          <Modal>
+            <OKModal
+              title={mockData[variant].title}
+              mainText=" 완료!"
+              subText="새로운 버킷리스트를 달성했네요"
+              onClose={handleCloseModal}
+            />
+          </Modal>
+        ))}
     </S.UploadLayout>
   );
 };

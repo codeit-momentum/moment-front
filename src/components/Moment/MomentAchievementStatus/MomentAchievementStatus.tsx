@@ -1,7 +1,7 @@
-import * as S from './MomentAchievementStatus.style';
 import { Fragment } from 'react';
-import ProgressBar from './ProgressBar';
 import MomentAchievementStatusLayout from '../ContainerLayout/ContainerLayout';
+import ProgressBar from './ProgressBar';
+import * as S from './MomentAchievementStatus.style';
 
 // 목 데이터
 const moments = [
