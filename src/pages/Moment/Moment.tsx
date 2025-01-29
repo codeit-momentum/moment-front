@@ -1,4 +1,4 @@
-import MomentTabBar from '../../components/Moment/MomentTabBar/MomentTabBar';
+import MomentHeader from '../../components/Moment/MomentHeader/MomentHeader';
 import MomentAchievementStatus from '../../components/Moment/MomentAchievementStatus/MomentAchievementStatus';
 import MomentUploadStatus from '../../components/Moment/MomentUploadStatus/MomentUploadStatus';
 import * as S from './Moment.style';
@@ -6,7 +6,7 @@ import * as S from './Moment.style';
 const Moment = () => {
   return (
     <S.MomentLayout>
-      <MomentTabBar />
+      <MomentHeader />
       <MomentAchievementStatus />
       <MomentUploadStatus />
     </S.MomentLayout>

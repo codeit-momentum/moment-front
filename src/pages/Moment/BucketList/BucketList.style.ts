@@ -4,5 +4,6 @@ export const BucketListLayout = styled.div`
   ${({ theme: { mixin } }) =>
     mixin.flexBox({ direction: 'column', justify: 'flex-start' })};
   width: 100%;
-  gap: 5rem;
+  margin-top: 8rem;
+  gap: 2rem;
 `;

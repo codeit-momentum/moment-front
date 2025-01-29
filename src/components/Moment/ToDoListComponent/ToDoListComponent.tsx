@@ -1,134 +1,136 @@
 import { useState, useEffect } from 'react';
 import * as S from './ToDoListComponent.style';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import useTodoList from '../../../hooks/queries/useTodoList';
-import { ModeType } from '../../../types/modeType';
+import { ModeType } from '../../../types/moment/modeType';
+import IcLoading from '../../../assets/svg/IcLoading';
+import IcEdit from '../../../assets/svg/IcEdit';
+import IcConfirm from '../../../assets/svg/IcConfirm';
 
 /**
  * ToDoListProps 인터페이스
  */
 interface ToDoListProps {
-  mode: ModeType;
-  duration: number;
-  todoList: string[];
-  isLoading: boolean;
-  onSave: (todoList: string[]) => void;
+  mode: ModeType; // 'auto' 또는 'manual'
+  todoList: string[]; // API에서 받아오는 todo 리스트
+  duration: number; // Duration 값
+  isLoading: boolean; // 로딩 상태
+  onSave: (todoList: string[]) => void; // 상위 컴포넌트로 전달
 }
 
-const ToDoListComponent = ({ mode, duration, onSave }: ToDoListProps) => {
+const ToDoListComponent = ({
+  mode,
+  duration,
+  todoList,
+  isLoading,
+  onSave,
+}: ToDoListProps) => {
   // 편집 모드 상태 관리: 수동 모드일 경우 초기값 true
-  const [isEditing, setIsEditing] = useState(mode === 'manual');
+  const [isEditing, setIsEditing] = useState(mode === 'manual'); // 수정 상태
   const [isConfirmed, setIsConfirmed] = useState(false); //확정상태 관리
-  const [todos, setTodos] = useState<string[]>([]);
+  const [todos, setTodos] = useState<string[]>([]); // 투두 리스트 상태
   const [newTodo, setNewTodo] = useState<string>(''); // 새로운 입력값 상태
 
-  // React Query를 사용하여 자동 모드의 데이터 가져오기
-  const { data, isLoading } = useTodoList(mode);
-
-  // 데이터가 변경되면 todos 상태 업데이트
   useEffect(() => {
-    if (data && data.todoList) {
-      setTodos(data.todoList);
+    if (mode === 'manual') {
+      if (isEditing) {
+        // 편집 모드일 때 기존 데이터를 유지
+        setTodos((prevTodos) => (prevTodos.length > 0 ? prevTodos : []));
+      }
+    } else if (mode === 'auto' && !isEditing) {
+      setTodos(todoList); // 자동 모드에서 API로 가져온 데이터 설정
     }
-  }, [data]);
+  }, [mode, todoList, duration, isEditing, isConfirmed]);
 
-  /**
-   * 새로운 할 일 항목 추가
-   * - 편집 모드일 때만 동작
-   * - 새 항목의 id는 현재 목록 길이 + 1
-   */
-  const handleAddTodo = () => {
-    if (newTodo.trim() !== '') {
-      setTodos([newTodo, ...todos]); // 새로운 항목을 리스트 최상단에 추가
-      setNewTodo(''); // 입력창 초기화
-    } else {
-      alert('내용을 입력해주세요.');
-    }
+  // 투두 리스트 변경 핸들러
+  const handleEditTodo = (index: number, value: string) => {
+    const updatedTodos = [...todos];
+    updatedTodos[index] = value;
+    setTodos(updatedTodos);
   };
 
-  /**
-   * 할 일 내용 수정
-   * @param id - 수정할 항목의 id
-   * @param content - 새로운 내용
-   */
-  const handleEditTodo = (id: number, content: string) => {
-    const newTodos = [...todos];
-    newTodos[id] = content;
-    setTodos(newTodos);
+  // 수정 시작 핸들러
+  const handleEditStart = () => {
+    setIsEditing(true);
+    setIsConfirmed(false);
   };
 
-  /// 수정완료 핸들러
-  const handleEditComplete = () => {
-    if (todos.every((todo) => todo.trim() === '')) {
-      alert('최소 한 개의 할 일을 입력해주세요.');
-      return;
+  // 새로운 항목 추가 핸들러
+  const handleAddTodo = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      event.key === 'Enter' &&
+      newTodo.trim() !== '' &&
+      todos.length < duration
+    ) {
+      setTodos([newTodo, ...todos]); // 새로운 항목을 상단에 추가
+      setNewTodo(''); // 입력 필드 초기화
+      event.preventDefault(); // Enter 키 입력 시 줄바꿈 방지
     }
-    setIsEditing(false);
   };
 
   // 확정하기 핸들러
   const handleConfirm = () => {
-    const validTodos = todos.filter((todo) => todo.trim() !== '');
-    if (validTodos.length === 0) {
-      alert('최소 한 개의 할 일을 입력해주세요.');
+    if (todos.some((todo) => todo.trim() === '') || todos.length < duration) {
+      alert(`모든 항목을 입력해주세요. (${todos.length}/${duration})`);
       return;
     }
-    onSave(validTodos);
+
+    onSave([...todos]); // 상위 컴포넌트로 데이터 전달
     setIsConfirmed(true);
     setIsEditing(false);
   };
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   return (
-    <S.ToDoListContainer>
-      <S.Divider />
-      <S.Label>
-        {duration}일 동안 진행할 모멘트는{'\n'} 다음과 같습니다!
-      </S.Label>
-      <S.ToDoBox>
-        <S.ToDoBoxLabel>방법</S.ToDoBoxLabel>
-        <S.ToDoList>
-          {todos.map((todo, index) => (
-            <S.ToDoItem key={index}>
-              <input
-                type="checkbox"
-                disabled={!isEditing} //수정상태에서만 활성화
-                defaultChecked={false}
-              />
-              <S.Input
-                type="text"
-                value={todo}
-                onChange={(e) => handleEditTodo(index, e.target.value)}
-                placeholder="할 일을 입력하세요"
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') handleAddTodo();
-                }}
-                readOnly={!isEditing}
-              />
-            </S.ToDoItem>
-          ))}
-        </S.ToDoList>
-      </S.ToDoBox>
-      <S.BtnContainer>
-        {!isConfirmed && (
-          <>
-            {isEditing ? (
-              // 수정 중일 때는 수정완료와 확정하기 버튼 표시
-              <>
-                <S.Btn onClick={handleEditComplete}>수정완료</S.Btn>
-                <S.Btn onClick={handleConfirm}>확정하기</S.Btn>
-              </>
-            ) : (
-              // 수정 중이 아닐 때는 수정하기 버튼만 표시
-              <S.Btn onClick={() => setIsEditing(true)}>수정하기</S.Btn>
-            )}
-          </>
-        )}
-      </S.BtnContainer>
-    </S.ToDoListContainer>
+    <S.ToDoListLayout>
+      <S.TodoDivider />
+      <S.TodoLabel>
+        {duration}일 동안 진행할 모멘트는 다음과 같습니다!
+      </S.TodoLabel>
+      {isLoading ? (
+        <S.TodoLoadingWrapper>
+          <IcLoading />
+        </S.TodoLoadingWrapper>
+      ) : (
+        <>
+          <S.TodoContainer>
+            <S.TodoHeaderContainer>
+              <S.TodoHeader>방법</S.TodoHeader>
+              <S.IconWrapper
+                onClick={isEditing ? handleConfirm : handleEditStart}
+              >
+                {isEditing ? <IcConfirm /> : <IcEdit />}
+              </S.IconWrapper>
+            </S.TodoHeaderContainer>
+            <S.ListItemWrapper>
+              {isEditing && mode === 'manual' && (
+                <S.ToDoItem>
+                  <S.CheckBox />
+                  <S.ListItemInput
+                    type="text"
+                    value={newTodo}
+                    onChange={(e) => setNewTodo(e.target.value)}
+                    onKeyPress={handleAddTodo}
+                    placeholder="할 일을 입력하세요"
+                  />
+                </S.ToDoItem>
+              )}
+              {todos.map((todo, index) => (
+                <S.ToDoItem key={index}>
+                  <S.TodoIndex>{index + 1}</S.TodoIndex>
+                  {isEditing || !isConfirmed ? (
+                    <S.ListItemInput
+                      type="text"
+                      value={todo}
+                      onChange={(e) => handleEditTodo(index, e.target.value)}
+                    />
+                  ) : (
+                    <S.ListDisplay>{todo}</S.ListDisplay>
+                  )}
+                </S.ToDoItem>
+              ))}
+            </S.ListItemWrapper>
+          </S.TodoContainer>
+        </>
+      )}
+    </S.ToDoListLayout>
   );
 };
 

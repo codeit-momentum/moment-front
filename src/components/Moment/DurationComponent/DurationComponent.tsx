@@ -1,49 +1,44 @@
 import { useState, useEffect } from 'react';
 import * as S from './DurationComponent.style';
 import { useEditable } from '../../../hooks/useEditable';
-import { ModeType } from '../../../types/modeType';
+import { ModeType } from '../../../types/moment/modeType';
+import Button from '../../Button/Button';
+import IcLoading from '../../../assets/svg/IcLoading';
+import Divider from '../../Divider/Divider';
+import { CommonDiv } from '../../Divider/Divider.style';
 
-/**
- * DurationComponent Props
- * - mode : 자동/수동 모드 구분
- * -initialDuration : API에서 받아온 초기 예상 소요 기간(자동 모드의 경우)
- * -onEdit : 수정된 기간을 상위 컴포넌트에 전달하는 콜백 함수
- */
 interface DurationProps {
-  mode: ModeType;
-  initialDuration?: number | null;
-  onEdit: (duration: number) => void;
+  mode: ModeType; // 'auto' 또는 'manual'
+  initialDuration?: number | null; // 자동 모드의 초기 값
+  onEdit: (duration: number) => void; // 수정 및 확정 시 상위 컴포넌트로 전달
+  isLoading: boolean; //로딩 상태
 }
 
 /**
  * DurationComponent
  * - 자동/수동 모드에 따라 초기 상태와 UI 분기 처리
  * - 예상 소요 기간을 표시하거나 수정할 수 있는 컴포넌트
- * - 수정모드 (isEditing)에 따라 입력 필드와 텍스트가 전환됨 -> 수정 중일 때는 확정하기 불가
  */
 const DurationComponent = ({
   mode,
   initialDuration = null,
   onEdit,
+  isLoading,
 }: DurationProps) => {
-  const { isEditing, toggleEditing } = useEditable(); //수정 상태 관리
   const [inputValue, setInputValue] = useState<string>(
     initialDuration?.toString() || '',
-  );
+  ); //입력값 상태
+  const { isEditing, toggleEditing } = useEditable();
   const [isConfirmed, setIsConfirmed] = useState(false); // 확정 상태 관리
 
-  //자동 모드에서 API 데이터 로딩이 완료된 경우 초깃값 설정
+  // 자동 모드 초기 값 설정
   useEffect(() => {
     if (mode === 'auto' && initialDuration !== null) {
-      setInputValue(initialDuration.toString()); //문자열로 변환하여 설정
+      setInputValue(initialDuration.toString());
     }
   }, [mode, initialDuration]);
 
-  /**
-   * handleInputChange
-   * - 입력값을 상태에 문자열로 저장
-   * - 숫자 유효성 검사
-   */
+  //입력값 변경 핸들러
   const handleInputChange = (value: string) => {
     if (/^\d*$/.test(value)) {
       setInputValue(value);
@@ -57,7 +52,7 @@ const DurationComponent = ({
       alert('1일 이상으로 설정해주세요.');
       return;
     }
-    toggleEditing(); //수정 모드 종료
+    toggleEditing(); // 수정 상태 종료
   };
 
   // 확정하기 핸들러
@@ -67,42 +62,56 @@ const DurationComponent = ({
       alert('1일 이상으로 설정해주세요.');
       return;
     }
-    onEdit(duration);
+    onEdit(duration); //부모컴포넌트에 전달
     setIsConfirmed(true); //확정 상태 설정
-    toggleEditing(); //수정모드 종료
+    if (isEditing) toggleEditing(); // 수정 상태 종료
   };
 
   return (
-    <S.DurationContainer>
-      <S.Divider />
+    <S.DurationLayout>
+      <Divider customStyle={{ marginTop: '1.5rem' }} />
       <S.Label>예상 소요 기간은</S.Label>
-      <S.InputWarpper>
-        <S.DurationInput
-          type="text"
-          value={inputValue}
-          onChange={(e) => handleInputChange(e.target.value)}
-          min={1}
-          readOnly={!isEditing}
-        />
-        <S.Unit>일</S.Unit>
-      </S.InputWarpper>
-      <S.BtnContainer>
-        {!isConfirmed && (
-          <>
-            {isEditing ? (
-              // 수정 중일 때는 수정완료와 확정하기 버튼 표시
-              <>
-                <S.Btn onClick={handleEditComplete}>수정완료</S.Btn>
-                <S.Btn onClick={handleConfirm}>확정하기</S.Btn>
-              </>
+      {isLoading ? (
+        <S.DurationLoadingWrapper>
+          <IcLoading />
+        </S.DurationLoadingWrapper>
+      ) : isEditing || (!isConfirmed && mode === 'manual') ? (
+        // 입력 필드 노출
+        <S.InputContainer>
+          <S.DurationInput
+            type="text"
+            value={inputValue}
+            onChange={(e) => handleInputChange(e.target.value)}
+            min={1}
+          />
+          <S.Unit>일</S.Unit>
+        </S.InputContainer>
+      ) : (
+        // 텍스트 노출
+        <S.DisplayContainer>
+          <S.DurationText>{inputValue}</S.DurationText>
+          <S.Unit>일</S.Unit>
+        </S.DisplayContainer>
+      )}
+      {!isLoading && (
+        <S.BtnContainer>
+          {mode === 'manual' ? (
+            // 수동 모드: 확정하기 버튼만 표시
+            !isConfirmed && <Button onClick={handleConfirm}>확정하기</Button>
+          ) : // 자동 모드: 수정/수정완료/확정하기 버튼 표시
+          !isConfirmed ? (
+            isEditing ? (
+              <Button onClick={handleEditComplete}>수정완료</Button>
             ) : (
-              // 수정 중이 아닐 때는 수정하기 버튼만 표시
-              <S.Btn onClick={toggleEditing}>수정하기</S.Btn>
-            )}
-          </>
-        )}
-      </S.BtnContainer>
-    </S.DurationContainer>
+              <>
+                <Button onClick={toggleEditing}>수정하기</Button>
+                <Button onClick={handleConfirm}>확정하기</Button>
+              </>
+            )
+          ) : null}
+        </S.BtnContainer>
+      )}
+    </S.DurationLayout>
   );
 };
 
