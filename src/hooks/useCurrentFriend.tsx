@@ -6,10 +6,8 @@ const useCurrentFriend = (friendList: FriendType[]) => {
     friendList.length > 0 ? friendList[0] : undefined,
   );
 
-  const handleClickFriend = (friendId: number) => {
-    const targetFriend = friendList.find(
-      (friend) => friend.friendId === friendId,
-    );
+  const handleClickFriend = (userID: string) => {
+    const targetFriend = friendList.find((friend) => friend.userID === userID);
     setCurrentFriend(targetFriend);
   };
 

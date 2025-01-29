@@ -2,59 +2,25 @@ import * as S from './Feed.style';
 import EmptyFeed from '../../components/Feed/EmptyFeed/EmptyFeed';
 import FriendCarousel from '../../components/Feed/FriendCarousel/FriendCarousel';
 import FeedList from '../../components/Feed/FeedList/FeedList';
-import { FriendType } from './../../types/feed/index.d';
 import useModal from '../../hooks/common/useModal';
 import Modal from '../../components/Modal/Modal';
 import SelectModal from '../../components/Modal/SelectModal/SelectModal';
 import useCurrentFriend from '../../hooks/useCurrentFriend';
 import IcActiveFriends from '../../assets/svg/IcActiveFriends';
-import image from '../../assets/images/mockImage.jpg';
 import IcMenu from '../../assets/svg/IcMenu';
+import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
 
 const Feed = () => {
-  //페이지에서 친구 리스트 받아와야 데이터 다루기 편할 듯하다.
-  const friendList: FriendType[] = [
-    {
-      friendId: 1,
-      image: image,
-      name: '필수',
-    },
-    {
-      friendId: 2,
-      image: image,
-      name: '도희',
-    },
-    {
-      friendId: 3,
-      image: image,
-      name: '지윤',
-    },
-    {
-      friendId: 4,
-      image: image,
-      name: '가연',
-    },
-    {
-      friendId: 5,
-      image: image,
-      name: '윤지',
-    },
-    {
-      friendId: 6,
-      image: image,
-      name: '주희',
-    },
-  ];
-
-  //현재 친구 id를 FeedList 에 전달
-
+  const { friendList, isPending } = useGetFriends();
   const { currentFriend, handleClickFriend } = useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
+
   const handleDelete = () => {
     alert('친구 삭제');
     closeModal();
   };
 
+  if (isPending) return <div>로딩중</div>;
   return (
     <S.FeedLayout>
       {isOpen && (
@@ -65,8 +31,8 @@ const Feed = () => {
             onClose={closeModal}
             onSubmit={handleDelete}
           >
-            <span style={{ color: '#FAED46' }}>{currentFriend?.name}</span>님을
-            삭제하겠습니까?
+            <span style={{ color: '#FAED46' }}>{currentFriend?.nickname}</span>
+            님을 삭제하겠습니까?
           </SelectModal>
         </Modal>
       )}
@@ -85,7 +51,7 @@ const Feed = () => {
         </S.FeedTitleContainer>
         <FriendCarousel
           friendList={friendList}
-          currentFriendId={currentFriend?.friendId}
+          currentFriendId={currentFriend?.userID}
           onClickFriend={handleClickFriend}
         />
       </S.FeedHeaderContatiner>
@@ -97,7 +63,7 @@ const Feed = () => {
           </EmptyFeed>
         </S.EmptyFeedWrapper>
       ) : (
-        <FeedList friendId={currentFriend?.friendId} />
+        <FeedList friendId={currentFriend?.userID} />
       )}
     </S.FeedLayout>
   );

@@ -1,7 +1,11 @@
 export interface FriendType {
-  friendId: number;
-  image: string;
-  name: string;
+  createdAt: string;
+  fixedAt: string;
+  isFixed: boolean;
+  isKnock: boolean;
+  nickname: string;
+  profileImageUrl: string;
+  userID: string;
 }
 
 export interface FeedType {

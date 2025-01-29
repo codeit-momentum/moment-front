@@ -6,7 +6,7 @@ import { FeedType } from '../../../types/feed';
 import IcActiveFriends from './../../../assets/svg/IcActiveFriends';
 
 interface FeedListProps {
-  friendId: number | undefined;
+  friendId: string | undefined;
 }
 
 const FeedList = ({ friendId }: FeedListProps) => {
