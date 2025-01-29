@@ -1,15 +1,22 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import * as S from './ContainerLayout.style';
 
-type ContainerLayoutProps = {
-  children: ReactNode;
+interface ContainerLayoutProps {
   title: string;
-};
+  containerStyle?: CSSProperties;
+  titleStyle?: CSSProperties;
+  children: ReactNode;
+}
 
-const ContainerLayout = ({ children, title }: ContainerLayoutProps) => {
+const ContainerLayout = ({
+  title,
+  containerStyle,
+  titleStyle,
+  children,
+}: ContainerLayoutProps) => {
   return (
-    <S.ContainerLayout>
-      <S.TitleSpan>{title}</S.TitleSpan>
+    <S.ContainerLayout style={containerStyle}>
+      <S.TitleSpan style={titleStyle}>{title}</S.TitleSpan>
       <S.TopRightPixel />
       <S.TopLeftPixel />
       <S.BottomRightPixel />

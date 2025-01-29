@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import IcMomentUpload from '../../../assets/svg/IcMomentUpload';
 import * as S from './MomentUploadStatus.style';
+import MomentUploadStatusLayout from '../ContainerLayout/ContainerLayout';
 
 // 목 데이터
 const moments = [
@@ -16,8 +17,11 @@ const moments = [
 
 const MomentUploadStatus = () => {
   return (
-    <S.MomentUploadStatusLayout>
-      <S.TitleSpan>모멘트 인증하기</S.TitleSpan>
+    <MomentUploadStatusLayout
+      title="모멘트 인증하기"
+      containerStyle={{ padding: '2rem 1.7rem', gap: '2rem' }}
+      titleStyle={{ padding: '0.5rem 1.9rem' }}
+    >
       <S.MomentContainer>
         {moments.length > 0 ? (
           moments.map((moment) => (
@@ -42,7 +46,7 @@ const MomentUploadStatus = () => {
           </S.MomentItem>
         )}
       </S.MomentContainer>
-    </S.MomentUploadStatusLayout>
+    </MomentUploadStatusLayout>
   );
 };
 

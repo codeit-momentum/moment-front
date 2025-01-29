@@ -1,26 +1,5 @@
 import styled from 'styled-components';
 
-export const MomentUploadStatusLayout = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  position: relative;
-  width: 100%;
-  padding: 2rem;
-  border-radius: 2rem;
-  background-color: #d9d9d9;
-`;
-
-export const TitleSpan = styled.span`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  position: absolute;
-  top: -1.9rem;
-  padding: 0.3rem 1.7rem;
-  border-radius: 1.5rem;
-  background-color: #000;
-  color: #fff;
-  font-size: 18px;
-  line-height: 2.6rem;
-`;
-
 export const MomentContainer = styled.div`
   ${({ theme: { mixin } }) =>
     mixin.flexBox({ direction: 'row', align: 'flex-start' })};
