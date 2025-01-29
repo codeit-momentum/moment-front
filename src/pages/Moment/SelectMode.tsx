@@ -21,10 +21,9 @@ const SelectMode = () => {
     navigate(`/moment/create-moment?mode=${mode}`); //Query String으로 mode 전달
   };
 
-  // 이전 페이지가 moment 페이지인가..? -> handleBack이 기능을 안함,,,
   const handleBack = () => {
     if (navigationType === 'POP') {
-      navigate('/moment'); // POP 상태에서는 지정된 경로로 이동
+      navigate('/moment/bucket'); // POP 상태에서는 지정된 경로로 이동
     } else {
       navigate(-1); // 다른 상태에서는 이전 페이지로 이동
     }
