@@ -11,9 +11,8 @@ interface FeedListProps {
 }
 
 const FeedList = ({ friendId }: FeedListProps) => {
-  const { feed, isPending } = useGetFeed(friendId);
-  if (isPending) return <div>로딩중</div>;
-  console.log(feed);
+  /*const { feed, isPending } = useGetFeed(friendId);*/
+  //console.log(feed);
   const feedListArray: FeedType[] = [
     {
       feedId: 1,
