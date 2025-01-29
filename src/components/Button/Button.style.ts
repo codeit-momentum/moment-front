@@ -9,4 +9,8 @@ export const ButtonWrapper = styled.button`
   font-size: 12px;
   line-height: 20px;
   letter-spacing: -0.32px;
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.gray};
+    cursor: not-allowed;
+  }
 `;

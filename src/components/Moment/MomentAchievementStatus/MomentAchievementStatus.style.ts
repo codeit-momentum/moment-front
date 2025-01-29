@@ -1,58 +1,63 @@
 import styled from 'styled-components';
 
-export const MomentAchievementStatusLayout = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  position: relative;
-  width: 100%;
-  padding: 2rem;
-  border-radius: 2rem;
-  background-color: #d9d9d9;
-`;
-
-export const TitleSpan = styled.span`
-  position: absolute;
-  top: -1.9rem;
-  padding: 0.3rem 1.7rem;
-  border-radius: 1.5rem;
-  background-color: #000;
-  color: #fff;
-  text-align: center;
-  font-size: 18px;
-  line-height: 26px;
-`;
-
 export const MomentContainer = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
-  width: 100%;
-  padding: 2.5rem;
-  gap: 1.1rem;
-  border-radius: 2.5rem;
-  background-color: #fff;
+  padding: 1.4rem 1.5rem;
+  border-radius: 1rem;
+  background-color: ${({ theme }) => theme.colors.black};
+  display: flex;
 `;
 
 export const MomentItem = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 100%;
-  padding-bottom: 1.6rem;
-  gap: 1.1rem;
-  border-bottom: 1px solid #b8b8b8;
-  &:last-child {
-    border-bottom: 0px;
-    padding-bottom: 0rem;
-  }
+  padding-right: 0.4rem;
+  gap: 0.5rem;
 `;
 
 export const MomentDetailsBox = styled.div`
   ${({ theme: { mixin } }) => mixin.flexBox({ justify: `space-between` })};
   width: 100%;
-  color: #000;
-  font-size: 18px;
+  padding: 0rem 1rem;
+  gap: 1rem;
+  font-size: 12px;
+  line-height: 26px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+`;
+
+export const PercentageSpan = styled.span`
+  width: 4rem;
+  flex-shrink: 0;
+  color: ${({ theme }) => theme.colors.yellow};
+  font-size: 16px;
+  text-align: right;
+`;
+
+export const Divider = styled.hr`
+  width: 26.5rem;
+  height: 5px;
+  margin: 1.5rem 0rem;
+  border: none;
+  border-radius: 5px;
+  background-color: ${({ theme }) => theme.colors.blue};
+`;
+
+export const EmptyContainer = styled.div`
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
+  padding: 3.7rem 7.4rem;
+  margin: 1.5rem 0rem;
+  border-radius: 1rem;
+  background-color: ${({ theme }) => theme.colors.black};
+  display: flex;
+`;
+
+export const EmptyStateSpan = styled.span`
+  text-align: center;
+  font-size: 12px;
   line-height: 26px;
 `;
 
-export const EmptyMomentSpan = styled.span`
-  color: #000;
-  text-align: center;
-  font-size: 18px;
-  line-height: 26px;
+export const HighlightSpan = styled.span`
+  color: ${({ theme }) => theme.colors.yellow};
 `;

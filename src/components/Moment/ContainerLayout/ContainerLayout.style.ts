@@ -17,6 +17,7 @@ export const TitleSpan = styled.span`
   text-align: center;
   font-size: 18px;
   border-radius: 1rem;
+  line-height: 20px;
 `;
 
 export const TopRightPixel = styled.div`
