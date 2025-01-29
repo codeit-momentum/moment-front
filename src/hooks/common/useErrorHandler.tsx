@@ -1,19 +1,20 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-const useErrorHandler = () => {
-  const [error, setError] = useState('');
+const useResponseMessage = () => {
+  const [message, setMessage] = useState('');
 
   const handleError = (error: Error) => {
     if (axios.isAxiosError(error)) {
       const errorMessage = error.response?.data.message;
-      setError(errorMessage);
+      setMessage(errorMessage);
     }
   };
   return {
     handleError,
-    error,
+    message,
+    setMessage,
   };
 };
 
-export default useErrorHandler;
+export default useResponseMessage;

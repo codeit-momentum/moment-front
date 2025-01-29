@@ -17,7 +17,7 @@ const EditProfile = () => {
   const [newImage, setNewImage] = useState<string | null>(
     userInfo.profileImage,
   );
-  const { handleError, error } = useErrorHandler();
+  const { handleError, message, setMessage } = useErrorHandler();
   const { mutate: patchProfile } = usePatchProfile();
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,12 +50,14 @@ const EditProfile = () => {
       newNickname: newNickname,
     };
     patchProfile(body, {
-      onSuccess: () => {
-        alert('프로필과 닉네임이 변경되었습니다.');
+      onSuccess: (data) => {
+        setMessage(data.message);
       },
       onError: (error) => {
-        openModal();
         handleError(error);
+      },
+      onSettled: () => {
+        openModal();
       },
     });
   };
@@ -64,7 +66,7 @@ const EditProfile = () => {
     <S.EditProfileLayout>
       {isOpen && (
         <Modal>
-          <OKModal title="" mainText={error} onClose={closeModal} />
+          <OKModal title="" mainText={message} onClose={closeModal} />
         </Modal>
       )}
       <MyPageTitle>내 정보 수정하기</MyPageTitle>

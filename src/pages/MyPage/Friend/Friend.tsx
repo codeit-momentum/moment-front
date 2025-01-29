@@ -21,7 +21,7 @@ const Friend = () => {
   const [friendCode, setFriendCode] = useState<string>('');
   const [friendNickname, setFriendNickname] = useState<string>('');
   const [isFriend, setIsFriend] = useState(false);
-  const { handleError, error } = useErrorHandler();
+  const { handleError, message } = useErrorHandler();
   const [isOpen, openModal, closeModal] = useModal();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,8 +38,10 @@ const Friend = () => {
         handleError(error);
         setIsFriend(true);
       },
+      onSettled: () => {
+        openModal();
+      },
     });
-    openModal();
   };
 
   const handlePostFriend = () => {
@@ -66,9 +68,9 @@ const Friend = () => {
             <OKModal
               title=""
               mainText={
-                error === ''
+                message === ''
                   ? `${friendNickname}님과 친구가 되었습니다!`
-                  : error
+                  : message
               }
               onClose={handleClose}
             />
@@ -92,16 +94,13 @@ const Friend = () => {
             <IcSearch />
           </S.BtnSearch>
         </S.InputContainer>
-        {
-          //추후 수정 예정
-          friendCode.length > 8 && (
-            <S.WarningSpan>
-              코드는 8자리입니다.
-              <br />
-              확인해주세요!
-            </S.WarningSpan>
-          )
-        }
+        {friendCode.length > 8 && (
+          <S.WarningSpan>
+            코드는 8자리입니다.
+            <br />
+            확인해주세요!
+          </S.WarningSpan>
+        )}
       </S.SearchForm>
       <S.SubtitleSpan>나의 친구 코드</S.SubtitleSpan>
       <CopyToClipboard

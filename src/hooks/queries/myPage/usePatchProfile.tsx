@@ -13,18 +13,12 @@ const patchProfile = async (body: RequestType) => {
     },
   });
 
-  return response.data.user;
+  return response.data;
 };
 
 const usePatchProfile = () => {
   return useMutation({
     mutationFn: patchProfile,
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
   });
 };
 
