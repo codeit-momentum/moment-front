@@ -6,8 +6,8 @@ const BucketList = () => {
   return (
     <S.BucketListLayout>
       <MomentTabBar />
-      <CheckList variant="반복형" />
-      <CheckList variant="달성형" />
+      <CheckList type="반복형" />
+      <CheckList type="달성형" />
     </S.BucketListLayout>
   );
 };

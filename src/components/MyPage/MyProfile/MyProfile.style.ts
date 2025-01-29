@@ -1,14 +1,8 @@
 import styled from 'styled-components';
 
-export const MyPageLayout = styled.div`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({
-      direction: 'column',
-      justify: 'flex-start',
-    })};
-  color: ${({ theme }) => theme.colors.white};
+export const MyProfileLayout = styled.div`
   width: 100%;
-  padding-top: 6rem;
+  padding-bottom: 2rem;
 `;
 export const ProfileContainer = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
@@ -33,21 +27,4 @@ export const NicknameSpan = styled.span`
 export const EmailSpan = styled.span`
   line-height: 2rem;
   font-size: 16px;
-`;
-export const Horizontal = styled.hr`
-  border: none;
-  height: 0.3rem;
-  background-color: ${({ theme }) => theme.colors.blue};
-  width: 27.5rem;
-  stroke-width: 3px;
-  flex-shrink: 0;
-`;
-export const MyPageList = styled.li`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({
-      direction: 'column',
-    })};
-  width: 26rem;
-  padding-top: 2.5rem;
-  gap: 2rem;
 `;
