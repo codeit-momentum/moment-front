@@ -4,7 +4,8 @@ import { ModeType } from '../../../types/moment/modeType';
 import IcLoading from '../../../assets/svg/IcLoading';
 import IcEdit from '../../../assets/svg/IcEdit';
 import IcConfirm from '../../../assets/svg/IcConfirm';
-import CheckListItem from '../CheckList/CheckListItem/CheckListItem';
+import ToDoItem from '../CheckList/CheckListItem/CheckListItem';
+import TodoContainer from '../ContainerLayout/ContainerLayout';
 
 /**
  * ToDoListProps 인터페이스
@@ -68,17 +69,16 @@ const ToDoListComponent = ({
           <IcLoading />
         </S.TodoLoadingWrapper>
       ) : (
-        <S.TodoContainer>
-          <S.TodoHeaderContainer>
-            <S.TodoHeader>방법</S.TodoHeader>
-            <S.IconWrapper
-              onClick={isEditing ? handleConfirm : handleEditStart}
-            >
-              {isEditing ? <IcConfirm /> : <IcEdit />}
-            </S.IconWrapper>
-          </S.TodoHeaderContainer>
+        <TodoContainer
+          title="방법"
+          containerStyle={{ margin: '2rem 0rem', padding: '1rem 2.2rem' }}
+          titleStyle={{ fontSize: '16px', padding: '0.5rem 2.4rem' }}
+        >
+          <S.IconWrapper onClick={isEditing ? handleConfirm : handleEditStart}>
+            {isEditing ? <IcConfirm /> : <IcEdit />}
+          </S.IconWrapper>
           {todos.map((todo, index) => (
-            <CheckListItem
+            <ToDoItem
               key={Number(new Date()) + index} //임시 key값
               id={index}
               type="생성형"
@@ -88,7 +88,7 @@ const ToDoListComponent = ({
               onUpdateItem={handleEditTodo}
             />
           ))}
-        </S.TodoContainer>
+        </TodoContainer>
       )}
     </S.ToDoListLayout>
   );
