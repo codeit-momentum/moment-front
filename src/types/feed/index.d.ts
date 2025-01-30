@@ -15,3 +15,10 @@ export interface FeedType {
   content: string;
   date: string;
 }
+
+export interface MomentItemType {
+  content: string;
+  date: string;
+  imageUrl: string;
+  momentId: string;
+}

@@ -1,10 +1,10 @@
 import * as S from './FeedList.style';
 import FeedItem from '../FeedItem/FeedItem';
 import EmptyFeed from '../EmptyFeed/EmptyFeed';
-import { FeedType } from '../../../types/feed';
 import IcActiveFriends from './../../../assets/svg/IcActiveFriends';
 import useGetFeed from '../../../hooks/queries/Feed/useGetFeed';
 import formatDate from '../../../utils/formatDate';
+import { MomentItemType } from '../../../types/feed';
 
 interface FeedListProps {
   friendId: string;
@@ -24,7 +24,7 @@ const FeedList = ({ friendId }: FeedListProps) => {
             재촉해보세요!
           </EmptyFeed>
         ) : (
-          feed?.moments.map((moment) => (
+          feed?.moments.map((moment: MomentItemType) => (
             <FeedItem
               key={moment.momentId}
               name={nickname}
