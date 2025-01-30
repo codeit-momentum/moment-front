@@ -9,9 +9,12 @@ import useCurrentFriend from '../../hooks/useCurrentFriend';
 import IcActiveFriends from '../../assets/svg/IcActiveFriends';
 import IcMenu from '../../assets/svg/IcMenu';
 import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
+import FeedModal from '../../components/Modal/FeedModal/FeedModal';
+import usePostFix from '../../hooks/queries/Feed/usePostFix';
 
 const Feed = () => {
   const { friendList, isPending } = useGetFriends();
+  const { mutate: postFix } = usePostFix();
   const { currentFriend, handleClickFriend } = useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
 
@@ -20,12 +23,25 @@ const Feed = () => {
     closeModal();
   };
 
+  const handleFix = () => {
+    postFix(currentFriend.userID, {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+    });
+  };
+
   if (isPending) return <div>로딩중</div>;
   return (
     <S.FeedLayout>
       {isOpen && (
         <Modal>
-          <SelectModal
+          <FeedModal
+            title={currentFriend.nickname}
+            onFix={handleFix}
+            onClose={closeModal}
+          />
+          {/*<SelectModal
             type="delete"
             content="이 행위는 되돌릴 수 없습니다."
             onClose={closeModal}
@@ -33,7 +49,7 @@ const Feed = () => {
           >
             <span style={{ color: '#FAED46' }}>{currentFriend?.nickname}</span>
             님을 삭제하겠습니까?
-          </SelectModal>
+          </SelectModal>*/}
         </Modal>
       )}
       <S.FeedHeaderContatiner>
