@@ -37,6 +37,7 @@ const FeedList = ({ friendId }: FeedListProps) => {
         feed?.moments.map((moment: MomentItemType) => (
           <FeedItem
             key={moment.momentId}
+            feedId={moment.momentId}
             name={nickname}
             content={moment.content}
             date={formatDate(moment.date)}
