@@ -90,7 +90,10 @@ const Feed = () => {
           </EmptyFeed>
         </S.EmptyFeedWrapper>
       ) : (
-        <FeedList friendId={currentFriend?.userID} />
+        <FeedList
+          friendId={currentFriend?.userID}
+          friendNickname={currentFriend?.nickname}
+        />
       )}
     </S.FeedLayout>
   );

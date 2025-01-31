@@ -7,26 +7,43 @@ import formatDate from '../../../utils/formatDate';
 import { MomentItemType } from '../../../types/feed';
 import usePostKnock from '../../../hooks/queries/Feed/usePostKnock';
 import useModal from '../../../hooks/common/useModal';
+import OKModal from '../../Modal/OKModal/OKModal';
+import Modal from '../../Modal/Modal';
 
 interface FeedListProps {
   friendId: string;
+  friendNickname: string;
 }
 
-const FeedList = ({ friendId }: FeedListProps) => {
-  const { feed, nickname } = useGetFeed(friendId);
+const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
+  const { feed } = useGetFeed(friendId);
   const { mutate: postKnock } = usePostKnock();
-  //const [isOpen, openModal, closeModal] = useModal();
+  const [isOpen, openModal, closeModal] = useModal();
 
   const handleKnock = () => {
     postKnock(friendId, {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: () => {
+        openModal();
+      },
+      onError: () => {
+        alert('에러 발생');
       },
     });
   };
+  console.log(feed);
 
   return (
     <S.FeedListLayout>
+      {isOpen && (
+        <Modal>
+          <OKModal
+            title=""
+            mainText={`${friendNickname}님께 노크하였습니다!`}
+            subText="피드를 곧 올려주실 거예요!"
+            onClose={closeModal}
+          />
+        </Modal>
+      )}
       {feed === undefined ? (
         <EmptyFeed type="feed" icon={<IcActiveFriends />} onClick={handleKnock}>
           친구가 피드를 안 올리네요...
@@ -38,7 +55,7 @@ const FeedList = ({ friendId }: FeedListProps) => {
           <FeedItem
             key={moment.momentId}
             feedId={moment.momentId}
-            name={nickname}
+            name={friendNickname}
             content={moment.content}
             date={formatDate(moment.date)}
             image={moment.imageUrl}
