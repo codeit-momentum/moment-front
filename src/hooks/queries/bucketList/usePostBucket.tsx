@@ -1,14 +1,14 @@
-import { BucketType, PostBucketResponse } from '../../../types/moment';
+import { BucketType, BucketResponse } from '../../../types/moment';
 import { useMutation } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 
-interface BucketRequest {
+interface PostBucketParams {
   type: BucketType;
   content: string;
 }
 
 // fetch 함수 작성
-const postBucket = async (body: BucketRequest): Promise<PostBucketResponse> => {
+const postBucket = async (body: PostBucketParams): Promise<BucketResponse> => {
   const response = await instance.post('/api/bucket', body);
   return response.data;
 };

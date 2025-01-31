@@ -11,7 +11,9 @@ const useResponseMessage = () => {
   const handleError = (error: Error) => {
     if (axios.isAxiosError(error)) {
       const errorMessage =
-        error.response?.data.message ?? '서버 연결에 실패하였습니다.';
+        error.response?.data.message ??
+        error.response?.data.error?.message ??
+        '서버 연결에 실패하였습니다.';
       setMessage(errorMessage);
     }
   };

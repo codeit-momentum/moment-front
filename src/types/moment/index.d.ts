@@ -24,7 +24,7 @@ interface Bucket {
   userID: string;
 }
 
-interface PostBucketResponse {
+export interface BucketResponse {
   bucket: Bucket;
   message: string;
   success: boolean;

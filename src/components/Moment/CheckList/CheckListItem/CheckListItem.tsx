@@ -65,15 +65,16 @@ const CheckListItem = ({
   };
 
   const handleUpdateItem = () => {
-    if (isEditing) {
-      if (type === '생성형') {
-        onUpdateItem(id as number, itemValue);
-        return;
-      } else {
-        onUpdateItem(id as string, itemValue);
-      }
+    if (!isEditing) return;
+
+    if (type === '생성형') {
+      onUpdateItem(id as number, itemValue);
+    } else {
+      const trimmedValue = itemValue.trim();
+      if (!trimmedValue) return;
+
+      onUpdateItem(id as string, itemValue);
       setIsEditing(false);
-      alert(`${itemValue}저장`);
     }
   };
 

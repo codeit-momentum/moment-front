@@ -7,10 +7,15 @@ import IcCheckboxPending from '../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckList.style';
 import usePostBucket from '../../../hooks/queries/bucketList/usePostBucket';
 import useResponseMessage from '../../../hooks/common/useErrorHandler';
+import usePatchBucket from '../../../hooks/queries/bucketList/usePatchBucket';
 
 // 목 데이터
 const bucketlist: BucketListType[] = [
-  { id: '1', title: '단어 500개 외우기', state: 'pending' },
+  {
+    id: '679c8ad644c09bba20cd248e',
+    title: '단어 500개 외우기',
+    state: 'pending',
+  },
   { id: '2', title: '컴활 1급 따기', state: 'pending' },
   { id: '3', title: '토익 800점 넘기', state: 'inProgress' },
   { id: '4', title: '오픽 AL 따기 ', state: 'completed' },
@@ -24,6 +29,7 @@ const CheckList = ({ type }: CheckListProps) => {
   const [bucketList, setBucketList] = useState<BucketListType[]>(bucketlist);
   const [newItem, setNewItem] = useState<string>('');
   const { mutate: postBucket } = usePostBucket();
+  const { mutate: patchBucket } = usePatchBucket();
   const { handleError, setMessage, openModal, renderModal } =
     useResponseMessage();
 
@@ -34,7 +40,7 @@ const CheckList = ({ type }: CheckListProps) => {
       if (!trimmedItem) return;
 
       const body = {
-        type: type,
+        type,
         content: trimmedItem,
       };
       postBucket(body, {
@@ -64,10 +70,23 @@ const CheckList = ({ type }: CheckListProps) => {
   };
 
   const handleUpdateItem = (id: string, newTitle: string) => {
-    setBucketList((prev) =>
-      prev.map((it) => (it.id === id ? { ...it, title: newTitle } : it)),
+    patchBucket(
+      { id, content: newTitle },
+      {
+        onSuccess: (data) => {
+          setMessage(data.message);
+          setBucketList((prev) =>
+            prev.map((it) => (it.id === id ? { ...it, title: newTitle } : it)),
+          );
+        },
+        onError: (error) => {
+          handleError(error);
+        },
+        onSettled: () => {
+          openModal();
+        },
+      },
     );
-    // 여기서 post api 요청
   };
 
   const handleDeleteItem = (id: string) => {
