@@ -19,8 +19,8 @@ const MomentUploadStatus = () => {
   return (
     <MomentUploadStatusLayout
       title="모멘트 인증하기"
-      containerStyle={{ padding: '2rem 1.7rem', gap: '2rem' }}
-      titleStyle={{ padding: '0.5rem 1.9rem' }}
+      containerStyle={{ padding: '2rem 1.7rem' }}
+      titleStyle={{ padding: '0.5rem 1.9rem', marginBottom: '2rem' }}
     >
       <S.MomentContainer>
         {moments.length > 0 ? (
