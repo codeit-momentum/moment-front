@@ -1,90 +1,113 @@
 import { KeyboardEvent, useState } from 'react';
 import { handleResizeHeight } from '../../../utils/moment';
-import { BucketListType, CheckListType } from '../../../types/moment';
+import { BucketListType, BucketType } from '../../../types/moment';
 import CheckListLayout from '../ContainerLayout/ContainerLayout';
 import CheckListItem from './CheckListItem/CheckListItem';
 import IcCheckboxPending from '../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckList.style';
+import usePostBucket from '../../../hooks/queries/bucketList/usePostBucket';
+import useResponseMessage from '../../../hooks/common/useErrorHandler';
 
 // 목 데이터
 const bucketlist: BucketListType[] = [
-  { id: 1, title: '단어 500개 외우기', state: 'pending' },
-  { id: 2, title: '컴활 1급 따기', state: 'pending' },
-  { id: 3, title: '토익 800점 넘기', state: 'inProgress' },
-  { id: 4, title: '오픽 AL 따기 ', state: 'completed' },
+  { id: '1', title: '단어 500개 외우기', state: 'pending' },
+  { id: '2', title: '컴활 1급 따기', state: 'pending' },
+  { id: '3', title: '토익 800점 넘기', state: 'inProgress' },
+  { id: '4', title: '오픽 AL 따기 ', state: 'completed' },
 ];
 
 type CheckListProps = {
-  type: CheckListType;
+  type: BucketType;
 };
 
 const CheckList = ({ type }: CheckListProps) => {
   const [bucketList, setBucketList] = useState<BucketListType[]>(bucketlist);
   const [newItem, setNewItem] = useState<string>('');
+  const { mutate: postBucket } = usePostBucket();
+  const { handleError, setMessage, openModal, renderModal } =
+    useResponseMessage();
 
   const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    // isComposing: 한글 입력 시 입력 중인 글자(마지막 글자)에 대해
-    // 이벤트 핸들러가 중복 실행되는 문제를 방지하기 위해 사용
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
       const trimmedItem = newItem.trim();
       if (!trimmedItem) return;
 
-      setBucketList((prev) => [
-        // 임의 id 생성
-        { id: Number(new Date()), title: trimmedItem, state: 'pending' },
-        ...prev,
-      ]);
-      alert(`${trimmedItem} 저장`);
-      setNewItem('');
+      const body = {
+        type: type,
+        content: trimmedItem,
+      };
+      postBucket(body, {
+        onSuccess: (data) => {
+          setMessage(data.message);
+          setBucketList((prev) => [
+            {
+              id: data.bucket.bucketID,
+              title: data.bucket.content,
+              state: 'pending',
+            },
+            ...prev,
+          ]);
+        },
+        onError: (error) => {
+          handleError(error);
+        },
+        onSettled: () => {
+          openModal();
 
-      const target = e.target as HTMLTextAreaElement;
-      target.style.height = '20px';
+          setNewItem('');
+          const target = e.target as HTMLTextAreaElement;
+          target.style.height = '20px';
+        },
+      });
     }
   };
 
-  const handleUpdateItem = (id: number, newTitle: string) => {
+  const handleUpdateItem = (id: string, newTitle: string) => {
     setBucketList((prev) =>
       prev.map((it) => (it.id === id ? { ...it, title: newTitle } : it)),
     );
     // 여기서 post api 요청
   };
 
-  const handleDeleteItem = (id: number) => {
+  const handleDeleteItem = (id: string) => {
     setBucketList((prev) => prev.filter((it) => it.id !== id));
     // 여기서 delete api 요청
   };
 
   return (
-    <CheckListLayout title={type}>
-      {/* 새 버킷리스트 추가 */}
-      <S.InputContainer>
-        <S.CheckBoxWrapper>
-          <IcCheckboxPending />
-        </S.CheckBoxWrapper>
+    <>
+      <CheckListLayout title={type === 'REPEAT' ? '반복형' : '달성형'}>
+        {/* 새 버킷리스트 추가 */}
+        <S.InputContainer>
+          <S.CheckBoxWrapper>
+            <IcCheckboxPending />
+          </S.CheckBoxWrapper>
 
-        <S.NewItemInput
-          value={newItem}
-          maxLength={30}
-          onChange={(e) => setNewItem(e.target.value)}
-          onInput={handleResizeHeight}
-          onKeyDown={handleKeyPress}
-        />
-      </S.InputContainer>
+          <S.NewItemInput
+            value={newItem}
+            maxLength={30}
+            onChange={(e) => setNewItem(e.target.value)}
+            onInput={handleResizeHeight}
+            onKeyDown={handleKeyPress}
+          />
+        </S.InputContainer>
 
-      {/* 기존 버킷리스트 목록 */}
-      {bucketList.map((item) => (
-        <CheckListItem
-          key={item.id}
-          id={item.id}
-          type={type}
-          value={item.title}
-          state={item.state}
-          onUpdateItem={handleUpdateItem}
-          onDeleteItem={handleDeleteItem}
-        />
-      ))}
-    </CheckListLayout>
+        {/* 기존 버킷리스트 목록 */}
+        {bucketList.map((item) => (
+          <CheckListItem
+            key={item.id}
+            id={item.id}
+            type={type}
+            value={item.title}
+            state={item.state}
+            onUpdateItem={handleUpdateItem}
+            onDeleteItem={handleDeleteItem}
+          />
+        ))}
+      </CheckListLayout>
+      {renderModal()}
+    </>
   );
 };
 
