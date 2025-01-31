@@ -7,7 +7,6 @@ interface PatchBucketParams {
   content: string;
 }
 
-// fetch 함수 작성
 const patchBucket = async ({
   id,
   content,

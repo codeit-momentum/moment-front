@@ -1,22 +1,22 @@
 import { KeyboardEvent, useState } from 'react';
 import { handleResizeHeight } from '../../../utils/moment';
 import { BucketListType, BucketType } from '../../../types/moment';
+import usePostBucket from '../../../hooks/queries/bucketList/usePostBucket';
+import usePatchBucket from '../../../hooks/queries/bucketList/usePatchBucket';
+import useResponseMessage from '../../../hooks/common/useErrorHandler';
 import CheckListLayout from '../ContainerLayout/ContainerLayout';
 import CheckListItem from './CheckListItem/CheckListItem';
 import IcCheckboxPending from '../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckList.style';
-import usePostBucket from '../../../hooks/queries/bucketList/usePostBucket';
-import useResponseMessage from '../../../hooks/common/useErrorHandler';
-import usePatchBucket from '../../../hooks/queries/bucketList/usePatchBucket';
 
 // 목 데이터
 const bucketlist: BucketListType[] = [
   {
-    id: '679c8ad644c09bba20cd248e',
+    id: '679c8bd744c09bba20cd248f',
     title: '단어 500개 외우기',
     state: 'pending',
   },
-  { id: '2', title: '컴활 1급 따기', state: 'pending' },
+  { id: '679c8ad644c09bba20cd248e', title: '컴활 1급 따기', state: 'pending' },
   { id: '3', title: '토익 800점 넘기', state: 'inProgress' },
   { id: '4', title: '오픽 AL 따기 ', state: 'completed' },
 ];

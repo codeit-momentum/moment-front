@@ -7,7 +7,6 @@ interface PostBucketParams {
   content: string;
 }
 
-// fetch 함수 작성
 const postBucket = async (body: PostBucketParams): Promise<BucketResponse> => {
   const response = await instance.post('/api/bucket', body);
   return response.data;

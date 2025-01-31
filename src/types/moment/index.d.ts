@@ -13,12 +13,12 @@ interface Bucket {
   completedMomentsCount: number;
   content: string;
   createdAt: string;
-  endDate: null;
+  endDate: string;
   isChallenging: boolean;
   isCompleted: boolean;
   momentsCount: number;
-  photoUrl: null;
-  startDate: null;
+  photoUrl: null | string;
+  startDate: string;
   type: BucketType;
   updatedAt: string;
   userID: string;
@@ -28,4 +28,15 @@ export interface BucketResponse {
   bucket: Bucket;
   message: string;
   success: boolean;
+}
+
+interface BucketDetail extends Bucket {
+  moments: [];
+}
+
+export interface BucketDetailResponse {
+  bucket: BucketDetail;
+  success: boolean;
+  momentsCount: number;
+  completedMomentsCount: number;
 }
