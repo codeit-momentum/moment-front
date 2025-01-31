@@ -8,6 +8,8 @@ import Button from '../../../components/Button/Button';
 import IcBack from '../../../assets/svg/IcBack';
 import * as S from './Upload.style';
 import useGetBucketDetail from '../../../hooks/queries/bucketList/useGetBucketDetail';
+import usePatchBucketUpload from '../../../hooks/queries/bucketList/usePatchBucketUpload';
+import useResponseMessage from '../../../hooks/common/useErrorHandler';
 
 const mockData = {
   moment: {
@@ -27,12 +29,18 @@ type UploadProps = {
 };
 
 const Upload = ({ variant }: UploadProps) => {
-  const { id } = useParams();
+  const { id } = useParams() as { id: string };
   const [isOpen, openModal, closeModal] = useModal();
   const [image, setImage] = useState<string | null>(null);
+  const { mutate: patchBucketUpload } = usePatchBucketUpload();
+  const {
+    handleError,
+    openModal: openErrorModal,
+    renderModal,
+  } = useResponseMessage();
   const navigate = useNavigate();
 
-  const { data, isError } = useGetBucketDetail(id || '');
+  const { data, isError, isLoading } = useGetBucketDetail(id);
 
   useEffect(() => {
     if (
@@ -48,7 +56,18 @@ const Upload = ({ variant }: UploadProps) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    openModal();
+    if (!image) return;
+
+    patchBucketUpload(
+      { id, image },
+      {
+        onSuccess: openModal,
+        onError: (error) => {
+          handleError(error);
+          openErrorModal();
+        },
+      },
+    );
   };
 
   const handleCloseModal = () => {
@@ -60,6 +79,10 @@ const Upload = ({ variant }: UploadProps) => {
     }
   };
 
+  if (isLoading || !data) {
+    return <div>로딩중 ... </div>;
+  }
+
   return (
     <S.UploadLayout>
       <S.Header>
@@ -67,7 +90,7 @@ const Upload = ({ variant }: UploadProps) => {
           <IcBack />
         </S.BackButton>
       </S.Header>
-      <S.TitleSpan>{data?.bucket.content}</S.TitleSpan>
+      <S.TitleSpan>{data.bucket.content}</S.TitleSpan>
       <S.ImageUploadLayout onSubmit={handleSubmit}>
         <ImageUpload image={image} setImage={setImage} />
         <Button
@@ -91,13 +114,14 @@ const Upload = ({ variant }: UploadProps) => {
         ) : (
           <Modal>
             <OKModal
-              title={mockData[variant].title}
+              title={data.bucket.content}
               mainText=" 완료!"
               subText="새로운 버킷리스트를 달성했네요"
               onClose={handleCloseModal}
             />
           </Modal>
         ))}
+      {renderModal()}
     </S.UploadLayout>
   );
 };
