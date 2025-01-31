@@ -1,5 +1,5 @@
-import IcCheer from '../../../assets/svg/IcCheer';
 import * as S from './FeedItem.style';
+import IcHello from '../../../assets/svg/IcHello';
 
 interface FeedItemProps {
   name: string;
@@ -19,7 +19,7 @@ const FeedItem = ({ name, content, date, image }: FeedItemProps) => {
       </S.FeedInfoContainer>
       <S.FeedImageContainer>
         <S.IconWrapper>
-          <IcCheer />
+          <IcHello />
         </S.IconWrapper>
         <S.FeedImage src={image} alt={name} />
         <S.DateBox>{date}</S.DateBox>
