@@ -1,20 +1,29 @@
 import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';
 import * as S from './EditProfile.style';
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import mockImage from '../../../assets/images/mockImage.jpg';
+import React, { useState, useEffect, ChangeEvent, useContext } from 'react';
+import UserInfoContext from '../../../store/User/UserContext';
 import Button from '../../../components/Button/Button';
+import usePatchProfile from '../../../hooks/queries/myPage/usePatchProfile';
+import useErrorHandler from '../../../hooks/common/useErrorHandler';
+import useModal from '../../../hooks/common/useModal';
+import Modal from '../../../components/Modal/Modal';
+import OKModal from '../../../components/Modal/OKModal/OKModal';
 
 const EditProfile = () => {
-  const values = {
-    nickname: '필수',
-    email: 'example@gmail.com',
-    image: mockImage,
-  };
-  const [newNickname, setNewNickname] = useState<string>(values.nickname);
-  const [newImage, setNewImage] = useState<string | null>(values.image);
+  const [isOpen, openModal, closeModal] = useModal();
+  const { userInfo } = useContext(UserInfoContext);
+  const [newNickname, setNewNickname] = useState<string>(userInfo.nickname);
+  const [file, setFile] = useState<File | null>(null);
+  const [newImage, setNewImage] = useState<string | null>(
+    userInfo.profileImage,
+  );
+  const { handleError, message, setMessage } = useErrorHandler();
+  const { mutate: patchProfile } = usePatchProfile();
+
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(e.target.value);
   };
+
   useEffect(() => {
     return () => {
       if (newImage) URL.revokeObjectURL(newImage);
@@ -30,22 +39,44 @@ const EditProfile = () => {
       e.target.value = '';
       return;
     }
-
-    // 미리보기 이미지 URL 생성
+    setFile(newImage);
     setNewImage(URL.createObjectURL(newImage));
   };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // API로 변경 요청
     e.preventDefault();
-    alert('유저 정보 변경');
+    const body = {
+      profileImage: file,
+      newNickname: newNickname,
+    };
+    patchProfile(body, {
+      onSuccess: (data) => {
+        setMessage(data.message);
+      },
+      onError: (error) => {
+        handleError(error);
+      },
+      onSettled: () => {
+        openModal();
+      },
+    });
   };
+
   return (
     <S.EditProfileLayout>
+      {isOpen && (
+        <Modal>
+          <OKModal title="" mainText={message} onClose={closeModal} />
+        </Modal>
+      )}
       <MyPageTitle>내 정보 수정하기</MyPageTitle>
 
       <S.EditForm onSubmit={handleSubmit}>
         <S.Label>
-          <S.PreviewImage src={newImage || values.image} alt="profile" />
+          <S.PreviewImage
+            src={newImage || userInfo.profileImage}
+            alt="profile"
+          />
           <S.ImageInput type="file" accept="image/*" onChange={handleImage} />
         </S.Label>
         <S.InputContainer>
@@ -58,7 +89,7 @@ const EditProfile = () => {
           </S.InputItemContainer>
           <S.InputItemContainer>
             <S.InputTitleSpan>이메일</S.InputTitleSpan>
-            <S.ProfileItemInput value={values.email} readOnly />
+            <S.ProfileItemInput value={userInfo.email} readOnly />
           </S.InputItemContainer>
         </S.InputContainer>
         <Button type="submit">저장하기</Button>
