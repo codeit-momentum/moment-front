@@ -11,17 +11,22 @@ import IcMenu from '../../assets/svg/IcMenu';
 import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
 import FeedModal from '../../components/Modal/FeedModal/FeedModal';
 import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
+import useDeleteFriend from '../../hooks/queries/Feed/useDeleteFriend';
 
 const Feed = () => {
   const { friendList, isPending } = useGetFriends();
   const { mutate: patchFix } = usePatchFix();
+  const { mutate: deleteFriend } = useDeleteFriend();
   const { currentFriend, handleClickFriend, setCurrentFriend } =
     useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
 
   const handleDelete = () => {
-    alert('친구 삭제');
-    closeModal();
+    deleteFriend(currentFriend.userID, {
+      onSuccess: () => {
+        closeModal();
+      },
+    });
   };
 
   const handleFix = () => {
@@ -44,6 +49,7 @@ const Feed = () => {
             title={currentFriend.nickname}
             isFixed={currentFriend.isFixed}
             onFix={handleFix}
+            onDelete={handleDelete}
             onClose={closeModal}
           />
           {/*<SelectModal
@@ -72,7 +78,7 @@ const Feed = () => {
         </S.FeedTitleContainer>
         <FriendCarousel
           friendList={friendList}
-          currentFriendId={currentFriend.userID}
+          currentFriendId={currentFriend?.userID}
           onClickFriend={handleClickFriend}
         />
       </S.FeedHeaderContatiner>

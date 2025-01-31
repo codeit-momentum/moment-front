@@ -1,10 +1,10 @@
 import instance from '../../../apis/client';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const deleteFriend = async (friendId: string) => {
   const response = await instance.delete('/api/friends', {
     data: {
-      friendId: friendId,
+      friendUserID: friendId,
     },
   });
 
@@ -12,8 +12,15 @@ const deleteFriend = async (friendId: string) => {
 };
 
 const useDeleteFriend = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: deleteFriend,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['friends'],
+      });
+    },
   });
 };
 

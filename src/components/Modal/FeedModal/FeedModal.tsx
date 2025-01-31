@@ -5,10 +5,17 @@ interface FeedModalProps {
   title: string;
   isFixed: boolean;
   onFix: () => void;
+  onDelete: () => void;
   onClose: () => void;
 }
 
-const FeedModal = ({ title, isFixed, onFix, onClose }: FeedModalProps) => {
+const FeedModal = ({
+  title,
+  isFixed,
+  onFix,
+  onDelete,
+  onClose,
+}: FeedModalProps) => {
   return (
     <S.FeedModalLayout>
       <S.ModalHeader>
@@ -23,7 +30,7 @@ const FeedModal = ({ title, isFixed, onFix, onClose }: FeedModalProps) => {
         <S.ModalOptionButton onClick={onFix}>
           친구 고정 {isFixed === false ? 'on' : 'off'}
         </S.ModalOptionButton>
-        <S.ModalOptionButton>친구 삭제하기</S.ModalOptionButton>
+        <S.ModalOptionButton onClick={onDelete}>친구 삭제하기</S.ModalOptionButton>
       </S.ModalOptionContainer>
     </S.FeedModalLayout>
   );
