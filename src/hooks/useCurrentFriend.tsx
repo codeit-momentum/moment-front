@@ -11,7 +11,7 @@ const useCurrentFriend = (friendList: FriendType[]) => {
     }
   };
 
-  return { currentFriend, handleClickFriend };
+  return { currentFriend, handleClickFriend, setCurrentFriend };
 };
 
 export default useCurrentFriend;

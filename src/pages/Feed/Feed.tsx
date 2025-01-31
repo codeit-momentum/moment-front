@@ -10,12 +10,13 @@ import IcActiveFriends from '../../assets/svg/IcActiveFriends';
 import IcMenu from '../../assets/svg/IcMenu';
 import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
 import FeedModal from '../../components/Modal/FeedModal/FeedModal';
-import usePostFix from '../../hooks/queries/Feed/usePostFix';
+import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
 
 const Feed = () => {
   const { friendList, isPending } = useGetFriends();
-  const { mutate: postFix } = usePostFix();
-  const { currentFriend, handleClickFriend } = useCurrentFriend(friendList);
+  const { mutate: patchFix } = usePatchFix();
+  const { currentFriend, handleClickFriend, setCurrentFriend } =
+    useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
 
   const handleDelete = () => {
@@ -24,9 +25,12 @@ const Feed = () => {
   };
 
   const handleFix = () => {
-    postFix(currentFriend.userID, {
-      onSuccess: (data) => {
-        console.log(data);
+    patchFix(currentFriend.userID, {
+      onSuccess: () => {
+        setCurrentFriend({
+          ...currentFriend,
+          isFixed: !currentFriend.isFixed,
+        });
       },
     });
   };
@@ -38,6 +42,7 @@ const Feed = () => {
         <Modal>
           <FeedModal
             title={currentFriend.nickname}
+            isFixed={currentFriend.isFixed}
             onFix={handleFix}
             onClose={closeModal}
           />

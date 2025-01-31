@@ -34,6 +34,7 @@ const FriendCarousel = ({
                 src={friend.profileImageUrl}
                 alt={`${friend.nickname}님의 프로필`}
                 $isClicked={isClick(friend.userID)}
+                $isFixed={friend.isFixed}
               />
               {friend.nickname}
             </S.FriendItem>
