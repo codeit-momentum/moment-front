@@ -10,6 +10,7 @@ import IcCheckboxPending from '../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckList.style';
 import useGetRepeatBucket from '../../../hooks/queries/bucketList/useGetRepeatBucket';
 import useGetAchievementBucket from '../../../hooks/queries/bucketList/useGetAchievementBucket';
+import useDeleteBucket from '../../../hooks/queries/bucketList/useDeleteBucket';
 
 const TypeHooks = {
   REPEAT: useGetRepeatBucket,
@@ -27,6 +28,7 @@ const CheckList = ({ type }: CheckListProps) => {
     useResponseMessage();
   const { mutate: postBucket } = usePostBucket();
   const { mutate: patchBucket } = usePatchBucket();
+  const { mutate: deleteBucket } = useDeleteBucket();
 
   const useTypeHook = TypeHooks[type];
   const { data, isLoading } = useTypeHook();
@@ -98,8 +100,18 @@ const CheckList = ({ type }: CheckListProps) => {
   };
 
   const handleDeleteItem = (id: string) => {
-    setBucketList((prev) => prev.filter((it) => it.bucketID !== id));
-    // 여기서 delete api 요청
+    deleteBucket(id, {
+      onSuccess: (data) => {
+        setMessage(data.message);
+        setBucketList((prev) => prev.filter((it) => it.bucketID !== id));
+      },
+      onError: (error) => {
+        handleError(error);
+      },
+      onSettled: () => {
+        openModal();
+      },
+    });
   };
 
   if (!data || isLoading) {
