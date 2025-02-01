@@ -30,7 +30,6 @@ const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
       },
     });
   };
-  console.log(feed);
 
   return (
     <S.FeedListLayout>

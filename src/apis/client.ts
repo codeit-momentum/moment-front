@@ -35,7 +35,7 @@ instance.interceptors.response.use(
   },
   (error) => {
     // 401: access 토큰이 없는 경우, 403: refresh 토큰이 없는 경우
-    if (error.response?.status === 401 || error.response?.status === 403) {
+    if (error.response?.status === 401) {
       localStorage.removeItem('accessToken');
 
       // 로그인 페이지로 리다이렉트
