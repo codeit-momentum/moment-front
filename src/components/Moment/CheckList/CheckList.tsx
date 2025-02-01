@@ -35,7 +35,6 @@ const CheckList = ({ type }: CheckListProps) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setBucketList(data.buckets);
     }
   }, [data]);

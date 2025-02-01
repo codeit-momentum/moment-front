@@ -20,12 +20,6 @@ const patchBucket = async ({
 const usePatchBucket = () => {
   return useMutation({
     mutationFn: patchBucket,
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
   });
 };
 

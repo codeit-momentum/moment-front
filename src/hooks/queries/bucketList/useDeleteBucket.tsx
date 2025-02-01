@@ -9,12 +9,6 @@ const deleteBucket = async (id: string) => {
 const useDeleteBucket = () => {
   return useMutation({
     mutationFn: deleteBucket,
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
   });
 };
 

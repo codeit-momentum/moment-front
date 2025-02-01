@@ -17,12 +17,6 @@ const postBucket = async (
 const usePostBucket = () => {
   return useMutation({
     mutationFn: postBucket,
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
   });
 };
 
