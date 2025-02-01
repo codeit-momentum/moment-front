@@ -13,9 +13,10 @@ import IcKnock from '../../../assets/svg/IcKnock';
 interface FeedListProps {
   friendId: string;
   friendNickname: string;
+  isKnocked: boolean;
 }
 
-const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
+const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
   const { feed } = useGetFeed(friendId);
   const { mutate: postKnock } = usePostKnock();
   const [isOpen, openModal, closeModal] = useModal();
@@ -44,7 +45,12 @@ const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
         </Modal>
       )}
       {feed === undefined ? (
-        <EmptyFeed type="feed" icon={<IcKnock />} onClick={handleKnock}>
+        <EmptyFeed
+          type="feed"
+          icon={<IcKnock />}
+          onClick={handleKnock}
+          isKnocked={isKnocked}
+        >
           친구가 피드를 안 올리네요...
           <br /> <span style={{ color: '#FAED46' }}>노크를 해서 </span>
           재촉해보세요!

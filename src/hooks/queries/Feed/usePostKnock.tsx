@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 
 const postKnock = async (friendId: string) => {
@@ -10,8 +10,15 @@ const postKnock = async (friendId: string) => {
 };
 
 const usePostKnock = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: postKnock,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['friends'],
+      });
+    },
   });
 };
 
