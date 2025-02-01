@@ -6,13 +6,13 @@ import useModal from '../../hooks/common/useModal';
 import Modal from '../../components/Modal/Modal';
 import SelectModal from '../../components/Modal/SelectModal/SelectModal';
 import useCurrentFriend from '../../hooks/useCurrentFriend';
-import IcActiveFriends from '../../assets/svg/IcActiveFriends';
 import IcMenu from '../../assets/svg/IcMenu';
 import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
 import FeedModal from '../../components/Modal/FeedModal/FeedModal';
 import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
 import useDeleteFriend from '../../hooks/queries/Feed/useDeleteFriend';
 import { useNavigate } from 'react-router-dom';
+import IcNoFriend from '../../assets/svg/IcNoFriend';
 
 const Feed = () => {
   const { friendList, isPending } = useGetFriends();
@@ -92,7 +92,7 @@ const Feed = () => {
         <S.EmptyFeedWrapper>
           <EmptyFeed
             type="friend"
-            icon={<IcActiveFriends />}
+            icon={<IcNoFriend />}
             onClick={handleNavigate}
           >
             친구를 추가해서
