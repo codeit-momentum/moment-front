@@ -12,6 +12,7 @@ import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
 import FeedModal from '../../components/Modal/FeedModal/FeedModal';
 import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
 import useDeleteFriend from '../../hooks/queries/Feed/useDeleteFriend';
+import { useNavigate } from 'react-router-dom';
 
 const Feed = () => {
   const { friendList, isPending } = useGetFriends();
@@ -20,6 +21,11 @@ const Feed = () => {
   const { currentFriend, handleClickFriend, setCurrentFriend } =
     useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate('/mypage/friend');
+  };
 
   const handleDelete = () => {
     deleteFriend(currentFriend.userID, {
@@ -84,7 +90,11 @@ const Feed = () => {
       </S.FeedHeaderContatiner>
       {friendList.length === 0 ? (
         <S.EmptyFeedWrapper>
-          <EmptyFeed type="friend" icon={<IcActiveFriends />}>
+          <EmptyFeed
+            type="friend"
+            icon={<IcActiveFriends />}
+            onClick={handleNavigate}
+          >
             친구를 추가해서
             <br /> 달성기록을 공유해보세요.
           </EmptyFeed>
