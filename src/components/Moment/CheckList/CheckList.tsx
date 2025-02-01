@@ -9,22 +9,11 @@ import CheckListItem from './CheckListItem/CheckListItem';
 import IcCheckboxPending from '../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckList.style';
 import useGetRepeatBucket from '../../../hooks/queries/bucketList/useGetRepeatBucket';
-
-// 목 데이터
-// const bucketlist: BucketItemType[] = [
-//   {
-//     id: '679c8bd744c09bba20cd248f',
-//     title: '단어 500개 외우기',
-//     state: 'pending',
-//   },
-//   { id: '679c8ad644c09bba20cd248e', title: '컴활 1급 따기', state: 'pending' },
-//   { id: '3', title: '토익 800점 넘기', state: 'inProgress' },
-//   { id: '4', title: '오픽 AL 따기 ', state: 'completed' },
-// ];
+import useGetAchievementBucket from '../../../hooks/queries/bucketList/useGetAchievementBucket';
 
 const TypeHooks = {
   REPEAT: useGetRepeatBucket,
-  ACHIEVEMENT: useGetRepeatBucket,
+  ACHIEVEMENT: useGetAchievementBucket,
 };
 
 type CheckListProps = {
