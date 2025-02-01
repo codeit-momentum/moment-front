@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import instance from '../../../apis/client';
-import { BucketResponse } from '../../../types/moment';
+import { UpdateBucketResponse } from '../../../types/moment';
 
 interface PatchBucketParams {
   id: string;
@@ -10,7 +10,7 @@ interface PatchBucketParams {
 const patchBucket = async ({
   id,
   content,
-}: PatchBucketParams): Promise<BucketResponse> => {
+}: PatchBucketParams): Promise<UpdateBucketResponse> => {
   const response = await instance.patch(`/api/bucket/${id}`, {
     content: content,
   });

@@ -1,4 +1,4 @@
-import { BucketType, BucketResponse } from '../../../types/moment';
+import { BucketType, UpdateBucketResponse } from '../../../types/moment';
 import { useMutation } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 
@@ -7,7 +7,9 @@ interface PostBucketParams {
   content: string;
 }
 
-const postBucket = async (body: PostBucketParams): Promise<BucketResponse> => {
+const postBucket = async (
+  body: PostBucketParams,
+): Promise<UpdateBucketResponse> => {
   const response = await instance.post('/api/bucket', body);
   return response.data;
 };

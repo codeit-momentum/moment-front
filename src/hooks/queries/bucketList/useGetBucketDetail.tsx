@@ -1,8 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import instance from '../../../apis/client';
-import { BucketDetailResponse } from '../../../types/moment';
+import { GetBucketDetailResponse } from '../../../types/moment';
 
-const fetchBucketDetail = async (id: string): Promise<BucketDetailResponse> => {
+const getBucketDetail = async (
+  id: string,
+): Promise<GetBucketDetailResponse> => {
   const response = await instance.get(`/api/bucket/${id}`);
   return response.data;
 };
@@ -10,7 +12,7 @@ const fetchBucketDetail = async (id: string): Promise<BucketDetailResponse> => {
 const useGetBucketDetail = (id: string) =>
   useQuery({
     queryKey: ['bucket', id],
-    queryFn: () => fetchBucketDetail(id),
+    queryFn: () => getBucketDetail(id),
   });
 
 export default useGetBucketDetail;

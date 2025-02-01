@@ -1,11 +1,5 @@
 export type StateType = 'completed' | 'inProgress' | 'pending';
 
-export interface BucketListType {
-  id: string;
-  title: string;
-  state: StateType;
-}
-
 export type BucketType = 'REPEAT' | 'ACHIEVEMENT';
 
 interface Bucket {
@@ -24,19 +18,34 @@ interface Bucket {
   userID: string;
 }
 
-export interface BucketResponse {
+interface BucketDetail extends Bucket {
+  moments: [];
+}
+
+export interface BucketItemType {
+  bucketID: string;
+  content: string;
+  isCompleted: boolean;
+  isChallenging: boolean;
+}
+
+export interface UpdateBucketResponse {
   bucket: Bucket;
   message: string;
   success: boolean;
 }
 
-interface BucketDetail extends Bucket {
-  moments: [];
-}
-
-export interface BucketDetailResponse {
+export interface GetBucketDetailResponse {
   bucket: BucketDetail;
   success: boolean;
   momentsCount: number;
   completedMomentsCount: number;
+}
+
+export interface GetBucketResponse {
+  success: boolean;
+  user: string;
+  count: number;
+  type: string;
+  buckets: BucketItemType[];
 }
