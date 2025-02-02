@@ -14,3 +14,8 @@ export const setBucketState = (
   if (isChallenging) return 'inProgress';
   return 'pending';
 };
+
+export const checkDateRange = (startDate: string, endDate: string) => {
+  const currentDate = new Date();
+  return currentDate < new Date(startDate) || currentDate > new Date(endDate);
+};
