@@ -7,6 +7,9 @@ import OKModal from '../../../components/Modal/OKModal/OKModal';
 import Button from '../../../components/Button/Button';
 import IcBack from '../../../assets/svg/IcBack';
 import * as S from './Upload.style';
+import useGetBucketDetail from '../../../hooks/queries/bucketList/useGetBucketDetail';
+import usePatchBucketUpload from '../../../hooks/queries/bucketList/usePatchBucketUpload';
+import useResponseMessage from '../../../hooks/common/useErrorHandler';
 
 const mockData = {
   moment: {
@@ -26,27 +29,45 @@ type UploadProps = {
 };
 
 const Upload = ({ variant }: UploadProps) => {
+  const { id } = useParams() as { id: string };
   const [isOpen, openModal, closeModal] = useModal();
   const [image, setImage] = useState<string | null>(null);
-
+  const { mutate: patchBucketUpload } = usePatchBucketUpload();
+  const {
+    handleError,
+    openModal: openErrorModal,
+    renderModal,
+  } = useResponseMessage();
   const navigate = useNavigate();
-  const { id } = useParams();
 
-  // 모멘트 세부 정보 조회 api 필요
-  // - 인증 완료 or 없는 id(4xx 에러) -> 리다이렉트 처리
-  // - 유효한 경우 모멘트/버킷리스트 title 가져오기
+  const { data, isError, isLoading } = useGetBucketDetail(id);
 
   useEffect(() => {
-    // id 에러일 때 리다이렉트 임시 구현
-    if (id === 'none' || mockData[variant].isComplete) {
+    if (
+      isError ||
+      data?.bucket.isChallenging ||
+      data?.bucket.isCompleted ||
+      data?.bucket.type === 'REPEAT'
+    ) {
       alert('존재하지 않는 페이지입니다.');
       navigate('/moment');
     }
-  });
+  }, [data, isError, navigate]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    openModal();
+    if (!image) return;
+
+    patchBucketUpload(
+      { id, image },
+      {
+        onSuccess: openModal,
+        onError: (error) => {
+          handleError(error);
+          openErrorModal();
+        },
+      },
+    );
   };
 
   const handleCloseModal = () => {
@@ -58,6 +79,10 @@ const Upload = ({ variant }: UploadProps) => {
     }
   };
 
+  if (isLoading || !data) {
+    return <div>로딩중 ... </div>;
+  }
+
   return (
     <S.UploadLayout>
       <S.Header>
@@ -65,7 +90,7 @@ const Upload = ({ variant }: UploadProps) => {
           <IcBack />
         </S.BackButton>
       </S.Header>
-      <S.TitleSpan>{mockData[variant].title}</S.TitleSpan>
+      <S.TitleSpan>{data.bucket.content}</S.TitleSpan>
       <S.ImageUploadLayout onSubmit={handleSubmit}>
         <ImageUpload image={image} setImage={setImage} />
         <Button
@@ -89,13 +114,14 @@ const Upload = ({ variant }: UploadProps) => {
         ) : (
           <Modal>
             <OKModal
-              title={mockData[variant].title}
+              title={data.bucket.content}
               mainText=" 완료!"
               subText="새로운 버킷리스트를 달성했네요"
               onClose={handleCloseModal}
             />
           </Modal>
         ))}
+      {renderModal()}
     </S.UploadLayout>
   );
 };

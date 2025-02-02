@@ -39,7 +39,7 @@ const SelectMode = () => {
       />
       <S.BtnContainer>
         <Button
-          customStyle={{
+          $customstyle={{
             width: '22rem',
             height: '5rem',
             backgroundColor: '#020202',
@@ -52,7 +52,7 @@ const SelectMode = () => {
           으로 생성할게요
         </Button>
         <Button
-          customStyle={{
+          $customstyle={{
             width: '22rem',
             height: '5rem',
             backgroundColor: '#020202',
