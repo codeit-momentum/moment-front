@@ -22,7 +22,7 @@ const useResponseMessage = () => {
     return (
       isOpen && (
         <Modal>
-          <OKModal title="" mainText={message} onClose={closeModal} />
+          <OKModal mainText={message} onClose={closeModal} />
         </Modal>
       )
     );
