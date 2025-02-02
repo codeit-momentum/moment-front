@@ -1,25 +1,36 @@
 import * as S from './FeedItem.style';
 import IcHello from '../../../assets/svg/IcHello';
 import usePostCheer from '../../../hooks/queries/Feed/usePostCheer';
-
 interface FeedItemProps {
-  feedId: string;
+  friendId: string;
+  momentId: string;
   name: string;
   content: string;
   date: string;
   image: string;
 }
 
-const FeedItem = ({ feedId, name, content, date, image }: FeedItemProps) => {
+const FeedItem = ({
+  friendId,
+  momentId,
+  name,
+  content,
+  date,
+  image,
+}: FeedItemProps) => {
   const { mutate: postCheer } = usePostCheer();
 
   const handleCheer = () => {
-    postCheer(feedId, {
-      onSuccess: (data) => {
-        console.log(data);
+    postCheer(
+      { momentId, friendId },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+        },
       },
-    });
+    );
   };
+
   return (
     <S.FeedItemLayout>
       <S.FeedInfoContainer>
