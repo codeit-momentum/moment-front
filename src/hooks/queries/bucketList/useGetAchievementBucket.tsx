@@ -9,7 +9,7 @@ const getAchievementBucket = async (): Promise<GetBucketResponse> => {
 
 const useGetAchievementBucket = () =>
   useQuery({
-    queryKey: ['achievement-buckets'],
+    queryKey: ['buckets', 'ACHIEVEMENT'],
     queryFn: () => getAchievementBucket(),
   });
 

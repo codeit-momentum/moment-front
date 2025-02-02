@@ -1,5 +1,5 @@
 import { BucketType, UpdateBucketResponse } from '../../../types/moment';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 
 interface PostBucketParams {
@@ -15,8 +15,15 @@ const postBucket = async (
 };
 
 const usePostBucket = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: postBucket,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['buckets', data.bucket.type],
+      });
+    },
   });
 };
 

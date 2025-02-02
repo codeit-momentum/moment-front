@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 import { UpdateBucketResponse } from '../../../types/moment';
 
@@ -18,8 +18,15 @@ const patchBucket = async ({
 };
 
 const usePatchBucket = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: patchBucket,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['buckets', data.bucket.type],
+      });
+    },
   });
 };
 

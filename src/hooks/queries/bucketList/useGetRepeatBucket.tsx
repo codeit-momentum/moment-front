@@ -9,7 +9,7 @@ const getRepeatBucket = async (): Promise<GetBucketResponse> => {
 
 const useGetRepeatBucket = () =>
   useQuery({
-    queryKey: ['repeat-buckets'],
+    queryKey: ['buckets', 'REPEAT'],
     queryFn: () => getRepeatBucket(),
   });
 

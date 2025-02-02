@@ -1,6 +1,6 @@
-import { KeyboardEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import { handleResizeHeight, setBucketState } from '../../../utils/moment';
-import { BucketItemType, BucketType } from '../../../types/moment';
+import { BucketType } from '../../../types/moment';
 import usePostBucket from '../../../hooks/queries/bucketList/usePostBucket';
 import usePatchBucket from '../../../hooks/queries/bucketList/usePatchBucket';
 import useResponseMessage from '../../../hooks/common/useErrorHandler';
@@ -22,7 +22,6 @@ type CheckListProps = {
 };
 
 const CheckList = ({ type }: CheckListProps) => {
-  const [bucketList, setBucketList] = useState<BucketItemType[]>([]);
   const [newItem, setNewItem] = useState<string>('');
   const { handleError, setMessage, openModal, renderModal } =
     useResponseMessage();
@@ -32,12 +31,6 @@ const CheckList = ({ type }: CheckListProps) => {
 
   const useTypeHook = TypeHooks[type];
   const { data, isLoading } = useTypeHook();
-
-  useEffect(() => {
-    if (data) {
-      setBucketList(data.buckets);
-    }
-  }, [data]);
 
   const hadleSubmitItem = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
@@ -52,15 +45,6 @@ const CheckList = ({ type }: CheckListProps) => {
       postBucket(body, {
         onSuccess: (data) => {
           setMessage(data.message);
-          setBucketList((prev) => [
-            {
-              bucketID: data.bucket.bucketID,
-              content: data.bucket.content,
-              isCompleted: false,
-              isChallenging: false,
-            },
-            ...prev,
-          ]);
         },
         onError: (error) => {
           handleError(error);
@@ -82,11 +66,6 @@ const CheckList = ({ type }: CheckListProps) => {
       {
         onSuccess: (data) => {
           setMessage(data.message);
-          setBucketList((prev) =>
-            prev.map((it) =>
-              it.bucketID === id ? { ...it, content: newContent } : it,
-            ),
-          );
         },
         onError: (error) => {
           handleError(error);
@@ -102,7 +81,6 @@ const CheckList = ({ type }: CheckListProps) => {
     deleteBucket(id, {
       onSuccess: (data) => {
         setMessage(data.message);
-        setBucketList((prev) => prev.filter((it) => it.bucketID !== id));
       },
       onError: (error) => {
         handleError(error);
@@ -113,43 +91,42 @@ const CheckList = ({ type }: CheckListProps) => {
     });
   };
 
+  // 임시 처리
   if (!data || isLoading) {
     return <div>로딩중 ...</div>;
   }
 
   return (
-    <>
-      <CheckListLayout title={type === 'REPEAT' ? '반복형' : '달성형'}>
-        {/* 새 버킷리스트 추가 */}
-        <S.InputContainer>
-          <S.CheckBoxWrapper>
-            <IcCheckboxPending />
-          </S.CheckBoxWrapper>
+    <CheckListLayout title={type === 'REPEAT' ? '반복형' : '달성형'}>
+      {/* 새 버킷리스트 추가 */}
+      <S.InputContainer>
+        <S.CheckBoxWrapper>
+          <IcCheckboxPending />
+        </S.CheckBoxWrapper>
 
-          <S.NewItemInput
-            value={newItem}
-            maxLength={30}
-            onChange={(e) => setNewItem(e.target.value)}
-            onInput={handleResizeHeight}
-            onKeyDown={hadleSubmitItem}
-          />
-        </S.InputContainer>
+        <S.NewItemInput
+          value={newItem}
+          maxLength={30}
+          onChange={(e) => setNewItem(e.target.value)}
+          onInput={handleResizeHeight}
+          onKeyDown={hadleSubmitItem}
+        />
+      </S.InputContainer>
 
-        {/* 기존 버킷리스트 목록 */}
-        {bucketList.map((item) => (
-          <CheckListItem
-            key={item.bucketID}
-            id={item.bucketID}
-            type={type}
-            value={item.content}
-            state={setBucketState(item.isCompleted, item.isChallenging)}
-            onUpdateItem={handleUpdateItem}
-            onDeleteItem={handleDeleteItem}
-          />
-        ))}
-      </CheckListLayout>
+      {/* 기존 버킷리스트 목록 */}
+      {data.buckets.map((item) => (
+        <CheckListItem
+          key={item.bucketID}
+          id={item.bucketID}
+          type={type}
+          value={item.content}
+          state={setBucketState(item.isCompleted, item.isChallenging)}
+          onUpdateItem={handleUpdateItem}
+          onDeleteItem={handleDeleteItem}
+        />
+      ))}
       {renderModal()}
-    </>
+    </CheckListLayout>
   );
 };
 
