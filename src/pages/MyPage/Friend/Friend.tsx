@@ -76,6 +76,7 @@ const Friend = () => {
             />
           ) : (
             <SelectModal
+              type="add"
               content="상대방의 코드가 맞는지 확인해주세요..."
               onSubmit={handlePostFriend}
               onClose={handleClose}
