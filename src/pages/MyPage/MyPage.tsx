@@ -5,6 +5,10 @@ import MyMenu from '../../components/MyPage/MyMenu/MyMenu';
 import UserInfoContext from '../../store/User/UserContext';
 import { useContext, useEffect } from 'react';
 import useGetUser from '../../hooks/queries/myPage/useGetUser';
+import IcEditProfile from '../../assets/svg/IcEditProfile';
+import IcAddFriend from '../../assets/svg/IcAddFriend';
+import IcLogout from '../../assets/svg/IcLogout';
+import IcGetOut from '../../assets/svg/IcGetOut';
 
 const MyPage = () => {
   //내 정보 fetch
@@ -28,7 +32,7 @@ const MyPage = () => {
     {
       label: '내 정보 수정하기',
       name: 'edit',
-      icon: '',
+      icon: <IcEditProfile />,
       action: () => {
         navigate('edit');
       },
@@ -36,7 +40,7 @@ const MyPage = () => {
     {
       label: '친구 추가하기',
       name: 'friend',
-      icon: '',
+      icon: <IcAddFriend />,
       action: () => {
         navigate('friend');
       },
@@ -44,13 +48,13 @@ const MyPage = () => {
     {
       label: '로그아웃',
       name: 'logout',
-      icon: '',
+      icon: <IcLogout />,
       action: () => {},
     },
     {
       label: '회원탈퇴',
       name: 'cancel',
-      icon: '',
+      icon: <IcGetOut />,
       action: () => {},
     },
   ];
