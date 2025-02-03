@@ -2,7 +2,11 @@ import styled from 'styled-components';
 
 export const MomentContainer = styled.div`
   ${({ theme: { mixin } }) =>
-    mixin.flexBox({ direction: 'row', align: 'flex-start' })};
+    mixin.flexBox({
+      direction: 'row',
+      align: 'flex-start',
+      justify: 'flex-start',
+    })};
   width: 30.1rem;
   gap: 0.8rem;
 `;
@@ -22,7 +26,6 @@ export const MomentImage = styled.img`
 `;
 
 export const MomentTitleSpan = styled.span`
-  // 피그마에 명시된 padding은 없지만 줄 바꿈이 되어있어서 padding 약간 넣음
   padding: 0rem 0.2rem;
   color: ${({ theme }) => theme.colors.white};
   font-size: 12px;
