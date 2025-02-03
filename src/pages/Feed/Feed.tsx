@@ -13,7 +13,7 @@ import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
 import useDeleteFriend from '../../hooks/queries/Feed/useDeleteFriend';
 import { useNavigate } from 'react-router-dom';
 import IcNoFriend from '../../assets/svg/IcNoFriend';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Feed = () => {
   const { friendList, isPending } = useGetFriends();
@@ -22,6 +22,7 @@ const Feed = () => {
   const { currentFriend, handleClickFriend, setCurrentFriend } =
     useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -58,22 +59,29 @@ const Feed = () => {
     <S.FeedLayout>
       {isOpen && (
         <Modal>
-          <FeedModal
-            title={currentFriend.nickname}
-            isFixed={currentFriend.isFixed}
-            onFix={handleFix}
-            onDelete={handleDelete}
-            onClose={closeModal}
-          />
-          {/*<SelectModal
-            type="delete"
-            content="이 행위는 되돌릴 수 없습니다."
-            onClose={closeModal}
-            onSubmit={handleDelete}
-          >
-            <span style={{ color: '#FAED46' }}>{currentFriend?.nickname}</span>
-            님을 삭제하겠습니까?
-          </SelectModal>*/}
+          {isDeleting ? (
+            <SelectModal
+              type="delete"
+              content="이 행위는 되돌릴 수 없습니다."
+              onClose={closeModal}
+              onSubmit={handleDelete}
+            >
+              <span style={{ color: '#FAED46' }}>
+                {currentFriend?.nickname}
+              </span>
+              님을 삭제하겠습니까?
+            </SelectModal>
+          ) : (
+            <FeedModal
+              title={currentFriend.nickname}
+              isFixed={currentFriend.isFixed}
+              onFix={handleFix}
+              onDelete={() => {
+                setIsDeleting(true);
+              }}
+              onClose={closeModal}
+            />
+          )}
         </Modal>
       )}
       <S.FeedHeaderContatiner>
