@@ -1,6 +1,11 @@
 import * as S from './Bucketlist.style';
 
-const Bucketlist = ({ progress, year }: { progress: number; year: number }) => {
+interface BucketlistProps {
+  progress: number;
+  year: number;
+}
+
+const Bucketlist = ({ progress, year }: BucketlistProps) => {
   const bucketListData = [
     { id: 1, range: '1~19%', image: '/path/to/image1.png', min: 1, max: 19 },
     { id: 2, range: '20~39%', image: '/path/to/image2.png', min: 20, max: 39 },
@@ -11,25 +16,24 @@ const Bucketlist = ({ progress, year }: { progress: number; year: number }) => {
     { id: 7, range: '0%', image: '/path/to/image7.png', min: 0, max: 0 },
   ];
 
-  // 현재 달성률에 해당하는 데이터
-  const currentBucket = bucketListData.find(
-    (item) => progress >= item.min && progress <= item.max,
-  );
+  const defaultBucket = { range: '0%', image: '/path/to/default-image.png' };
+
+  const currentBucket =
+    bucketListData.find(
+      (item) => progress >= item.min && progress <= item.max,
+    ) || defaultBucket;
 
   return (
-    <S.Container>
-      <S.Title>{year} 버킷리스트 달성 현황</S.Title>
-      <S.SingleImageContainer>
-        {currentBucket ? (
-          <>
-            <S.Image src={currentBucket.image} alt={currentBucket.range} />
-            <S.Label>{currentBucket.range}</S.Label>
-          </>
-        ) : (
-          <S.NoDataMessage>해당 달성률의 데이터가 없습니다.</S.NoDataMessage>
-        )}
-      </S.SingleImageContainer>
-    </S.Container>
+    <S.BucketlistLayout>
+      <S.BucketlistTitle>{year} 버킷리스트 달성 현황</S.BucketlistTitle>
+      <S.ImageContainer>
+        <S.BucketlistImage
+          src={currentBucket.image}
+          alt={currentBucket.range}
+        />
+        <S.BucketlistLabel>{currentBucket.range}</S.BucketlistLabel>
+      </S.ImageContainer>
+    </S.BucketlistLayout>
   );
 };
 

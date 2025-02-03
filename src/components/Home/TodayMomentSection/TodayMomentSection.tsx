@@ -2,8 +2,6 @@ import * as S from './TodayMomentSection.style';
 import DayCheckboxGroup from './DayCheckboxGroup/DayCheckboxGroup';
 import MomentList from './MomentList/MomentList';
 
-console.log(MomentList); // undefined가 출력되면 import 문제입니다.
-
 const TodayMomentSection = () => {
   // Mock 데이터
   const mockDays = [
@@ -28,14 +26,14 @@ const TodayMomentSection = () => {
   ).length;
 
   return (
-    <S.Container>
+    <S.TodayMomentLayout>
       <DayCheckboxGroup days={mockDays} />
-      <S.Line />
+      <S.DividerLine />
       <MomentList moments={mockMoments} />
-      <S.TodayMessage>
+      <S.TodayMessageBox>
         오늘의 모멘트 총 <span>{completedCount}</span>개 수집!
-      </S.TodayMessage>
-    </S.Container>
+      </S.TodayMessageBox>
+    </S.TodayMomentLayout>
   );
 };
 

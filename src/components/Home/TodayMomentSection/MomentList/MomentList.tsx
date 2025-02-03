@@ -11,22 +11,19 @@ const MomentList = ({
   }[];
 }) => {
   return (
-    <S.MomentListWrapper>
+    <S.MomentListLayout>
       {moments.map((moment) => (
-        <S.MomentItemWrapper
-          key={moment.id}
-          $isCompleted={moment.isCompleted} // $isCompleted로 전달
-        >
-          <S.MomentCategory $isCompleted={moment.isCompleted}>
+        <S.MomentItem key={moment.id} $isCompleted={moment.isCompleted}>
+          <S.MomentCategoryBox $isCompleted={moment.isCompleted}>
             {moment.category}
-          </S.MomentCategory>
+          </S.MomentCategoryBox>
           <S.MomentBox $isCompleted={moment.isCompleted}>
-            {moment.isCompleted && <S.ClearBadge>CLEAR</S.ClearBadge>}
-            <S.MomentTitle>{moment.title}</S.MomentTitle>
+            {moment.isCompleted && <S.ClearBadgeSpan>CLEAR</S.ClearBadgeSpan>}
+            <S.MomentTitleSpan>{moment.title}</S.MomentTitleSpan>
           </S.MomentBox>
-        </S.MomentItemWrapper>
+        </S.MomentItem>
       ))}
-    </S.MomentListWrapper>
+    </S.MomentListLayout>
   );
 };
 

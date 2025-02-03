@@ -1,32 +1,41 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  width: 325px;
-  height: 293px;
-  border: 1.5px solid #000;
+export const TodayMomentLayout = styled.div`
+  ${({ theme }) =>
+    theme.mixin.flexBox({
+      direction: 'column',
+      align: 'center',
+      justify: 'flex-start',
+    })};
+  width: 20.3rem;
+  height: 18.3rem;
+  border: 0.1rem solid #000;
   background-color: #fff;
-  padding: 36px 32px;
-  margin: 94px auto 0;
+  padding: 2.25rem 2rem;
+  gap: 1rem;
 `;
 
-export const Line = styled.div`
-  width: 273px;
-  height: 1px;
+export const DividerLine = styled.div`
+  width: 17.1rem;
+  height: 0.063rem;
   background-color: #bababa;
-  margin: 10px auto;
 `;
 
-export const TodayMessage = styled.div`
-  width: 260px;
-  height: 35px;
+export const TodayMessageBox = styled.div`
+  ${({ theme }) =>
+    theme.mixin.flexBox({
+      direction: 'row',
+      align: 'center',
+      justify: 'center',
+    })};
+  width: 16.25rem;
+  height: 2.19rem;
   text-align: center;
   color: #000;
-  font-size: 20px;
-  line-height: 37px;
-  margin: 15px auto;
+  font-size: 1.25rem;
+  line-height: 2.31rem;
 
   span {
     color: #c60707;
-    font-weight: bold;
   }
 `;

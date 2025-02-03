@@ -1,32 +1,31 @@
 import * as S from './DayCheckboxGroup.style';
-import CheckIcon from '../../../../assets/svg/CheckIcon';
+import CheckIcon from '../../../../assets/svg/IcCheck';
 
-const DayCheckboxGroup = ({
-  days,
-}: {
-  days: { day: string; isChecked: boolean }[];
-}) => {
+// Props 인터페이스 선언
+interface DayCheckboxGroupProps {
+  days: DayProps[];
+}
+
+interface DayProps {
+  day: string;
+  isChecked: boolean;
+}
+
+const DayCheckboxGroup = ({ days }: DayCheckboxGroupProps) => {
   return (
-    <S.DayCheckboxGroupWrapper>
-      {/* 요일 텍스트 렌더링 */}
-      <S.DayTextRow>
-        {days.map((day, index) => (
-          <S.DayText key={`day-text-${index}`}>{day.day}</S.DayText>
+    <S.DayCheckboxGroupLayout>
+      {/* 요일 + 체크박스 Wrapper 렌더링 */}
+      <S.DayWrapperList>
+        {days.map((day) => (
+          <S.DayWrapper key={`day-wrapper-${day.day}`}>
+            <S.DayTextItem>{day.day}</S.DayTextItem>
+            <S.DayCheckboxBox $isChecked={day.isChecked}>
+              {day.isChecked && <CheckIcon />}
+            </S.DayCheckboxBox>
+          </S.DayWrapper>
         ))}
-      </S.DayTextRow>
-
-      {/* 체크박스 렌더링 */}
-      <S.DayCheckboxRow>
-        {days.map((day, index) => (
-          <S.DayCheckbox
-            key={`day-checkbox-${index}`}
-            $isChecked={day.isChecked}
-          >
-            {day.isChecked && <CheckIcon />} {/* true일 때만 아이콘 렌더링 */}
-          </S.DayCheckbox>
-        ))}
-      </S.DayCheckboxRow>
-    </S.DayCheckboxGroupWrapper>
+      </S.DayWrapperList>
+    </S.DayCheckboxGroupLayout>
   );
 };
 

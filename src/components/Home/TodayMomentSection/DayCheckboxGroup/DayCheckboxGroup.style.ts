@@ -1,36 +1,32 @@
 import styled from 'styled-components';
 
-export const DayCheckboxGroupWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+export const DayCheckboxGroupLayout = styled.div`
+  ${({ theme }) =>
+    theme.mixin.flexBox({ direction: 'column', align: 'center' })}
+  gap: 1rem;
 `;
 
-export const DayTextRow = styled.div`
-  display: flex;
-  justify-content: space-between;
+export const DayWrapperList = styled.div`
+  ${({ theme }) =>
+    theme.mixin.flexBox({ direction: 'row', justify: 'space-between' })}
   width: 100%;
 `;
 
-export const DayText = styled.div`
-  font-size: 16px;
+export const DayWrapper = styled.div`
+  ${({ theme }) =>
+    theme.mixin.flexBox({ direction: 'column', align: 'center' })}
+  gap: 0.5rem;
+`;
+
+export const DayTextItem = styled.div`
+  font-size: 1rem;
   color: #000;
 `;
 
-export const DayCheckboxRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 10px;
-`;
-
-export const DayCheckbox = styled.div<{ $isChecked: boolean }>`
-  width: 24px;
-  height: 24px;
-  border: 2px solid #ccc;
-  background-color: ${({ $isChecked }) =>
-    $isChecked ? '#6A7CB7' : '#FCFCFC'}; /* 상태에 따라 색상 변경 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+export const DayCheckboxBox = styled.div<{ $isChecked: boolean }>`
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0.125rem solid #ccc;
+  background-color: ${({ $isChecked }) => ($isChecked ? '#6A7CB7' : '#FCFCFC')};
+  ${({ theme }) => theme.mixin.flexBox({ align: 'center', justify: 'center' })}
 `;
