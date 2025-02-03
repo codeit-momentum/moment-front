@@ -21,7 +21,7 @@ const Friend = () => {
   const [friendCode, setFriendCode] = useState<string>('');
   const [friendNickname, setFriendNickname] = useState<string>('');
   const [isFriend, setIsFriend] = useState(false);
-  const { handleError, message } = useErrorHandler();
+  const { handleError, message, setMessage } = useErrorHandler();
   const [isOpen, openModal, closeModal] = useModal();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +46,9 @@ const Friend = () => {
 
   const handlePostFriend = () => {
     postFriend(friendCode, {
+      onSuccess: (data) => {
+        setMessage(data.message);
+      },
       onError: (error) => {
         handleError(error);
       },
@@ -66,7 +69,6 @@ const Friend = () => {
         <Modal>
           {isFriend ? (
             <OKModal
-              title=""
               mainText={
                 message === ''
                   ? `${friendNickname}님과 친구가 되었습니다!`
@@ -76,6 +78,7 @@ const Friend = () => {
             />
           ) : (
             <SelectModal
+              type="add"
               content="상대방의 코드가 맞는지 확인해주세요..."
               onSubmit={handlePostFriend}
               onClose={handleClose}
