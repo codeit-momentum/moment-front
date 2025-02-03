@@ -34,6 +34,7 @@ const Feed = () => {
       onSuccess: () => {
         closeModal();
         setCurrentFriend(friendList[0]);
+        setIsDeleting(false);
       },
     });
   };
