@@ -19,6 +19,7 @@ const Upload = ({ variant }: UploadProps) => {
   const { id } = useParams() as { id: string };
   const [isOpen, openModal, closeModal] = useModal();
   const [image, setImage] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const {
     handleError,
     openModal: openErrorModal,
@@ -36,10 +37,10 @@ const Upload = ({ variant }: UploadProps) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!image) return;
+    if (!imageFile) return;
 
     patchUpload(
-      { id, image },
+      { id, imageFile },
       {
         onSuccess: openModal,
         onError: (error) => {
@@ -73,7 +74,11 @@ const Upload = ({ variant }: UploadProps) => {
       </S.Header>
       <S.TitleSpan>{data.content}</S.TitleSpan>
       <S.ImageUploadLayout onSubmit={handleSubmit}>
-        <ImageUpload image={image} setImage={setImage} />
+        <ImageUpload
+          image={image}
+          setImage={setImage}
+          setImageFile={setImageFile}
+        />
         <Button
           disabled={!image}
           type="submit"

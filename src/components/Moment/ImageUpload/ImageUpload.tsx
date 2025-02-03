@@ -5,10 +5,10 @@ import IcUploadPreview from '../../../assets/svg/IcUploadPreview';
 interface ImageUploadProps {
   image: string | null;
   setImage: Dispatch<SetStateAction<string | null>>;
+  setImageFile: Dispatch<SetStateAction<File | null>>;
 }
 
-const ImageUpload = ({ image, setImage }: ImageUploadProps) => {
-  // 할당된 URL 메모리 해제
+const ImageUpload = ({ image, setImage, setImageFile }: ImageUploadProps) => {
   useEffect(() => {
     return () => {
       if (image) URL.revokeObjectURL(image);
@@ -25,15 +25,24 @@ const ImageUpload = ({ image, setImage }: ImageUploadProps) => {
       return;
     }
 
-    // 미리보기 이미지 URL 생성
+    setImageFile(newImage);
     setImage(URL.createObjectURL(newImage));
+  };
+
+  const handleImageError = () => {
+    alert('이미지 로드 중 에러가 발생했습니다.');
+    setImage(null);
   };
 
   return (
     <>
       <S.ImageInputLabel>
         {image ? (
-          <S.PreviewImage src={image} alt="preview" />
+          <S.PreviewImage
+            src={image}
+            alt="preview"
+            onError={handleImageError}
+          />
         ) : (
           <IcUploadPreview />
         )}

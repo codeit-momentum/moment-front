@@ -4,15 +4,15 @@ import instance from '../../../apis/client';
 
 interface PatchBucketUploadParams {
   id: string;
-  image: string;
+  imageFile: File;
 }
 
 const patchBucketUpload = async ({
   id,
-  image,
+  imageFile,
 }: PatchBucketUploadParams): Promise<UpdateBucketResponse> => {
   const formData = new FormData();
-  formData.append('photoUrl', image);
+  formData.append('photoUrl', imageFile);
 
   const response = await instance.patch(
     `/api/bucket/${id}/achievement-photo `,

@@ -1,15 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
 import instance from '../../../apis/client';
+import { UploadMomentResponse } from '../../../types/moment';
 
 interface PatchMomentUploadParams {
   id: string;
-  image: string;
+  imageFile: File;
 }
 
-const patchMomentUpload = async ({ id, image }: PatchMomentUploadParams) => {
+const patchMomentUpload = async ({
+  id,
+  imageFile,
+}: PatchMomentUploadParams): Promise<UploadMomentResponse> => {
   const formData = new FormData();
-  formData.append('photoUrl', image);
-
+  formData.append('photoUrl', imageFile);
   const response = await instance.patch(`/api/bucket/moments/${id}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -21,12 +24,6 @@ const patchMomentUpload = async ({ id, image }: PatchMomentUploadParams) => {
 const usePatchMomentUpload = () => {
   return useMutation({
     mutationFn: patchMomentUpload,
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
   });
 };
 
