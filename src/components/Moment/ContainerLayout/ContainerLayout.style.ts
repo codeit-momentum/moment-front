@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ContainerLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   position: relative;
-  width: 100%;
+  width: 33.5rem;
   padding: 0.5rem 1.7rem;
   background-color: ${({ theme }) => theme.colors.blue};
   color: ${({ theme }) => theme.colors.white};

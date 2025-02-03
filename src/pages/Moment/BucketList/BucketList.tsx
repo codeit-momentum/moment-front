@@ -6,8 +6,8 @@ const BucketList = () => {
   return (
     <S.BucketListLayout>
       <MomentHeader />
-      <CheckList type="반복형" />
-      <CheckList type="달성형" />
+      <CheckList type="REPEAT" />
+      <CheckList type="ACHIEVEMENT" />
     </S.BucketListLayout>
   );
 };

@@ -1,7 +1,7 @@
 import * as S from './OKModal.style';
 
 interface OKModalProps {
-  title: string;
+  title?: string;
   mainText: string;
   subText?: string;
   onClose: () => void;

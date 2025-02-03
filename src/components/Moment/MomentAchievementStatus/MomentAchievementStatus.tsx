@@ -17,8 +17,8 @@ const moments = [
 const MomentAchievementStatus = () => {
   return (
     <MomentAchievementStatusLayout
-      containerStyle={{ padding: '2rem', gap: '0.5rem' }}
-      titleStyle={{ padding: '0.5rem 1.9rem' }}
+      containerStyle={{ padding: '2rem' }}
+      titleStyle={{ padding: '0.5rem 1.9rem', marginBottom: '0.5rem' }}
       title="모멘트 달성 현황"
     >
       {moments.length > 0 ? (
