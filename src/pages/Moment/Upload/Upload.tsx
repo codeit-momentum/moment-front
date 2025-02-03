@@ -9,7 +9,7 @@ import IcBack from '../../../assets/svg/IcBack';
 import * as S from './Upload.style';
 import useGetBucketDetail from '../../../hooks/queries/bucketList/useGetBucketDetail';
 import usePatchBucketUpload from '../../../hooks/queries/bucketList/usePatchBucketUpload';
-import useResponseMessage from '../../../hooks/common/useErrorHandler';
+import useResponseMessage from '../../../hooks/common/useResponseMessage';
 
 const mockData = {
   moment: {

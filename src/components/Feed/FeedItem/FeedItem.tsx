@@ -1,6 +1,8 @@
 import * as S from './FeedItem.style';
 import IcHello from '../../../assets/svg/IcHello';
 import usePostCheer from '../../../hooks/queries/Feed/usePostCheer';
+import useResponseMessage from '../../../hooks/common/useResponseMessage';
+
 interface FeedItemProps {
   friendId: string;
   momentId: string;
@@ -19,13 +21,21 @@ const FeedItem = ({
   image,
 }: FeedItemProps) => {
   const { mutate: postCheer } = usePostCheer();
+  const { handleError, setMessage, openModal, renderModal } =
+    useResponseMessage();
 
   const handleCheer = () => {
     postCheer(
       { momentId, friendId },
       {
         onSuccess: (data) => {
-          console.log(data);
+          setMessage(data.message);
+        },
+        onError: (error) => {
+          handleError(error);
+        },
+        onSettled: () => {
+          openModal();
         },
       },
     );
@@ -33,6 +43,7 @@ const FeedItem = ({
 
   return (
     <S.FeedItemLayout>
+      {renderModal()}
       <S.FeedInfoContainer>
         <S.FeedTitleParagraph>
           <span>{name}</span> 님이

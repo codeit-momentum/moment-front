@@ -12,7 +12,7 @@ import UserInfoContext from '../../../store/User/UserContext';
 import usePostCheckFriend from '../../../hooks/queries/myPage/usePostCheckFriend';
 import usePostFriend from '../../../hooks/queries/myPage/usePostFriend';
 import OKModal from '../../../components/Modal/OKModal/OKModal';
-import useErrorHandler from '../../../hooks/common/useErrorHandler';
+import useErrorHandler from '../../../hooks/common/useResponseMessage';
 
 const Friend = () => {
   const { userInfo } = useContext(UserInfoContext);
