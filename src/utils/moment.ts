@@ -19,3 +19,10 @@ export const checkDateRange = (startDate: string, endDate: string) => {
   const currentDate = new Date();
   return currentDate < new Date(startDate) || currentDate > new Date(endDate);
 };
+
+export const getAchievementRate = (
+  completedMomentsCount: number,
+  momentsCount: number,
+): number => {
+  return Math.round((completedMomentsCount / momentsCount) * 100);
+};
