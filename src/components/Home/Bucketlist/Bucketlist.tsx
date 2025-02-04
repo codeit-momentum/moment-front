@@ -2,10 +2,16 @@ import * as S from './Bucketlist.style';
 
 interface BucketlistProps {
   progress: number;
-  year: number;
 }
 
-const Bucketlist = ({ progress, year }: BucketlistProps) => {
+const Bucketlist = ({ progress }: BucketlistProps) => {
+  // 현재 연도를 반환하는 함수
+  const fetchYear = () => {
+    return new Date().getFullYear();
+  };
+
+  const year = fetchYear(); // 연도 가져오기
+
   const bucketListData = [
     { id: 1, range: '1~19%', image: '/path/to/image1.png', min: 1, max: 19 },
     { id: 2, range: '20~39%', image: '/path/to/image2.png', min: 20, max: 39 },
