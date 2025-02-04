@@ -2,6 +2,7 @@ import * as S from './FeedItem.style';
 import IcHello from '../../../assets/svg/IcHello';
 import usePostCheer from '../../../hooks/queries/Feed/usePostCheer';
 import useResponseMessage from '../../../hooks/common/useResponseMessage';
+import IcHelloOff from '../../../assets/svg/IcHelloOff';
 
 interface FeedItemProps {
   friendId: string;
@@ -10,6 +11,7 @@ interface FeedItemProps {
   content: string;
   date: string;
   image: string;
+  cheered: boolean;
 }
 
 const FeedItem = ({
@@ -19,6 +21,7 @@ const FeedItem = ({
   content,
   date,
   image,
+  cheered,
 }: FeedItemProps) => {
   const { mutate: postCheer } = usePostCheer();
   const { handleError, setMessage, openModal, renderModal } =
@@ -55,8 +58,8 @@ const FeedItem = ({
         </S.FeedContentParagraph>
       </S.FeedInfoContainer>
       <S.FeedImageContainer>
-        <S.IconWrapper onClick={handleCheer}>
-          <IcHello />
+        <S.IconWrapper onClick={handleCheer} disabled={cheered}>
+          {cheered ? <IcHelloOff /> : <IcHello />}
         </S.IconWrapper>
         <S.FeedImage src={image} alt={name} />
         <S.DateBox>{date}</S.DateBox>

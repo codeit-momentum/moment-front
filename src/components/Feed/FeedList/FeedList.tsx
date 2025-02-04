@@ -66,6 +66,7 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
             content={moment.bucketContent}
             date={formatDate(moment.date)}
             image={moment.imageUrl}
+            cheered={moment.cheered}
           />
         ))
       )}

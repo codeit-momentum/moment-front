@@ -21,4 +21,5 @@ export interface MomentItemType {
   date: string;
   imageUrl: string;
   momentId: string;
+  cheered: boolean;
 }
