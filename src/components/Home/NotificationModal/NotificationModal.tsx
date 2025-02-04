@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as S from './NotificationModal.style';
+import IcCloseModal from '../../../assets/svg/IcCloseModal'; // 컴포넌트 위치 확인 필수
 
 // NotificationItem 타입을 Header와 공유
 export interface NotificationItem {
@@ -28,7 +29,7 @@ const NotificationModal = ({
       (a, b) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
     );
-    setSortedNotifications(sorted);
+    setSortedNotifications(sorted.slice(0, 15)); // 최대 15개만 표시
   }, [notifications]);
 
   return (
@@ -37,20 +38,28 @@ const NotificationModal = ({
         {/* 모달 헤더 */}
         <S.Header>
           <S.Title>알림</S.Title>
-          <S.CloseIcon onClick={onClose} /> {/* X 버튼 클릭 시 모달 닫기 */}
+          <S.CloseIcon onClick={onClose}>
+            <IcCloseModal />
+          </S.CloseIcon>
         </S.Header>
 
         {/* 알림 리스트 */}
         <S.NotificationList>
-          {sortedNotifications.map((notification) => (
-            <S.NotificationItem key={notification.notificationID}>
-              <S.IconContainer />
-              <S.TextContainer>
-                <S.UserName>{notification.content.split('님')[0]}님</S.UserName>
-                <S.Message>{notification.content.split('님')[1]}</S.Message>
-              </S.TextContainer>
-            </S.NotificationItem>
-          ))}
+          {sortedNotifications.length > 0 ? (
+            sortedNotifications.map((notification) => (
+              <S.NotificationItem key={notification.notificationID}>
+                <S.IconContainer />
+                <S.TextContainer>
+                  <S.UserName>
+                    {notification.content.split('님')[0]}님
+                  </S.UserName>
+                  <S.Message>{notification.content.split('님')[1]}</S.Message>
+                </S.TextContainer>
+              </S.NotificationItem>
+            ))
+          ) : (
+            <S.EmptyMessage>알림이 없습니다.</S.EmptyMessage>
+          )}
         </S.NotificationList>
       </S.ModalLayout>
     </S.ModalOverlay>

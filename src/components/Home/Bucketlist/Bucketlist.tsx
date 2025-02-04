@@ -25,7 +25,9 @@ const Bucketlist = ({ progress, year }: BucketlistProps) => {
 
   return (
     <S.BucketlistLayout>
-      <S.BucketlistTitle>{year} 버킷리스트 달성 현황</S.BucketlistTitle>
+      <S.BucketlistTitle>
+        <span>{year}</span> 버킷리스트 달성 현황
+      </S.BucketlistTitle>
       <S.ImageContainer>
         <S.BucketlistImage
           src={currentBucket.image}

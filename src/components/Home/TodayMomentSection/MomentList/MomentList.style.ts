@@ -7,7 +7,10 @@ export const MomentListLayout = styled.div`
       align: 'center',
       justify: 'center',
     })};
-  gap: 0.875rem;
+  gap: 1.1rem;
+  width: 100%;
+  position: relative;
+  top: 6.5rem;
 `;
 
 export const MomentItem = styled.div<{ $isCompleted: boolean }>`
@@ -18,30 +21,17 @@ export const MomentItem = styled.div<{ $isCompleted: boolean }>`
       justify: 'flex-start',
     })};
   opacity: ${({ $isCompleted }) => ($isCompleted ? 0.5 : 1)};
-  width: 5.375rem;
-`;
-
-export const MomentCategoryBox = styled.div<{ $isCompleted: boolean }>`
-  width: 3.4375rem;
-  height: 1.125rem;
-  background-color: ${({ $isCompleted }) =>
-    $isCompleted ? '#9E9E9E' : '#000'};
-  color: #fff;
-  border-radius: 0.625rem;
-  text-align: center;
-  line-height: 1.125rem;
-  font-size: 0.75rem;
-  margin-bottom: -0.625rem;
-  position: relative;
-  z-index: 1;
+  width: 42.9%;
+  min-width: 9.11rem;
+  max-width: 11.44rem;
 `;
 
 export const MomentBox = styled.div<{ $isCompleted: boolean }>`
-  width: 5.375rem;
-  height: 5.9375rem;
-  background-color: ${({ $isCompleted }) =>
-    $isCompleted ? '#D9D9D9' : '#FF67FA'};
-  border-radius: 0.3125rem;
+  width: 9.5rem;
+  height: 12rem;
+  background-color: ${({ $isCompleted, theme }) =>
+    $isCompleted ? theme.colors.gray : theme.colors.yellow};
+  border-radius: 0.71rem;
   ${({ theme }) =>
     theme.mixin.flexBox({
       direction: 'column',
@@ -49,23 +39,40 @@ export const MomentBox = styled.div<{ $isCompleted: boolean }>`
       justify: 'center',
     })};
   position: relative;
-  z-index: 0;
+
+  ${({ $isCompleted, theme }) =>
+    !$isCompleted &&
+    `box-shadow: 0px 0px 1.43rem 0.14rem ${theme.colors.yellow};`};
 `;
 
 export const ClearBadgeSpan = styled.div`
   position: absolute;
-  top: 0.9375rem;
-  left: 0.3125rem;
-  background-color: red;
-  color: white;
-  font-size: 0.625rem;
-  padding: 0.125rem 0.3125rem;
-  border-radius: 0.1875rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(40deg);
+  width: 8rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.25rem solid ${({ theme }) => theme.colors.red};
+  background-color: transparent;
+  color: ${({ theme }) => theme.colors.red};
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
 `;
 
 export const MomentTitleSpan = styled.div`
-  font-size: 0.875rem;
+  font-size: 1.07rem;
+  line-height: 2.32rem;
   color: #000;
   text-align: center;
-  margin-top: 0.625rem;
+  margin-top: 0.89rem;
+`;
+
+export const StyledIcClip = styled.svg`
+  width: 5rem;
+  height: 2rem;
 `;

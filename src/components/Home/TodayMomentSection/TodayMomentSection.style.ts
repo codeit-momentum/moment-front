@@ -7,18 +7,29 @@ export const TodayMomentLayout = styled.div`
       align: 'center',
       justify: 'flex-start',
     })};
-  width: 20.3rem;
-  height: 18.3rem;
-  border: 0.1rem solid #000;
-  background-color: #fff;
-  padding: 2.25rem 2rem;
-  gap: 1rem;
+  width: 33.5rem;
+  height: 45rem; /* 기존 높이 유지 */
+  background-color: ${({ theme }) => theme.colors.blue};
+  border: 0.1rem solid ${({ theme }) => theme.colors.black};
+  border-radius: 2rem;
+  padding: 3rem 2.86rem;
+  gap: 2.5rem; /* 간격 */
+  box-shadow: inset 0 0 0 0.1rem ${({ theme }) => theme.colors.black};
+
+  /* 전체 박스를 아래로 이동 */
+  position: relative;
+  top: 3rem; /* 원하는 높이만큼 아래로 이동 */
 `;
 
 export const DividerLine = styled.div`
-  width: 17.1rem;
-  height: 0.063rem;
-  background-color: #bababa;
+  width: 100%;
+  height: 0.2rem;
+  background-color: ${({ theme }) => theme.colors.gray};
+  border-radius: 0.1rem;
+
+  /* 위치 조정을 위한 설정 */
+  position: relative;
+  top: 5rem; /* 원하는 만큼 아래로 이동 */
 `;
 
 export const TodayMessageBox = styled.div`
@@ -28,14 +39,23 @@ export const TodayMessageBox = styled.div`
       align: 'center',
       justify: 'center',
     })};
-  width: 16.25rem;
-  height: 2.19rem;
+  width: 100%;
+  max-width: 16.25rem;
+  height: auto;
   text-align: center;
-  color: #000;
-  font-size: 1.25rem;
-  line-height: 2.31rem;
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 1.5rem; /* 적절한 폰트 크기 */
+  line-height: 1.8rem; /* 줄 간격 조정 */
+
+  position: relative; /* 기준점 설정 */
+  top: 10.5rem; /* 원하는 만큼 아래로 이동 */
+
+  /* 텍스트 줄바꿈 방지 */
+  white-space: nowrap;
 
   span {
-    color: #c60707;
+    color: ${({ theme }) => theme.colors.yellow};
+    font-size: inherit;
+    font-weight: bold;
   }
 `;
