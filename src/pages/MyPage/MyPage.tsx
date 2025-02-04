@@ -28,6 +28,7 @@ const MyPage = () => {
       setUserInfo(userData);
     }
   }, [data, setUserInfo]);
+
   const menuItems = [
     {
       label: '내 정보 수정하기',
@@ -49,7 +50,10 @@ const MyPage = () => {
       label: '로그아웃',
       name: 'logout',
       icon: <IcLogout />,
-      action: () => {},
+      action: () => {
+        localStorage.removeItem('accessToken');
+        navigate('/login');
+      },
     },
     {
       label: '회원탈퇴',
