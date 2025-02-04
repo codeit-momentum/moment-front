@@ -63,6 +63,7 @@ const Friend = () => {
   const handleClose = () => {
     closeModal();
     setIsFriend(false);
+    setFriendCode('');
   };
 
   return (
