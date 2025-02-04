@@ -44,18 +44,9 @@ export const BellIconBox = styled.div`
   top: 50%;
   right: 1.25rem; /* 오른쪽 여백 */
   transform: translateY(-50%);
-  width: 2.625rem; /* 42px */
-  height: 2.625rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   background-color: transparent;
-
-  /* 아이콘을 명확히 표시 */
-  svg {
-    width: 1.5rem; /* 아이콘 크기 */
-    height: 1.5rem;
-    fill: ${({ theme }) => theme.colors.white}; /* mixin 흰색 적용 */
-  }
 `;
