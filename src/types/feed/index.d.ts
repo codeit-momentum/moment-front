@@ -17,7 +17,7 @@ export interface FeedType {
 }
 
 export interface MomentItemType {
-  content: string;
+  bucketContent: string;
   date: string;
   imageUrl: string;
   momentId: string;

@@ -48,7 +48,11 @@ const FeedItem = ({
         <S.FeedTitleParagraph>
           <span>{name}</span> 님이
         </S.FeedTitleParagraph>
-        <S.FeedContentParagraph>{content}</S.FeedContentParagraph>
+        <S.FeedContentParagraph>
+          {content}
+          <br />
+          목표를 유지중이에요!
+        </S.FeedContentParagraph>
       </S.FeedInfoContainer>
       <S.FeedImageContainer>
         <S.IconWrapper onClick={handleCheer}>

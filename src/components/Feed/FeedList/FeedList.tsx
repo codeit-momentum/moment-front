@@ -21,6 +21,7 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
   const { mutate: postKnock } = usePostKnock();
   const [isOpen, openModal, closeModal] = useModal();
 
+  console.log(feed);
   const handleKnock = () => {
     postKnock(friendId, {
       onSuccess: () => {
@@ -44,7 +45,7 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
           />
         </Modal>
       )}
-      {feed === undefined ? (
+      {feed?.moments.length === 0 ? (
         <EmptyFeed
           type="feed"
           icon={<IcKnock />}
@@ -62,7 +63,7 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
             friendId={friendId}
             momentId={moment.momentId}
             name={friendNickname}
-            content={moment.content}
+            content={moment.bucketContent}
             date={formatDate(moment.date)}
             image={moment.imageUrl}
           />
