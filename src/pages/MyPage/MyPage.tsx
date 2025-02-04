@@ -11,7 +11,6 @@ import IcLogout from '../../assets/svg/IcLogout';
 import IcGetOut from '../../assets/svg/IcGetOut';
 
 const MyPage = () => {
-  //내 정보 fetch
   const { data } = useGetUser();
   const navigate = useNavigate();
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
