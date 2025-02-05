@@ -21,5 +21,13 @@ export interface MomentItemType {
   date: string;
   imageUrl: string;
   momentId: string;
+  momentContent?: string;
   cheered: boolean;
+}
+
+export interface FeedResponseType {
+  friendCode: string;
+  moments: MomentItemType[];
+  nickname: string;
+  status: string;
 }
