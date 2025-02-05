@@ -1,4 +1,5 @@
 import { FormEvent } from 'react';
+import { BucketType } from '../types/moment';
 
 export const handleResizeHeight = (e: FormEvent<HTMLTextAreaElement>) => {
   const target = e.target as HTMLTextAreaElement;
@@ -26,3 +27,9 @@ export const getAchievementRate = (
 ): number => {
   return Math.round((completedMomentsCount / momentsCount) * 100);
 };
+
+const BUCKET_MAX_LENGTH = 30;
+const MOMENT_MAX_LENGTH = 20;
+
+export const getMaxLength = (type: BucketType | '생성형') =>
+  type === '생성형' ? MOMENT_MAX_LENGTH : BUCKET_MAX_LENGTH;
