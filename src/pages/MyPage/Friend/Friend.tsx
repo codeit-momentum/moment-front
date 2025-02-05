@@ -31,7 +31,9 @@ const Friend = () => {
     setFriendCode(e.target.value);
   };
 
-  const handleModal = () => {
+  const handleModal = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     postCheckFriend(friendCode, {
       onSuccess: (data) => {
         setFriendNickname(data.nickname);
@@ -93,11 +95,11 @@ const Friend = () => {
         </Modal>
       )}
       <MyPageTitle>친구 추가하기</MyPageTitle>
-      <S.SearchForm>
+      <S.SearchForm onSubmit={handleModal}>
         <S.SubtitleSpan>친구를 찾아볼까요?</S.SubtitleSpan>
         <S.InputContainer>
           <S.CodeInput value={friendCode} onChange={handleChange} />
-          <S.BtnSearch type="button" onClick={handleModal}>
+          <S.BtnSearch type="submit">
             <IcSearch />
           </S.BtnSearch>
         </S.InputContainer>
