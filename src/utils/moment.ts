@@ -28,8 +28,8 @@ export const getAchievementRate = (
   return Math.round((completedMomentsCount / momentsCount) * 100);
 };
 
-const BUCKET_MAX_LENGTH = 30;
-const MOMENT_MAX_LENGTH = 20;
+export const BUCKET_MAX_LENGTH = 30;
+export const MOMENT_MAX_LENGTH = 20;
 
 export const getMaxLength = (type: BucketType | '생성형') =>
   type === '생성형' ? MOMENT_MAX_LENGTH : BUCKET_MAX_LENGTH;
