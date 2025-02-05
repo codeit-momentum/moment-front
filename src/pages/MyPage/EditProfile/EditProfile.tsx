@@ -4,7 +4,7 @@ import React, { useState, useEffect, ChangeEvent, useContext } from 'react';
 import UserInfoContext from '../../../store/User/UserContext';
 import Button from '../../../components/Button/Button';
 import usePatchProfile from '../../../hooks/queries/myPage/usePatchProfile';
-import useErrorHandler from '../../../hooks/common/useErrorHandler';
+import useErrorHandler from '../../../hooks/common/useResponseMessage';
 
 const EditProfile = () => {
   const { userInfo } = useContext(UserInfoContext);

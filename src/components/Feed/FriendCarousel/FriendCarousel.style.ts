@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const FriednCarouselLayout = styled.div`
-  max-width: 37.5rem;
+  width: 37.5rem;
   padding: 0 2rem 2rem;
   --slide-height: 19rem;
   --slide-spacing: 1rem;
@@ -25,7 +25,10 @@ export const FriendItem = styled.div`
   transform: translate3d(0, 0, 0);
   font-size: 12px;
 `;
-export const FriendProfileImage = styled.img<{ $isClicked: boolean }>`
+export const FriendProfileImage = styled.img<{
+  $isClicked: boolean;
+  $isFixed: boolean;
+}>`
   width: 5rem;
   height: 5rem;
   border-radius: 310px;
@@ -33,5 +36,10 @@ export const FriendProfileImage = styled.img<{ $isClicked: boolean }>`
     $isClicked &&
     `
     outline: 2px solid ${theme.colors.blue};
+  `}
+  ${({ theme, $isFixed }) =>
+    $isFixed &&
+    `
+    outline: 2px solid ${theme.colors.yellow};
   `}
 `;

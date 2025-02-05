@@ -2,18 +2,16 @@ import { useState } from 'react';
 import { FriendType } from '../types/feed';
 
 const useCurrentFriend = (friendList: FriendType[]) => {
-  const [currentFriend, setCurrentFriend] = useState<FriendType | undefined>(
-    friendList.length > 0 ? friendList[0] : undefined,
-  );
+  const [currentFriend, setCurrentFriend] = useState<FriendType>(friendList[0]);
 
-  const handleClickFriend = (friendId: number) => {
-    const targetFriend = friendList.find(
-      (friend) => friend.friendId === friendId,
-    );
-    setCurrentFriend(targetFriend);
+  const handleClickFriend = (userID: string) => {
+    const targetFriend = friendList.find((friend) => friend.userID === userID);
+    if (targetFriend) {
+      setCurrentFriend(targetFriend);
+    }
   };
 
-  return { currentFriend, handleClickFriend };
+  return { currentFriend, handleClickFriend, setCurrentFriend };
 };
 
 export default useCurrentFriend;
