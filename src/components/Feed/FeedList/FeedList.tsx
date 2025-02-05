@@ -9,6 +9,7 @@ import useModal from '../../../hooks/common/useModal';
 import OKModal from '../../Modal/OKModal/OKModal';
 import Modal from '../../Modal/Modal';
 import IcKnock from '../../../assets/svg/IcKnock';
+import formatFrequency from '../../../utils/formatFrequency';
 
 interface FeedListProps {
   friendId: string;
@@ -66,6 +67,7 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
             date={formatDate(moment.date)}
             image={moment.imageUrl}
             cheered={moment.cheered}
+            frequency={formatFrequency(moment.frequency)}
           />
         ))
       )}

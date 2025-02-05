@@ -23,6 +23,7 @@ export interface MomentItemType {
   momentId: string;
   momentContent?: string;
   cheered: boolean;
+  frequency: string;
 }
 
 export interface FeedResponseType {

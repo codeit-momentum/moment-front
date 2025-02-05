@@ -12,6 +12,7 @@ interface FeedItemProps {
   date: string;
   image: string;
   cheered: boolean;
+  frequency: string;
 }
 
 const FeedItem = ({
@@ -22,6 +23,7 @@ const FeedItem = ({
   date,
   image,
   cheered,
+  frequency,
 }: FeedItemProps) => {
   const { mutate: postCheer } = usePostCheer();
   const { handleError, setMessage, openModal, renderModal } =
@@ -52,6 +54,8 @@ const FeedItem = ({
           <span>{name}</span> 님이
         </S.FeedTitleParagraph>
         <S.FeedContentParagraph>
+          {frequency}
+          <br />
           {content}
           <br />
           목표를 유지중이에요!
