@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 import { GetBucketResponse } from '../../../types/moment';
 
@@ -8,7 +8,7 @@ const getRepeatBucket = async (): Promise<GetBucketResponse> => {
 };
 
 const useGetRepeatBucket = () =>
-  useQuery({
+  useSuspenseQuery({
     queryKey: ['buckets', 'REPEAT'],
     queryFn: () => getRepeatBucket(),
   });

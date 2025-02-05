@@ -11,6 +11,7 @@ import useResponseMessage from '../../../hooks/common/useResponseMessage';
 import useUpload from '../../../hooks/moment/useUpload';
 import { UploadType } from '../../../types/moment';
 import useImageHandler from '../../../hooks/common/useImageHandler';
+import Fallback from '../../Fallback/Fallback';
 
 type UploadProps = {
   variant: UploadType;
@@ -61,9 +62,8 @@ const Upload = ({ variant }: UploadProps) => {
     }
   };
 
-  // 임시 구현
   if (isLoading || !data) {
-    return <div>로딩중 ... </div>;
+    return <Fallback />;
   }
 
   return (
