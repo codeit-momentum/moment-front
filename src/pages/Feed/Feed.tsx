@@ -119,7 +119,7 @@ const Feed = () => {
         <FeedList
           friendId={currentFriend?.userID}
           friendNickname={currentFriend?.nickname}
-          isKnocked={currentFriend.isKnock}
+          isKnocked={currentFriend?.isKnock}
         />
       )}
     </S.FeedLayout>

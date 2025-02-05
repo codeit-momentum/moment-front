@@ -21,7 +21,6 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
   const { mutate: postKnock } = usePostKnock();
   const [isOpen, openModal, closeModal] = useModal();
 
-  console.log(feed);
   const handleKnock = () => {
     postKnock(friendId, {
       onSuccess: () => {
