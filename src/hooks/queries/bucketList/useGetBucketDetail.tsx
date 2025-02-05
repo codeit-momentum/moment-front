@@ -9,10 +9,14 @@ const getBucketDetail = async (
   return response.data;
 };
 
-const useGetBucketDetail = (id: string) =>
+const useGetBucketDetail = (id: string | null) =>
   useQuery({
     queryKey: ['bucket', id],
-    queryFn: () => getBucketDetail(id),
+    queryFn: () => {
+      if (!id) throw new Error('id 없음');
+      return getBucketDetail(id);
+    },
+    enabled: !!id,
   });
 
 export default useGetBucketDetail;
