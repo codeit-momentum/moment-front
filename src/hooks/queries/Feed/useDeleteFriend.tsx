@@ -1,7 +1,13 @@
 import instance from '../../../apis/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const deleteFriend = async (friendId: string) => {
+interface DeleteFriendResponseType {
+  message: string;
+}
+
+const deleteFriend = async (
+  friendId: string,
+): Promise<DeleteFriendResponseType> => {
   const response = await instance.delete('/api/friends', {
     data: {
       friendUserID: friendId,

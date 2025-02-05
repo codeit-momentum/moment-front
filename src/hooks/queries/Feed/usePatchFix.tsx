@@ -1,7 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 
-const patchFix = async (friendId: string) => {
+interface FixFriendResponseType {
+  friend: {
+    fixedAt: string;
+    friendUserID: string;
+    isFixed: boolean;
+    userID: string;
+  };
+  message: string;
+}
+
+const patchFix = async (friendId: string): Promise<FixFriendResponseType> => {
   const response = await instance.patch('/api/friends/fixed', {
     friendUserID: friendId,
   });

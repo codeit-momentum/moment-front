@@ -1,12 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 
-const postKnock = async (friendId: string) => {
+interface KncokResponseType {
+  status: string;
+  message: string;
+}
+
+const postKnock = async (friendId: string): Promise<KncokResponseType> => {
   const response = await instance.post('/api/friends/knock', {
     friendUserID: friendId,
   });
 
-  return response;
+  return response.data;
 };
 
 const usePostKnock = () => {
