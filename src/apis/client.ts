@@ -23,9 +23,6 @@ instance.interceptors.request.use((config) => {
 
 instance.interceptors.response.use(
   (res) => {
-    // undefined 출력.. 서버에서 접근 가능하도록 처리해주셔야 할듯
-    // console.log('x-access-token:', res.headers['x-access-token']);
-
     // access 토큰 만료된 경우 서버에서 'X-Access-Token' 헤더로 재발급된 토큰 전송
     if ('x-access-token' in res.headers) {
       const newToken = res.headers['x-access-token'];
@@ -34,7 +31,7 @@ instance.interceptors.response.use(
     return res;
   },
   (error) => {
-    // 401: access 토큰이 없는 경우, 403: refresh 토큰이 없는 경우
+    // 401: access 토큰이 없는 경우, refresh 토큰이 없는 경우
     if (error.response?.status === 401) {
       localStorage.removeItem('accessToken');
 

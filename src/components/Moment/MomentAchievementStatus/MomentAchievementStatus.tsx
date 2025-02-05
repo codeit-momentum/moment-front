@@ -10,7 +10,6 @@ type MomentAchievementStatusProps = {
 };
 
 const MomentAchievementStatus = ({ data }: MomentAchievementStatusProps) => {
-  console.log(data);
   return (
     <MomentAchievementStatusLayout
       containerStyle={{ padding: '2rem' }}
