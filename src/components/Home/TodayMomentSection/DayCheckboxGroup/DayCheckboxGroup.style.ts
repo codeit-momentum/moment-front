@@ -1,49 +1,28 @@
 import styled from 'styled-components';
 
 export const DayCheckboxGroupLayout = styled.div`
-  ${({ theme }) =>
-    theme.mixin.flexBox({ direction: 'column', align: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'space-between' })};
   gap: 1rem;
-  width: 100%; /* 부모 크기에 맞게 확장 */
-
-  /* 위치 조정을 위한 설정 */
-  position: relative;
-  top: 5rem; /* 원하는 만큼 아래로 이동 */
-`;
-
-export const DayWrapperList = styled.div`
-  ${({ theme }) =>
-    theme.mixin.flexBox({
-      direction: 'row',
-      justify: 'flex-start',
-    })}; /* space-between 대신 flex-start 사용 */
-  width: 100%;
-  gap: 0.1rem; /* 간격을 좁힘 */
-  flex-wrap: wrap; /* 여러 줄로 배치되도록 */
+  width: 23.8rem;
 `;
 
 export const DayWrapper = styled.div`
   ${({ theme }) =>
     theme.mixin.flexBox({ direction: 'column', align: 'center' })};
-  gap: 0.5rem;
-  flex: 1; /* flex 1로 동적 크기 조정 */
-  max-width: 14%; /* 최대 너비 설정 */
+  width: 2rem;
+  gap: 1rem;
 `;
 
 export const DayTextItem = styled.div`
-  font-size: 1rem;
-  color: ${({ theme }) => theme.colors.white}; /* 요일 글자를 흰색으로 설정 */
-  text-align: center; /* 텍스트 정렬 */
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 12px;
+  line-height: 20px;
 `;
 
 export const DayCheckboxBox = styled.div<{ $isChecked: boolean }>`
-  width: 2rem; /* 크기를 상대적으로 늘림 */
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
+  width: 2rem;
   height: 2rem;
-  border: 0.1875rem solid ${({ theme }) => theme.colors.white}; /* mixin으로 흰색 사용 */
-  border-radius: 0.25rem; /* 모서리를 살짝 둥글게 (4px) */
-  background-color: ${({ $isChecked, theme }) =>
-    $isChecked
-      ? theme.colors.blue
-      : 'transparent'}; /* 체크된 상태: mixin 블루, 기본: 투명 */
-  ${({ theme }) => theme.mixin.flexBox({ align: 'center', justify: 'center' })};
+  border-radius: 2px;
+  outline: 2px solid ${({ theme }) => theme.colors.white};
 `;
