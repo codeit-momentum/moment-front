@@ -47,7 +47,7 @@ export const FeedImageContainer = styled.div`
   width: 12rem;
   height: 12rem;
 `;
-export const IconWrapper = styled.div`
+export const IconWrapper = styled.button`
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;

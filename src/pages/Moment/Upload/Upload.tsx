@@ -7,7 +7,7 @@ import OKModal from '../../../components/Modal/OKModal/OKModal';
 import Button from '../../../components/Button/Button';
 import IcBack from '../../../assets/svg/IcBack';
 import * as S from './Upload.style';
-import useResponseMessage from '../../../hooks/common/useErrorHandler';
+import useResponseMessage from '../../../hooks/common/useResponseMessage';
 import useUpload from '../../../hooks/moment/useUpload';
 import { UploadType } from '../../../types/moment';
 import useImageHandler from '../../../hooks/common/useImageHandler';

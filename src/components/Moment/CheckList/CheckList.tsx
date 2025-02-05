@@ -7,7 +7,7 @@ import {
 import { BucketType } from '../../../types/moment';
 import usePostBucket from '../../../hooks/queries/bucketList/usePostBucket';
 import usePatchBucket from '../../../hooks/queries/bucketList/usePatchBucket';
-import useResponseMessage from '../../../hooks/common/useErrorHandler';
+import useResponseMessage from '../../../hooks/common/useResponseMessage';
 import CheckListLayout from '../ContainerLayout/ContainerLayout';
 import CheckListItem from './CheckListItem/CheckListItem';
 import IcCheckboxPending from '../../../assets/svg/IcCheckboxPending';

@@ -61,7 +61,7 @@ const GlobalStyle = createGlobalStyle`
   --vh: 100%;
   }
 
-  html{
+  body{
     padding: 3rem 2rem 9rem 2rem;
     background-color: ${({ theme }) => theme.colors.black};
   }
