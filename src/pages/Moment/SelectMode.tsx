@@ -1,9 +1,11 @@
-import { useNavigationType, useNavigate } from 'react-router-dom';
+import { useNavigationType, useNavigate, useParams } from 'react-router-dom';
 import * as S from './SelectMode.style';
 import { ModeType } from '../../types/moment/modeType';
 import Button from '../../components/Button/Button';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import BackBtn from '../../components/BackBtn/BackBtn';
+import instance from '../../apis/client';
+import { useState, useEffect } from 'react';
 /**
  * SelectMode
  * - 자동/수동 모드를 선택하는 페이지
@@ -12,13 +14,33 @@ import BackBtn from '../../components/BackBtn/BackBtn';
 const SelectMode = () => {
   const navigate = useNavigate();
   const navigationType = useNavigationType();
+  const { id } = useParams() as { id: string };
+  const [goal, setGoal] = useState<string>('로딩 중...');
+
+  useEffect(() => {
+    console.log('현재 ID 값:', id);
+
+    if (!id) {
+      console.error('ID가 없습니다! 라우트 문제 확인 필요');
+      setGoal('잘못된 ID');
+      return;
+    }
+
+    instance
+      .get(`/api/bucket/${id}`)
+      .then((res) => {
+        console.log('API 응답 데이터:', res.data);
+        setGoal(res.data.bucket.content || '버킷리스트 없음');
+      })
+      .catch(() => setGoal('버킷리스트 없음'));
+  }, [id]);
 
   /**
    * handleSelect
    * - 선택된 모드에 따라 경로 이동
    */
   const handleSelect = (mode: ModeType) => {
-    navigate(`/moment/create-moment?mode=${mode}`); //Query String으로 mode 전달
+    navigate(`/moment/create-moment/${id}?mode=${mode}`); // id 추가
   };
 
   const handleBack = () => {
@@ -33,13 +55,13 @@ const SelectMode = () => {
       <BackBtn onClick={handleBack} />
       {/* HeaderComponent 적용 */}
       <HeaderComponent
-        title="목도리 뜨기"
+        title={goal}
         subtitle="모멘트 생성 방법을 골라주세요..."
         onBackClick={handleBack}
       />
       <S.BtnContainer>
         <Button
-          customStyle={{
+          $customstyle={{
             width: '22rem',
             height: '5rem',
             backgroundColor: '#020202',
@@ -52,7 +74,7 @@ const SelectMode = () => {
           으로 생성할게요
         </Button>
         <Button
-          customStyle={{
+          $customstyle={{
             width: '22rem',
             height: '5rem',
             backgroundColor: '#020202',

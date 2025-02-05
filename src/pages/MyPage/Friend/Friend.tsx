@@ -12,7 +12,8 @@ import UserInfoContext from '../../../store/User/UserContext';
 import usePostCheckFriend from '../../../hooks/queries/myPage/usePostCheckFriend';
 import usePostFriend from '../../../hooks/queries/myPage/usePostFriend';
 import OKModal from '../../../components/Modal/OKModal/OKModal';
-import useErrorHandler from '../../../hooks/common/useErrorHandler';
+import useErrorHandler from '../../../hooks/common/useResponseMessage';
+import Toast from '../../../components/common/Toast/Toast';
 
 const Friend = () => {
   const { userInfo } = useContext(UserInfoContext);
@@ -21,15 +22,18 @@ const Friend = () => {
   const [friendCode, setFriendCode] = useState<string>('');
   const [friendNickname, setFriendNickname] = useState<string>('');
   const [isFriend, setIsFriend] = useState(false);
-  const { handleError, message } = useErrorHandler();
+  const { handleError, message, setMessage } = useErrorHandler();
   const [isOpen, openModal, closeModal] = useModal();
+  const [toast, setToast] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFriendCode(e.target.value);
   };
 
-  const handleModal = () => {
+  const handleModal = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     postCheckFriend(friendCode, {
       onSuccess: (data) => {
         setFriendNickname(data.nickname);
@@ -46,6 +50,9 @@ const Friend = () => {
 
   const handlePostFriend = () => {
     postFriend(friendCode, {
+      onSuccess: (data) => {
+        setMessage(data.message);
+      },
       onError: (error) => {
         handleError(error);
       },
@@ -58,15 +65,16 @@ const Friend = () => {
   const handleClose = () => {
     closeModal();
     setIsFriend(false);
+    setFriendCode('');
   };
 
   return (
     <S.FriendLayout>
+      {toast && <Toast setToast={setToast}>복사가 완료되었습니다.</Toast>}
       {isOpen && (
         <Modal>
           {isFriend ? (
             <OKModal
-              title=""
               mainText={
                 message === ''
                   ? `${friendNickname}님과 친구가 되었습니다!`
@@ -76,6 +84,7 @@ const Friend = () => {
             />
           ) : (
             <SelectModal
+              type="add"
               content="상대방의 코드가 맞는지 확인해주세요..."
               onSubmit={handlePostFriend}
               onClose={handleClose}
@@ -86,11 +95,11 @@ const Friend = () => {
         </Modal>
       )}
       <MyPageTitle>친구 추가하기</MyPageTitle>
-      <S.SearchForm>
+      <S.SearchForm onSubmit={handleModal}>
         <S.SubtitleSpan>친구를 찾아볼까요?</S.SubtitleSpan>
         <S.InputContainer>
           <S.CodeInput value={friendCode} onChange={handleChange} />
-          <S.BtnSearch type="button" onClick={handleModal}>
+          <S.BtnSearch type="submit">
             <IcSearch />
           </S.BtnSearch>
         </S.InputContainer>
@@ -103,10 +112,7 @@ const Friend = () => {
         )}
       </S.SearchForm>
       <S.SubtitleSpan>나의 친구 코드</S.SubtitleSpan>
-      <CopyToClipboard
-        text={userInfo.friendCode}
-        onCopy={() => alert('코드가 복사되었습니다.')}
-      >
+      <CopyToClipboard text={userInfo.friendCode}>
         <Button
           type="button"
           $customstyle={{
@@ -114,6 +120,9 @@ const Friend = () => {
             height: '4rem',
             fontSize: '16px',
             lineHeight: '20px',
+          }}
+          onClick={() => {
+            setToast(true);
           }}
         >
           {userInfo.friendCode}

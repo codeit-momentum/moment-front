@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ListItemType, StateType } from '../../../../types/moment';
+import { BucketType, StateType } from '../../../../types/moment';
 import useModal from '../../../../hooks/common/useModal';
 import Modal from '../../../Modal/Modal';
 import CheckListModal from '../../../Modal/CheckListModal/CheckListModal';
@@ -9,15 +9,27 @@ import IcCheckboxCompleted from '../../../../assets/svg/IcCheckboxCompleted';
 import IcCheckboxPending from '../../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckListItem.style';
 
-interface CheckListItemProps {
-  id: number;
-  type: ListItemType;
+interface BucketTypeProps {
+  type: BucketType;
+  id: string;
+  state: StateType;
   value: string;
-  state: StateType | number;
   editState?: boolean;
-  onUpdateItem: (arg0: number, arg1: string) => void;
-  onDeleteItem?: (arg0: number) => void;
+  onUpdateItem: (id: string, value: string) => void;
+  onDeleteItem: (id: string) => void;
 }
+
+interface CreateTypeProps {
+  type: '생성형';
+  id: number;
+  state: number;
+  value: string;
+  editState: boolean;
+  onUpdateItem: (index: number, value: string) => void;
+  onDeleteItem?: () => void;
+}
+
+type CheckListItemProps = BucketTypeProps | CreateTypeProps;
 
 const StateIcons = {
   completed: <IcCheckboxCompleted />,
@@ -32,7 +44,7 @@ const CheckListItem = ({
   state,
   editState = false,
   onUpdateItem,
-  onDeleteItem = () => {},
+  onDeleteItem,
 }: CheckListItemProps) => {
   const [isOpen, openModal, closeModal] = useModal();
   const [isEditing, setIsEditing] = useState(editState);
@@ -53,11 +65,16 @@ const CheckListItem = ({
   };
 
   const handleUpdateItem = () => {
-    if (isEditing) {
+    if (!isEditing) return;
+
+    if (type === '생성형') {
       onUpdateItem(id, itemValue);
-      if (type === '생성형') return;
+    } else {
+      const trimmedValue = itemValue.trim();
+      if (!trimmedValue) return;
+
+      onUpdateItem(id, itemValue);
       setIsEditing(false);
-      alert(`${itemValue}저장`);
     }
   };
 
@@ -74,13 +91,14 @@ const CheckListItem = ({
   };
 
   const hadleDeleteClick = () => {
+    if (type === '생성형') return;
     onDeleteItem(id);
     closeModal();
   };
 
   const handleCreateClick = () => {
     // 여기서 버킷리스트 id 넘겨야 하는데,,, 어떻게 넘겨야 할지 지윤님과 논의 필요
-    navigate('/moment/select-mode');
+    navigate(`/moment/select-mode/${id}`);
   };
 
   const handleUploadClick = () => {

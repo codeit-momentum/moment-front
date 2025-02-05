@@ -28,7 +28,8 @@ export const ItemLabelSpan = styled.span<{ $isDelete: boolean }>`
 `;
 //수정 예정
 export const BtnNavigate = styled.button`
-  background-color: yellow;
+  color: ${({ theme }) => theme.colors.white};
+  background: transparent;
   width: 3rem;
   height: 3rem;
 `;

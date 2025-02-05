@@ -1,9 +1,9 @@
-import { CheckListType } from '../../../types/moment';
+import { BucketType } from '../../../types/moment';
 import IcCloseModal from '../../../assets/svg/IcCloseModal';
 import * as S from './CheckListModal.style';
 
 interface CheckListModalProps {
-  type: CheckListType;
+  type: BucketType;
   title: string;
   onClickEdit: () => void;
   onClickDelete: () => void;
@@ -33,7 +33,7 @@ const CheckListModal = ({
         <S.ModalOptionButton onClick={onClickCreate}>
           나만의 모멘트 생성
         </S.ModalOptionButton>
-        {type === '달성형' && (
+        {type === 'ACHIEVEMENT' && (
           <S.ModalOptionButton onClick={onClickUpload}>
             목표 달성 인증
           </S.ModalOptionButton>
