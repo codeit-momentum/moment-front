@@ -41,11 +41,27 @@ export interface MomentDetail extends Moment {
   bucket: Bucket;
 }
 
-export interface BucketItemType {
-  bucketID: string;
-  content: string;
-  isCompleted: boolean;
-  isChallenging: boolean;
+export type BucketItemType = Pick<
+  Bucket,
+  'bucketID' | 'content' | 'isCompleted' | 'isChallenging'
+>;
+
+export type ChallengingMoment = Pick<
+  Moment,
+  'photoUrl' | 'content' | 'momentID' | 'bucketID'
+>;
+
+export interface ChallengingBucket
+  extends Pick<Bucket, 'bucketID' | 'content' | 'completedMomentsCount'> {
+  momentCount: number;
+  moments: ChallengingMoment[];
+}
+
+export interface UploadMoment {
+  updatedMoment: Moment;
+  updatedBucket: null | string;
+  totalMoments: number;
+  completedMoments: number;
 }
 
 // Response 타입
@@ -81,4 +97,16 @@ export interface GetBucketResponse {
 export interface GetMomentDetailResponse {
   success: boolean;
   moment: MomentDetail;
+}
+
+export interface UploadMomentResponse {
+  success: boolean;
+  message: string;
+  result: UploadMoment;
+}
+
+export interface GetChallengingMomentReponse {
+  success: boolean;
+  count: number;
+  data: ChallengingBucket[];
 }

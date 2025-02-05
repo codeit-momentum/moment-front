@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const MomentContainer = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
+  width: 100%;
   padding: 1.4rem 1.5rem;
   border-radius: 1rem;
   background-color: ${({ theme }) => theme.colors.black};

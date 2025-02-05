@@ -68,12 +68,12 @@ const CheckListItem = ({
     if (!isEditing) return;
 
     if (type === '생성형') {
-      onUpdateItem(id as number, itemValue);
+      onUpdateItem(id, itemValue);
     } else {
       const trimmedValue = itemValue.trim();
       if (!trimmedValue) return;
 
-      onUpdateItem(id as string, itemValue);
+      onUpdateItem(id, itemValue);
       setIsEditing(false);
     }
   };
