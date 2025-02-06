@@ -1,5 +1,6 @@
 import * as S from './MomentList.style';
 import IcClip from '../../../../assets/svg/IcClip';
+import IcClipOff from '../../../../assets/svg/IcClipOff';
 
 interface MomentProps {
   id: number;
@@ -18,7 +19,7 @@ const MomentList = ({ moments }: MomentListProps) => {
         moments.map(({ id, title, isCompleted }) => (
           <S.MomentBox key={id} $isCompleted={isCompleted}>
             <S.IconWrapper>
-              <IcClip />
+              {isCompleted ? <IcClipOff /> : <IcClip />}
             </S.IconWrapper>
             {isCompleted && <S.ClearBadgeSpan>CLEAR</S.ClearBadgeSpan>}
             <S.MomentTitleSpan>{title}</S.MomentTitleSpan>
