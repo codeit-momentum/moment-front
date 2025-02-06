@@ -10,19 +10,15 @@ export const BucketlistLayout = styled.div`
   background-color: ${({ theme }) => theme.colors.black}; /* 내부 배경 검정색 */
 
   /* 전체적으로 아래로 이동 */
-  position: relative;
-  top: 3rem; /* 원하는 높이만큼 아래로 이동 */
 `;
 
-export const BucketlistTitle = styled.h2`
-  font-size: 1.5rem;
-  text-align: center;
+export const BucketlistTitle = styled.span`
+  font-size: 16px;
   color: ${({ theme }) => theme.colors.white};
 
   /* 년도(2025) 부분을 노랑색으로 적용 */
   span {
     color: ${({ theme }) => theme.colors.yellow};
-    font-weight: bold;
   }
 `;
 

@@ -39,6 +39,11 @@ const TodayMomentSection = () => {
 
   return (
     <S.TodayMomentLayout>
+      <S.TopLeftArea />
+      <S.TopRightArea />
+      <S.BottomLeftArea />
+      <S.BottomRightArea />
+
       <DayCheckboxGroup days={mockDays} />
       <S.DividerLine />
       {mockMoments.length > 0 && <MomentList moments={mockMoments} />}
