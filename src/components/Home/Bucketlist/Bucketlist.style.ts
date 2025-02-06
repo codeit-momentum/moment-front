@@ -4,17 +4,18 @@ import backgroundImage from '../../../assets/images/bucketAcheiveBackgroundImage
 export const BucketlistLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 100%; /* 가로 너비 100%로 확장 */
+  gap: 1rem;
 `;
 
 export const BucketlistTitle = styled.span`
   font-size: 16px;
   text-align: center;
+  line-height: 20px;
   color: ${({ theme }) => theme.colors.white};
 
   /* 년도(2025) 부분을 노랑색으로 적용 */
   span {
     color: ${({ theme }) => theme.colors.yellow};
-    font-weight: bold;
   }
 `;
 

@@ -4,6 +4,7 @@ export const HeaderLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   position: relative;
   padding-top: 1rem;
+  padding-bottom: 0.9rem;
 `;
 
 export const StreakTextContainer = styled.div`
