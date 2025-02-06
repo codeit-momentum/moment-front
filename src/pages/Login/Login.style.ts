@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const LoginPageLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 100%;
-  gap: 8rem;
-  margin-top: 16.6rem;
+  gap: 3rem;
+  padding-top: 14rem;
 `;
 
 export const LoginButton = styled.button`
