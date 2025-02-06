@@ -23,45 +23,36 @@ import { createMoment } from '../../apis/createMomentApi';
  * - 스크롤 뷰 형태로 구성
  */
 const CreateMoment = () => {
-  // 상태 관리
-  const [goal, setGoal] = useState<string>('로딩 중...');
-  const [duration, setDuration] = useState<number | null>(null); // 예상 소요 기간
-  const [todoList, setTodoList] = useState<string[]>([]); // 투두리스트 데이터
-  const [frequency, setFrequency] = useState<string | null>(null); // 빈도수 데이터
-
-  const [isDurationConfirmed, setIsDurationConfirmed] = useState(false); // Duration 확정 여부
-  const [isTodoConfirmed, setIsTodoConfirmed] = useState(false); // ToDoList 확정 여부
-
-  // API 요청 및 상태 관리 (useApi 훅 사용)
-  const { id } = useParams() as { id: string }; //URL에서 id 가져오기
-  const [isLoading, setIsLoading] = useState(false); // 로딩 상태
   const navigate = useNavigate();
   const navigationType = useNavigationType();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
-  const mode = query.get('mode') as ModeType; // auto 또는 manaul
-  const [isModeValid, setIsModeValid] = useState(true); // 모드 유효성 검사 상태 추가
+  const mode = query.get('mode') as ModeType;
+  const { id } = useParams() as { id: string };
 
-  if (!isModeValid) {
-    return <div>올바른 모드를 선택해주세요.</div>;
-  }
-  // id를 이용해 goal(버킷리스트 제목) 가져오기
+  // `goal`을 `SelectMode`에서 전달받음 (API 호출 제거)
+  const goal = location.state?.goal || '목표 없음';
+
+  const [duration, setDuration] = useState<number | null>(null);
+  const [todoList, setTodoList] = useState<string[]>([]);
+  const [frequency, setFrequency] = useState<string | null>(null);
+  const [isDurationConfirmed, setIsDurationConfirmed] = useState(false);
+  const [isTodoConfirmed, setIsTodoConfirmed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModeValid, setIsModeValid] = useState(true);
+
+  // `goal`이 `"목표 없음"`이면 리다이렉트
   useEffect(() => {
-    instance
-      .get(`/api/bucket/${id}`)
-      .then((res) => {
-        console.log('API 응답:', res.data);
-        setGoal(res.data.bucket.content || '목표 없음');
-      })
-      .catch(() => setGoal('목표 없음'));
-  }, [id]);
+    if (goal === '목표 없음') {
+      console.error('목표 없음으로 모멘트 생성 불가');
+      navigate(`/moment/select-mode/${id}`, { replace: true });
+      return;
+    }
+  }, [goal, navigate, id]);
 
   useEffect(() => {
-    // mode 유효성 검사
     if (!mode || (mode !== 'auto' && mode !== 'manual')) {
       setIsModeValid(false);
-    } else {
-      setIsModeValid(true);
     }
   }, [mode]);
 
@@ -79,10 +70,12 @@ const CreateMoment = () => {
           }
 
           setDuration(days); // AI에서 받은 duration을 먼저 설정
-          console.log('상태 업데이트 후 duration:', days);
         })
         .catch((error) => {
           console.error('자동 생성 오류:', error);
+          alert(
+            'AI 예상 소요 기간 생성 중 오류가 발생했습니다. 다시 시도해주세요.',
+          );
         })
         .finally(() => setIsLoading(false));
     }
@@ -92,8 +85,6 @@ const CreateMoment = () => {
   const handleDurationConfirm = (newDuration: number) => {
     setDuration(newDuration);
     setIsDurationConfirmed(true);
-
-    console.log('확정된 duration:', newDuration);
     setIsLoading(true);
 
     generateDetailedPlan(
@@ -107,6 +98,7 @@ const CreateMoment = () => {
       })
       .catch((error) => {
         console.error('자동 생성 오류:', error);
+        alert('투두 리스트 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
       })
       .finally(() => setIsLoading(false));
   };
@@ -138,14 +130,18 @@ const CreateMoment = () => {
       alert('Moment 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
-  // BackBtn 기능 안함,, 추후 리팩토링할 예정
+
   const handleBack = () => {
     if (navigationType === 'POP') {
-      navigate(`/moment/select-mode/${id}`); // POP 상태에서는 지정된 경로로 이동
+      navigate(`/moment/select-mode/${id}`);
     } else {
-      navigate(-1); // 다른 상태에서는 이전 페이지로 이동
+      navigate(-1);
     }
   };
+
+  if (!isModeValid) {
+    return <div>올바른 모드를 선택해주세요.</div>;
+  }
 
   return (
     <S.CreateMomentLayout>

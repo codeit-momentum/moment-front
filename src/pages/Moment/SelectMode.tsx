@@ -30,7 +30,9 @@ const SelectMode = () => {
    * - 선택된 모드에 따라 경로 이동
    */
   const handleSelect = (mode: ModeType) => {
-    navigate(`/moment/create-moment/${id}?mode=${mode}`); // id 추가
+    navigate(`/moment/create-moment/${id}?mode=${mode}`, {
+      state: { goal: data?.bucket?.content || '버킷리스트 없음' },
+    });
   };
 
   const handleBack = () => {
