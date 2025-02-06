@@ -13,7 +13,7 @@ import usePostCheckFriend from '../../../hooks/queries/myPage/usePostCheckFriend
 import usePostFriend from '../../../hooks/queries/myPage/usePostFriend';
 import OKModal from '../../../components/Modal/OKModal/OKModal';
 import useErrorHandler from '../../../hooks/common/useResponseMessage';
-import Toast from '../../../components/common/Toast/Toast';
+import useToast from '../../../hooks/common/useToast';
 
 const Friend = () => {
   const { userInfo } = useContext(UserInfoContext);
@@ -24,7 +24,7 @@ const Friend = () => {
   const [isFriend, setIsFriend] = useState(false);
   const { handleError, message, setMessage } = useErrorHandler();
   const [isOpen, openModal, closeModal] = useModal();
-  const [toast, setToast] = useState<boolean>(false);
+  const { Toast, openToast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -70,7 +70,7 @@ const Friend = () => {
 
   return (
     <S.FriendLayout>
-      {toast && <Toast setToast={setToast}>복사가 완료되었습니다.</Toast>}
+      <Toast />
       {isOpen && (
         <Modal>
           {isFriend ? (
@@ -122,7 +122,7 @@ const Friend = () => {
             lineHeight: '20px',
           }}
           onClick={() => {
-            setToast(true);
+            openToast('복사가 완료되었습니다.');
           }}
         >
           {userInfo.friendCode}

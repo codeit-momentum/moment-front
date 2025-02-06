@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 import { GetChallengingMomentReponse } from '../../../types/moment';
 
@@ -8,7 +8,7 @@ const getChallengingMoment = async (): Promise<GetChallengingMomentReponse> => {
 };
 
 const useGetChallengingMoment = () =>
-  useQuery({
+  useSuspenseQuery({
     queryKey: ['moments', 'challenging'],
     queryFn: getChallengingMoment,
   });
