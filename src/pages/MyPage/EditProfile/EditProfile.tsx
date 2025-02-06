@@ -1,48 +1,33 @@
 import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';
 import * as S from './EditProfile.style';
-import React, { useState, useEffect, ChangeEvent, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import UserInfoContext from '../../../store/User/UserContext';
 import Button from '../../../components/Button/Button';
 import usePatchProfile from '../../../hooks/queries/myPage/usePatchProfile';
 import useErrorHandler from '../../../hooks/common/useResponseMessage';
+import useImageHandler from '../../../hooks/common/useImageHandler';
 
 const EditProfile = () => {
   const { userInfo } = useContext(UserInfoContext);
   const [newNickname, setNewNickname] = useState<string>(userInfo.nickname);
-  const [file, setFile] = useState<File | null>(null);
-  const [newImage, setNewImage] = useState<string | null>(
-    userInfo.profileImage,
-  );
   const { handleError, setMessage, openModal, renderModal } = useErrorHandler();
+  const {
+    image: newImage,
+    imageFile,
+    handleImage,
+    handleImageError,
+    ImageToast,
+  } = useImageHandler();
   const { mutate: patchProfile } = usePatchProfile();
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(e.target.value);
   };
 
-  useEffect(() => {
-    return () => {
-      if (newImage) URL.revokeObjectURL(newImage);
-    };
-  }, [newImage]);
-
-  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const newImage = e.target.files?.[0];
-    if (!newImage) return;
-
-    if (!newImage.type.startsWith('image/')) {
-      alert('이미지 파일만 업로드 가능');
-      e.target.value = '';
-      return;
-    }
-    setFile(newImage);
-    setNewImage(URL.createObjectURL(newImage));
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const body = {
-      profileImage: file,
+      profileImage: imageFile,
       newNickname: newNickname,
     };
     patchProfile(body, {
@@ -61,6 +46,7 @@ const EditProfile = () => {
   return (
     <S.EditProfileLayout>
       {renderModal()}
+      <ImageToast />
       <MyPageTitle>내 정보 수정하기</MyPageTitle>
 
       <S.EditForm onSubmit={handleSubmit}>
@@ -68,6 +54,7 @@ const EditProfile = () => {
           <S.PreviewImage
             src={newImage || userInfo.profileImage}
             alt="profile"
+            onError={handleImageError}
           />
           <S.ImageInput type="file" accept="image/*" onChange={handleImage} />
         </S.Label>
