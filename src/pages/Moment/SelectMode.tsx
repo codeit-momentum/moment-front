@@ -4,8 +4,7 @@ import { ModeType } from '../../types/moment/modeType';
 import Button from '../../components/Button/Button';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import BackBtn from '../../components/BackBtn/BackBtn';
-import instance from '../../apis/client';
-import { useState, useEffect } from 'react';
+import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
 /**
  * SelectMode
  * - 자동/수동 모드를 선택하는 페이지
@@ -15,25 +14,16 @@ const SelectMode = () => {
   const navigate = useNavigate();
   const navigationType = useNavigationType();
   const { id } = useParams() as { id: string };
-  const [goal, setGoal] = useState<string>('로딩 중...');
 
-  useEffect(() => {
-    console.log('현재 ID 값:', id);
+  // React Query 활용하여 API 호출
+  const { data, isLoading, isError } = useGetBucketDetail(id);
 
-    if (!id) {
-      console.error('ID가 없습니다! 라우트 문제 확인 필요');
-      setGoal('잘못된 ID');
-      return;
-    }
-
-    instance
-      .get(`/api/bucket/${id}`)
-      .then((res) => {
-        console.log('API 응답 데이터:', res.data);
-        setGoal(res.data.bucket.content || '버킷리스트 없음');
-      })
-      .catch(() => setGoal('버킷리스트 없음'));
-  }, [id]);
+  // ID가 없거나 API 호출 실패 시 리다이렉트 처리
+  if (!id || isError) {
+    console.error('ID가 없거나 잘못되었습니다! 라우트 문제 확인 필요');
+    navigate('/moment/bucket', { replace: true });
+    return null;
+  }
 
   /**
    * handleSelect
@@ -55,7 +45,9 @@ const SelectMode = () => {
       <BackBtn onClick={handleBack} />
       {/* HeaderComponent 적용 */}
       <HeaderComponent
-        title={goal}
+        title={
+          isLoading ? '로딩 중...' : data?.bucket?.content || '버킷리스트 없음'
+        }
         subtitle="모멘트 생성 방법을 골라주세요..."
         onBackClick={handleBack}
       />
