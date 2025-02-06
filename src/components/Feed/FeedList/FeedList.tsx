@@ -1,65 +1,76 @@
 import * as S from './FeedList.style';
 import FeedItem from '../FeedItem/FeedItem';
 import EmptyFeed from '../EmptyFeed/EmptyFeed';
-import mockImage from '../../../assets/images/mockImage.jpg';
-import { FeedType } from '../../../types/feed';
-import IcActiveFriends from './../../../assets/svg/IcActiveFriends';
+import useGetFeed from '../../../hooks/queries/Feed/useGetFeed';
+import formatDate from '../../../utils/formatDate';
+import { MomentItemType } from '../../../types/feed';
+import usePostKnock from '../../../hooks/queries/Feed/usePostKnock';
+import useModal from '../../../hooks/common/useModal';
+import OKModal from '../../Modal/OKModal/OKModal';
+import Modal from '../../Modal/Modal';
+import IcKnock from '../../../assets/svg/IcKnock';
+import formatFrequency from '../../../utils/formatFrequency';
 
 interface FeedListProps {
-  friendId: number | undefined;
+  friendId: string;
+  friendNickname: string;
+  isKnocked: boolean;
 }
 
-const FeedList = ({ friendId }: FeedListProps) => {
-  //api 로 리스트 fetch
-  //친구 아이디를 props로 받아서 api 연결
-  const feedListArray: FeedType[] = [
-    {
-      feedId: 1,
-      name: '필수',
-      content: '1주일에 1권\n독서하기 목표를\n 유지 중이에요!',
-      date: '01.09.',
-      image: mockImage,
-    },
-    {
-      feedId: 2,
-      name: '필수',
-      content: '1주일에 1권\n독서하기 목표를\n 유지 중이에요!',
-      date: '01.09.',
-      image: mockImage,
-    },
-    {
-      feedId: 3,
-      name: '필수',
-      content: '1주일에 1권\n독서하기 목표를\n 유지 중이에요!',
-      date: '01.09.',
-      image: mockImage,
-    },
-  ];
+const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
+  const { feed } = useGetFeed(friendId);
+  const { mutate: postKnock } = usePostKnock();
+  const [isOpen, openModal, closeModal] = useModal();
 
-  console.log(friendId);
+  const handleKnock = () => {
+    postKnock(friendId, {
+      onSuccess: () => {
+        openModal();
+      },
+      onError: () => {
+        alert('에러 발생');
+      },
+    });
+  };
 
   return (
     <S.FeedListLayout>
-      {
-        //feedListArray가 비어있을 때 EmptyFeed 컴포넌트 렌더링
-        feedListArray.length === 0 ? (
-          <EmptyFeed type="feed" icon={<IcActiveFriends />}>
-            친구가 피드를 안 올리네요...
-            <br /> <span style={{ color: '#FAED46' }}>노크를 해서 </span>
-            재촉해보세요!
-          </EmptyFeed>
-        ) : (
-          feedListArray.map((feed) => (
-            <FeedItem
-              key={feed.feedId}
-              name={feed.name}
-              content={feed.content}
-              date={feed.date}
-              image={feed.image}
-            />
-          ))
-        )
-      }
+      {isOpen && (
+        <Modal>
+          <OKModal
+            title=""
+            mainText={`${friendNickname}님께 노크하였습니다!`}
+            subText="피드를 곧 올려주실 거예요!"
+            onClose={closeModal}
+          />
+        </Modal>
+      )}
+      {feed?.moments.length === 0 ? (
+        <EmptyFeed
+          type="feed"
+          icon={<IcKnock />}
+          onClick={handleKnock}
+          isKnocked={isKnocked}
+        >
+          친구가 피드를 안 올리네요...
+          <br /> <span style={{ color: '#FAED46' }}>노크를 해서 </span>
+          재촉해보세요!
+        </EmptyFeed>
+      ) : (
+        feed?.moments.map((moment: MomentItemType) => (
+          <FeedItem
+            key={moment.momentId}
+            friendId={friendId}
+            momentId={moment.momentId}
+            name={friendNickname}
+            content={moment.bucketContent}
+            date={formatDate(moment.date)}
+            image={moment.imageUrl}
+            cheered={moment.cheered}
+            frequency={formatFrequency(moment.frequency)}
+          />
+        ))
+      )}
     </S.FeedListLayout>
   );
 };

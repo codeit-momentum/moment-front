@@ -15,6 +15,9 @@ export const ModalHeader = styled.div`
   padding-top: 3rem;
   padding-bottom: 1.5rem;
   background-color: ${({ theme }) => theme.colors.blue};
+  text-align: center;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 `;
 
 export const ModalTitle = styled.span`
