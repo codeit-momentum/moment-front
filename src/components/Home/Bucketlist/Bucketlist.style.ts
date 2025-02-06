@@ -1,34 +1,30 @@
 import styled from 'styled-components';
+import backgroundImage from '../../../assets/images/bucketAcheiveBackgroundImage.png';
 
 export const BucketlistLayout = styled.div`
-  ${({ theme }) =>
-    theme.mixin.flexBox({ direction: 'column', align: 'center' })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 100%; /* 가로 너비 100%로 확장 */
-  padding: 2rem 1.25rem; /* 패딩 조정 */
-  gap: 2rem; /* 간격 조정 */
-  border: 0.125rem solid ${({ theme }) => theme.colors.black}; /* 테두리 검정색 */
-  background-color: ${({ theme }) => theme.colors.black}; /* 내부 배경 검정색 */
-
-  /* 전체적으로 아래로 이동 */
 `;
 
 export const BucketlistTitle = styled.span`
   font-size: 16px;
+  text-align: center;
   color: ${({ theme }) => theme.colors.white};
 
   /* 년도(2025) 부분을 노랑색으로 적용 */
   span {
     color: ${({ theme }) => theme.colors.yellow};
+    font-weight: bold;
   }
 `;
 
 export const ImageContainer = styled.div`
   ${({ theme }) => theme.mixin.flexBox({ justify: 'center', align: 'center' })};
-  width: 100%; /* 가로 너비 100% */
-  height: 20rem; /* 높이를 늘림 */
-  border: 0.125rem solid ${({ theme }) => theme.colors.black}; /* 테두리 검정색 */
-  background-color: ${({ theme }) => theme.colors.gray}; /* 내부 배경 회색 */
+  width: 25.6rem;
+  height: 16.8rem;
   position: relative;
+  background-image: url(${backgroundImage});
+  background-size: cover;
 `;
 
 export const BucketlistImage = styled.img`
@@ -38,17 +34,9 @@ export const BucketlistImage = styled.img`
 `;
 
 export const BucketlistLabel = styled.span`
-  font-size: 1.25rem; /* 텍스트 크기 확대 */
-  color: ${({ theme }) => theme.colors.white}; /* 글씨색 흰색 */
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.black};
   position: absolute;
-  bottom: 1.5rem; /* 위치 조정 */
-`;
-
-export const NoDataMessageBox = styled.div`
-  ${({ theme }) => theme.mixin.flexBox({ justify: 'center', align: 'center' })};
-  text-align: center;
-  font-size: 1rem; /* 텍스트 크기 확대 */
-  color: ${({ theme }) => theme.colors.white}; /* 글씨색 흰색 */
-  width: 100%;
-  height: 100%;
+  top: 2rem;
+  left: 2.5rem;
 `;

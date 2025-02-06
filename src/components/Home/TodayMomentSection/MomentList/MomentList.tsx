@@ -1,6 +1,6 @@
 import * as S from './MomentList.style';
-import IcClip from '../../../../assets/svg/IcClip';
-import IcClipOff from '../../../../assets/svg/IcClipOff';
+import IcClip from '../../../../assets/svg/home/IcClip';
+import IcClipOff from '../../../../assets/svg/home/IcClipOff';
 
 interface MomentProps {
   id: number;
