@@ -46,6 +46,7 @@ export const NewItemInput = styled.textarea`
   line-height: 2rem;
   resize: none;
   padding: 0;
+  overflow: hidden;
   &:focus {
     background-color: ${({ theme }) => theme.colors.white};
     outline: none;

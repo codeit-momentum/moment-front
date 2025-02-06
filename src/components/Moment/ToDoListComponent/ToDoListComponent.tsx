@@ -6,6 +6,7 @@ import IcEdit from '../../../assets/svg/IcEdit';
 import IcConfirm from '../../../assets/svg/IcConfirm';
 import ToDoItem from '../CheckList/CheckListItem/CheckListItem';
 import TodoContainer from '../ContainerLayout/ContainerLayout';
+import useToast from '../../../hooks/common/useToast';
 
 /**
  * ToDoListProps 인터페이스
@@ -28,12 +29,14 @@ const ToDoListComponent = ({
   // 편집 모드 상태 관리: 수동 모드일 경우 초기값 true
   const [isEditing, setIsEditing] = useState(mode === 'manual'); // 수정 상태
   const [todos, setTodos] = useState<string[]>(new Array(duration).fill('')); // 투두 리스트 상태
+  const { Toast, openToast } = useToast();
 
   useEffect(() => {
-    if (mode === 'auto') {
-      setTodos(todoList); // 자동 모드에서 API로 가져온 데이터 설정
+    if (mode === 'auto' && todoList.length > 0) {
+      console.log('ToDoListComponent - todoList 업데이트됨:', todoList);
+      setTodos(todoList);
     }
-  }, []);
+  }, [mode, todoList]); // `todoList` 변경될 때마다 실행
 
   // 투두 리스트 변경 핸들러
   const handleEditTodo = (index: number, value: string) => {
@@ -50,7 +53,7 @@ const ToDoListComponent = ({
   // 확정하기 핸들러
   const handleConfirm = () => {
     if (todos.some((todo) => todo.trim() === '')) {
-      alert(`모든 항목을 입력해주세요.`);
+      openToast('내용을 작성해주세요!');
       return;
     }
 
@@ -90,6 +93,7 @@ const ToDoListComponent = ({
           ))}
         </TodoContainer>
       )}
+      <Toast />
     </S.ToDoListLayout>
   );
 };

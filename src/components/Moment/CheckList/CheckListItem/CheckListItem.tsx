@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, KeyboardEvent } from 'react';
+import { useState, useEffect, useRef, KeyboardEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BucketType, StateType } from '../../../../types/moment';
 import useModal from '../../../../hooks/common/useModal';
@@ -8,6 +8,8 @@ import IcCheckboxProcessing from '../../../../assets/svg/IcCheckboxProcessing';
 import IcCheckboxCompleted from '../../../../assets/svg/IcCheckboxCompleted';
 import IcCheckboxPending from '../../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckListItem.style';
+import useToast from '../../../../hooks/common/useToast';
+import { getMaxLength } from '../../../../utils/moment';
 
 interface BucketTypeProps {
   type: BucketType;
@@ -49,6 +51,7 @@ const CheckListItem = ({
   const [isOpen, openModal, closeModal] = useModal();
   const [isEditing, setIsEditing] = useState(editState);
   const [itemValue, setItemValue] = useState(value);
+  const { Toast, openToast } = useToast();
   const navigate = useNavigate();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -85,6 +88,15 @@ const CheckListItem = ({
     }
   };
 
+  const handleChangeInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length > getMaxLength(type)) {
+      openToast(`최대 ${getMaxLength(type)}자만 작성 가능합니다!`);
+      return;
+    }
+
+    setItemValue(e.target.value);
+  };
+
   const handleEditClick = () => {
     setIsEditing(true);
     closeModal();
@@ -98,7 +110,7 @@ const CheckListItem = ({
 
   const handleCreateClick = () => {
     // 여기서 버킷리스트 id 넘겨야 하는데,,, 어떻게 넘겨야 할지 지윤님과 논의 필요
-    navigate('/moment/select-mode');
+    navigate(`/moment/select-mode/${id}`);
   };
 
   const handleUploadClick = () => {
@@ -116,11 +128,11 @@ const CheckListItem = ({
           value={itemValue}
           ref={textareaRef}
           onClick={handleItemClick}
-          onChange={(e) => setItemValue(e.target.value)}
+          onChange={handleChangeInput}
           onBlur={handleUpdateItem}
           onKeyDown={handleKeyPress}
           readOnly={!isEditing}
-          maxLength={30}
+          maxLength={getMaxLength(type)}
         />
       </S.CheckListItemLayout>
       {type !== '생성형' && isOpen && (
@@ -136,6 +148,7 @@ const CheckListItem = ({
           />
         </Modal>
       )}
+      <Toast />
     </>
   );
 };
