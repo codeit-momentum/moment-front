@@ -25,16 +25,24 @@ const DurationComponent = ({
   onEdit,
   isLoading,
 }: DurationProps) => {
-  const [inputValue, setInputValue] = useState<string>(
-    initialDuration?.toString() || '',
-  ); //입력값 상태
+  const [inputValue, setInputValue] = useState<string>('');
   const { isEditing, toggleEditing } = useEditable();
   const [isConfirmed, setIsConfirmed] = useState(false); // 확정 상태 관리
 
   // 자동 모드 초기 값 설정
   useEffect(() => {
+    console.log(
+      '📌 DurationComponent - initialDuration 업데이트됨:',
+      initialDuration,
+    );
+    console.log('📌 DurationComponent - inputValue 업데이트 전:', inputValue);
+
     if (mode === 'auto' && initialDuration !== null) {
       setInputValue(initialDuration.toString());
+      console.log(
+        '📌 DurationComponent - inputValue 업데이트 후:',
+        initialDuration.toString(),
+      );
     }
   }, [mode, initialDuration]);
 

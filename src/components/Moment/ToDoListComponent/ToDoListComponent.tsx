@@ -32,10 +32,11 @@ const ToDoListComponent = ({
   const { Toast, openToast } = useToast();
 
   useEffect(() => {
-    if (mode === 'auto') {
-      setTodos(todoList); // 자동 모드에서 API로 가져온 데이터 설정
+    if (mode === 'auto' && todoList.length > 0) {
+      console.log('ToDoListComponent - todoList 업데이트됨:', todoList);
+      setTodos(todoList);
     }
-  }, []);
+  }, [mode, todoList]); // `todoList` 변경될 때마다 실행
 
   // 투두 리스트 변경 핸들러
   const handleEditTodo = (index: number, value: string) => {

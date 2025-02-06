@@ -110,7 +110,7 @@ const CheckListItem = ({
 
   const handleCreateClick = () => {
     // 여기서 버킷리스트 id 넘겨야 하는데,,, 어떻게 넘겨야 할지 지윤님과 논의 필요
-    navigate('/moment/select-mode');
+    navigate(`/moment/select-mode/${id}`);
   };
 
   const handleUploadClick = () => {

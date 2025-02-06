@@ -1,9 +1,10 @@
-import { useNavigationType, useNavigate } from 'react-router-dom';
+import { useNavigationType, useNavigate, useParams } from 'react-router-dom';
 import * as S from './SelectMode.style';
 import { ModeType } from '../../types/moment/modeType';
 import Button from '../../components/Button/Button';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import BackBtn from '../../components/BackBtn/BackBtn';
+import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
 /**
  * SelectMode
  * - 자동/수동 모드를 선택하는 페이지
@@ -12,13 +13,26 @@ import BackBtn from '../../components/BackBtn/BackBtn';
 const SelectMode = () => {
   const navigate = useNavigate();
   const navigationType = useNavigationType();
+  const { id } = useParams() as { id: string };
+
+  // React Query 활용하여 API 호출
+  const { data, isLoading, isError } = useGetBucketDetail(id);
+
+  // ID가 없거나 API 호출 실패 시 리다이렉트 처리
+  if (!id || isError) {
+    console.error('ID가 없거나 잘못되었습니다! 라우트 문제 확인 필요');
+    navigate('/moment/bucket', { replace: true });
+    return null;
+  }
 
   /**
    * handleSelect
    * - 선택된 모드에 따라 경로 이동
    */
   const handleSelect = (mode: ModeType) => {
-    navigate(`/moment/create-moment?mode=${mode}`); //Query String으로 mode 전달
+    navigate(`/moment/create-moment/${id}?mode=${mode}`, {
+      state: { goal: data?.bucket?.content || '버킷리스트 없음' },
+    });
   };
 
   const handleBack = () => {
@@ -33,7 +47,9 @@ const SelectMode = () => {
       <BackBtn onClick={handleBack} />
       {/* HeaderComponent 적용 */}
       <HeaderComponent
-        title="목도리 뜨기"
+        title={
+          isLoading ? '로딩 중...' : data?.bucket?.content || '버킷리스트 없음'
+        }
         subtitle="모멘트 생성 방법을 골라주세요..."
         onBackClick={handleBack}
       />

@@ -52,11 +52,11 @@ const router = createBrowserRouter([
                 element: <Upload variant="bucket" />,
               },
               {
-                path: 'select-mode',
+                path: 'select-mode/:id',
                 element: <SelectMode />,
               },
               {
-                path: 'create-moment',
+                path: 'create-moment/:id',
                 element: <CreateMoment />,
               },
               {
