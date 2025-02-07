@@ -15,7 +15,6 @@ import { ModeType } from '../../types/moment/modeType';
 import BackBtn from '../../components/BackBtn/BackBtn';
 import { generateDetailedPlan } from '../../apis/AI/autoPlanning';
 import instance from '../../apis/client';
-import { createMoment } from '../../apis/createMomentApi';
 
 /**
  * Moment
