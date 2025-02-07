@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import IcBell from '../../../assets/svg/IcNoticeOff';
-import IcBellDot from '../../../assets/svg/IcNotice';
 import NotificationModal, {
   NotificationItem,
 } from '../NotificationModal/NotificationModal';
 import * as S from './Header.style';
+import IcNotice from './../../../assets/svg/IcNotice';
+import IcNoticeOff from './../../../assets/svg/IcNoticeOff';
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,24 +73,20 @@ const Header = () => {
   };
 
   return (
-    <>
-      <S.HeaderLayout>
-        <S.StreakTextContainer>
-          <S.StreakText>오늘은 작심</S.StreakText>{' '}
-          <S.StreakHighlight>{mockStreakDays}</S.StreakHighlight>
-          <S.StreakText>일</S.StreakText>
-        </S.StreakTextContainer>
-        <S.BellIconBox onClick={toggleModal}>
-          {hasUnreadNotifications ? <IcBellDot /> : <IcBell />}
-        </S.BellIconBox>
-      </S.HeaderLayout>
+    <S.HeaderLayout>
       {isModalOpen && (
         <NotificationModal
           notifications={notifications}
           onClose={() => setIsModalOpen(false)}
         />
       )}
-    </>
+      <S.StreakTextContainer>
+        오늘은 작심 <S.StreakHighlight>{mockStreakDays}</S.StreakHighlight>일
+      </S.StreakTextContainer>
+      <S.BellIconWrapper onClick={toggleModal}>
+        {hasUnreadNotifications ? <IcNotice /> : <IcNoticeOff />}
+      </S.BellIconWrapper>
+    </S.HeaderLayout>
   );
 };
 

@@ -39,16 +39,17 @@ const TodayMomentSection = () => {
 
   return (
     <S.TodayMomentLayout>
+      <S.TopLeftArea />
+      <S.TopRightArea />
+      <S.BottomLeftArea />
+      <S.BottomRightArea />
+
       <DayCheckboxGroup days={mockDays} />
       <S.DividerLine />
-      {mockMoments.length > 0 && (
-        <>
-          <MomentList moments={mockMoments} />
-          <S.TodayMessageBox>
-            오늘의 모멘트 총&nbsp;<span>{completedCount}</span>개 수집!
-          </S.TodayMessageBox>
-        </>
-      )}
+      {mockMoments.length > 0 && <MomentList moments={mockMoments} />}
+      <S.TodayMessageBox>
+        오늘의 모멘트 총&nbsp;<span>{completedCount}</span>개 수집!
+      </S.TodayMessageBox>
     </S.TodayMomentLayout>
   );
 };
