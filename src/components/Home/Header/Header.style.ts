@@ -1,52 +1,29 @@
 import styled from 'styled-components';
 
 export const HeaderLayout = styled.div`
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center; /* 중앙 정렬 */
-  height: 4rem;
-  background-color: ${({ theme }) => theme.colors.black};
-
-  /* 부모 레이아웃에서 필요한 간격을 설정 */
-  padding-left: 1.25rem; /* 좌측 내부 여백 */
-  padding-right: 1.25rem; /* 우측 내부 여백 */
+  padding-top: 1rem;
+  padding-bottom: 0.9rem;
 `;
 
 export const StreakTextContainer = styled.div`
   ${({ theme: { mixin } }) =>
     mixin.flexBox({ justify: 'center', align: 'center' })};
-  width: 100%;
-  gap: 0.5rem; /* 글자 간 간격 */
-  font-size: 1.25rem; /* 기본 글씨 크기 */
-  line-height: 2.31rem; /* 줄 간격 */
-  text-align: center;
-
-  /* 내부에서만 간격 처리 */
-  padding: 0 1.5rem; /* 좌우 여백 */
-`;
-
-export const StreakText = styled.span`
-  color: ${({ theme }) => theme.colors.white}; /* mixin 화이트 적용 */
-  font-size: 2rem;
-  font-weight: 400;
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 20px;
+  line-height: 20px;
+  letter-spacing: 0.6px;
 `;
 
 export const StreakHighlight = styled.span`
   color: ${({ theme }) => theme.colors.yellow}; /* mixin 노랑 적용 */
-  font-size: 1.875rem; /* 30px */
-  font-weight: bold; /* 굵은 텍스트 */
-  text-align: center;
+  font-size: 30px;
+  letter-spacing: 0.96px;
 `;
 
-export const BellIconBox = styled.div`
+export const BellIconWrapper = styled.button`
   position: absolute;
-  top: 50%;
-  right: 1.25rem; /* 오른쪽 여백 */
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  right: 0;
   background-color: transparent;
 `;
