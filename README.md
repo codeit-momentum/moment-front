@@ -1,8 +1,11 @@
-# 모멘텀💫
-
-**신년 계획을 세우고 달성해보세요**
-<br/>
-모멘텀은 작은 목표를 기록하고 실행하며, 이를 기반으로 자신에게 적합한 목표를 파악해 꾸준히 성취할 수 있도록 지원합니다.
+<div align='center'>
+  <h1>모멘텀💫</h1>
+  <img width="512" alt="Image" src="https://github.com/user-attachments/assets/fca12312-ea8b-4d6f-9502-1cefae256dbd" />
+  
+  **신년 계획을 세우고 달성해보세요**
+  <br/>
+    모멘텀은 작은 목표를 기록하고 실행하며, 이를 기반으로 자신에게 적합한 목표를 파악해 꾸준히 성취할 수 있도록 지원합니다.
+</div>
 
 ## 👨‍👩‍👧‍👦팀원
 
@@ -161,23 +164,78 @@
 
 ## ✨주요 기능
 
+## ⚙️기술스택
+
+<h4>Front-end</h4>
+
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
+
+<img src="https://img.shields.io/badge/ReactRouter-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white"/> <img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"/> <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
+
+<img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"/> <img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white"/> <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/> <img src="https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white"/>
+
+<h4>Back-end</h4>
+
+<img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white"/>
+
+<img src="https://img.shields.io/badge/mongodb-47A248?style=for-the-badge&logo=mongodb&logoColor=white"/> <img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"/> <img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"/> <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
+
 ## 역할
 
-## 기술스택
+## 📚디렉토리리 구조
 
-| Front | Back | Infra |
-| :---: | :--: | :---: |
+```
+MOMENT-FRONT\SRC
+├─apis
+├─assets
+│  ├─images
+│  └─svg
+├─components
+├─hooks
+│  ├─common
+│  └─queries
+├─layouts
+├─pages
+│  └─Start
+├─router
+├─store
+├─styles
+├─types
+└─utils
+```
 
-| <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/ReactRouter-CA4245?style=flat-square&logo=reactrouter&logoColor=white"/>
+`apis` axios 기반 instance 코드를 작성하고 ai api 코드를 관리합니다.
 
-## 프로젝트 구조
+`assets` - 이미지 및 폰트를 관리합니다.
+
+`components`- 컴포넌트를 관리합니다.
+
+`hooks` - 리액트 훅을 관리합니다.
+
+- `common` - 공통적으로 사용되는 훅들을 관리합니다. `ex) useInput, useModal, useToast`
+- `queries`- React Query 기반 훅(api 요청 쿼리 코드)를 관리합니다.
+
+`layouts` - 전체적인 레이아웃을 설정합니다. `ex) 웹앱뷰, 중첩 라우팅`
+
+`pages` - 라우트 경로 기반 대표 페이지 컴포넌트를 관리합니다.
+
+- 경로(주소)당 하나의 페이지 컴포넌트 대응
+
+`router`- 라우트를 관리합니다.
+
+`store`- context를 관리합니다.
+
+`styles`- 스타일 코드를 관리합니다. `ex) theme, mixin, GlobalStyle`
+
+`types`- 각종 타입을 관리합니다.
+
+`utils` - 상수, mockData, 반복해서 사용되는 변수, 훅이 아닌 공통 함수 등을 관리합니다.
 
 ## Git 전략
 
 ## 컨벤션
 
-## 참고 링크
+<h2>지금 바로 모멘텀을 사용해보세요 !</h2>
+<h3><a href='https://codeit-momentum.vercel.app/' />💫모멘텀 바로가기</h3>
 
-### 배포 링크
-
-### 노션 링크
+<h3><a href='https://www.notion.so/16aae340d48e803d8f5de079d26e34b2?pvs=4' />☺️노션 바로가기</h3>
