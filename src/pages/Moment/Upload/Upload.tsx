@@ -44,8 +44,10 @@ const Upload = ({ variant }: UploadProps) => {
     patchUpload(
       { id, imageFile },
       {
-        onSuccess: openModal,
-        onError: (error) => {
+        onSuccess: () => {
+          openModal();
+        },
+        onError: (error: Error) => {
           handleError(error);
           openErrorModal();
         },
