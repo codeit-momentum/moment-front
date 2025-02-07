@@ -13,7 +13,7 @@ import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
 import useDeleteFriend from '../../hooks/queries/Feed/useDeleteFriend';
 import { useNavigate } from 'react-router-dom';
 import IcNoFriend from '../../assets/svg/IcNoFriend';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const Feed = () => {
   const { friendList, isPending } = useGetFriends();
@@ -54,10 +54,6 @@ const Feed = () => {
     closeModal();
     setIsDeleting(false);
   };
-
-  useEffect(() => {
-    setCurrentFriend(friendList[0]);
-  }, [friendList, setCurrentFriend]);
 
   if (isPending) return <div>로딩중</div>;
 
