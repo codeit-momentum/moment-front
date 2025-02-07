@@ -1,18 +1,20 @@
 import * as S from './CreateMoment.style';
 import { useState, useEffect } from 'react';
-import { useNavigationType, useNavigate, useLocation } from 'react-router-dom';
+import {
+  useNavigationType,
+  useNavigate,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import DurationComponent from '../../components/Moment/DurationComponent/DurationComponent';
 import ToDoListComponent from '../../components/Moment/ToDoListComponent/ToDoListComponent';
 import FrequencyBtnComponent from '../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
-import {
-  fetchMockData,
-  fetchTodoListFromAI,
-  TodoResponse,
-} from '../../apis/mockApi';
+import { autoDuration } from '../../apis/AI/autoDuration';
 import { ModeType } from '../../types/moment/modeType';
 import BackBtn from '../../components/BackBtn/BackBtn';
-import { createMoment } from '../../apis/createMomentApi';
+import { generateDetailedPlan } from '../../apis/AI/autoPlanning';
+import instance from '../../apis/client';
 
 /**
  * Moment
@@ -20,75 +22,91 @@ import { createMoment } from '../../apis/createMomentApi';
  * - 스크롤 뷰 형태로 구성
  */
 const CreateMoment = () => {
-  // 상태 관리
-  const [duration, setDuration] = useState<number | null>(null); // 예상 소요 기간
-  const [todoList, setTodoList] = useState<string[]>([]); // 투두리스트 데이터
-  const [frequency, setFrequency] = useState<string | null>(null); // 빈도수 데이터
-
-  const [isDurationConfirmed, setIsDurationConfirmed] = useState(false); // Duration 확정 여부
-  const [isTodoConfirmed, setIsTodoConfirmed] = useState(false); // ToDoList 확정 여부
-
-  // API 요청 및 상태 관리 (useApi 훅 사용)
-  const [isLoading, setIsLoading] = useState(false); // 로딩 상태
   const navigate = useNavigate();
   const navigationType = useNavigationType();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
-  const mode = query.get('mode') as ModeType; // auto 또는 manaul
-  const [isModeValid, setIsModeValid] = useState(true); // 모드 유효성 검사 상태 추가
+  const mode = query.get('mode') as ModeType;
+  const { id } = useParams() as { id: string };
 
-  if (!isModeValid) {
-    return <div>올바른 모드를 선택해주세요.</div>;
-  }
+  // `goal`을 `SelectMode`에서 전달받음 (API 호출 제거)
+  const goal = location.state?.goal || '목표 없음';
+
+  const [duration, setDuration] = useState<number | null>(null);
+  const [todoList, setTodoList] = useState<string[]>([]);
+  const [frequency, setFrequency] = useState<string | null>(null);
+  const [isDurationConfirmed, setIsDurationConfirmed] = useState(false);
+  const [isTodoConfirmed, setIsTodoConfirmed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModeValid, setIsModeValid] = useState(true);
+
+  // `goal`이 `"목표 없음"`이면 리다이렉트
+  useEffect(() => {
+    if (goal === '목표 없음') {
+      console.error('목표 없음으로 모멘트 생성 불가');
+      navigate(`/moment/select-mode/${id}`, { replace: true });
+      return;
+    }
+  }, [goal, navigate, id]);
 
   useEffect(() => {
-    // mode 유효성 검사
     if (!mode || (mode !== 'auto' && mode !== 'manual')) {
       setIsModeValid(false);
-    } else {
-      setIsModeValid(true);
     }
   }, [mode]);
 
-  // Mock API 사용 - 자동 모드일 경우
+  // 자동 모드일 경우 AI API 호출
   useEffect(() => {
     if (mode === 'auto') {
       setIsLoading(true);
-      fetchMockData() // 실제 API로 전환 시 fetchTodoListFromAI 호출
-        .then((data: TodoResponse) => {
-          setDuration(data.duration);
-          setTodoList(data.todoList);
+
+      autoDuration(goal)
+        .then((days) => {
+          console.log('AI 예상 소요 기간:', days);
+
+          if (!days || isNaN(days)) {
+            throw new Error('AI가 예상 소요 기간을 반환하지 않았습니다.');
+          }
+
+          setDuration(days); // AI에서 받은 duration을 먼저 설정
+        })
+        .catch((error) => {
+          console.error('자동 생성 오류:', error);
+          alert(
+            'AI 예상 소요 기간 생성 중 오류가 발생했습니다. 다시 시도해주세요.',
+          );
         })
         .finally(() => setIsLoading(false));
     }
-  }, [mode]);
+  }, [mode, goal]);
 
-  /**
-   * Duration 확정 핸들러
-   * - 사용자가 DurationComponent에서 확정 버튼을 누를 때 호출
-   * - 확정된 기간을 상태로 저장하고 다음 컴포넌트를 표시
-   */
+  // 사용자가 duration을 확정한 후에 `todoList` API 호출
   const handleDurationConfirm = (newDuration: number) => {
     setDuration(newDuration);
     setIsDurationConfirmed(true);
+    setIsLoading(true);
+
+    generateDetailedPlan(
+      goal,
+      new Date().toISOString().split('T')[0],
+      newDuration,
+    )
+      .then((plan) => {
+        console.log('생성된 투두 리스트:', plan);
+        setTodoList(plan);
+      })
+      .catch((error) => {
+        console.error('자동 생성 오류:', error);
+        alert('투두 리스트 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
+      })
+      .finally(() => setIsLoading(false));
   };
 
-  /**
-   * ToDoList 확정 핸들러
-   * - 사용자가 ToDoListComponent에서 확정 버튼을 누를 때 호출
-   * - 확정된 투두리스트 데이터를 상태로 저장하고 다음 컴포넌트를 표시
-   */
   const handleTodoConfirm = (updatedList: string[]) => {
     setTodoList(updatedList);
     setIsTodoConfirmed(true);
   };
 
-  /**
-   * Frequency "다음" 버튼 핸들러
-   * - 사용자가 FrequencyBtnComponent에서 "다음" 버튼을 누를 때 호출
-   * - 백엔드로 데이터 전달
-   * - MomentComplete 페이지로 이동
-   */
   const handleNext = async () => {
     if (!frequency) {
       alert('빈도를 선택해주세요!');
@@ -96,44 +114,43 @@ const CreateMoment = () => {
     }
 
     const payload = {
+      goal,
       duration,
       todoList,
       frequency,
     };
 
     try {
-      // API 호출 부분을 주석 처리
-      // const response = await createMoment(payload);
-      // console.log('Moment 저장 성공:', response);
-
-      alert('Moment가 임시로 저장되었습니다.'); // 임시 알림
-      navigate('/moment/complete'); // 다음 페이지로 이동
+      await instance.post('/api/moment/create', payload);
+      alert('Moment가 성공적으로 저장되었습니다.');
+      navigate('/moment/complete'); // 다음 페이지 이동
     } catch (error) {
       console.error('Moment 저장 실패:', error);
       alert('Moment 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
-  // BackBtn 기능 안함,, 추후 리팩토링할 예정
+
   const handleBack = () => {
     if (navigationType === 'POP') {
-      navigate('/moment/select-mode'); // POP 상태에서는 지정된 경로로 이동
+      navigate(`/moment/select-mode/${id}`);
     } else {
-      navigate(-1); // 다른 상태에서는 이전 페이지로 이동
+      navigate(-1);
     }
   };
+
+  if (!isModeValid) {
+    return <div>올바른 모드를 선택해주세요.</div>;
+  }
 
   return (
     <S.CreateMomentLayout>
       <BackBtn onClick={handleBack} />
-      <HeaderComponent
-        title="목도리 뜨기"
-        subtitle="버킷리스트를 시작해볼까요!"
-      />
+      <HeaderComponent title={goal} subtitle="버킷리스트를 시작해볼까요!" />
 
       <DurationComponent
         mode={mode}
         initialDuration={duration}
-        isLoading={isLoading}
+        isLoading={!isDurationConfirmed && isLoading}
         onEdit={handleDurationConfirm}
       />
 
@@ -142,7 +159,7 @@ const CreateMoment = () => {
           mode={mode}
           todoList={todoList}
           duration={duration || 0}
-          isLoading={isLoading}
+          isLoading={!isTodoConfirmed && isLoading}
           onSave={handleTodoConfirm}
         />
       )}

@@ -5,7 +5,6 @@ import { ModeType } from '../../../types/moment/modeType';
 import Button from '../../Button/Button';
 import IcLoading from '../../../assets/svg/IcLoading';
 import Divider from '../../Divider/Divider';
-import { CommonDiv } from '../../Divider/Divider.style';
 
 interface DurationProps {
   mode: ModeType; // 'auto' 또는 'manual'
@@ -25,16 +24,24 @@ const DurationComponent = ({
   onEdit,
   isLoading,
 }: DurationProps) => {
-  const [inputValue, setInputValue] = useState<string>(
-    initialDuration?.toString() || '',
-  ); //입력값 상태
+  const [inputValue, setInputValue] = useState<string>('');
   const { isEditing, toggleEditing } = useEditable();
   const [isConfirmed, setIsConfirmed] = useState(false); // 확정 상태 관리
 
   // 자동 모드 초기 값 설정
   useEffect(() => {
+    console.log(
+      '📌 DurationComponent - initialDuration 업데이트됨:',
+      initialDuration,
+    );
+    console.log('📌 DurationComponent - inputValue 업데이트 전:', inputValue);
+
     if (mode === 'auto' && initialDuration !== null) {
       setInputValue(initialDuration.toString());
+      console.log(
+        '📌 DurationComponent - inputValue 업데이트 후:',
+        initialDuration.toString(),
+      );
     }
   }, [mode, initialDuration]);
 
@@ -96,10 +103,8 @@ const DurationComponent = ({
       {!isLoading && (
         <S.BtnContainer>
           {mode === 'manual' ? (
-            // 수동 모드: 확정하기 버튼만 표시
             !isConfirmed && <Button onClick={handleConfirm}>확정하기</Button>
-          ) : // 자동 모드: 수정/수정완료/확정하기 버튼 표시
-          !isConfirmed ? (
+          ) : !isConfirmed ? (
             isEditing ? (
               <Button onClick={handleEditComplete}>수정완료</Button>
             ) : (

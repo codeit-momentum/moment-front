@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useEffect, FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useModal from '../../../hooks/common/useModal';
 import ImageUpload from '../../../components/Moment/ImageUpload/ImageUpload';
@@ -7,9 +7,11 @@ import OKModal from '../../../components/Modal/OKModal/OKModal';
 import Button from '../../../components/Button/Button';
 import IcBack from '../../../assets/svg/IcBack';
 import * as S from './Upload.style';
-import useResponseMessage from '../../../hooks/common/useErrorHandler';
+import useResponseMessage from '../../../hooks/common/useResponseMessage';
 import useUpload from '../../../hooks/moment/useUpload';
 import { UploadType } from '../../../types/moment';
+import useImageHandler from '../../../hooks/common/useImageHandler';
+import Fallback from '../../Fallback/Fallback';
 
 type UploadProps = {
   variant: UploadType;
@@ -18,15 +20,15 @@ type UploadProps = {
 const Upload = ({ variant }: UploadProps) => {
   const { id } = useParams() as { id: string };
   const [isOpen, openModal, closeModal] = useModal();
-  const [image, setImage] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const { image, imageFile, handleImage, handleImageError, ImageToast } =
+    useImageHandler();
   const {
     handleError,
     openModal: openErrorModal,
     renderModal,
   } = useResponseMessage();
-  const navigate = useNavigate();
   const { data, isLoading, isError, patchUpload } = useUpload(variant, id);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isError) {
@@ -42,8 +44,10 @@ const Upload = ({ variant }: UploadProps) => {
     patchUpload(
       { id, imageFile },
       {
-        onSuccess: openModal,
-        onError: (error) => {
+        onSuccess: () => {
+          openModal();
+        },
+        onError: (error: Error) => {
           handleError(error);
           openErrorModal();
         },
@@ -60,9 +64,8 @@ const Upload = ({ variant }: UploadProps) => {
     }
   };
 
-  // 임시 구현
   if (isLoading || !data) {
-    return <div>로딩중 ... </div>;
+    return <Fallback />;
   }
 
   return (
@@ -76,8 +79,8 @@ const Upload = ({ variant }: UploadProps) => {
       <S.ImageUploadLayout onSubmit={handleSubmit}>
         <ImageUpload
           image={image}
-          setImage={setImage}
-          setImageFile={setImageFile}
+          handleImage={handleImage}
+          handleImageError={handleImageError}
         />
         <Button
           disabled={!image}
@@ -102,6 +105,7 @@ const Upload = ({ variant }: UploadProps) => {
         </Modal>
       )}
       {renderModal()}
+      <ImageToast />
     </S.UploadLayout>
   );
 };
