@@ -5,12 +5,12 @@ import instance from '../../../apis/client';
 interface BucketResponse {
   success: boolean;
   messages: string;
-  bucket: number; // 버킷리스트 달성률 (0.23 등 소수점 포함)
+  bucket: number;
 }
 
 // API 호출 함수
 const fetchBucketStatus = async (): Promise<BucketResponse> => {
-  const response = await instance.get('/home/bucket', {
+  const response = await instance.get<BucketResponse>('/home/bucket', {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
@@ -19,6 +19,11 @@ const fetchBucketStatus = async (): Promise<BucketResponse> => {
 };
 
 // React Query 훅
-export const useGetBucketStatus = () => {
-  return useQuery(['bucketStatus'], fetchBucketStatus);
+export const useGetBucketAchievement = () => {
+  return useQuery<BucketResponse, Error>({
+    queryKey: ['bucketStatus'],
+    queryFn: fetchBucketStatus,
+    staleTime: 5 * 60 * 1000, // 5분 동안 데이터 재사용
+    cacheTime: 10 * 60 * 1000, // 10분 동안 캐시 유지
+  });
 };

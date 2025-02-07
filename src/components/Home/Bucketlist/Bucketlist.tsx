@@ -1,16 +1,22 @@
 import * as S from './Bucketlist.style';
+import { useGetBucketStatus } from '../../../hooks/home/useGetBucketStatus';
 
-interface BucketlistProps {
-  progress: number;
-}
+const Bucketlist = () => {
+  // React Query 훅을 이용해 API 데이터 가져오기
+  const { data, isLoading, isError } = useGetBucketStatus();
 
-const Bucketlist = ({ progress }: BucketlistProps) => {
-  // 현재 연도를 반환하는 함수
-  const fetchYear = () => {
-    return new Date().getFullYear();
-  };
+  if (isLoading) {
+    return <S.BucketlistLayout>로딩 중...</S.BucketlistLayout>;
+  }
 
-  const year = fetchYear(); // 연도 가져오기
+  if (isError || !data?.bucket) {
+    return (
+      <S.BucketlistLayout>데이터를 불러오는데 실패했습니다.</S.BucketlistLayout>
+    );
+  }
+
+  // API에서 받은 bucket 데이터를 퍼센트로 변환
+  const progress = Math.round(data.bucket * 100);
 
   const bucketListData = [
     { id: 1, range: '1~19%', image: '/path/to/image1.png', min: 1, max: 19 },
@@ -32,7 +38,7 @@ const Bucketlist = ({ progress }: BucketlistProps) => {
   return (
     <S.BucketlistLayout>
       <S.BucketlistTitle>
-        <span>{year}</span> 버킷리스트 달성 현황
+        <span>{new Date().getFullYear()}</span> 버킷리스트 달성 현황
       </S.BucketlistTitle>
       <S.ImageContainer>
         <S.BucketlistImage

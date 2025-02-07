@@ -1,96 +1,52 @@
-import { useState } from 'react';
+import useGetConsecutiveDays from '../../../hooks/queries/home/useGetConsecutiveDays';
 import IcBell from '../../../assets/svg/IcNoticeOff';
-import IcBellDot from '../../../assets/svg/IcNotice';
-import NotificationModal, {
-  NotificationItem,
-} from '../NotificationModal/NotificationModal';
+import IcNotice from '../../../assets/svg/IcNotice';
+import NotificationModal from '../NotificationModal/NotificationModal';
 import * as S from './Header.style';
+import { useState } from 'react';
 
 const Header = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const currentDate = new Date().toISOString().split('T')[0]; // 오늘 날짜
+  const {
+    data: consecutiveDaysData,
+    isLoading,
+    isError,
+  } = useGetConsecutiveDays(currentDate);
 
-  // Mock 데이터
-  const mockStreakDays = 4; // 작심 N일 (모의 데이터)
-  const [notifications] = useState<NotificationItem[]>([
-    {
-      notificationID: '1',
-      type: 'FRIEND',
-      content: '코끼리님과 친구가 되었어요!',
-      created_at: '2025-02-01',
-    },
-    {
-      notificationID: '2',
-      type: 'CHEER',
-      content: '코끼리님이 게시글에 응원했어요!',
-      created_at: '2025-02-02',
-    },
-    {
-      notificationID: '3',
-      type: 'FRIEND',
-      content: '코끼리님과 친구가 되었어요!',
-      created_at: '2025-02-03',
-    },
-    {
-      notificationID: '4',
-      type: 'FRIEND',
-      content: '코끼리님과 친구가 되었어요!',
-      created_at: '2025-02-04',
-    },
-    {
-      notificationID: '5',
-      type: 'FRIEND',
-      content: '코끼리님과 친구가 되었어요!',
-      created_at: '2025-02-05',
-    },
-    {
-      notificationID: '6',
-      type: 'FRIEND',
-      content: '코끼리님과 친구가 되었어요!',
-      created_at: '2025-02-06',
-    },
-    {
-      notificationID: '7',
-      type: 'FRIEND',
-      content: '코끼리님과 친구가 되었어요!',
-      created_at: '2025-02-01',
-    },
-    {
-      notificationID: '8',
-      type: 'FRIEND',
-      content: '코끼리님과 친구가 되었어요!',
-      created_at: '2025-02-01',
-    },
-  ]);
-
+  // 모달 토글 함수
   const toggleModal = () => {
-    setIsModalOpen((prev) => !prev);
-
-    // 모달이 열릴 때만 상태를 업데이트
-    if (isModalOpen) {
-      setHasUnreadNotifications(false);
-    }
+    setIsModalOpen((prev: boolean) => !prev);
   };
 
+  // 로딩 및 에러 처리
+  if (isLoading) {
+    return <S.HeaderLayout>로딩 중...</S.HeaderLayout>;
+  }
+
+  if (isError || !consecutiveDaysData?.success) {
+    return <S.HeaderLayout>데이터 로드 실패</S.HeaderLayout>;
+  }
+
   return (
-    <>
-      <S.HeaderLayout>
-        <S.StreakTextContainer>
-          <S.StreakText>오늘은 작심</S.StreakText>{' '}
-          <S.StreakHighlight>{mockStreakDays}</S.StreakHighlight>
-          <S.StreakText>일</S.StreakText>
-        </S.StreakTextContainer>
-        <S.BellIconBox onClick={toggleModal}>
-          {hasUnreadNotifications ? <IcBellDot /> : <IcBell />}
-        </S.BellIconBox>
-      </S.HeaderLayout>
+    <S.HeaderLayout>
+      <S.StreakTextContainer>
+        <S.StreakText>오늘은 작심</S.StreakText>
+        <S.StreakHighlight>
+          {consecutiveDaysData.consecutiveDays || 0}
+        </S.StreakHighlight>
+        <S.StreakText>일</S.StreakText>
+      </S.StreakTextContainer>
+      <S.BellIconBox onClick={toggleModal}>
+        {isModalOpen ? <IcNotice /> : <IcBell />}
+      </S.BellIconBox>
       {isModalOpen && (
         <NotificationModal
-          notifications={notifications}
+          notifications={consecutiveDaysData.notifications || []} // API에서 notifications 데이터 가져오기
           onClose={() => setIsModalOpen(false)}
         />
       )}
-    </>
+    </S.HeaderLayout>
   );
 };
 
