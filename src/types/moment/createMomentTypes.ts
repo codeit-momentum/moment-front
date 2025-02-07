@@ -14,5 +14,4 @@ export interface CreateMomentResponse {
   todoList: string[];
   frequency: string;
   createdAt: string;
-  bucket: Bucket;
 }

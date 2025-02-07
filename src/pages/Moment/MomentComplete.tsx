@@ -2,7 +2,7 @@ import IcArrow from '../../assets/svg/IcArrow';
 import * as S from './MomentComplete.style';
 import { useEffect, useState } from 'react';
 import Button from '../../components/Button/Button';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
 import { generateMomentDates } from '../../utils/generateMomentDates';
 import {
@@ -11,6 +11,9 @@ import {
   formatApiDate,
 } from '../../utils/formatDate';
 import usePostMoments from '../../hooks/queries/moment/usePostMoments';
+import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
+import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
+
 /**
  * MomentComlete
  * 임시 데이터를 사용하여 "모멘트 설계 완료" 페이지 렌더링
@@ -24,6 +27,11 @@ const MomentComplete = () => {
     { content: string; startDate: string; endDate: string }[]
   >([]);
 
+  const { id: paramId } = useParams();
+  const id = paramId || location.state?.id;
+  const { data, isLoading: isBucketLoading, isError } = useGetBucketDetail(id);
+  const { mutate: updateBucketChallenge, isPending: isUpdating } =
+    usePatchBucketChallenge();
   const { mutate, status } = usePostMoments();
   const isLoading = status === 'pending';
 
@@ -59,20 +67,49 @@ const MomentComplete = () => {
     }
   }, [location.state]);
 
+  const { refetch } = useGetBucketDetail(id);
+
+  useEffect(() => {
+    if (data?.bucket) {
+      // 이미 도전 중이라면 PATCH 요청을 보내지 않음
+      if (data.bucket.isChallenging) {
+        console.log('이미 도전 중인 버킷입니다. PATCH 요청을 생략합니다.');
+        return;
+      }
+      updateBucketChallenge(
+        { bucketId: id },
+        {
+          onSuccess: () => {
+            refetch(); // 최신 데이터 다시 가져오기
+          },
+          onError: (error) => {
+            console.error('도전 모드 활성화 실패:', error);
+          },
+        },
+      );
+    }
+  }, [data, id, updateBucketChallenge, refetch]);
+
   const handleConfirm = async () => {
     if (!moments.length) {
       alert('모멘트 데이터가 없습니다.');
       return;
     }
 
-    if (!location.state?.id || !location.state?.bucket) {
-      alert('유효하지 않은 버킷 ID 또는 버킷 정보가 없습니다.');
+    if (isBucketLoading) {
+      alert('버킷 정보를 로딩 중입니다. 잠시 후 다시 시도해주세요.');
       return;
     }
-    const bucket = location.state.bucket; // `bucket` 정보 가져오기
+
+    if (!data?.bucket) {
+      alert('버킷 정보를 불러올 수 없습니다.');
+      return;
+    }
+
+    console.log('최종 bucket 데이터:', data.bucket);
 
     // 백엔드에서 `type === "REPEAT"` & `isChallenging === true` 조건 체크
-    if (bucket.type !== 'REPEAT' || !bucket.isChallenging) {
+    if (data.bucket.type !== 'REPEAT' || !data.bucket.isChallenging) {
       alert(
         '이 버킷에서는 모멘트를 추가할 수 없습니다. (반복형 + 도전 중이어야 함)',
       );
@@ -105,7 +142,7 @@ const MomentComplete = () => {
     // API 요청 실행
     mutate(
       {
-        bucketId: bucket.bucketID,
+        bucketId: data.bucket.bucketID,
         payload: {
           startDate: formattedStartDate,
           endDate: formattedEndDate,

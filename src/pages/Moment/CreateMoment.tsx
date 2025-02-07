@@ -15,7 +15,6 @@ import { ModeType } from '../../types/moment/modeType';
 import BackBtn from '../../components/BackBtn/BackBtn';
 import { generateDetailedPlan } from '../../apis/AI/autoPlanning';
 import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
-import { Bucket } from '../../types/moment';
 /**
  * Moment
  * - 자동/수동 모드에 따라 동작하며, 컴포넌트를 순차적으로 렌더링
@@ -28,13 +27,12 @@ const CreateMoment = () => {
   const query = new URLSearchParams(location.search);
   const mode =
     (location.state?.mode as ModeType) || (query.get('mode') as ModeType);
-  const { id } = useParams() as { id: string };
+  const id = location.state?.id;
+
+  console.log(id);
 
   // `goal`을 `SelectMode`에서 전달받음 (API 호출 제거)
   const goal = location.state?.goal || '목표 없음';
-  const bucket: Bucket | undefined = location.state?.bucket;
-
-  console.log('CreateMoment에서 받은 bucket 정보:', bucket);
 
   const [duration, setDuration] = useState<number | null>(null);
   const [todoList, setTodoList] = useState<string[]>([]);
@@ -66,8 +64,6 @@ const CreateMoment = () => {
 
       autoDuration(goal)
         .then((days) => {
-          console.log('AI 예상 소요 기간:', days);
-
           if (!days || isNaN(days)) {
             throw new Error('AI가 예상 소요 기간을 반환하지 않았습니다.');
           }
@@ -116,10 +112,6 @@ const CreateMoment = () => {
       alert('빈도, 기간, 투두리스트를 입력해주세요.');
       return;
     }
-    if (!bucket) {
-      alert('버킷 정보를 불러올 수 없습니다.');
-      return;
-    }
 
     const momentData: CreateMomentResponse = {
       id, // 모멘트 ID (임시값)
@@ -127,7 +119,6 @@ const CreateMoment = () => {
       todoList,
       frequency,
       createdAt: new Date().toISOString(), // 생성된 날짜
-      bucket,
     };
 
     navigate('/moment/complete', { state: momentData });
