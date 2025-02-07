@@ -1,9 +1,9 @@
 import * as S from './MomentList.style';
 import IcClip from '../../../../assets/svg/IcClip';
 
-// ✅ MomentListProps & MomentProps 인터페이스 추가
-interface MomentProps {
-  id: number;
+// ✅ 명시적으로 내보내기
+export interface MomentProps {
+  id: string;
   title: string;
   isCompleted: boolean;
 }
@@ -13,11 +13,20 @@ interface MomentListProps {
 }
 
 const MomentList = ({ moments }: MomentListProps) => {
+  const handleMomentClick = (id: string, isCompleted: boolean) => {
+    if (isCompleted) return;
+    console.log(`Redirect to moment detail page for ID: ${id}`);
+  };
+
   return (
     <S.MomentListLayout>
       {moments.length > 0 ? (
         moments.map(({ id, title, isCompleted }) => (
-          <S.MomentItem key={`moment-${id}`} $isCompleted={isCompleted}>
+          <S.MomentItem
+            key={`moment-${id}`}
+            $isCompleted={isCompleted}
+            onClick={() => handleMomentClick(id, isCompleted)}
+          >
             <S.StyledIcClip as={IcClip} />
             <S.MomentBox $isCompleted={isCompleted}>
               {isCompleted && <S.ClearBadgeSpan>CLEAR</S.ClearBadgeSpan>}
