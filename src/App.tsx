@@ -3,12 +3,19 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import router from './router/Router';
 import queryClient from './apis/queryClient';
+import { Suspense } from 'react';
+import Fallback from './pages/Fallback/Fallback';
+import { UserInfoProvider } from './store/User/UserContext';
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <Suspense fallback={<Fallback />}>
+        <UserInfoProvider>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </UserInfoProvider>
+      </Suspense>
     </QueryClientProvider>
   );
 }

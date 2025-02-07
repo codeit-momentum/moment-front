@@ -1,52 +1,48 @@
+import { Link } from 'react-router-dom';
+import MomentUploadStatusLayout from '../ContainerLayout/ContainerLayout';
+import IcMomentUpload from '../../../assets/svg/IcMomentUpload';
 import * as S from './MomentUploadStatus.style';
+import { ChallengingBucket } from '../../../types/moment';
 
-// 목 데이터
-const moments = [
-  {
-    id: 1,
-    title: '뜨개질 100코 뜨기',
+type MomentUploadStatusProps = {
+  data: ChallengingBucket[];
+};
 
-    imgUrl:
-      'https://soomgo.com/_next/image?url=https%3A%2F%2Fstatic.cdn.soomgo.com%2Fupload%2Fservice%2Fservice_popular_436.jpg%3Fwebp%3D1&w=3840&q=75',
-  },
-  { id: 2, title: '오픽 연습 진행하기', imgUrl: '' },
-  { id: 3, title: '읽는 책 10pg 읽기', imgUrl: '' },
-];
-
-const MomentUploadStatus = () => {
+const MomentUploadStatus = ({ data }: MomentUploadStatusProps) => {
   return (
-    <S.MomentUploadStatusLayout>
-      <S.TitleSpan>모멘트 인증하기</S.TitleSpan>
+    <MomentUploadStatusLayout
+      title="모멘트 인증하기"
+      containerStyle={{ padding: '2rem 1.7rem' }}
+      titleStyle={{ padding: '0.5rem 1.9rem', marginBottom: '2rem' }}
+    >
       <S.MomentContainer>
-        {moments.length > 0 ? (
-          moments.map((moment) => (
-            <S.MomentItem key={moment.id}>
-              {moment.imgUrl ? (
-                <S.MomentImage src={moment.imgUrl} alt="인증이미지" />
+        {data.length > 0 ? (
+          data.map((bucket) => (
+            <S.MomentItem key={bucket.bucketID}>
+              {bucket.moments[0].photoUrl ? (
+                <S.MomentImage
+                  src={bucket.moments[0].photoUrl}
+                  alt="인증이미지"
+                />
               ) : (
-                <S.UploadLinkWrapper>
-                  {/* SVG 파일로 대체 */}
-                  <S.UploadLink to="/home">+</S.UploadLink>
-                </S.UploadLinkWrapper>
+                <Link to={`upload/${bucket.moments[0].momentID}`}>
+                  <IcMomentUpload />
+                </Link>
               )}
-              <S.MomentTitleSpan>{moment.title}</S.MomentTitleSpan>
+              <S.MomentTitleSpan>{bucket.moments[0].content}</S.MomentTitleSpan>
             </S.MomentItem>
           ))
         ) : (
           // 모멘트가 없는 경우
-          <>
-            <S.MomentItem />
-            <S.MomentItem>
-              <S.UploadLinkWrapper>
-                {/* SVG 파일로 대체 */}
-                <S.UploadLink to="">?</S.UploadLink>
-              </S.UploadLinkWrapper>
-              <S.MomentTitleSpan>새로운 모멘트를 등록하세요!</S.MomentTitleSpan>
-            </S.MomentItem>
-          </>
+          <S.MomentItem>
+            <Link to={'bucket'}>
+              <IcMomentUpload />
+            </Link>
+            <S.MomentTitleSpan>새로운 모멘트 등록하기</S.MomentTitleSpan>
+          </S.MomentItem>
         )}
       </S.MomentContainer>
-    </S.MomentUploadStatusLayout>
+    </MomentUploadStatusLayout>
   );
 };
 

@@ -12,12 +12,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   * {
+    font-family: 'NeoDunggeunmoPro-Regular', sans-serif;
     box-sizing: border-box;
+    letter-spacing: -0.32px;
+    padding: 0;
   }
 
-  body {
-    font-family: apple-system, sans-serif;
-  }
   ol, ul {
     list-style: none;
   }
@@ -61,13 +61,16 @@ const GlobalStyle = createGlobalStyle`
   --vh: 100%;
   }
 
+  body{
+    padding: 3rem 2rem 9rem 2rem;
+    background-color: ${({ theme }) => theme.colors.black};
+  }
   #root{
     font-family: NeoDunggeunmoPro-Regular;
   }
   #root, body, html {
     scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
     margin: 0 auto;
-    padding:0;
     font-size: 62.5%;
     -ms-overflow-style: none; /* 인터넷 익스플로러  스크롤바 숨김 */
     scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */

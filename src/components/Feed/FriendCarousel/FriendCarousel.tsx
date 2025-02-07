@@ -5,8 +5,8 @@ import { FriendType } from '../../../types/feed';
 
 interface FriendCarouselProps {
   friendList: FriendType[];
-  currentFriendId: number | undefined;
-  onClickFriend: (friendId: number) => void;
+  currentFriendId: string | undefined;
+  onClickFriend: (friendId: string) => void;
 }
 
 const FriendCarousel = ({
@@ -17,7 +17,7 @@ const FriendCarousel = ({
   const option: EmblaOptionsType = { dragFree: true };
   const [emblaRef] = useEmblaCarousel(option);
 
-  const isClick = (id: number) => {
+  const isClick = (id: string) => {
     return currentFriendId === id;
   };
 
@@ -27,15 +27,16 @@ const FriendCarousel = ({
         <S.EmblaContainer>
           {friendList.map((friend: FriendType) => (
             <S.FriendItem
-              key={friend.friendId}
-              onClick={() => onClickFriend(friend.friendId)}
+              key={friend.userID}
+              onClick={() => onClickFriend(friend.userID)}
             >
               <S.FriendProfileImage
-                src={friend.image}
-                alt={`${friend.name}님의 프로필`}
-                $isClicked={isClick(friend.friendId)}
+                src={friend.profileImageUrl}
+                alt={`${friend.nickname}님의 프로필`}
+                $isClicked={isClick(friend.userID)}
+                $isFixed={friend.isFixed}
               />
-              {friend.name}
+              {friend.nickname}
             </S.FriendItem>
           ))}
         </S.EmblaContainer>
