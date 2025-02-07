@@ -1,79 +1,130 @@
 import IcArrow from '../../assets/svg/IcArrow';
 import * as S from './MomentComplete.style';
 import { useEffect, useState } from 'react';
-import axiosInstance from '../../apis/client';
 import Button from '../../components/Button/Button';
-
-// API 응답 타입
-interface MomentCompleteResponse {
-  startDate: string;
-  endDate: string;
-  momentList: { id: string; description: string }[];
-}
-/**
- * 임시 데이터 (뷰작업을 위한)
- */
-const mockMomentData: MomentCompleteResponse = {
-  startDate: '2024.01.01',
-  endDate: '2024.01.14',
-  momentList: [
-    { id: '0102', description: '코 잡기: 원하는 길이로 코를 잡기' },
-    { id: '0104', description: '첫 줄 뜨기: 기본 코를 고르게 뜨기' },
-    {
-      id: '0106',
-      description:
-        '패턴 반복: 원하는 무늬로 꾸준히 뜨고 이 행동을 10번 반복하기',
-    },
-    { id: '0108', description: '마무리 뜨기: 끝 코를 정리하며 마감' },
-    { id: '0112', description: '첫 줄 뜨기: 기본 코를 고르게 뜨기' },
-    {
-      id: '0114',
-      description:
-        '패턴 반복: 원하는 무늬로 꾸준히 뜨고 이 행동을 10번 반복하기',
-    },
-    { id: '0116', description: '마무리 뜨기: 끝 코를 정리하며 마감' },
-  ],
-};
-
+import { useLocation, useNavigate } from 'react-router-dom';
+import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
+import { generateMomentDates } from '../../utils/generateMomentDates';
+import {
+  formatHeaderDate,
+  formatListDate,
+  formatApiDate,
+} from '../../utils/formatDate';
+import usePostMoments from '../../hooks/queries/moment/usePostMoments';
 /**
  * MomentComlete
  * 임시 데이터를 사용하여 "모멘트 설계 완료" 페이지 렌더링
  */
 const MomentComplete = () => {
-  const [data, setData] = useState<{ id: string; description: string }[]>([]); // 초기값은 목데이터
+  const location = useLocation();
+  const navigate = useNavigate();
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
-  const [loading, setLoading] = useState(false); // 로딩 상태 관리 -> 로딩 상태 관리 해야하는가..? -> 백연결시 필요한가,,
-  const [error, setError] = useState<string | null>(null); // 에러 메시지 관리 -> 추후 작업
+  const [moments, setMoments] = useState<
+    { content: string; startDate: string; endDate: string }[]
+  >([]);
 
-  // API 연동 로직
-  const fetchMomentCompleteData = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      // Mock 데이터 사용
-      setStartDate(mockMomentData.startDate);
-      setEndDate(mockMomentData.endDate);
-      setData(mockMomentData.momentList);
-      // 실제 API 호출 (나중에 API가 준비되면 주석을 해제)
-      // const response =
-      //   await axiosInstance.get<MomentCompleteResponse>('/moments/complete');
-
-      // const { startDate, endDate, momentList } = response.data;
-      // setStartDate(startDate);
-      // setEndDate(endDate);
-      // setData(momentList);
-    } catch (err) {
-      console.error('API 호출 실패, Mock 데이터 사용:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { mutate, status } = usePostMoments();
+  const isLoading = status === 'pending';
 
   useEffect(() => {
-    fetchMomentCompleteData();
-  }, []);
+    if (location.state) {
+      const momentData = location.state as CreateMomentResponse;
+
+      // 현재 날짜를 기반으로 startDate 설정
+      const todayDate = new Date().toISOString().split('T')[0];
+      setStartDate(formatHeaderDate(todayDate));
+
+      // 실행 날짜 + 할 일 리스트 함께 계산 후 변환
+      const generatedMoments = generateMomentDates(
+        todayDate, // startDate를 직접 전달
+        momentData,
+      ).map((moment) => ({
+        content: moment.content,
+        startDate: moment.startDate,
+        endDate: moment.endDate,
+      }));
+      console.log('최종 변환된 momentDates:', generatedMoments);
+
+      setMoments(generatedMoments);
+
+      // 마지막 moment의 endDate를 설정
+      if (generatedMoments.length > 0) {
+        setEndDate(
+          formatHeaderDate(
+            generatedMoments[generatedMoments.length - 1].endDate,
+          ),
+        );
+      }
+    }
+  }, [location.state]);
+
+  const handleConfirm = async () => {
+    if (!moments.length) {
+      alert('모멘트 데이터가 없습니다.');
+      return;
+    }
+
+    if (!location.state?.id || !location.state?.bucket) {
+      alert('유효하지 않은 버킷 ID 또는 버킷 정보가 없습니다.');
+      return;
+    }
+    const bucket = location.state.bucket; // `bucket` 정보 가져오기
+
+    // 백엔드에서 `type === "REPEAT"` & `isChallenging === true` 조건 체크
+    if (bucket.type !== 'REPEAT' || !bucket.isChallenging) {
+      alert(
+        '이 버킷에서는 모멘트를 추가할 수 없습니다. (반복형 + 도전 중이어야 함)',
+      );
+      return;
+    }
+
+    const formattedStartDate = formatApiDate(startDate);
+    const formattedEndDate = formatApiDate(moments[moments.length - 1].endDate);
+
+    const allowedFrequencies = ['daily', 'every2days', 'weekly', 'monthly'];
+    const formattedFrequency = allowedFrequencies.includes(
+      location.state.frequency,
+    )
+      ? location.state.frequency
+      : 'daily';
+
+    const formattedMoments = moments.map((moment) => ({
+      content: moment.content,
+      startDate: formatApiDate(moment.startDate),
+      endDate: formatApiDate(moment.endDate),
+    }));
+
+    console.log('최종 API 요청 데이터:', {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+      moments: formattedMoments,
+      frequency: formattedFrequency,
+    });
+
+    // API 요청 실행
+    mutate(
+      {
+        bucketId: bucket.bucketID,
+        payload: {
+          startDate: formattedStartDate,
+          endDate: formattedEndDate,
+          moments: formattedMoments,
+          frequency: formattedFrequency,
+        },
+      },
+      {
+        onSuccess: (data) => {
+          console.log('API 응답 데이터:', data);
+          alert('모멘트가 성공적으로 저장되었습니다.');
+          navigate('/moment/bucket');
+        },
+        onError: (error) => {
+          console.error('Moment 저장 실패:', error);
+        },
+      },
+    );
+  };
 
   return (
     <S.MomentCompleteLayout>
@@ -89,16 +140,18 @@ const MomentComplete = () => {
       <S.MethodContainer>
         <S.MethodLabel>방법</S.MethodLabel>
         <S.MethodListItemWrapper>
-          {data.map((item) => (
-            <S.MethodItem key={item.id}>
-              <S.MethodId>{item.id}</S.MethodId>
-              <S.MethodDescription>{item.description}</S.MethodDescription>
+          {moments.map((moment, index) => (
+            <S.MethodItem key={index}>
+              <S.MethodId>{formatListDate(moment.startDate)}</S.MethodId>
+              <S.MethodDescription>{moment.content}</S.MethodDescription>
             </S.MethodItem>
           ))}
         </S.MethodListItemWrapper>
       </S.MethodContainer>
       <S.BtnContainer>
-        <Button>확인</Button> {/* 버튼 로직 구현 추후 */}
+        <Button onClick={handleConfirm} disabled={isLoading}>
+          {isLoading ? '저장 중...' : '확인'}
+        </Button>
       </S.BtnContainer>
     </S.MomentCompleteLayout>
   );

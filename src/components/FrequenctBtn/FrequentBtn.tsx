@@ -25,11 +25,7 @@ const FrequentBtn = ({ isSelected, onClick, label }: FrequentBtnProps) => {
           />
         </svg>
       </S.SvgWrapper>
-      <S.Label isSelected={isSelected}>
-        {label}
-        <br />
-        1번
-      </S.Label>
+      <S.Label isSelected={isSelected}>{label}</S.Label>
     </S.BtnWrapper>
   );
 };

@@ -1,3 +1,5 @@
+import { Bucket } from '.';
+
 // 요청 타입
 export interface CreateMomentPayload {
   duration: number | null;
@@ -12,4 +14,5 @@ export interface CreateMomentResponse {
   todoList: string[];
   frequency: string;
   createdAt: string;
+  bucket: Bucket;
 }

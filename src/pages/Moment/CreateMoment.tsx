@@ -14,9 +14,8 @@ import { autoDuration } from '../../apis/AI/autoDuration';
 import { ModeType } from '../../types/moment/modeType';
 import BackBtn from '../../components/BackBtn/BackBtn';
 import { generateDetailedPlan } from '../../apis/AI/autoPlanning';
-import instance from '../../apis/client';
-import { createMoment } from '../../apis/createMomentApi';
-
+import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
+import { Bucket } from '../../types/moment';
 /**
  * Moment
  * - 자동/수동 모드에 따라 동작하며, 컴포넌트를 순차적으로 렌더링
@@ -27,11 +26,15 @@ const CreateMoment = () => {
   const navigationType = useNavigationType();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
-  const mode = query.get('mode') as ModeType;
+  const mode =
+    (location.state?.mode as ModeType) || (query.get('mode') as ModeType);
   const { id } = useParams() as { id: string };
 
   // `goal`을 `SelectMode`에서 전달받음 (API 호출 제거)
   const goal = location.state?.goal || '목표 없음';
+  const bucket: Bucket | undefined = location.state?.bucket;
+
+  console.log('CreateMoment에서 받은 bucket 정보:', bucket);
 
   const [duration, setDuration] = useState<number | null>(null);
   const [todoList, setTodoList] = useState<string[]>([]);
@@ -108,27 +111,26 @@ const CreateMoment = () => {
     setIsTodoConfirmed(true);
   };
 
-  const handleNext = async () => {
-    if (!frequency) {
-      alert('빈도를 선택해주세요!');
+  const handleNext = () => {
+    if (!frequency || !duration || todoList.length === 0) {
+      alert('빈도, 기간, 투두리스트를 입력해주세요.');
+      return;
+    }
+    if (!bucket) {
+      alert('버킷 정보를 불러올 수 없습니다.');
       return;
     }
 
-    const payload = {
-      goal,
+    const momentData: CreateMomentResponse = {
+      id, // 모멘트 ID (임시값)
       duration,
       todoList,
       frequency,
+      createdAt: new Date().toISOString(), // 생성된 날짜
+      bucket,
     };
 
-    try {
-      await instance.post('/api/moment/create', payload);
-      alert('Moment가 성공적으로 저장되었습니다.');
-      navigate('/moment/complete'); // 다음 페이지 이동
-    } catch (error) {
-      console.error('Moment 저장 실패:', error);
-      alert('Moment 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
-    }
+    navigate('/moment/complete', { state: momentData });
   };
 
   const handleBack = () => {

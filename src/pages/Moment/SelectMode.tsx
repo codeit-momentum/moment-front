@@ -4,6 +4,7 @@ import { ModeType } from '../../types/moment/modeType';
 import Button from '../../components/Button/Button';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import BackBtn from '../../components/BackBtn/BackBtn';
+import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
 import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
 /**
  * SelectMode
@@ -15,8 +16,9 @@ const SelectMode = () => {
   const navigationType = useNavigationType();
   const { id } = useParams() as { id: string };
 
-  // React Query 활용하여 API 호출
+  // React Query 활용하여 버킷 상세 정보 가져오기
   const { data, isLoading, isError } = useGetBucketDetail(id);
+  const { mutate, isPending } = usePatchBucketChallenge(); // 도전 모드 변경 Mutation
 
   // ID가 없거나 API 호출 실패 시 리다이렉트 처리
   if (!id || isError) {
@@ -30,9 +32,47 @@ const SelectMode = () => {
    * - 선택된 모드에 따라 경로 이동
    */
   const handleSelect = (mode: ModeType) => {
-    navigate(`/moment/create-moment/${id}?mode=${mode}`, {
-      state: { goal: data?.bucket?.content || '버킷리스트 없음' },
-    });
+    if (!data?.bucket) {
+      alert('버킷 정보를 불러올 수 없습니다.');
+      return;
+    }
+
+    if (data.bucket.type !== 'REPEAT') {
+      alert('이 버킷은 반복형(REPEAT)이어야 합니다.');
+      return;
+    }
+
+    if (data.bucket.isChallenging) {
+      console.log('✅ 이미 도전 중인 버킷입니다. 바로 이동합니다.');
+      navigate(`/moment/create-moment/${id}?mode=${mode}`, {
+        state: {
+          goal: data.bucket.content || '버킷리스트 없음',
+          bucket: data.bucket, // ✅ 도전 상태 유지한 채로 이동
+        },
+      });
+      return;
+    }
+
+    // ✅ 버킷을 도전 상태로 변경한 후 이동
+    mutate(
+      { bucketId: id },
+      {
+        onSuccess: (updatedData) => {
+          console.log('✅ 도전 모드 활성화 성공:', updatedData);
+
+          navigate(`/moment/create-moment/${id}?mode=${mode}`, {
+            state: {
+              goal: updatedData.bucket.content || '버킷리스트 없음',
+              bucket: updatedData.bucket, // ✅ 변경된 버킷 데이터 전달
+            },
+          });
+        },
+        onError: (error) => {
+          console.error('❌ 도전 모드 활성화 실패:', error);
+          alert('도전 모드 활성화 중 오류가 발생했습니다.');
+        },
+      },
+    );
   };
 
   const handleBack = () => {
@@ -68,6 +108,7 @@ const SelectMode = () => {
           으로 생성할게요
         </Button>
         <Button
+          disabled={isPending}
           $customstyle={{
             width: '22rem',
             height: '5rem',
