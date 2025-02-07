@@ -17,8 +17,6 @@ export const FeedInfoContainer = styled.div`
   ${({ theme: { mixin } }) =>
     mixin.flexBox({
       direction: 'column',
-      justify: 'flex-start',
-      align: 'center',
     })};
   text-align: left;
   width: 14rem;
@@ -30,6 +28,7 @@ export const FeedTitleParagraph = styled.p`
   width: 14rem;
   font-size: 12px;
   line-height: 20px;
+  text-align: center;
   span {
     color: ${({ theme }) => theme.colors.blue};
   }
@@ -40,6 +39,7 @@ export const FeedContentParagraph = styled.p`
   font-size: 12px;
   line-height: 15px;
   white-space: pre-line;
+  text-align: center;
 `;
 export const FeedImageContainer = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
