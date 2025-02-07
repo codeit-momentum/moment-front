@@ -1,9 +1,9 @@
 import * as S from './Bucketlist.style';
-import { useGetBucketStatus } from '../../../hooks/home/useGetBucketStatus';
+import useGetBucketAchievement from '../../../hooks/queries/home/useGetBucketAchievement';
 
 const Bucketlist = () => {
   // React Query 훅을 이용해 API 데이터 가져오기
-  const { data, isLoading, isError } = useGetBucketStatus();
+  const { data, isLoading, isError } = useGetBucketAchievement();
 
   if (isLoading) {
     return <S.BucketlistLayout>로딩 중...</S.BucketlistLayout>;
@@ -41,11 +41,11 @@ const Bucketlist = () => {
         <span>{new Date().getFullYear()}</span> 버킷리스트 달성 현황
       </S.BucketlistTitle>
       <S.ImageContainer>
+        <S.BucketlistLabel>{currentBucket.range}</S.BucketlistLabel>
         <S.BucketlistImage
           src={currentBucket.image}
           alt={currentBucket.range}
         />
-        <S.BucketlistLabel>{currentBucket.range}</S.BucketlistLabel>
       </S.ImageContainer>
     </S.BucketlistLayout>
   );

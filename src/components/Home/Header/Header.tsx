@@ -1,9 +1,12 @@
-import useGetConsecutiveDays from '../../../hooks/queries/home/useGetConsecutiveDays';
-import IcBell from '../../../assets/svg/IcNoticeOff';
-import IcNotice from '../../../assets/svg/IcNotice';
-import NotificationModal from '../NotificationModal/NotificationModal';
+import { useEffect, useState } from 'react';
+//import NotificationModal, {
+//  NotificationItem,
+//} from '../NotificationModal/NotificationModal';
 import * as S from './Header.style';
-import { useState } from 'react';
+//import IcNotice from './../../../assets/svg/IcNotice';
+//import IcNoticeOff from './../../../assets/svg/IcNoticeOff';
+import useGetConsecutiveDays from '../../../hooks/queries/home/useGetConsecutiveDays';
+import usePatchNotice from '../../../hooks/queries/home/usePatchNotice';
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -13,12 +16,16 @@ const Header = () => {
     isLoading,
     isError,
   } = useGetConsecutiveDays(currentDate);
+  const { mutate: patchNotice } = usePatchNotice();
 
   // 모달 토글 함수
   const toggleModal = () => {
     setIsModalOpen((prev: boolean) => !prev);
   };
 
+  useEffect(() => {
+    patchNotice();
+  }, [patchNotice]);
   // 로딩 및 에러 처리
   if (isLoading) {
     return <S.HeaderLayout>로딩 중...</S.HeaderLayout>;
@@ -30,22 +37,22 @@ const Header = () => {
 
   return (
     <S.HeaderLayout>
-      <S.StreakTextContainer>
-        <S.StreakText>오늘은 작심</S.StreakText>
-        <S.StreakHighlight>
-          {consecutiveDaysData.consecutiveDays || 0}
-        </S.StreakHighlight>
-        <S.StreakText>일</S.StreakText>
-      </S.StreakTextContainer>
-      <S.BellIconBox onClick={toggleModal}>
-        {isModalOpen ? <IcNotice /> : <IcBell />}
-      </S.BellIconBox>
       {isModalOpen && (
-        <NotificationModal
+        /*<NotificationModal
           notifications={consecutiveDaysData.notifications || []} // API에서 notifications 데이터 가져오기
           onClose={() => setIsModalOpen(false)}
-        />
+        />*/ <></>
       )}
+      <S.StreakTextContainer>
+        오늘은 작심{' '}
+        <S.StreakHighlight>
+          {consecutiveDaysData.consecutiveDays}
+        </S.StreakHighlight>
+        일
+      </S.StreakTextContainer>
+      <S.BellIconWrapper onClick={toggleModal}>
+        {/*hasUnreadNotifications ? <IcNotice /> : <IcNoticeOff />*/}
+      </S.BellIconWrapper>
     </S.HeaderLayout>
   );
 };

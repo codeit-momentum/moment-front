@@ -15,13 +15,7 @@ interface WeekStatusResponse {
 
 // API 호출 함수
 const getWeekStatus = async (date: string): Promise<WeekStatusResponse> => {
-  const response = await instance.get('/api/home/momentsComplete/week', {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-    params: { date },
-  });
+  const response = await instance.get(`/api/home/momentsComplete/week/${date}`);
   return response.data;
 };
 

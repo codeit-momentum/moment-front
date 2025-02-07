@@ -1,9 +1,9 @@
 import * as S from './MomentList.style';
-import IcClip from '../../../../assets/svg/IcClip';
+import IcClip from '../../../../assets/svg/home/IcClip';
+import IcClipOff from '../../../../assets/svg/home/IcClipOff';
 
-// ✅ 명시적으로 내보내기
-export interface MomentProps {
-  id: string;
+interface MomentProps {
+  id: number;
   title: string;
   isCompleted: boolean;
 }
@@ -22,20 +22,16 @@ const MomentList = ({ moments }: MomentListProps) => {
     <S.MomentListLayout>
       {moments.length > 0 ? (
         moments.map(({ id, title, isCompleted }) => (
-          <S.MomentItem
-            key={`moment-${id}`}
-            $isCompleted={isCompleted}
-            onClick={() => handleMomentClick(id, isCompleted)}
-          >
-            <S.StyledIcClip as={IcClip} />
-            <S.MomentBox $isCompleted={isCompleted}>
-              {isCompleted && <S.ClearBadgeSpan>CLEAR</S.ClearBadgeSpan>}
-              <S.MomentTitleSpan>{title}</S.MomentTitleSpan>
-            </S.MomentBox>
-          </S.MomentItem>
+          <S.MomentBox key={id} $isCompleted={isCompleted}>
+            <S.IconWrapper>
+              {isCompleted ? <IcClipOff /> : <IcClip />}
+            </S.IconWrapper>
+            {isCompleted && <S.ClearBadgeSpan>CLEAR</S.ClearBadgeSpan>}
+            <S.MomentTitleSpan>{title}</S.MomentTitleSpan>
+          </S.MomentBox>
         ))
       ) : (
-        <S.MomentTitleSpan>모멘트가 없습니다.</S.MomentTitleSpan>
+        <S.MomentTitleSpan>-</S.MomentTitleSpan>
       )}
     </S.MomentListLayout>
   );

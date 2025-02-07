@@ -19,11 +19,11 @@ const fetchBucketStatus = async (): Promise<BucketResponse> => {
 };
 
 // React Query 훅
-export const useGetBucketAchievement = () => {
+const useGetBucketAchievement = () => {
   return useQuery<BucketResponse, Error>({
     queryKey: ['bucketStatus'],
     queryFn: fetchBucketStatus,
-    staleTime: 5 * 60 * 1000, // 5분 동안 데이터 재사용
-    cacheTime: 10 * 60 * 1000, // 10분 동안 캐시 유지
   });
 };
+
+export default useGetBucketAchievement;

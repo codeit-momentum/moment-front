@@ -26,18 +26,17 @@ function TodayMomentSection() {
 
   return (
     <S.TodayMomentLayout>
+      <S.TopLeftArea />
+      <S.TopRightArea />
+      <S.BottomLeftArea />
+      <S.BottomRightArea />
+
       <DayCheckboxGroup days={days} />
       <S.DividerLine />
-      {moments.length > 0 ? (
-        <>
-          <MomentList moments={moments} />
-          <S.TodayMessageBox>
-            오늘의 모멘트 총&nbsp;<span>{completedCount}</span>개 수집!
-          </S.TodayMessageBox>
-        </>
-      ) : (
-        <S.TodayMessageBox>새로운 모멘트를 등록해보세요!</S.TodayMessageBox>
-      )}
+      {moments.length > 0 && <MomentList moments={moments} />}
+      <S.TodayMessageBox>
+        오늘의 모멘트 총&nbsp;<span>{completedCount}</span>개 수집!
+      </S.TodayMessageBox>
     </S.TodayMomentLayout>
   );
 }

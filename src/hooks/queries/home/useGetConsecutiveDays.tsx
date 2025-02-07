@@ -12,13 +12,7 @@ interface ConsecutiveDaysResponse {
 const getConsecutiveDays = async (
   date: string,
 ): Promise<ConsecutiveDaysResponse> => {
-  const response = await instance.get('/api/home/consecutiveDays', {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-    params: { date },
-  });
+  const response = await instance.get(`/api/home/consecutiveDays/${date}`);
   return response.data;
 };
 
