@@ -1,7 +1,6 @@
 import IcArrow from '../../assets/svg/IcArrow';
 import * as S from './MomentComplete.style';
 import { useEffect, useState } from 'react';
-import axiosInstance from '../../apis/client';
 import Button from '../../components/Button/Button';
 
 // API 응답 타입
@@ -45,7 +44,7 @@ const MomentComplete = () => {
   const [endDate, setEndDate] = useState<string>('');
   const [loading, setLoading] = useState(false); // 로딩 상태 관리 -> 로딩 상태 관리 해야하는가..? -> 백연결시 필요한가,,
   const [error, setError] = useState<string | null>(null); // 에러 메시지 관리 -> 추후 작업
-
+  console.log(error, loading);
   // API 연동 로직
   const fetchMomentCompleteData = async () => {
     setLoading(true);
