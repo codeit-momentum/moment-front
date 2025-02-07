@@ -50,6 +50,11 @@ const Feed = () => {
     });
   };
 
+  const handleClose = () => {
+    closeModal();
+    setIsDeleting(false);
+  };
+
   useEffect(() => {
     setCurrentFriend(friendList[0]);
   }, [friendList, setCurrentFriend]);
@@ -64,7 +69,7 @@ const Feed = () => {
             <SelectModal
               type="delete"
               content="이 행위는 되돌릴 수 없습니다."
-              onClose={closeModal}
+              onClose={handleClose}
               onSubmit={handleDelete}
             >
               <span style={{ color: '#FAED46' }}>
