@@ -5,7 +5,6 @@ import { ModeType } from '../../../types/moment/modeType';
 import Button from '../../Button/Button';
 import IcLoading from '../../../assets/svg/IcLoading';
 import Divider from '../../Divider/Divider';
-import { CommonDiv } from '../../Divider/Divider.style';
 
 interface DurationProps {
   mode: ModeType; // 'auto' 또는 'manual'
@@ -104,10 +103,8 @@ const DurationComponent = ({
       {!isLoading && (
         <S.BtnContainer>
           {mode === 'manual' ? (
-            // 수동 모드: 확정하기 버튼만 표시
             !isConfirmed && <Button onClick={handleConfirm}>확정하기</Button>
-          ) : // 자동 모드: 수정/수정완료/확정하기 버튼 표시
-          !isConfirmed ? (
+          ) : !isConfirmed ? (
             isEditing ? (
               <Button onClick={handleEditComplete}>수정완료</Button>
             ) : (

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import fetchMockData from '../../apis/mockApi';
+import { fetchMockData } from '../../apis/mockApi';
 
 const useTodoList = (mode: 'auto' | 'manual') => {
   return useQuery({

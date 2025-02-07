@@ -18,7 +18,7 @@ const Start = () => {
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [navigate]);
 
   return (
     <S.StartPageLayout>
