@@ -35,11 +35,11 @@ const Bucketlist = ({ progress }: BucketlistProps) => {
         <span>{year}</span> 버킷리스트 달성 현황
       </S.BucketlistTitle>
       <S.ImageContainer>
+        <S.BucketlistLabel>{currentBucket.range}</S.BucketlistLabel>
         <S.BucketlistImage
           src={currentBucket.image}
           alt={currentBucket.range}
         />
-        <S.BucketlistLabel>{currentBucket.range}</S.BucketlistLabel>
       </S.ImageContainer>
     </S.BucketlistLayout>
   );
