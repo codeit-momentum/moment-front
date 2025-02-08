@@ -3,6 +3,7 @@ import IcHello from '../../../assets/svg/IcHello';
 import usePostCheer from '../../../hooks/queries/Feed/usePostCheer';
 import useResponseMessage from '../../../hooks/common/useResponseMessage';
 import IcHelloOff from '../../../assets/svg/IcHelloOff';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface FeedItemProps {
   friendId: string;
@@ -28,6 +29,7 @@ const FeedItem = ({
   const { mutate: postCheer } = usePostCheer();
   const { handleError, setMessage, openModal, renderModal } =
     useResponseMessage();
+  const queryClient = useQueryClient();
 
   const handleCheer = () => {
     postCheer(
@@ -35,6 +37,9 @@ const FeedItem = ({
       {
         onSuccess: (data) => {
           setMessage(data.message);
+          queryClient.invalidateQueries({
+            queryKey: ['feed', friendId],
+          });
         },
         onError: (error) => {
           handleError(error);

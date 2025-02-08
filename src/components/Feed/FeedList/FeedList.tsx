@@ -3,13 +3,14 @@ import FeedItem from '../FeedItem/FeedItem';
 import EmptyFeed from '../EmptyFeed/EmptyFeed';
 import useGetFeed from '../../../hooks/queries/Feed/useGetFeed';
 import formatDate from '../../../utils/formatDate';
-import { MomentItemType } from '../../../types/feed';
+import { FriendType, MomentItemType } from '../../../types/feed';
 import usePostKnock from '../../../hooks/queries/Feed/usePostKnock';
 import useModal from '../../../hooks/common/useModal';
 import OKModal from '../../Modal/OKModal/OKModal';
 import Modal from '../../Modal/Modal';
 import IcKnock from '../../../assets/svg/IcKnock';
 import formatFrequency from '../../../utils/formatFrequency';
+import useGetFriends from '../../../hooks/queries/Feed/useGetFriends';
 
 interface FeedListProps {
   friendId: string;
@@ -17,8 +18,12 @@ interface FeedListProps {
   isKnocked: boolean;
 }
 
-const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
+const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
   const { feed } = useGetFeed(friendId);
+  const { friendList, refetch } = useGetFriends();
+  const current = friendList.find(
+    (friend: FriendType) => friend.userID === friendId,
+  );
   const { mutate: postKnock } = usePostKnock();
   const [isOpen, openModal, closeModal] = useModal();
 
@@ -26,6 +31,7 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
     postKnock(friendId, {
       onSuccess: () => {
         openModal();
+        refetch();
       },
       onError: () => {
         alert('에러 발생');
@@ -45,12 +51,12 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
           />
         </Modal>
       )}
-      {feed?.moments.length === 0 ? (
+      {feed?.moments.length === 0 || feed === undefined ? (
         <EmptyFeed
           type="feed"
           icon={<IcKnock />}
           onClick={handleKnock}
-          isKnocked={isKnocked}
+          isKnocked={current.isKnock}
         >
           친구가 피드를 안 올리네요...
           <br /> <span style={{ color: '#FAED46' }}>노크를 해서 </span>

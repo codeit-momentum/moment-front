@@ -35,7 +35,7 @@ export const TodayMessageBox = styled.div`
 export const TopLeftArea = styled.div`
   position: absolute;
   width: 2.5rem;
-  height: 0.5rem;
+  height: 0.6rem;
   background-color: ${({ theme }) => theme.colors.black};
   top: 0;
   left: 0;
@@ -49,7 +49,7 @@ export const TopLeftArea = styled.div`
 export const TopRightArea = styled.div`
   position: absolute;
   width: 2.5rem;
-  height: 0.5rem;
+  height: 0.6rem;
   background-color: ${({ theme }) => theme.colors.black};
   top: 0;
   right: 0;
@@ -62,7 +62,7 @@ export const TopRightArea = styled.div`
 export const BottomLeftArea = styled.div`
   position: absolute;
   width: 2.5rem;
-  height: 0.5rem;
+  height: 0.6rem;
   background-color: ${({ theme }) => theme.colors.black};
   bottom: 0;
   left: 0;
@@ -75,7 +75,7 @@ export const BottomLeftArea = styled.div`
 export const BottomRightArea = styled.div`
   position: absolute;
   width: 2.5rem;
-  height: 0.5rem;
+  height: 0.6rem;
   background-color: ${({ theme }) => theme.colors.black};
   bottom: 0;
   right: 0;

@@ -6,7 +6,7 @@ interface FeedResponseType {
   friendCode: string;
   moments: MomentItemType[];
   nickname: string;
-  status: string;
+  success: boolean;
 }
 
 const FEED_QUERY_KEY = (friendId: string) => ['feed', friendId];
@@ -23,7 +23,12 @@ const useGetFeed = (friendId: string) => {
     queryFn: () => getFeed(friendId),
   });
 
-  return { feed: data, nickname: data?.nickname, isPending, isError };
+  return {
+    feed: data,
+    nickname: data?.nickname,
+    isPending,
+    isError,
+  };
 };
 
 export default useGetFeed;

@@ -18,10 +18,14 @@ export const Label = styled.label`
 export const PreviewImage = styled.img`
   width: 13rem;
   height: 13rem;
+  object-fit: cover;
+  object-position: center;
 `;
 export const ProfileImage = styled.img`
   width: 13rem;
   height: 13rem;
+  object-fit: cover;
+  object-position: center;
 `;
 export const ImageInput = styled.input`
   display: none;

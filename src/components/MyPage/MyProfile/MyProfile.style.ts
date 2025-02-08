@@ -11,6 +11,8 @@ export const ProfileContainer = styled.div`
 export const ProfileImage = styled.img`
   width: 13rem;
   height: 13rem;
+  object-fit: cover;
+  object-position: center;
 `;
 export const UserInfoContainer = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
