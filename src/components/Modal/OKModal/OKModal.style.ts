@@ -17,6 +17,7 @@ export const ModalHeader = styled.div`
   text-align: center;
   word-break: keep-all;
   overflow-wrap: anywhere;
+  white-space: pre-line;
 `;
 
 export const TitleSpan = styled.span`

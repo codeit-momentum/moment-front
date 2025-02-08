@@ -3,7 +3,7 @@ import * as S from './FrequencyBtnComponent.style';
 import Button from '../../Button/Button';
 import Divider from '../../Divider/Divider';
 import FrequentBtn from '../../FrequenctBtn/FrequentBtn';
-
+import formatFrequency from '../../../utils/formatFrequency';
 /**
  * FrequencyBtn Props
  * - options: 버튼에 표시될 옵션 목록
@@ -23,12 +23,12 @@ interface FrequencyBtnProps {
 const FrequencyBtnComponent = ({ onSelect, onNext }: FrequencyBtnProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-  const frequencyOptions = [
-    { label: '1일에', value: '1day1' },
-    { label: '2일에', value: '2day1' },
-    { label: '1주에', value: '1week1' },
-    { label: '1달에', value: '1month1' },
-  ];
+  // 기존 formatFrequency를 이용해서 frequencyOptions 변환
+  const frequencyValues = ['daily', 'every2days', 'weekly', 'monthly'];
+  const frequencyOptions = frequencyValues.map((value) => ({
+    label: formatFrequency(value), // 기존 유틸 함수 사용
+    value,
+  }));
 
   /**
    * handleSelect

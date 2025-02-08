@@ -8,12 +8,12 @@ const getFriends = async () => {
 };
 
 const useGetFriends = () => {
-  const { data, isPending } = useSuspenseQuery({
+  const { data, isPending, refetch } = useSuspenseQuery({
     queryKey: FRIENDS_QUERY_KEY,
     queryFn: getFriends,
   });
 
-  return { friendList: data, isPending };
+  return { friendList: data, isPending, refetch };
 };
 
 export default useGetFriends;
