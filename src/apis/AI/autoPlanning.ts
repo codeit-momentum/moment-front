@@ -83,7 +83,6 @@ export async function generateDetailedPlan(
     try {
       parsedPlan = JSON.parse(content);
     } catch (jsonError) {
-      console.error('JSON 파싱 오류:', jsonError);
       parsedPlan = [];
     }
 
@@ -92,11 +91,8 @@ export async function generateDetailedPlan(
       parsedPlan = [content]; // AI 응답을 강제로 배열로 변환
     }
 
-    console.log('최종 반환될 투두 리스트 (수정 전):', parsedPlan);
-
     // AI가 duration 개수를 초과한 경우 잘라서 반환
     const finalPlan = parsedPlan.slice(0, duration);
-    console.log('최종 반환될 투두 리스트 (수정 후):', finalPlan);
 
     return finalPlan;
   } catch (error) {
@@ -104,10 +100,3 @@ export async function generateDetailedPlan(
     return [];
   }
 }
-
-// 사용자 입력 데이터
-const goal = '5kg 감량하기';
-const startDate = '2025-02-01';
-const duration = 30;
-
-generateDetailedPlan(goal, startDate, duration);

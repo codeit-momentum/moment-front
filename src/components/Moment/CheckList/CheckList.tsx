@@ -37,6 +37,7 @@ const CheckList = ({ type }: CheckListProps) => {
 
   const useTypeHook = TypeHooks[type];
   const { data } = useTypeHook();
+  console.log(data);
 
   const hadleSubmitItem = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {

@@ -5,6 +5,7 @@ import Button from '../../components/Button/Button';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import BackBtn from '../../components/BackBtn/BackBtn';
 import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
+
 /**
  * SelectMode
  * - 자동/수동 모드를 선택하는 페이지
@@ -15,7 +16,7 @@ const SelectMode = () => {
   const navigationType = useNavigationType();
   const { id } = useParams() as { id: string };
 
-  // React Query 활용하여 API 호출
+  // React Query 활용하여 버킷 상세 정보 가져오기
   const { data, isLoading, isError } = useGetBucketDetail(id);
 
   // ID가 없거나 API 호출 실패 시 리다이렉트 처리
@@ -31,7 +32,7 @@ const SelectMode = () => {
    */
   const handleSelect = (mode: ModeType) => {
     navigate(`/moment/create-moment/${id}?mode=${mode}`, {
-      state: { goal: data?.bucket?.content || '버킷리스트 없음' },
+      state: { id, goal: data?.bucket?.content || '버킷리스트 없음' },
     });
   };
 
@@ -84,4 +85,5 @@ const SelectMode = () => {
     </S.SelectModeLayout>
   );
 };
+
 export default SelectMode;
