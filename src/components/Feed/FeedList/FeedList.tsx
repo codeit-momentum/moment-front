@@ -3,14 +3,14 @@ import FeedItem from '../FeedItem/FeedItem';
 import EmptyFeed from '../EmptyFeed/EmptyFeed';
 import useGetFeed from '../../../hooks/queries/Feed/useGetFeed';
 import formatDate from '../../../utils/formatDate';
-import { MomentItemType } from '../../../types/feed';
+import { FriendType, MomentItemType } from '../../../types/feed';
 import usePostKnock from '../../../hooks/queries/Feed/usePostKnock';
 import useModal from '../../../hooks/common/useModal';
 import OKModal from '../../Modal/OKModal/OKModal';
 import Modal from '../../Modal/Modal';
 import IcKnock from '../../../assets/svg/IcKnock';
 import formatFrequency from '../../../utils/formatFrequency';
-import { useState, useEffect } from 'react';
+import useGetFriends from '../../../hooks/queries/Feed/useGetFriends';
 
 interface FeedListProps {
   friendId: string;
@@ -18,21 +18,20 @@ interface FeedListProps {
   isKnocked: boolean;
 }
 
-const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
+const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
   const { feed } = useGetFeed(friendId);
+  const { friendList, refetch } = useGetFriends();
+  const current = friendList.find(
+    (friend: FriendType) => friend.userID === friendId,
+  );
   const { mutate: postKnock } = usePostKnock();
   const [isOpen, openModal, closeModal] = useModal();
 
-  const [isKnockDisabled, setIsKnockDisabled] = useState<boolean>(isKnocked);
-
-  useEffect(() => {
-    setIsKnockDisabled(isKnocked);
-  }, [isKnocked]);
-  console.log(isKnocked, isKnockDisabled);
   const handleKnock = () => {
     postKnock(friendId, {
       onSuccess: () => {
         openModal();
+        refetch();
       },
       onError: () => {
         alert('에러 발생');
@@ -57,7 +56,7 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
           type="feed"
           icon={<IcKnock />}
           onClick={handleKnock}
-          isKnocked={isKnockDisabled}
+          isKnocked={current.isKnock}
         >
           친구가 피드를 안 올리네요...
           <br /> <span style={{ color: '#FAED46' }}>노크를 해서 </span>

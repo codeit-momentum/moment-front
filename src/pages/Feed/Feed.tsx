@@ -28,7 +28,6 @@ const Feed = () => {
   const [modalType, setModalType] = useState<ModalType>('default');
   const navigate = useNavigate();
 
-  console.log(currentFriend);
   const handleNavigate = () => {
     navigate('/mypage/friend');
   };
@@ -134,9 +133,9 @@ const Feed = () => {
         </S.EmptyFeedWrapper>
       ) : (
         <FeedList
-          friendId={currentFriend?.userID}
-          friendNickname={currentFriend?.nickname}
-          isKnocked={currentFriend?.isKnock}
+          friendId={currentFriend.userID}
+          friendNickname={currentFriend.nickname}
+          isKnocked={currentFriend.isKnock}
         />
       )}
     </S.FeedLayout>
