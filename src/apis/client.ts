@@ -9,7 +9,7 @@ export const getAccessToken = () => {
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  timeout: 5000,
+  timeout: 40000,
   headers: {
     'Content-Type': 'application/json',
   },

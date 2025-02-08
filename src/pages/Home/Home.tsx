@@ -8,7 +8,7 @@ const Home = () => {
     <S.HomeLayout>
       <Header />
       <TodayMomentSection />
-      <Bucketlist progress={50} />
+      <Bucketlist />
     </S.HomeLayout>
   );
 };
