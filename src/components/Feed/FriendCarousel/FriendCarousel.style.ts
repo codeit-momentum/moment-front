@@ -32,14 +32,14 @@ export const FriendProfileImage = styled.img<{
   width: 5rem;
   height: 5rem;
   border-radius: 310px;
-  ${({ theme, $isClicked }) =>
-    $isClicked &&
-    `
-    outline: 2px solid ${theme.colors.blue};
-  `}
   ${({ theme, $isFixed }) =>
     $isFixed &&
     `
     outline: 2px solid ${theme.colors.yellow};
+  `}
+  ${({ theme, $isClicked }) =>
+    $isClicked &&
+    `
+    outline: 2px solid ${theme.colors.blue};
   `}
 `;
