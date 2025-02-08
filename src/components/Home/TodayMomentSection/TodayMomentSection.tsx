@@ -1,41 +1,31 @@
 import * as S from './TodayMomentSection.style';
 import DayCheckboxGroup from './DayCheckboxGroup/DayCheckboxGroup';
+import { MomentItemType } from '../../../types/home';
 import MomentList from './MomentList/MomentList';
+import useGetTodayMoments from '../../../hooks/queries/home/useGetTodayMoments';
+import useGetWeekStatus from '../../../hooks/queries/home/useGetWeekStatus';
 
-interface DayProps {
-  day: string;
-  isChecked: boolean;
-}
+function TodayMomentSection() {
+  const currentDate = new Date().toISOString().split('T')[0]; // 오늘 날짜
+  const { data: todayData } = useGetTodayMoments(currentDate);
+  const { data: weekData } = useGetWeekStatus(currentDate);
 
-interface MomentProps {
-  id: number;
-  title: string;
-  category: string;
-  isCompleted: boolean;
-}
+  // 데이터 기본값 설정
+  const days =
+    weekData?.weekStatus.map((day) => ({
+      day: new Date(day.date).toLocaleDateString('ko-KR', { weekday: 'short' }),
+      isChecked: day.isComplete,
+    })) || [];
 
-const TodayMomentSection = () => {
-  // Mock 데이터
-  const mockDays: DayProps[] = [
-    { day: '월', isChecked: true },
-    { day: '화', isChecked: false },
-    { day: '수', isChecked: false },
-    { day: '목', isChecked: false },
-    { day: '금', isChecked: false },
-    { day: '토', isChecked: false },
-    { day: '일', isChecked: false },
-  ];
+  const moments: MomentItemType[] = (todayData?.moments || []).map(
+    (moment) => ({
+      id: moment.momentID, // string으로 매핑
+      title: moment.content,
+      isCompleted: moment.isCompleted,
+    }),
+  );
 
-  const mockMoments: MomentProps[] = [
-    { id: 1, title: '뜨개질 10코 뜨기', category: '취미', isCompleted: true },
-    { id: 2, title: '토익 공부', category: '언어', isCompleted: false },
-    { id: 3, title: '책 10pg 읽기', category: '독서', isCompleted: true },
-  ];
-
-  // 인증 완료된 모멘트 수 계산
-  const completedCount = mockMoments.filter(
-    (moment) => moment.isCompleted,
-  ).length;
+  const completedCount = todayData?.completedCount || 0;
 
   return (
     <S.TodayMomentLayout>
@@ -44,14 +34,22 @@ const TodayMomentSection = () => {
       <S.BottomLeftArea />
       <S.BottomRightArea />
 
-      <DayCheckboxGroup days={mockDays} />
+      <DayCheckboxGroup days={days} />
       <S.DividerLine />
-      {mockMoments.length > 0 && <MomentList moments={mockMoments} />}
+      <MomentList moments={moments} />
       <S.TodayMessageBox>
-        오늘의 모멘트 총&nbsp;<span>{completedCount}</span>개 수집!
+        {moments.length === 0 ? (
+          <>
+            <span>새로운 모멘트</span>를 등록해보세요!
+          </>
+        ) : (
+          <>
+            오늘의 모멘트 총 <span>{completedCount}</span>개 수집!
+          </>
+        )}
       </S.TodayMessageBox>
     </S.TodayMomentLayout>
   );
-};
+}
 
 export default TodayMomentSection;
