@@ -28,6 +28,7 @@ const Feed = () => {
   const [modalType, setModalType] = useState<ModalType>('default');
   const navigate = useNavigate();
 
+  console.log(currentFriend);
   const handleNavigate = () => {
     navigate('/mypage/friend');
   };

@@ -10,6 +10,7 @@ import OKModal from '../../Modal/OKModal/OKModal';
 import Modal from '../../Modal/Modal';
 import IcKnock from '../../../assets/svg/IcKnock';
 import formatFrequency from '../../../utils/formatFrequency';
+import { useState, useEffect } from 'react';
 
 interface FeedListProps {
   friendId: string;
@@ -22,6 +23,12 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
   const { mutate: postKnock } = usePostKnock();
   const [isOpen, openModal, closeModal] = useModal();
 
+  const [isKnockDisabled, setIsKnockDisabled] = useState<boolean>(isKnocked);
+
+  useEffect(() => {
+    setIsKnockDisabled(isKnocked);
+  }, [isKnocked]);
+  console.log(isKnocked, isKnockDisabled);
   const handleKnock = () => {
     postKnock(friendId, {
       onSuccess: () => {
@@ -45,12 +52,12 @@ const FeedList = ({ friendId, friendNickname, isKnocked }: FeedListProps) => {
           />
         </Modal>
       )}
-      {feed?.moments.length === 0 ? (
+      {feed?.moments.length === 0 || feed === undefined ? (
         <EmptyFeed
           type="feed"
           icon={<IcKnock />}
           onClick={handleKnock}
-          isKnocked={isKnocked}
+          isKnocked={isKnockDisabled}
         >
           친구가 피드를 안 올리네요...
           <br /> <span style={{ color: '#FAED46' }}>노크를 해서 </span>
