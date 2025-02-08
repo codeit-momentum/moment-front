@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+//import { useEffect, useState } from 'react';
 import * as S from './NotificationModal.style';
 import IcCloseModal from '../../../assets/svg/IcCloseModal';
-import { useGetNotifications } from '../../../hooks/queries/home/useGetNotifications';
+//import { useGetNotifications } from '../../../hooks/queries/home/useGetNotifications';
 
 // NotificationItem 타입 정의
 export interface NotificationItem {
@@ -16,6 +16,7 @@ interface NotificationModalProps {
 }
 
 const NotificationModal = ({ onClose }: NotificationModalProps) => {
+  /*
   const { data, isLoading, isError } = useGetNotifications();
   const [sortedNotifications, setSortedNotifications] = useState<
     NotificationItem[]
@@ -38,7 +39,7 @@ const NotificationModal = ({ onClose }: NotificationModalProps) => {
     return (
       <S.ModalOverlay>알림 데이터를 불러오는 데 실패했습니다.</S.ModalOverlay>
     );
-
+*/
   return (
     <S.ModalOverlay onClick={onClose}>
       <S.ModalLayout onClick={(e) => e.stopPropagation()}>
@@ -50,7 +51,7 @@ const NotificationModal = ({ onClose }: NotificationModalProps) => {
           </S.CloseIcon>
         </S.Header>
 
-        {/* 알림 리스트 */}
+        {/* 알림 리스트 
         <S.NotificationList>
           {sortedNotifications.length > 0 ? (
             sortedNotifications.map((notification) => (
@@ -67,7 +68,7 @@ const NotificationModal = ({ onClose }: NotificationModalProps) => {
           ) : (
             <S.EmptyMessage>알림이 없습니다.</S.EmptyMessage>
           )}
-        </S.NotificationList>
+        </S.NotificationList>*/}
       </S.ModalLayout>
     </S.ModalOverlay>
   );
