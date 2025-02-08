@@ -27,9 +27,12 @@ const CreateMoment = () => {
   const query = new URLSearchParams(location.search);
   const mode =
     (location.state?.mode as ModeType) || (query.get('mode') as ModeType);
-  const id = location.state?.id;
+  const { id: paramId } = useParams();
+  const id = paramId || location.state?.id;
 
-  console.log(id);
+  useEffect(() => {
+    console.log('📌 현재 useParams()에서 가져온 id:', id);
+  }, [id]);
 
   // `goal`을 `SelectMode`에서 전달받음 (API 호출 제거)
   const goal = location.state?.goal || '목표 없음';

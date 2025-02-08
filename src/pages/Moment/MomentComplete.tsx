@@ -5,11 +5,7 @@ import Button from '../../components/Button/Button';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
 import { generateMomentDates } from '../../utils/generateMomentDates';
-import {
-  formatHeaderDate,
-  formatListDate,
-  formatApiDate,
-} from '../../utils/formatDate';
+import { formatListDate } from '../../utils/formatDate';
 import usePostMoments from '../../hooks/queries/moment/usePostMoments';
 import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
 import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
@@ -21,53 +17,48 @@ import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBuce
 const MomentComplete = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
-  const [moments, setMoments] = useState<
-    { content: string; startDate: string; endDate: string }[]
-  >([]);
-
   const { id: paramId } = useParams();
   const id = paramId || location.state?.id;
-  const { data, isLoading: isBucketLoading, isError } = useGetBucketDetail(id);
+
+  const {
+    data,
+    isLoading: isBucketLoading,
+    isError,
+    refetch,
+  } = useGetBucketDetail(id);
   const { mutate: updateBucketChallenge, isPending: isUpdating } =
     usePatchBucketChallenge();
-  const { mutate, status } = usePostMoments();
-  const isLoading = status === 'pending';
+  const { mutate, isPending } = usePostMoments();
+
+  const [moments, setMoments] = useState<
+    { id: string; content: string; startDate: string; endDate: string }[]
+  >([]);
+
+  const momentData = location.state as CreateMomentResponse;
+
+  // 실행 빈도 유효성 검사: `generateMomentDates` 실행 전 검증
+  const allowedFrequencies = ['daily', 'every2days', 'weekly', 'monthly'];
+  const frequency = allowedFrequencies.includes(momentData.frequency)
+    ? momentData.frequency
+    : 'daily';
 
   useEffect(() => {
-    if (location.state) {
-      const momentData = location.state as CreateMomentResponse;
-
-      // 현재 날짜를 기반으로 startDate 설정
-      const todayDate = new Date().toISOString().split('T')[0];
-      setStartDate(formatHeaderDate(todayDate));
-
-      // 실행 날짜 + 할 일 리스트 함께 계산 후 변환
-      const generatedMoments = generateMomentDates(
-        todayDate, // startDate를 직접 전달
-        momentData,
-      ).map((moment) => ({
-        content: moment.content,
-        startDate: moment.startDate,
-        endDate: moment.endDate,
-      }));
-      console.log('최종 변환된 momentDates:', generatedMoments);
-
-      setMoments(generatedMoments);
-
-      // 마지막 moment의 endDate를 설정
-      if (generatedMoments.length > 0) {
-        setEndDate(
-          formatHeaderDate(
-            generatedMoments[generatedMoments.length - 1].endDate,
-          ),
-        );
-      }
+    if (!momentData) {
+      console.error('momentData가 정의되지 않았습니다.');
+      return;
     }
-  }, [location.state]);
 
-  const { refetch } = useGetBucketDetail(id);
+    // `generateMomentDates`로 모멘트 데이터 생성
+    const generatedMoments = generateMomentDates(momentData);
+
+    if (generatedMoments.length === 0) {
+      console.warn('generateMomentDates가 빈 배열을 반환했습니다.');
+      return;
+    }
+
+    console.log('최종 변환된 momentDates:', generatedMoments);
+    setMoments(generatedMoments);
+  }, [momentData]);
 
   useEffect(() => {
     if (data?.bucket) {
@@ -100,7 +91,6 @@ const MomentComplete = () => {
       alert('버킷 정보를 로딩 중입니다. 잠시 후 다시 시도해주세요.');
       return;
     }
-
     if (!data?.bucket) {
       alert('버킷 정보를 불러올 수 없습니다.');
       return;
@@ -115,28 +105,11 @@ const MomentComplete = () => {
       );
       return;
     }
-
-    const formattedStartDate = formatApiDate(startDate);
-    const formattedEndDate = formatApiDate(moments[moments.length - 1].endDate);
-
-    const allowedFrequencies = ['daily', 'every2days', 'weekly', 'monthly'];
-    const formattedFrequency = allowedFrequencies.includes(
-      location.state.frequency,
-    )
-      ? location.state.frequency
-      : 'daily';
-
-    const formattedMoments = moments.map((moment) => ({
-      content: moment.content,
-      startDate: formatApiDate(moment.startDate),
-      endDate: formatApiDate(moment.endDate),
-    }));
-
     console.log('최종 API 요청 데이터:', {
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-      moments: formattedMoments,
-      frequency: formattedFrequency,
+      startDate: moments[0].startDate, // `formatApiDate` 변환 불필요
+      endDate: moments[moments.length - 1].endDate,
+      moments,
+      frequency,
     });
 
     // API 요청 실행
@@ -144,10 +117,10 @@ const MomentComplete = () => {
       {
         bucketId: data.bucket.bucketID,
         payload: {
-          startDate: formattedStartDate,
-          endDate: formattedEndDate,
-          moments: formattedMoments,
-          frequency: formattedFrequency,
+          startDate: moments[0].startDate,
+          endDate: moments[moments.length - 1].endDate,
+          moments,
+          frequency,
         },
       },
       {
@@ -169,16 +142,20 @@ const MomentComplete = () => {
       <S.MomentCompleteTitle>모멘트 설계 완료 !</S.MomentCompleteTitle>
       {/* 날짜 범위 */}
       <S.DateContainer>
-        <S.DateText>{startDate}</S.DateText>
+        <S.DateText>
+          {moments.length > 0 ? moments[0].startDate : 'N/A'}
+        </S.DateText>
         <IcArrow />
-        <S.DateText>{endDate}</S.DateText>
+        <S.DateText>
+          {moments.length > 0 ? moments[moments.length - 1].endDate : 'N/A'}
+        </S.DateText>
       </S.DateContainer>
       {/* 방법 리스트 */}
       <S.MethodContainer>
         <S.MethodLabel>방법</S.MethodLabel>
         <S.MethodListItemWrapper>
-          {moments.map((moment, index) => (
-            <S.MethodItem key={index}>
+          {moments.map((moment) => (
+            <S.MethodItem key={moment.id}>
               <S.MethodId>{formatListDate(moment.startDate)}</S.MethodId>
               <S.MethodDescription>{moment.content}</S.MethodDescription>
             </S.MethodItem>
@@ -186,8 +163,8 @@ const MomentComplete = () => {
         </S.MethodListItemWrapper>
       </S.MethodContainer>
       <S.BtnContainer>
-        <Button onClick={handleConfirm} disabled={isLoading}>
-          {isLoading ? '저장 중...' : '확인'}
+        <Button onClick={handleConfirm} disabled={isPending}>
+          {isPending ? '저장 중...' : '확인'}
         </Button>
       </S.BtnContainer>
     </S.MomentCompleteLayout>
