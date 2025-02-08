@@ -20,6 +20,7 @@ export const StreakHighlight = styled.span`
   color: ${({ theme }) => theme.colors.yellow}; /* mixin 노랑 적용 */
   font-size: 30px;
   letter-spacing: 0.96px;
+  padding-left: 0.8rem;
 `;
 
 export const BellIconWrapper = styled.button`
