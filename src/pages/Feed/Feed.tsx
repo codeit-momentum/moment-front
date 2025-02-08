@@ -13,7 +13,10 @@ import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
 import useDeleteFriend from '../../hooks/queries/Feed/useDeleteFriend';
 import { useNavigate } from 'react-router-dom';
 import IcNoFriend from '../../assets/svg/IcNoFriend';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import OKModal from '../../components/Modal/OKModal/OKModal';
+
+type ModalType = 'default' | 'delete' | 'ok';
 
 const Feed = () => {
   const { friendList, isPending } = useGetFriends();
@@ -22,7 +25,7 @@ const Feed = () => {
   const { currentFriend, handleClickFriend, setCurrentFriend } =
     useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<ModalType>('default');
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -32,9 +35,8 @@ const Feed = () => {
   const handleDelete = () => {
     deleteFriend(currentFriend.userID, {
       onSuccess: () => {
-        closeModal();
+        setModalType('ok');
         setCurrentFriend(friendList[0]);
-        setIsDeleting(false);
       },
     });
   };
@@ -50,41 +52,55 @@ const Feed = () => {
     });
   };
 
-  useEffect(() => {
-    setCurrentFriend(friendList[0]);
-  }, [friendList, setCurrentFriend]);
+  const handleClose = () => {
+    closeModal();
+    setModalType('default');
+  };
 
   if (isPending) return <div>로딩중</div>;
 
+  const caseModal = (modalType: string) => {
+    switch (modalType) {
+      case 'delete':
+        return (
+          <SelectModal
+            type="delete"
+            content="이 행위는 되돌릴 수 없습니다."
+            onClose={handleClose}
+            onSubmit={handleDelete}
+          >
+            <span style={{ color: '#FAED46' }}>{currentFriend?.nickname}</span>
+            님을 삭제하겠습니까?
+          </SelectModal>
+        );
+      case 'ok':
+        return (
+          <OKModal
+            mainText="친구 관계를
+            성공적으로 삭제했습니다."
+            onClose={handleClose}
+          />
+        );
+      case 'default':
+        return (
+          <FeedModal
+            title={currentFriend.nickname}
+            isFixed={currentFriend.isFixed}
+            onFix={handleFix}
+            onDelete={() => {
+              setModalType('delete');
+            }}
+            onClose={closeModal}
+          />
+        );
+      default:
+        return;
+    }
+  };
+
   return (
     <S.FeedLayout>
-      {isOpen && (
-        <Modal>
-          {isDeleting ? (
-            <SelectModal
-              type="delete"
-              content="이 행위는 되돌릴 수 없습니다."
-              onClose={closeModal}
-              onSubmit={handleDelete}
-            >
-              <span style={{ color: '#FAED46' }}>
-                {currentFriend?.nickname}
-              </span>
-              님을 삭제하겠습니까?
-            </SelectModal>
-          ) : (
-            <FeedModal
-              title={currentFriend.nickname}
-              isFixed={currentFriend.isFixed}
-              onFix={handleFix}
-              onDelete={() => {
-                setIsDeleting(true);
-              }}
-              onClose={closeModal}
-            />
-          )}
-        </Modal>
-      )}
+      {isOpen && <Modal>{caseModal(modalType)}</Modal>}
       <S.FeedHeaderContatiner>
         <S.FeedTitleContainer>
           <S.FeedTitleHeader>친구들의 모멘트</S.FeedTitleHeader>
@@ -117,9 +133,9 @@ const Feed = () => {
         </S.EmptyFeedWrapper>
       ) : (
         <FeedList
-          friendId={currentFriend?.userID}
-          friendNickname={currentFriend?.nickname}
-          isKnocked={currentFriend?.isKnock}
+          friendId={currentFriend.userID}
+          friendNickname={currentFriend.nickname}
+          isKnocked={currentFriend.isKnock}
         />
       )}
     </S.FeedLayout>
