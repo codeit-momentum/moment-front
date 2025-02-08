@@ -7,6 +7,7 @@ import * as S from './Header.style';
 //import IcNoticeOff from './../../../assets/svg/IcNoticeOff';
 import useGetConsecutiveDays from '../../../hooks/queries/home/useGetConsecutiveDays';
 import usePatchNotice from '../../../hooks/queries/home/usePatchNotice';
+import useGetNotice from '../../../hooks/queries/home/useGetNotice';
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -16,8 +17,10 @@ const Header = () => {
     isLoading,
     isError,
   } = useGetConsecutiveDays(currentDate);
+  const { data: noticeCount } = useGetNotice();
   const { mutate: patchNotice } = usePatchNotice();
 
+  console.log(noticeCount);
   // 모달 토글 함수
   const toggleModal = () => {
     setIsModalOpen((prev: boolean) => !prev);
