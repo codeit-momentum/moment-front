@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 //import NotificationModal, {
 //  NotificationItem,
 //} from '../NotificationModal/NotificationModal';
@@ -10,7 +10,7 @@ import usePatchNotice from '../../../hooks/queries/home/usePatchNotice';
 import useGetNotice from '../../../hooks/queries/home/useGetNotice';
 
 const Header = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  //const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const currentDate = new Date().toISOString().split('T')[0]; // 오늘 날짜
   const {
     data: consecutiveDaysData,
@@ -23,7 +23,7 @@ const Header = () => {
   console.log(noticeCount);
   // 모달 토글 함수
   const toggleModal = () => {
-    setIsModalOpen((prev: boolean) => !prev);
+    //  setIsModalOpen((prev: boolean) => !prev);
   };
 
   useEffect(() => {

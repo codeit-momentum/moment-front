@@ -1,6 +1,7 @@
 import * as S from './TodayMomentSection.style';
 import DayCheckboxGroup from './DayCheckboxGroup/DayCheckboxGroup';
-import MomentList, { MomentProps } from './MomentList/MomentList';
+import { MomentItemType } from '../../../types/home';
+import MomentList from './MomentList/MomentList';
 import useGetTodayMoments from '../../../hooks/queries/home/useGetTodayMoments';
 import useGetWeekStatus from '../../../hooks/queries/home/useGetWeekStatus';
 
@@ -16,11 +17,13 @@ function TodayMomentSection() {
       isChecked: day.isComplete,
     })) || [];
 
-  const moments: MomentProps[] = (todayData?.moments || []).map((moment) => ({
-    id: moment.momentID, // string으로 매핑
-    title: moment.content,
-    isCompleted: moment.isCompleted,
-  }));
+  const moments: MomentItemType[] = (todayData?.moments || []).map(
+    (moment) => ({
+      id: moment.momentID, // string으로 매핑
+      title: moment.content,
+      isCompleted: moment.isCompleted,
+    }),
+  );
 
   const completedCount = todayData?.completedCount || 0;
 
@@ -33,9 +36,17 @@ function TodayMomentSection() {
 
       <DayCheckboxGroup days={days} />
       <S.DividerLine />
-      {moments.length > 0 && <MomentList moments={moments} />}
+      <MomentList moments={moments} />
       <S.TodayMessageBox>
-        오늘의 모멘트 총&nbsp;<span>{completedCount}</span>개 수집!
+        {moments.length === 0 ? (
+          <>
+            <span>새로운 모멘트</span>를 등록해보세요!
+          </>
+        ) : (
+          <>
+            오늘의 모멘트 총 <span>{completedCount}</span>개 수집!
+          </>
+        )}
       </S.TodayMessageBox>
     </S.TodayMomentLayout>
   );
