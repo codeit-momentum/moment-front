@@ -20,14 +20,8 @@ const MomentComplete = () => {
   const { id: paramId } = useParams();
   const id = paramId || location.state?.id;
 
-  const {
-    data,
-    isLoading: isBucketLoading,
-    isError,
-    refetch,
-  } = useGetBucketDetail(id);
-  const { mutate: updateBucketChallenge, isPending: isUpdating } =
-    usePatchBucketChallenge();
+  const { data, isLoading: isBucketLoading, refetch } = useGetBucketDetail(id);
+  const { mutate: updateBucketChallenge } = usePatchBucketChallenge();
   const { mutate, isPending } = usePostMoments();
 
   const [moments, setMoments] = useState<
