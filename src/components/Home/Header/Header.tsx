@@ -29,7 +29,6 @@ const Header = () => {
   useEffect(() => {
     patchNotice();
   }, [patchNotice]);
-  // 로딩 및 에러 처리
   if (isLoading) {
     return <S.HeaderLayout>로딩 중...</S.HeaderLayout>;
   }
@@ -40,14 +39,14 @@ const Header = () => {
 
   return (
     <S.HeaderLayout>
-      {isModalOpen && (
+      {/*isModalOpen && (
         /*<NotificationModal
           notifications={consecutiveDaysData.notifications || []} // API에서 notifications 데이터 가져오기
           onClose={() => setIsModalOpen(false)}
-        />*/ <></>
-      )}
+        /> <></>
+      )*/}
       <S.StreakTextContainer>
-        오늘은 작심{' '}
+        오늘은 작심
         <S.StreakHighlight>
           {consecutiveDaysData.consecutiveDays}
         </S.StreakHighlight>
