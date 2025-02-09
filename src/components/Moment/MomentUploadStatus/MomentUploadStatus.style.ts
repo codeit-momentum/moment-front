@@ -34,13 +34,3 @@ export const MomentTitleSpan = styled.span`
   text-align: center;
   line-height: 15px;
 `;
-
-export const MomentErrorSpan = styled.span`
-  padding: 0.2rem;
-  color: ${({ theme }) => theme.colors.white};
-  font-size: 13px;
-  overflow-wrap: anywhere;
-  word-break: keep-all;
-  text-align: center;
-  line-height: 20px;
-`;
