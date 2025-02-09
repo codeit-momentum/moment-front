@@ -1,6 +1,7 @@
 import { BucketType } from '../../../types/moment';
 import IcCloseModal from '../../../assets/svg/IcCloseModal';
 import * as S from './CheckListModal.style';
+import useGetChallengingCount from '../../../hooks/queries/moment/useGetChallengingCount';
 
 interface CheckListModalProps {
   type: BucketType;
@@ -21,6 +22,10 @@ const CheckListModal = ({
   onClickUpload,
   onClose,
 }: CheckListModalProps) => {
+  const {
+    data: { challengingCount },
+  } = useGetChallengingCount();
+
   return (
     <S.CheckListModalLayout>
       <S.ModalHeader>
@@ -30,9 +35,11 @@ const CheckListModal = ({
         </S.ModalCloseButton>
       </S.ModalHeader>
       <S.ModalOptionContainer>
-        <S.ModalOptionButton onClick={onClickCreate}>
-          나만의 모멘트 생성
-        </S.ModalOptionButton>
+        {challengingCount < 3 && (
+          <S.ModalOptionButton onClick={onClickCreate}>
+            나만의 모멘트 생성
+          </S.ModalOptionButton>
+        )}
         {type === 'ACHIEVEMENT' && (
           <S.ModalOptionButton onClick={onClickUpload}>
             목표 달성 인증
