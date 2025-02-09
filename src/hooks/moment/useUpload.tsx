@@ -11,18 +11,18 @@ interface UploadMutationParams {
   onError: (error: Error) => void;
 }
 
-const useUpload = (variant: UploadType, id: string) => {
+const useUpload = (variant: UploadType, id: string | undefined) => {
   const {
     data: momentData,
     isError: momentError,
     isLoading: momentLoading,
-  } = useGetMomentDetail(variant === 'moment' ? id : null);
+  } = useGetMomentDetail(variant === 'moment' ? id : undefined);
 
   const {
     data: bucketData,
     isError: bucketError,
     isLoading: bucketLoading,
-  } = useGetBucketDetail(variant === 'bucket' ? id : null);
+  } = useGetBucketDetail(variant === 'bucket' ? id : undefined);
 
   const { mutate: patchMomentUpload } = usePatchMomentUpload();
   const { mutate: patchBucketUpload } = usePatchBucketUpload();

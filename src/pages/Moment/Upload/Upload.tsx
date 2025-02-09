@@ -18,7 +18,7 @@ type UploadProps = {
 };
 
 const Upload = ({ variant }: UploadProps) => {
-  const { id } = useParams() as { id: string };
+  const { id } = useParams();
   const [isOpen, openModal, closeModal] = useModal();
   const { image, imageFile, handleImage, handleImageError, ImageToast } =
     useImageHandler();
@@ -39,7 +39,7 @@ const Upload = ({ variant }: UploadProps) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!imageFile) return;
+    if (!imageFile || !id) return;
 
     patchUpload({
       variables: { id, imageFile },
