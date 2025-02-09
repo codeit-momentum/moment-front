@@ -3,13 +3,13 @@ import instance from '../../../apis/client';
 import { UpdateBucketResponse } from '../../../types/moment';
 
 interface PatchBucketChallengeParams {
-  bucketId: string;
+  id: string;
 }
 
 const patchBucketChallenge = async ({
-  bucketId,
+  id,
 }: PatchBucketChallengeParams): Promise<UpdateBucketResponse> => {
-  const response = await instance.patch(`/api/bucket/${bucketId}/challenge`);
+  const response = await instance.patch(`/api/bucket/${id}/challenge`);
   return response.data;
 };
 

@@ -2,14 +2,14 @@ import IcArrow from '../../assets/svg/IcArrow';
 import * as S from './MomentComplete.style';
 import { useEffect, useState } from 'react';
 import Button from '../../components/Button/Button';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
 import { generateMomentDates } from '../../utils/generateMomentDates';
 import { formatListDate } from '../../utils/formatDate';
 import usePostMoments from '../../hooks/queries/moment/usePostMoments';
 import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
 import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
-
+import useBucketId from '../../hooks/useBucketId';
 /**
  * MomentComlete
  * 임시 데이터를 사용하여 "모멘트 설계 완료" 페이지 렌더링
@@ -17,55 +17,64 @@ import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBuce
 const MomentComplete = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { id: paramId } = useParams();
-  const id = paramId || location.state?.id;
+  const bucketId = useBucketId();
 
-  const { data, isLoading: isBucketLoading, refetch } = useGetBucketDetail(id);
+  const {
+    data,
+    isLoading: isBucketLoading,
+    refetch,
+  } = useGetBucketDetail(bucketId);
   const { mutate: updateBucketChallenge } = usePatchBucketChallenge();
   const { mutateAsync, isPending } = usePostMoments();
 
   const [moments, setMoments] = useState<
     { id: string; content: string; startDate: string; endDate: string }[]
   >([]);
+  const [momentData, setMomentData] = useState<CreateMomentResponse | null>(
+    null,
+  );
 
   // sessionStorage에서 기존 데이터 불러오기
-  const storedMomentData = sessionStorage.getItem('momentData');
-  const momentData = storedMomentData
-    ? JSON.parse(storedMomentData)
-    : location.state;
-
-  // 예외 처리: momentData가 없으면 안전한 페이지로 이동
   useEffect(() => {
-    if (
-      !momentData ||
-      !momentData.todoList ||
-      momentData.todoList.length === 0
-    ) {
-      console.error('momentData가 없습니다. sessionStorage에서도 없음');
-      alert('잘못된 접근입니다. 처음부터 다시 시도해주세요.');
+    let storedData: CreateMomentResponse | null = null;
 
-      // id 값이 존재하는 경우, 해당 id를 포함하여 이동
-      if (id) {
-        navigate(`/moment/create-moment/${id}`);
-      } else {
-        navigate('/bucket'); // id가 없을 경우 기본 페이지로 이동
-      }
+    const storedMomentData = sessionStorage.getItem(`momentData-${bucketId}`);
+    if (storedMomentData) {
+      storedData = JSON.parse(storedMomentData);
+    } else if (location.state) {
+      storedData = location.state;
+      console.warn(
+        ` sessionStorage에 momentData-${bucketId}가 없어 location.state에서 복원!`,
+      );
     }
-  }, [momentData, navigate, id]);
 
-  // 실행 빈도 유효성 검사: `generateMomentDates` 실행 전 검증
-  const allowedFrequencies = ['daily', 'every2days', 'weekly', 'monthly'];
-  const frequency = allowedFrequencies.includes(momentData.frequency)
-    ? momentData.frequency
-    : 'daily';
-
-  useEffect(() => {
-    if (!momentData) {
-      console.error('momentData가 정의되지 않았습니다.');
+    if (
+      !storedData ||
+      !storedData.todoList ||
+      storedData.todoList.length === 0
+    ) {
+      console.error(
+        `momentData-${bucketId}가 없습니다. sessionStorage에서도 없음`,
+      );
+      alert('잘못된 접근입니다. 처음부터 다시 시도해주세요.');
+      navigate(`/moment/create-moment/${bucketId}`);
       return;
     }
 
-    // `generateMomentDates`로 모멘트 데이터 생성
+    console.log(`최종 복구된 momentData-${bucketId}:`, storedData);
+    setMomentData(storedData);
+  }, [navigate, bucketId, location.state]);
+
+  // 실행 빈도 유효성 검사: `generateMomentDates` 실행 전 검증
+  const allowedFrequencies = ['daily', 'every2days', 'weekly', 'monthly'];
+  const frequency =
+    momentData && allowedFrequencies.includes(momentData.frequency)
+      ? momentData.frequency
+      : 'daily';
+
+  useEffect(() => {
+    if (!momentData) return;
+
     const generatedMoments = generateMomentDates(momentData);
 
     if (generatedMoments.length === 0) {
@@ -73,11 +82,10 @@ const MomentComplete = () => {
       return;
     }
 
-    // 기존 moments와 비교 후 상태 업데이트 (중복 렌더링 방지)
     setMoments((prevMoments) => {
       const isSame =
         JSON.stringify(prevMoments) === JSON.stringify(generatedMoments);
-      if (isSame) return prevMoments; // 기존 값과 동일하면 업데이트 안 함
+      if (isSame) return prevMoments;
       console.log('최종 변환된 momentDates:', generatedMoments);
       return generatedMoments;
     });
@@ -91,7 +99,7 @@ const MomentComplete = () => {
         return;
       }
       updateBucketChallenge(
-        { bucketId: id },
+        { id: bucketId },
         {
           onSuccess: () => {
             refetch(); // 최신 데이터 다시 가져오기
@@ -102,7 +110,7 @@ const MomentComplete = () => {
         },
       );
     }
-  }, [data, id, updateBucketChallenge, refetch]);
+  }, [data, bucketId, updateBucketChallenge, refetch]);
 
   const handleConfirm = async () => {
     if (!moments.length) {
@@ -135,11 +143,11 @@ const MomentComplete = () => {
 
     try {
       // PATCH 요청 (isChallenging을 true로 변경) & POST 요청(모멘트 생성) 함께 실행
-      await updateBucketChallenge({ bucketId: id });
+      await updateBucketChallenge({ id: bucketId });
       console.log('도전 상태 변경 완료 (isChallenging=true)');
 
       const responseData = await mutateAsync({
-        bucketId: data.bucket.bucketID,
+        bucketId,
         payload: {
           startDate: moments[0].startDate,
           endDate: moments[moments.length - 1].endDate,
@@ -152,7 +160,10 @@ const MomentComplete = () => {
       alert('모멘트가 성공적으로 저장되었습니다.');
 
       // sessionStorage에 모멘트 데이터 저장하여 `MomentUploadStatus.tsx`에서 정상 반영되도록 함
-      sessionStorage.setItem('momentData', JSON.stringify(responseData));
+      sessionStorage.setItem(
+        `momentData-${bucketId}`,
+        JSON.stringify(responseData),
+      );
 
       navigate('/moment/bucket');
     } catch (error) {
@@ -188,9 +199,6 @@ const MomentComplete = () => {
         </S.MethodListItemWrapper>
       </S.MethodContainer>
       <S.BtnContainer>
-        <Button onClick={handleConfirm} disabled={isPending}>
-          {isPending ? '저장 중...' : '확인'}
-        </Button>
         <Button onClick={handleConfirm} disabled={isPending}>
           {isPending ? '저장 중...' : '확인'}
         </Button>

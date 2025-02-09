@@ -1,11 +1,6 @@
 import * as S from './CreateMoment.style';
 import { useState, useEffect } from 'react';
-import {
-  useNavigationType,
-  useNavigate,
-  useLocation,
-  useParams,
-} from 'react-router-dom';
+import { useNavigationType, useNavigate, useLocation } from 'react-router-dom';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import DurationComponent from '../../components/Moment/DurationComponent/DurationComponent';
 import ToDoListComponent from '../../components/Moment/ToDoListComponent/ToDoListComponent';
@@ -15,6 +10,8 @@ import { ModeType } from '../../types/moment/modeType';
 import BackBtn from '../../components/BackBtn/BackBtn';
 import { generateDetailedPlan } from '../../apis/AI/autoPlanning';
 import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
+import useBucketId from '../../hooks/useBucketId';
+import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
 /**
  * Moment
  * - 자동/수동 모드에 따라 동작하며, 컴포넌트를 순차적으로 렌더링
@@ -27,61 +24,55 @@ const CreateMoment = () => {
   const query = new URLSearchParams(location.search);
   const mode =
     (location.state?.mode as ModeType) || (query.get('mode') as ModeType);
-  const { id: paramId } = useParams();
-  const id = paramId || location.state?.id;
+  const bucketId = useBucketId();
+
+  const { data, isLoading } = useGetBucketDetail(bucketId);
+  const bucketContent = data?.bucket?.content || '버킷리스트 없음';
 
   useEffect(() => {
-    console.log('현재 useParams()에서 가져온 id:', id);
-  }, [id]);
+    console.log('CreateMoment.tsx - 현재 버킷 ID:', bucketId);
+  }, [bucketId]);
 
-  // `goal`을 `SelectMode`에서 전달받음 (API 호출 제거)
-  const goal = location.state?.goal || '목표 없음';
+  useEffect(() => {
+    if (bucketContent === '버킷리스트 없음') {
+      console.error('목표 없음으로 모멘트 생성 불가');
+      navigate(`/moment/select-mode/${bucketId}`, { replace: true });
+    }
+  }, [bucketContent, navigate, bucketId]);
 
   const [duration, setDuration] = useState<number | null>(null);
   const [todoList, setTodoList] = useState<string[]>([]);
   const [frequency, setFrequency] = useState<string | null>(null);
   const [isDurationConfirmed, setIsDurationConfirmed] = useState(false);
   const [isTodoConfirmed, setIsTodoConfirmed] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [isModeValid, setIsModeValid] = useState(true);
 
   // sessionStorage에서 기존 데이터 불러오기
   useEffect(() => {
-    const storedMomentData = sessionStorage.getItem('momentData');
+    const storedMomentData = sessionStorage.getItem(`momentData-${bucketId}`);
 
     if (storedMomentData) {
       try {
         const parsedData = JSON.parse(storedMomentData);
+        console.log('CreateMoment.tsx - sessionStorage 복구:', parsedData);
 
-        // `momentData`가 불완전할 경우 초기화
         if (!parsedData?.todoList || parsedData.todoList.length === 0) {
           console.warn(
             '세션 데이터가 있지만 todoList가 비어 있음. 초기화 진행',
           );
-          sessionStorage.removeItem('momentData');
+          sessionStorage.removeItem(`momentData-${bucketId}`);
         } else {
           setDuration(parsedData.duration);
           setTodoList(parsedData.todoList);
           setFrequency(parsedData.frequency);
-          console.log(' 세션에서 모멘트 데이터 복구:', parsedData);
         }
       } catch (error) {
         console.error('세션 데이터 파싱 오류:', error);
-        sessionStorage.removeItem('momentData');
+        sessionStorage.removeItem(`momentData-${bucketId}`);
       }
-    } else {
-      console.warn('세션 데이터가 없음. 초기화 필요');
     }
-  }, []);
-
-  // `goal`이 `"목표 없음"`이면 리다이렉트
-  useEffect(() => {
-    if (goal === '목표 없음') {
-      console.error('목표 없음으로 모멘트 생성 불가');
-      navigate(`/moment/select-mode/${id}`, { replace: true });
-      return;
-    }
-  }, [goal, navigate, id]);
+  }, [bucketId]);
 
   useEffect(() => {
     if (!mode || (mode !== 'auto' && mode !== 'manual')) {
@@ -92,9 +83,9 @@ const CreateMoment = () => {
   // 자동 모드일 경우 AI API 호출
   useEffect(() => {
     if (mode === 'auto') {
-      setIsLoading(true);
+      setIsLoadingAI(true);
 
-      autoDuration(goal)
+      autoDuration(bucketContent)
         .then((days) => {
           if (!days || isNaN(days)) {
             throw new Error('AI가 예상 소요 기간을 반환하지 않았습니다.');
@@ -108,18 +99,18 @@ const CreateMoment = () => {
             'AI 예상 소요 기간 생성 중 오류가 발생했습니다. 다시 시도해주세요.',
           );
         })
-        .finally(() => setIsLoading(false));
+        .finally(() => setIsLoadingAI(false));
     }
-  }, [mode, goal]);
+  }, [mode, bucketContent]);
 
   // 사용자가 duration을 확정한 후에 `todoList` API 호출
   const handleDurationConfirm = (newDuration: number) => {
     setDuration(newDuration);
     setIsDurationConfirmed(true);
-    setIsLoading(true);
+    setIsLoadingAI(true);
 
     generateDetailedPlan(
-      goal,
+      bucketContent,
       new Date().toISOString().split('T')[0],
       newDuration,
     )
@@ -131,7 +122,7 @@ const CreateMoment = () => {
         console.error('자동 생성 오류:', error);
         alert('투두 리스트 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsLoadingAI(false));
   };
 
   const handleTodoConfirm = (updatedList: string[]) => {
@@ -145,21 +136,28 @@ const CreateMoment = () => {
       return;
     }
     const momentData: CreateMomentResponse = {
-      id, // 모멘트 ID (임시값)
+      id: bucketId, // 버킷 ID 유지
       duration,
       todoList,
       frequency,
-      createdAt: new Date().toISOString(), // 생성된 날짜
+      createdAt: new Date().toISOString(),
     };
 
-    sessionStorage.setItem('momentData', JSON.stringify(momentData));
+    console.log(
+      `CreateMoment - sessionStorage 저장 (버킷 ID: ${bucketId}):`,
+      momentData,
+    );
+    sessionStorage.setItem(
+      `momentData-${bucketId}`,
+      JSON.stringify(momentData),
+    );
 
-    navigate('/moment/complete', { state: momentData });
+    navigate('/moment/complete', { state: { ...momentData, bucketId } });
   };
 
   const handleBack = () => {
     if (navigationType === 'POP') {
-      navigate(`/moment/select-mode/${id}`);
+      navigate(`/moment/select-mode/${bucketId}`);
     } else {
       navigate(-1);
     }
@@ -172,12 +170,15 @@ const CreateMoment = () => {
   return (
     <S.CreateMomentLayout>
       <BackBtn onClick={handleBack} />
-      <HeaderComponent title={goal} subtitle="버킷리스트를 시작해볼까요!" />
+      <HeaderComponent
+        title={isLoading ? '로딩 중...' : bucketContent}
+        subtitle="버킷리스트를 시작해볼까요!"
+      />
 
       <DurationComponent
         mode={mode}
         initialDuration={duration}
-        isLoading={!isDurationConfirmed && isLoading}
+        isLoading={!isDurationConfirmed && isLoadingAI}
         onEdit={handleDurationConfirm}
       />
 
@@ -186,14 +187,14 @@ const CreateMoment = () => {
           mode={mode}
           todoList={todoList}
           duration={duration || 0}
-          isLoading={!isTodoConfirmed && isLoading}
+          isLoading={!isTodoConfirmed && isLoadingAI}
           onSave={handleTodoConfirm}
         />
       )}
 
       {isTodoConfirmed && (
         <FrequencyBtnComponent
-          onSelect={(selected) => setFrequency(selected)} // 상태 저장
+          onSelect={setFrequency} // 상태 저장
           onNext={handleNext}
         />
       )}
