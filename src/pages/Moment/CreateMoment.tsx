@@ -142,9 +142,14 @@ const CreateMoment = () => {
   const handleNext = () => {
     if (!frequency || !duration || todoList.length === 0) {
       alert('빈도, 기간, 투두리스트를 입력해주세요.');
+  const handleNext = () => {
+    if (!frequency || !duration || todoList.length === 0) {
+      alert('빈도, 기간, 투두리스트를 입력해주세요.');
       return;
     }
 
+    const momentData: CreateMomentResponse = {
+      id, // 모멘트 ID (임시값)
     const momentData: CreateMomentResponse = {
       id, // 모멘트 ID (임시값)
       duration,
