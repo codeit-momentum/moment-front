@@ -82,7 +82,7 @@ export async function generateDetailedPlan(
     let parsedPlan;
     try {
       parsedPlan = JSON.parse(content);
-    } catch (jsonError) {
+    } catch {
       parsedPlan = [];
     }
 
