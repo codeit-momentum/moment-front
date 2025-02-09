@@ -9,6 +9,45 @@ type MomentUploadStatusProps = {
 };
 
 const MomentUploadStatus = ({ data }: MomentUploadStatusProps) => {
+  const renderMomentItem = ({
+    bucketID,
+    content,
+    moments: [moment],
+  }: ChallengingBucket) => {
+    if (!moment) {
+      return (
+        <S.MomentItem key={bucketID}>
+          <S.MomentErrorSpan>
+            {content}의<br />
+            모멘트가 없습니다.
+          </S.MomentErrorSpan>
+        </S.MomentItem>
+      );
+    }
+
+    return (
+      <S.MomentItem key={moment.momentID}>
+        {moment.photoUrl ? (
+          <S.MomentImage src={moment.photoUrl} alt="인증이미지" />
+        ) : (
+          <Link to={`upload/${moment.momentID}`}>
+            <IcMomentUpload />
+          </Link>
+        )}
+        <S.MomentTitleSpan>{moment.content}</S.MomentTitleSpan>
+      </S.MomentItem>
+    );
+  };
+
+  const renderEmptyState = () => (
+    <S.MomentItem>
+      <Link to={'bucket'}>
+        <IcMomentUpload />
+      </Link>
+      <S.MomentTitleSpan>새로운 모멘트 등록하기</S.MomentTitleSpan>
+    </S.MomentItem>
+  );
+
   return (
     <MomentUploadStatusLayout
       title="모멘트 인증하기"
@@ -16,31 +55,7 @@ const MomentUploadStatus = ({ data }: MomentUploadStatusProps) => {
       titleStyle={{ padding: '0.5rem 1.9rem', marginBottom: '2rem' }}
     >
       <S.MomentContainer>
-        {data.length > 0 ? (
-          data.map((bucket) => (
-            <S.MomentItem key={bucket.bucketID}>
-              {bucket.moments[0].photoUrl ? (
-                <S.MomentImage
-                  src={bucket.moments[0].photoUrl}
-                  alt="인증이미지"
-                />
-              ) : (
-                <Link to={`upload/${bucket.moments[0].momentID}`}>
-                  <IcMomentUpload />
-                </Link>
-              )}
-              <S.MomentTitleSpan>{bucket.moments[0].content}</S.MomentTitleSpan>
-            </S.MomentItem>
-          ))
-        ) : (
-          // 모멘트가 없는 경우
-          <S.MomentItem>
-            <Link to={'bucket'}>
-              <IcMomentUpload />
-            </Link>
-            <S.MomentTitleSpan>새로운 모멘트 등록하기</S.MomentTitleSpan>
-          </S.MomentItem>
-        )}
+        {data.length > 0 ? data.map(renderMomentItem) : renderEmptyState()}
       </S.MomentContainer>
     </MomentUploadStatusLayout>
   );
