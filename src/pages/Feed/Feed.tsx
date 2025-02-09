@@ -13,7 +13,7 @@ import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
 import useDeleteFriend from '../../hooks/queries/Feed/useDeleteFriend';
 import { useNavigate } from 'react-router-dom';
 import IcNoFriend from '../../assets/svg/IcNoFriend';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import OKModal from '../../components/Modal/OKModal/OKModal';
 
 type ModalType = 'default' | 'delete' | 'ok';
@@ -95,6 +95,10 @@ const Feed = () => {
         return;
     }
   };
+
+  useEffect(() => {
+    setCurrentFriend(friendList[0]);
+  }, [friendList, setCurrentFriend]);
 
   return (
     <S.FeedLayout>

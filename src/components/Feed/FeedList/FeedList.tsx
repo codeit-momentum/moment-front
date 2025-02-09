@@ -23,9 +23,7 @@ const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
   const current = friendList.find(
     (friend: FriendType) => friend.userID === friendId,
   );
-  console.log(friendId);
-  console.log(current);
-  const { feed } = useGetFeed(current?.userID);
+  const { feed } = useGetFeed(friendId);
   const { mutate: postKnock } = usePostKnock();
   const [isOpen, openModal, closeModal] = useModal();
 
