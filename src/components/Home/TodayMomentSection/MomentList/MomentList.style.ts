@@ -41,4 +41,5 @@ export const ClearBadgeSpan = styled.div`
 export const MomentTitleSpan = styled.div`
   font-size: 12px;
   line-height: 20px;
+  text-align: center;
 `;
