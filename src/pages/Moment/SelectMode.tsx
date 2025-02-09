@@ -32,7 +32,7 @@ const SelectMode = () => {
    */
   const handleSelect = (mode: ModeType) => {
     navigate(`/moment/create-moment/${id}?mode=${mode}`, {
-      state: { id, goal: data?.bucket?.content || '버킷리스트 없음' },
+      state: { id, goal: data?.bucket?.content || '버킷리스트 없음', mode },
     });
   };
 

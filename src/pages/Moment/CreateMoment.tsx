@@ -31,7 +31,7 @@ const CreateMoment = () => {
   const id = paramId || location.state?.id;
 
   useEffect(() => {
-    console.log('📌 현재 useParams()에서 가져온 id:', id);
+    console.log('현재 useParams()에서 가져온 id:', id);
   }, [id]);
 
   // `goal`을 `SelectMode`에서 전달받음 (API 호출 제거)
@@ -44,6 +44,35 @@ const CreateMoment = () => {
   const [isTodoConfirmed, setIsTodoConfirmed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isModeValid, setIsModeValid] = useState(true);
+
+  // sessionStorage에서 기존 데이터 불러오기
+  useEffect(() => {
+    const storedMomentData = sessionStorage.getItem('momentData');
+
+    if (storedMomentData) {
+      try {
+        const parsedData = JSON.parse(storedMomentData);
+
+        // `momentData`가 불완전할 경우 초기화
+        if (!parsedData?.todoList || parsedData.todoList.length === 0) {
+          console.warn(
+            '세션 데이터가 있지만 todoList가 비어 있음. 초기화 진행',
+          );
+          sessionStorage.removeItem('momentData');
+        } else {
+          setDuration(parsedData.duration);
+          setTodoList(parsedData.todoList);
+          setFrequency(parsedData.frequency);
+          console.log(' 세션에서 모멘트 데이터 복구:', parsedData);
+        }
+      } catch (error) {
+        console.error('세션 데이터 파싱 오류:', error);
+        sessionStorage.removeItem('momentData');
+      }
+    } else {
+      console.warn('세션 데이터가 없음. 초기화 필요');
+    }
+  }, []);
 
   // `goal`이 `"목표 없음"`이면 리다이렉트
   useEffect(() => {
@@ -123,6 +152,8 @@ const CreateMoment = () => {
       frequency,
       createdAt: new Date().toISOString(), // 생성된 날짜
     };
+
+    sessionStorage.setItem('momentData', JSON.stringify(momentData));
 
     navigate('/moment/complete', { state: momentData });
   };

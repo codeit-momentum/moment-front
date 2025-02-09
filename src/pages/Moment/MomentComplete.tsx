@@ -22,13 +22,36 @@ const MomentComplete = () => {
 
   const { data, isLoading: isBucketLoading, refetch } = useGetBucketDetail(id);
   const { mutate: updateBucketChallenge } = usePatchBucketChallenge();
-  const { mutate, isPending } = usePostMoments();
+  const { mutateAsync, isPending } = usePostMoments();
 
   const [moments, setMoments] = useState<
     { id: string; content: string; startDate: string; endDate: string }[]
   >([]);
 
-  const momentData = location.state as CreateMomentResponse;
+  // sessionStorage에서 기존 데이터 불러오기
+  const storedMomentData = sessionStorage.getItem('momentData');
+  const momentData = storedMomentData
+    ? JSON.parse(storedMomentData)
+    : location.state;
+
+  // 예외 처리: momentData가 없으면 안전한 페이지로 이동
+  useEffect(() => {
+    if (
+      !momentData ||
+      !momentData.todoList ||
+      momentData.todoList.length === 0
+    ) {
+      console.error('momentData가 없습니다. sessionStorage에서도 없음');
+      alert('잘못된 접근입니다. 처음부터 다시 시도해주세요.');
+
+      // id 값이 존재하는 경우, 해당 id를 포함하여 이동
+      if (id) {
+        navigate(`/moment/create-moment/${id}`);
+      } else {
+        navigate('/bucket'); // id가 없을 경우 기본 페이지로 이동
+      }
+    }
+  }, [momentData, navigate, id]);
 
   // 실행 빈도 유효성 검사: `generateMomentDates` 실행 전 검증
   const allowedFrequencies = ['daily', 'every2days', 'weekly', 'monthly'];
@@ -50,8 +73,14 @@ const MomentComplete = () => {
       return;
     }
 
-    console.log('최종 변환된 momentDates:', generatedMoments);
-    setMoments(generatedMoments);
+    // 기존 moments와 비교 후 상태 업데이트 (중복 렌더링 방지)
+    setMoments((prevMoments) => {
+      const isSame =
+        JSON.stringify(prevMoments) === JSON.stringify(generatedMoments);
+      if (isSame) return prevMoments; // 기존 값과 동일하면 업데이트 안 함
+      console.log('최종 변환된 momentDates:', generatedMoments);
+      return generatedMoments;
+    });
   }, [momentData]);
 
   useEffect(() => {
@@ -92,23 +121,24 @@ const MomentComplete = () => {
 
     console.log('최종 bucket 데이터:', data.bucket);
 
-    // 백엔드에서 `type === "REPEAT"` & `isChallenging === true` 조건 체크
-    if (data.bucket.type !== 'REPEAT' || !data.bucket.isChallenging) {
-      alert(
-        '이 버킷에서는 모멘트를 추가할 수 없습니다. (반복형 + 도전 중이어야 함)',
-      );
+    if (data.bucket.type !== 'REPEAT') {
+      alert('이 버킷에서는 모멘트를 추가할 수 없습니다. (반복형이어야 함)');
       return;
     }
+
     console.log('최종 API 요청 데이터:', {
-      startDate: moments[0].startDate, // `formatApiDate` 변환 불필요
+      startDate: moments[0].startDate,
       endDate: moments[moments.length - 1].endDate,
       moments,
       frequency,
     });
 
-    // API 요청 실행
-    mutate(
-      {
+    try {
+      // PATCH 요청 (isChallenging을 true로 변경) & POST 요청(모멘트 생성) 함께 실행
+      await updateBucketChallenge({ bucketId: id });
+      console.log('도전 상태 변경 완료 (isChallenging=true)');
+
+      const responseData = await mutateAsync({
         bucketId: data.bucket.bucketID,
         payload: {
           startDate: moments[0].startDate,
@@ -116,18 +146,19 @@ const MomentComplete = () => {
           moments,
           frequency,
         },
-      },
-      {
-        onSuccess: (data) => {
-          console.log('API 응답 데이터:', data);
-          alert('모멘트가 성공적으로 저장되었습니다.');
-          navigate('/moment/bucket');
-        },
-        onError: (error) => {
-          console.error('Moment 저장 실패:', error);
-        },
-      },
-    );
+      });
+
+      console.log('모멘트가 성공적으로 저장되었습니다:', responseData);
+      alert('모멘트가 성공적으로 저장되었습니다.');
+
+      // sessionStorage에 모멘트 데이터 저장하여 `MomentUploadStatus.tsx`에서 정상 반영되도록 함
+      sessionStorage.setItem('momentData', JSON.stringify(responseData));
+
+      navigate('/moment/bucket');
+    } catch (error) {
+      console.error('오류 발생:', error);
+      alert('모멘트 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
