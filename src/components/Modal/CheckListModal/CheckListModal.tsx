@@ -2,6 +2,7 @@ import { BucketType } from '../../../types/moment';
 import IcCloseModal from '../../../assets/svg/IcCloseModal';
 import * as S from './CheckListModal.style';
 import useGetChallengingCount from '../../../hooks/queries/moment/useGetChallengingCount';
+import { MAX_MOMENT_COUNT } from '../../../utils/moment';
 
 interface CheckListModalProps {
   type: BucketType;
@@ -35,7 +36,7 @@ const CheckListModal = ({
         </S.ModalCloseButton>
       </S.ModalHeader>
       <S.ModalOptionContainer>
-        {challengingCount < 3 && (
+        {challengingCount < MAX_MOMENT_COUNT && (
           <S.ModalOptionButton onClick={onClickCreate}>
             나만의 모멘트 생성
           </S.ModalOptionButton>
