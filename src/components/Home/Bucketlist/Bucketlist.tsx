@@ -20,7 +20,7 @@ const Bucketlist = () => {
   const achievement = Number(data.completionRate);
 
   const bucketListData = [
-    { id: 1, range: '0~19%', image: <IcSnakeLv4 />, min: 0, max: 19 },
+    { id: 1, range: '0~19%', image: <IcSnakeLv0 />, min: 0, max: 19 },
     { id: 2, range: '20~39%', image: <IcSnakeLv1 />, min: 20, max: 39 },
     { id: 3, range: '40~59%', image: <IcSnakeLv2 />, min: 40, max: 59 },
     { id: 4, range: '60~79%', image: <IcSnakeLv3 />, min: 60, max: 79 },
