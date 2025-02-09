@@ -9,13 +9,6 @@ import { formatListDate } from '../../utils/formatDate';
 import usePostMoments from '../../hooks/queries/moment/usePostMoments';
 import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
 import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
-import { generateMomentDates } from '../../utils/generateMomentDates';
-import { formatListDate } from '../../utils/formatDate';
-import usePostMoments from '../../hooks/queries/moment/usePostMoments';
-import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
-import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
 
 /**
  * MomentComlete
@@ -177,13 +170,7 @@ const MomentComplete = () => {
         <S.DateText>
           {moments.length > 0 ? moments[0].startDate : 'N/A'}
         </S.DateText>
-        <S.DateText>
-          {moments.length > 0 ? moments[0].startDate : 'N/A'}
-        </S.DateText>
         <IcArrow />
-        <S.DateText>
-          {moments.length > 0 ? moments[moments.length - 1].endDate : 'N/A'}
-        </S.DateText>
         <S.DateText>
           {moments.length > 0 ? moments[moments.length - 1].endDate : 'N/A'}
         </S.DateText>
@@ -192,10 +179,6 @@ const MomentComplete = () => {
       <S.MethodContainer>
         <S.MethodLabel>방법</S.MethodLabel>
         <S.MethodListItemWrapper>
-          {moments.map((moment) => (
-            <S.MethodItem key={moment.id}>
-              <S.MethodId>{formatListDate(moment.startDate)}</S.MethodId>
-              <S.MethodDescription>{moment.content}</S.MethodDescription>
           {moments.map((moment) => (
             <S.MethodItem key={moment.id}>
               <S.MethodId>{formatListDate(moment.startDate)}</S.MethodId>
