@@ -11,7 +11,7 @@ export const generateMomentDates = (
   if (!duration || !frequency || todoList.length === 0) return [];
 
   // 현재 날짜를 UTC 기준으로 설정
-  let baseDate = new Date();
+  const baseDate = new Date();
   baseDate.setUTCHours(0, 0, 0, 0); // 시간 초기화
 
   console.log('📌 현재 날짜 baseDate:', baseDate.toISOString());
