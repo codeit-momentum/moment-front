@@ -41,18 +41,14 @@ const Upload = ({ variant }: UploadProps) => {
     e.preventDefault();
     if (!imageFile) return;
 
-    patchUpload(
-      { id, imageFile },
-      {
-        onSuccess: () => {
-          openModal();
-        },
-        onError: (error: Error) => {
-          handleError(error);
-          openErrorModal();
-        },
+    patchUpload({
+      variables: { id, imageFile },
+      onSuccess: openModal,
+      onError: (error) => {
+        handleError(error);
+        openErrorModal();
       },
-    );
+    });
   };
 
   const handleCloseModal = () => {

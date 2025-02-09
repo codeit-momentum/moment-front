@@ -1,9 +1,15 @@
-import { UploadType } from '../../types/moment';
+import { UploadType, UploadParams } from '../../types/moment';
 import { checkDateRange } from '../../utils/moment';
 import useGetBucketDetail from '../queries/bucketList/useGetBucketDetail';
 import usePatchBucketUpload from '../queries/bucketList/usePatchBucketUpload';
 import useGetMomentDetail from '../queries/moment/useGetMomentDetail';
 import usePatchMomentUpload from '../queries/moment/usePatchMomentUpload';
+
+interface UploadMutationParams {
+  variables: UploadParams;
+  onSuccess: () => void;
+  onError: (error: Error) => void;
+}
 
 const useUpload = (variant: UploadType, id: string) => {
   const {
@@ -35,7 +41,8 @@ const useUpload = (variant: UploadType, id: string) => {
             momentData.moment.endDate,
           )),
       isLoading: momentLoading,
-      patchUpload: patchMomentUpload,
+      patchUpload: ({ variables, onSuccess, onError }: UploadMutationParams) =>
+        patchMomentUpload(variables, { onSuccess, onError }),
     };
   }
   return {
@@ -48,7 +55,8 @@ const useUpload = (variant: UploadType, id: string) => {
       bucketData?.bucket.isCompleted ||
       bucketData?.bucket.type === 'REPEAT',
     isLoading: bucketLoading,
-    patchUpload: patchBucketUpload,
+    patchUpload: ({ variables, onSuccess, onError }: UploadMutationParams) =>
+      patchBucketUpload(variables, { onSuccess, onError }),
   };
 };
 

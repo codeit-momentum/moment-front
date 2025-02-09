@@ -1,16 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { UpdateBucketResponse } from '../../../types/moment';
+import { UpdateBucketResponse, UploadParams } from '../../../types/moment';
 import instance from '../../../apis/client';
-
-interface PatchBucketUploadParams {
-  id: string;
-  imageFile: File;
-}
 
 const patchBucketUpload = async ({
   id,
   imageFile,
-}: PatchBucketUploadParams): Promise<UpdateBucketResponse> => {
+}: UploadParams): Promise<UpdateBucketResponse> => {
   const formData = new FormData();
   formData.append('photoUrl', imageFile);
 
