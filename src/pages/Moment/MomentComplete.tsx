@@ -10,6 +10,7 @@ import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetai
 import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
 import useBucketId from '../../hooks/useBucketId';
 import useMomentData from '../../hooks/useMomentData';
+import { updateBucketAndMoments } from '../../utils/updateBucketandMomets';
 
 /**
  * MomentComlete
@@ -24,14 +25,14 @@ const MomentComplete = () => {
     isLoading: isBucketLoading,
     refetch,
   } = useGetBucketDetail(bucketId);
-  const { mutate: updateBucketChallenge } = usePatchBucketChallenge();
-  const { mutateAsync, isPending } = usePostMoments();
 
   const [moments, setMoments] = useState<
     { id: string; content: string; startDate: string; endDate: string }[]
   >([]);
 
   const momentData = useMomentData(bucketId);
+  const { mutateAsync: updateBucketChallenge } = usePatchBucketChallenge(); // ✅ `mutateAsync` 사용
+  const { mutateAsync: createMoments, isPending } = usePostMoments();
 
   useEffect(() => {
     if (
@@ -126,32 +127,21 @@ const MomentComplete = () => {
     });
 
     try {
-      // PATCH 요청 (isChallenging을 true로 변경) & POST 요청(모멘트 생성) 함께 실행
-      await updateBucketChallenge({ id: bucketId });
-      console.log('도전 상태 변경 완료 (isChallenging=true)');
-
-      const responseData = await mutateAsync({
+      const responseData = await updateBucketAndMoments(
         bucketId,
-        payload: {
-          startDate: moments[0].startDate,
-          endDate: moments[moments.length - 1].endDate,
-          moments,
-          frequency,
-        },
-      });
+        moments,
+        frequency,
+        updateBucketChallenge,
+        createMoments,
+      );
 
-      console.log('모멘트가 성공적으로 저장되었습니다:', responseData);
-      alert('모멘트가 성공적으로 저장되었습니다.');
-
-      // sessionStorage에 모멘트 데이터 저장하여 `MomentUploadStatus.tsx`에서 정상 반영되도록 함
+      console.log('✅ 모멘트가 성공적으로 저장되었습니다:', responseData);
       sessionStorage.setItem(
         `momentData-${bucketId}`,
         JSON.stringify(responseData),
       );
-
       navigate('/moment/bucket');
     } catch (error) {
-      console.error('오류 발생:', error);
       alert('모멘트 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
