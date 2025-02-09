@@ -6,7 +6,7 @@ export const SelectModalLayout = styled.div`
   background-color: ${({ theme }) => theme.colors.blue};
   color: ${({ theme }) => theme.colors.white};
   width: 30rem;
-  height: 16rem;
+  min-height: 16rem;
   border-radius: 10px;
   backdrop-filter: blur(27.182817459106445px);
   box-sizing: border-box;
@@ -20,6 +20,7 @@ export const InfoContainer = styled.div`
 `;
 export const ModalTitle = styled.p`
   font-size: 16px;
+  text-align: center;
 `;
 export const ModalContent = styled.p`
   font-size: 12px;

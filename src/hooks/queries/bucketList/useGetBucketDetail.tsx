@@ -9,7 +9,7 @@ const getBucketDetail = async (
   return response.data;
 };
 
-const useGetBucketDetail = (id: string | null) =>
+const useGetBucketDetail = (id: string | undefined) =>
   useQuery({
     queryKey: ['bucket', id],
     queryFn: () => {
