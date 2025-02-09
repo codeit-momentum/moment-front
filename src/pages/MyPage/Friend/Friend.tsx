@@ -6,17 +6,16 @@ import Modal from '../../../components/Modal/Modal';
 import SelectModal from '../../../components/Modal/SelectModal/SelectModal';
 import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';
 import useModal from '../../../hooks/common/useModal';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import UserInfoContext from '../../../store/User/UserContext';
 import usePostCheckFriend from '../../../hooks/queries/myPage/usePostCheckFriend';
 import usePostFriend from '../../../hooks/queries/myPage/usePostFriend';
 import OKModal from '../../../components/Modal/OKModal/OKModal';
 import useErrorHandler from '../../../hooks/common/useResponseMessage';
 import useToast from '../../../hooks/common/useToast';
+import useGetFriendCode from '../../../hooks/queries/myPage/useGetFriendCode';
 
 const Friend = () => {
-  const { userInfo } = useContext(UserInfoContext);
   const { mutate: postCheckFriend } = usePostCheckFriend();
   const { mutate: postFriend } = usePostFriend();
   const [friendCode, setFriendCode] = useState<string>('');
@@ -25,6 +24,7 @@ const Friend = () => {
   const { handleError, message, setMessage } = useErrorHandler();
   const [isOpen, openModal, closeModal] = useModal();
   const { Toast, openToast } = useToast();
+  const { data: userCode } = useGetFriendCode();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -112,7 +112,7 @@ const Friend = () => {
         )}
       </S.SearchForm>
       <S.SubtitleSpan>나의 친구 코드</S.SubtitleSpan>
-      <CopyToClipboard text={userInfo.friendCode}>
+      <CopyToClipboard text={userCode}>
         <Button
           type="button"
           $customstyle={{
@@ -125,7 +125,7 @@ const Friend = () => {
             openToast('복사가 완료되었습니다.');
           }}
         >
-          {userInfo.friendCode}
+          {userCode}
         </Button>
       </CopyToClipboard>
       <S.InfoTextSpan>클릭 시 텍스트가 복사됩니다.</S.InfoTextSpan>
