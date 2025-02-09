@@ -25,6 +25,7 @@ export const getAchievementRate = (
   completedMomentsCount: number,
   momentsCount: number,
 ): number => {
+  if (momentsCount === 0) return 0;
   return Math.round((completedMomentsCount / momentsCount) * 100);
 };
 
