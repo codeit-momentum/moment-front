@@ -19,11 +19,13 @@ interface FeedListProps {
 }
 
 const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
-  const { feed } = useGetFeed(friendId);
   const { friendList, refetch } = useGetFriends();
   const current = friendList.find(
     (friend: FriendType) => friend.userID === friendId,
   );
+  console.log(friendId);
+  console.log(current);
+  const { feed } = useGetFeed(current?.userID);
   const { mutate: postKnock } = usePostKnock();
   const [isOpen, openModal, closeModal] = useModal();
 
@@ -56,7 +58,7 @@ const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
           type="feed"
           icon={<IcKnock />}
           onClick={handleKnock}
-          isKnocked={current.isKnock}
+          isKnocked={current?.isKnock}
         >
           친구가 피드를 안 올리네요...
           <br /> <span style={{ color: '#FAED46' }}>노크를 해서 </span>
