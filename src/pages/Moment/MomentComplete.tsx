@@ -2,20 +2,20 @@ import IcArrow from '../../assets/svg/IcArrow';
 import * as S from './MomentComplete.style';
 import { useEffect, useState } from 'react';
 import Button from '../../components/Button/Button';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
+import { useNavigate } from 'react-router-dom';
 import { generateMomentDates } from '../../utils/generateMomentDates';
 import { formatListDate } from '../../utils/formatDate';
 import usePostMoments from '../../hooks/queries/moment/usePostMoments';
 import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
 import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
 import useBucketId from '../../hooks/useBucketId';
+import useMomentData from '../../hooks/useMomentData';
+
 /**
  * MomentComlete
  * 임시 데이터를 사용하여 "모멘트 설계 완료" 페이지 렌더링
  */
 const MomentComplete = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const bucketId = useBucketId();
 
@@ -30,40 +30,24 @@ const MomentComplete = () => {
   const [moments, setMoments] = useState<
     { id: string; content: string; startDate: string; endDate: string }[]
   >([]);
-  const [momentData, setMomentData] = useState<CreateMomentResponse | null>(
-    null,
-  );
 
-  // sessionStorage에서 기존 데이터 불러오기
+  const momentData = useMomentData(bucketId);
+
   useEffect(() => {
-    let storedData: CreateMomentResponse | null = null;
-
-    const storedMomentData = sessionStorage.getItem(`momentData-${bucketId}`);
-    if (storedMomentData) {
-      storedData = JSON.parse(storedMomentData);
-    } else if (location.state) {
-      storedData = location.state;
-      console.warn(
-        ` sessionStorage에 momentData-${bucketId}가 없어 location.state에서 복원!`,
-      );
-    }
-
     if (
-      !storedData ||
-      !storedData.todoList ||
-      storedData.todoList.length === 0
+      !momentData ||
+      !momentData.todoList ||
+      momentData.todoList.length === 0
     ) {
       console.error(
-        `momentData-${bucketId}가 없습니다. sessionStorage에서도 없음`,
+        `🚨 momentData-${bucketId}가 없습니다. sessionStorage에서도 없음`,
       );
       alert('잘못된 접근입니다. 처음부터 다시 시도해주세요.');
       navigate(`/moment/create-moment/${bucketId}`);
-      return;
+    } else {
+      console.log(`✅ 최종 복구된 momentData-${bucketId}:`, momentData);
     }
-
-    console.log(`최종 복구된 momentData-${bucketId}:`, storedData);
-    setMomentData(storedData);
-  }, [navigate, bucketId, location.state]);
+  }, [momentData]);
 
   // 실행 빈도 유효성 검사: `generateMomentDates` 실행 전 검증
   const allowedFrequencies = ['daily', 'every2days', 'weekly', 'monthly'];

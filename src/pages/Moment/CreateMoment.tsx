@@ -12,11 +12,8 @@ import { generateDetailedPlan } from '../../apis/AI/autoPlanning';
 import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
 import useBucketId from '../../hooks/useBucketId';
 import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
-/**
- * Moment
- * - 자동/수동 모드에 따라 동작하며, 컴포넌트를 순차적으로 렌더링
- * - 스크롤 뷰 형태로 구성
- */
+import useMomentData from '../../hooks/useMomentData';
+
 const CreateMoment = () => {
   const navigate = useNavigate();
   const navigationType = useNavigationType();
@@ -48,31 +45,16 @@ const CreateMoment = () => {
   const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [isModeValid, setIsModeValid] = useState(true);
 
-  // sessionStorage에서 기존 데이터 불러오기
+  const momentData = useMomentData(bucketId);
+
   useEffect(() => {
-    const storedMomentData = sessionStorage.getItem(`momentData-${bucketId}`);
-
-    if (storedMomentData) {
-      try {
-        const parsedData = JSON.parse(storedMomentData);
-        console.log('CreateMoment.tsx - sessionStorage 복구:', parsedData);
-
-        if (!parsedData?.todoList || parsedData.todoList.length === 0) {
-          console.warn(
-            '세션 데이터가 있지만 todoList가 비어 있음. 초기화 진행',
-          );
-          sessionStorage.removeItem(`momentData-${bucketId}`);
-        } else {
-          setDuration(parsedData.duration);
-          setTodoList(parsedData.todoList);
-          setFrequency(parsedData.frequency);
-        }
-      } catch (error) {
-        console.error('세션 데이터 파싱 오류:', error);
-        sessionStorage.removeItem(`momentData-${bucketId}`);
-      }
+    if (momentData) {
+      console.log('✅ CreateMoment.tsx - 복구된 momentData:', momentData);
+      setDuration(momentData.duration);
+      setTodoList(momentData.todoList);
+      setFrequency(momentData.frequency);
     }
-  }, [bucketId]);
+  }, [momentData]);
 
   useEffect(() => {
     if (!mode || (mode !== 'auto' && mode !== 'manual')) {
