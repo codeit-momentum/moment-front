@@ -13,14 +13,17 @@ const MomentList = ({ moments }: MomentListProps) => {
     if (isCompleted) return;
     console.log(`Redirect to moment detail page for ID: ${id}`);
   };*/
-  const momentItems = [
-    ...moments,
-    ...new Array(3 - moments.length).fill({
-      id: 'empty',
-      title: '-',
-      isCompleted: false,
-    }),
-  ];
+  const momentItems =
+    moments.length < 3
+      ? [
+          ...moments,
+          ...new Array(3 - moments.length).fill({
+            id: 'empty',
+            title: '-',
+            isCompleted: false,
+          }),
+        ]
+      : moments;
 
   return (
     <S.MomentListLayout>
