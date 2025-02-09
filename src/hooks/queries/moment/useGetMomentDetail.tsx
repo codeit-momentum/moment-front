@@ -9,7 +9,7 @@ const getMomentDetail = async (
   return response.data;
 };
 
-const useGetMomentDetail = (id: string | null) =>
+const useGetMomentDetail = (id: string | undefined) =>
   useQuery({
     queryKey: ['moment', id],
     queryFn: () => {

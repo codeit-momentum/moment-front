@@ -4,12 +4,12 @@ import styled from 'styled-components';
  * FrequencyBtnContainer : 실행 빈도 선택 버튼 전체를 감싸는 컨테이너
  */
 export const FrequencyBtnLayout = styled.div`
-  $${({ theme: { mixin } }) =>
+  ${({ theme: { mixin } }) =>
     mixin.flexBox({
       direction: 'column',
       justify: 'flex-start',
     })};
-    position: relative;
+  position: relative;
   width: 100%;
   padding: 0rem 3rem;
 `;
@@ -40,24 +40,6 @@ export const FrequencyBtnGrid = styled.div`
   gap: 4.5rem;
   justify-content: center;
   margin: 3rem auto;
-`;
-
-export const FrequencyBtn = styled.button<{ $isSelected: boolean }>`
-  width: 9rem;
-  height: 9rem;
-  font-size: 16px;
-  border: none;
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({ align: 'center', justify: 'center' })};
-  background-color: ${({ $isSelected }) =>
-    $isSelected ? '#6A7CB7' : '#DBDBDB'};
-  color: ${({ $isSelected }) => ($isSelected ? '#FCFCFC' : '#999')};
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ $isSelected }) =>
-      $isSelected ? '#6A7CB7' : '#D3D3D3'};
-  }
 `;
 
 export const BtnContainer = styled.div`
