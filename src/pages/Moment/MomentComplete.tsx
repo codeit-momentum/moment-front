@@ -1,79 +1,150 @@
 import IcArrow from '../../assets/svg/IcArrow';
 import * as S from './MomentComplete.style';
 import { useEffect, useState } from 'react';
-import axiosInstance from '../../apis/client';
 import Button from '../../components/Button/Button';
+import { useNavigate } from 'react-router-dom';
+import { generateMomentDates } from '../../utils/generateMomentDates';
+import { formatListDate } from '../../utils/formatDate';
+import usePostMoments from '../../hooks/queries/moment/usePostMoments';
+import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
+import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
+import useBucketId from '../../hooks/useBucketId';
+import useMomentData from '../../hooks/useMomentData';
 
-// API 응답 타입
-interface MomentCompleteResponse {
-  startDate: string;
-  endDate: string;
-  momentList: { id: string; description: string }[];
-}
-/**
- * 임시 데이터 (뷰작업을 위한)
- */
-const mockMomentData: MomentCompleteResponse = {
-  startDate: '2024.01.01',
-  endDate: '2024.01.14',
-  momentList: [
-    { id: '0102', description: '코 잡기: 원하는 길이로 코를 잡기' },
-    { id: '0104', description: '첫 줄 뜨기: 기본 코를 고르게 뜨기' },
-    {
-      id: '0106',
-      description:
-        '패턴 반복: 원하는 무늬로 꾸준히 뜨고 이 행동을 10번 반복하기',
-    },
-    { id: '0108', description: '마무리 뜨기: 끝 코를 정리하며 마감' },
-    { id: '0112', description: '첫 줄 뜨기: 기본 코를 고르게 뜨기' },
-    {
-      id: '0114',
-      description:
-        '패턴 반복: 원하는 무늬로 꾸준히 뜨고 이 행동을 10번 반복하기',
-    },
-    { id: '0116', description: '마무리 뜨기: 끝 코를 정리하며 마감' },
-  ],
-};
-
-/**
- * MomentComlete
- * 임시 데이터를 사용하여 "모멘트 설계 완료" 페이지 렌더링
- */
 const MomentComplete = () => {
-  const [data, setData] = useState<{ id: string; description: string }[]>([]); // 초기값은 목데이터
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
-  const [loading, setLoading] = useState(false); // 로딩 상태 관리 -> 로딩 상태 관리 해야하는가..? -> 백연결시 필요한가,,
-  const [error, setError] = useState<string | null>(null); // 에러 메시지 관리 -> 추후 작업
+  const navigate = useNavigate();
+  const bucketId = useBucketId();
+  const { momentData: momentConfig, saveMomentData } = useMomentData(bucketId);
 
-  // API 연동 로직
-  const fetchMomentCompleteData = async () => {
-    setLoading(true);
-    setError(null);
+  const {
+    data,
+    isLoading: isBucketLoading,
+    refetch,
+  } = useGetBucketDetail(bucketId);
 
-    try {
-      // Mock 데이터 사용
-      setStartDate(mockMomentData.startDate);
-      setEndDate(mockMomentData.endDate);
-      setData(mockMomentData.momentList);
-      // 실제 API 호출 (나중에 API가 준비되면 주석을 해제)
-      // const response =
-      //   await axiosInstance.get<MomentCompleteResponse>('/moments/complete');
+  const [moments, setMoments] = useState<
+    { id: string; content: string; startDate: string; endDate: string }[]
+  >([]);
 
-      // const { startDate, endDate, momentList } = response.data;
-      // setStartDate(startDate);
-      // setEndDate(endDate);
-      // setData(momentList);
-    } catch (err) {
-      console.error('API 호출 실패, Mock 데이터 사용:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { mutateAsync: updateBucketChallenge } = usePatchBucketChallenge(); // `mutateAsync` 사용
+  const { mutateAsync: createMoments, isPending } = usePostMoments();
 
   useEffect(() => {
-    fetchMomentCompleteData();
-  }, []);
+    if (isBucketLoading) return;
+
+    if (
+      !momentConfig ||
+      !momentConfig.todoList ||
+      momentConfig.todoList.length === 0
+    ) {
+      console.error(
+        `momentConfig-${bucketId}가 없습니다. sessionStorage에서도 없음`,
+      );
+      alert('세션 데이터가 유실되었습니다. 다시 생성해주세요.');
+      navigate(`/moment/create-moment/${bucketId}`);
+      return;
+    }
+
+    console.log(`최종 복구된 momentConfig-${bucketId}:`, momentConfig);
+  }, [isBucketLoading, navigate, bucketId]);
+
+  useEffect(() => {
+    if (!momentConfig) return;
+
+    const validFrequency = [
+      'daily',
+      'every2days',
+      'weekly',
+      'monthly',
+    ].includes(momentConfig.frequency)
+      ? momentConfig.frequency
+      : 'daily';
+
+    // moments가 없으면 `generateMomentDates` 실행
+    const generatedMoments = generateMomentDates({
+      ...momentConfig,
+      frequency: validFrequency,
+    });
+
+    if (generatedMoments.length === 0) {
+      console.warn('generateMomentDates가 빈 배열을 반환했습니다.');
+      return;
+    }
+
+    setMoments((prevMoments) => {
+      const isSame =
+        JSON.stringify(prevMoments) === JSON.stringify(generatedMoments);
+      return isSame ? prevMoments : generatedMoments;
+    });
+  }, [momentConfig]);
+
+  useEffect(() => {
+    if (data?.bucket && !data.bucket.isChallenging) {
+      console.log('도전 모드 활성화 PATCH 요청 실행');
+
+      updateBucketChallenge({ id: bucketId })
+        .then(() => refetch())
+        .then(() => console.log('도전 모드 활성화 완료'))
+        .catch((error) =>
+          console.error('도전 모드 활성화 중 오류 발생:', error),
+        );
+    }
+  }, [data, bucketId, refetch, updateBucketChallenge]);
+
+  const handleConfirm = async () => {
+    if (!momentConfig) {
+      alert('모멘트 정보를 불러올 수 없습니다. 다시 시도해주세요.');
+      return;
+    }
+
+    if (!bucketId || isBucketLoading || !data?.bucket) {
+      alert('버킷 정보를 불러올 수 없습니다. 다시 시도해주세요.');
+      return;
+    }
+
+    if (data.bucket.type !== 'REPEAT') {
+      alert(' 반복형 버킷만 모멘트를 추가할 수 있습니다.');
+      return;
+    }
+
+    if (moments.length === 0) {
+      alert('생성된 모멘트가 없습니다. 다시 시도해주세요.');
+      return;
+    }
+
+    console.log('최종 API 요청 데이터:', {
+      startDate: moments[0]?.startDate || '',
+      endDate: moments[moments.length - 1]?.endDate || '',
+      moments,
+      frequency: momentConfig.frequency,
+    });
+
+    try {
+      if (!data.bucket.isChallenging) {
+        console.log('도전 모드 비활성화 상태. PATCH 요청 실행.');
+        await updateBucketChallenge({ id: bucketId });
+        refetch();
+      }
+
+      const payload = {
+        startDate: moments[0]?.startDate,
+        endDate: moments[moments.length - 1]?.endDate,
+        moments,
+        frequency: momentConfig.frequency,
+      };
+
+      console.log('POST 요청 실행 (모멘트 생성)', payload);
+      const responseData = await createMoments({ bucketId, payload });
+
+      console.log('모멘트가 성공적으로 저장되었습니다:', responseData);
+
+      navigate('/moment/bucket');
+    } catch (error) {
+      console.error('모멘트 생성 중 오류 발생:', error);
+      saveMomentData(momentConfig);
+      alert('모멘트 생성에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
 
   return (
     <S.MomentCompleteLayout>
@@ -81,24 +152,30 @@ const MomentComplete = () => {
       <S.MomentCompleteTitle>모멘트 설계 완료 !</S.MomentCompleteTitle>
       {/* 날짜 범위 */}
       <S.DateContainer>
-        <S.DateText>{startDate}</S.DateText>
+        <S.DateText>
+          {moments.length > 0 ? moments[0].startDate : 'N/A'}
+        </S.DateText>
         <IcArrow />
-        <S.DateText>{endDate}</S.DateText>
+        <S.DateText>
+          {moments.length > 0 ? moments[moments.length - 1].endDate : 'N/A'}
+        </S.DateText>
       </S.DateContainer>
       {/* 방법 리스트 */}
       <S.MethodContainer>
         <S.MethodLabel>방법</S.MethodLabel>
         <S.MethodListItemWrapper>
-          {data.map((item) => (
-            <S.MethodItem key={item.id}>
-              <S.MethodId>{item.id}</S.MethodId>
-              <S.MethodDescription>{item.description}</S.MethodDescription>
+          {moments.map((moment) => (
+            <S.MethodItem key={moment.id}>
+              <S.MethodId>{formatListDate(moment.startDate)}</S.MethodId>
+              <S.MethodDescription>{moment.content}</S.MethodDescription>
             </S.MethodItem>
           ))}
         </S.MethodListItemWrapper>
       </S.MethodContainer>
       <S.BtnContainer>
-        <Button>확인</Button> {/* 버튼 로직 구현 추후 */}
+        <Button onClick={handleConfirm} disabled={isPending}>
+          {isPending ? '저장 중...' : '확인'}
+        </Button>
       </S.BtnContainer>
     </S.MomentCompleteLayout>
   );

@@ -7,6 +7,7 @@ import IcConfirm from '../../../assets/svg/IcConfirm';
 import ToDoItem from '../CheckList/CheckListItem/CheckListItem';
 import TodoContainer from '../ContainerLayout/ContainerLayout';
 import useToast from '../../../hooks/common/useToast';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * ToDoListProps 인터페이스
@@ -28,21 +29,22 @@ const ToDoListComponent = ({
 }: ToDoListProps) => {
   // 편집 모드 상태 관리: 수동 모드일 경우 초기값 true
   const [isEditing, setIsEditing] = useState(mode === 'manual'); // 수정 상태
-  const [todos, setTodos] = useState<string[]>(new Array(duration).fill('')); // 투두 리스트 상태
+  const [todos, setTodos] = useState<{ id: string; value: string }[]>(
+    new Array(duration).fill('').map(() => ({ id: uuidv4(), value: '' })),
+  );
   const { Toast, openToast } = useToast();
 
   useEffect(() => {
-    if (mode === 'auto' && todoList.length > 0) {
-      console.log('ToDoListComponent - todoList 업데이트됨:', todoList);
-      setTodos(todoList);
+    if (mode === 'auto' && Array.isArray(todoList) && todoList.length > 0) {
+      setTodos(todoList.map((todo) => ({ id: uuidv4(), value: todo })));
     }
-  }, [mode, todoList]); // `todoList` 변경될 때마다 실행
+  }, [mode, todoList]);
 
   // 투두 리스트 변경 핸들러
   const handleEditTodo = (index: number, value: string) => {
-    const updatedTodos = [...todos];
-    updatedTodos[index] = value;
-    setTodos(updatedTodos);
+    setTodos((prevTodos) =>
+      prevTodos.map((todo, i) => (i === index ? { id: todo.id, value } : todo)),
+    );
   };
 
   // 수정 시작 핸들러
@@ -52,12 +54,16 @@ const ToDoListComponent = ({
 
   // 확정하기 핸들러
   const handleConfirm = () => {
-    if (todos.some((todo) => todo.trim() === '')) {
+    if (todos.some((todo) => todo.value.trim() === '')) {
       openToast('내용을 작성해주세요!');
       return;
     }
 
-    onSave([...todos]); // 상위 컴포넌트로 데이터 전달
+    // 전달되는 데이터 콘솔에 출력
+    const updatedTodoList = todos.map((todo) => todo.value);
+    console.log('onSave로 전달되는 데이터:', updatedTodoList);
+
+    onSave(updatedTodoList); // 상위 컴포넌트로 데이터 전달
     setIsEditing(false);
   };
 
@@ -82,11 +88,11 @@ const ToDoListComponent = ({
           </S.IconWrapper>
           {todos.map((todo, index) => (
             <ToDoItem
-              key={Number(new Date()) + index} //임시 key값
+              key={todo.id}
               id={index}
               type="생성형"
               state={index + 1}
-              value={todo}
+              value={todo.value}
               editState={isEditing}
               onUpdateItem={handleEditTodo}
             />

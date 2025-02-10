@@ -4,6 +4,11 @@ export type BucketType = 'REPEAT' | 'ACHIEVEMENT';
 
 export type UploadType = 'moment' | 'bucket';
 
+export interface UploadParams {
+  id: string;
+  imageFile: File;
+}
+
 export interface Bucket {
   bucketID: string;
   completedMomentsCount: number;
@@ -105,8 +110,13 @@ export interface UploadMomentResponse {
   result: UploadMoment;
 }
 
-export interface GetChallengingMomentReponse {
+export interface GetChallengingMomentResponse {
   success: boolean;
   count: number;
   data: ChallengingBucket[];
+}
+
+export interface GetChallengingCountResponse {
+  success: boolean;
+  challengingCount: number;
 }

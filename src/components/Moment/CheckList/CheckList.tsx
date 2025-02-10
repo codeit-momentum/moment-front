@@ -37,32 +37,38 @@ const CheckList = ({ type }: CheckListProps) => {
 
   const useTypeHook = TypeHooks[type];
   const { data } = useTypeHook();
+  console.log(data);
 
-  const hadleSubmitItem = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+  const hadleSubmitItem = (target: HTMLTextAreaElement) => {
+    const trimmedItem = newItem.trim();
+    if (!trimmedItem) return;
+
+    const body = {
+      type,
+      content: trimmedItem,
+    };
+    postBucket(body, {
+      onSuccess: (data) => {
+        setMessage(data.message);
+      },
+      onError: (error) => {
+        handleError(error);
+      },
+      onSettled: () => {
+        openModal();
+
+        setNewItem('');
+        target.style.height = '20px';
+      },
+    });
+  };
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
-      const trimmedItem = newItem.trim();
-      if (!trimmedItem) return;
-
-      const body = {
-        type,
-        content: trimmedItem,
-      };
-      postBucket(body, {
-        onSuccess: (data) => {
-          setMessage(data.message);
-        },
-        onError: (error) => {
-          handleError(error);
-        },
-        onSettled: () => {
-          openModal();
-
-          setNewItem('');
-          const target = e.target as HTMLTextAreaElement;
-          target.style.height = '20px';
-        },
-      });
+      if (e.target instanceof HTMLTextAreaElement) {
+        hadleSubmitItem(e.target);
+      }
     }
   };
 
@@ -119,7 +125,8 @@ const CheckList = ({ type }: CheckListProps) => {
           maxLength={30}
           onChange={handleChangeInput}
           onInput={handleResizeHeight}
-          onKeyDown={hadleSubmitItem}
+          onKeyDown={handleKeyPress}
+          onBlur={({ target }) => hadleSubmitItem(target)}
         />
       </S.InputContainer>
 

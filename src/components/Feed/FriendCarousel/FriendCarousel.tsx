@@ -20,7 +20,9 @@ const FriendCarousel = ({
   const isClick = (id: string) => {
     return currentFriendId === id;
   };
-
+  const isFix = (isFixed: boolean, id: string) => {
+    return isClick(id) ? false : isFixed;
+  };
   return (
     <S.FriednCarouselLayout>
       <S.EmblaViewport ref={emblaRef}>
@@ -34,8 +36,9 @@ const FriendCarousel = ({
                 src={friend.profileImageUrl}
                 alt={`${friend.nickname}님의 프로필`}
                 $isClicked={isClick(friend.userID)}
-                $isFixed={friend.isFixed}
+                $isFixed={isFix(friend.isFixed, friend.userID)}
               />
+
               {friend.nickname}
             </S.FriendItem>
           ))}
