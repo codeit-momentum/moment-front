@@ -19,7 +19,7 @@ import OKModal from '../../components/Modal/OKModal/OKModal';
 type ModalType = 'default' | 'delete' | 'ok';
 
 const Feed = () => {
-  const { friendList } = useGetFriends();
+  const { friendList, refetch } = useGetFriends();
   const { mutate: patchFix } = usePatchFix();
   const { mutate: deleteFriend } = useDeleteFriend();
   const { currentFriend, handleClickFriend, setCurrentFriend } =
@@ -36,7 +36,6 @@ const Feed = () => {
     deleteFriend(currentFriend.userID, {
       onSuccess: () => {
         setModalType('ok');
-        setCurrentFriend(friendList[0]);
       },
     });
   };
@@ -97,8 +96,12 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    setCurrentFriend(friendList[0]);
-  }, [friendList, setCurrentFriend]);
+    if (currentFriend) {
+      setCurrentFriend(currentFriend);
+    } else {
+      setCurrentFriend(friendList[0]);
+    }
+  }, [currentFriend, friendList, setCurrentFriend]);
 
   return (
     <S.FeedLayout>
