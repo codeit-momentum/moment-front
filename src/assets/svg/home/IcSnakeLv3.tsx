@@ -2,9 +2,10 @@ const IcSnakeLv3 = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
-    width="256"
-    height="256"
+    width="52"
+    height="52"
     fill="none"
+    viewBox="0 0 256 256"
   >
     <path fill="url(#a)" d="M0 0h256v256H0z" />
     <defs>

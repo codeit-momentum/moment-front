@@ -17,23 +17,19 @@ const MomentUploadStatus = ({ data }: MomentUploadStatusProps) => {
     >
       <S.MomentContainer>
         {data.length > 0 ? (
-          data.map((bucket) => (
-            <S.MomentItem key={bucket.bucketID}>
-              {bucket.moments[0].photoUrl ? (
-                <S.MomentImage
-                  src={bucket.moments[0].photoUrl}
-                  alt="인증이미지"
-                />
+          data.map(({ moments: [moment] }) => (
+            <S.MomentItem key={moment.momentID}>
+              {moment.photoUrl ? (
+                <S.MomentImage src={moment.photoUrl} alt="인증이미지" />
               ) : (
-                <Link to={`upload/${bucket.moments[0].momentID}`}>
+                <Link to={`upload/${moment.momentID}`}>
                   <IcMomentUpload />
                 </Link>
               )}
-              <S.MomentTitleSpan>{bucket.moments[0].content}</S.MomentTitleSpan>
+              <S.MomentTitleSpan>{moment.content}</S.MomentTitleSpan>
             </S.MomentItem>
           ))
         ) : (
-          // 모멘트가 없는 경우
           <S.MomentItem>
             <Link to={'bucket'}>
               <IcMomentUpload />
