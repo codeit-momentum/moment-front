@@ -11,10 +11,8 @@ export const generateMomentDates = (
   if (!duration || !frequency || todoList.length === 0) return [];
 
   // 현재 날짜를 UTC 기준으로 설정
-  const baseDate = new Date();
+  let baseDate = new Date();
   baseDate.setUTCHours(0, 0, 0, 0); // 시간 초기화
-
-  console.log('📌 현재 날짜 baseDate:', baseDate.toISOString());
 
   let interval = 1;
   if (frequency === 'every2days') interval = 2;

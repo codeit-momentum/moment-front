@@ -1,10 +1,11 @@
-import { useNavigationType, useNavigate, useParams } from 'react-router-dom';
+import { useNavigationType, useNavigate } from 'react-router-dom';
 import * as S from './SelectMode.style';
 import { ModeType } from '../../types/moment/modeType';
 import Button from '../../components/Button/Button';
 import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
 import BackBtn from '../../components/BackBtn/BackBtn';
 import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
+import useBucketId from '../../hooks/useBucketId';
 
 /**
  * SelectMode
@@ -14,13 +15,13 @@ import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetai
 const SelectMode = () => {
   const navigate = useNavigate();
   const navigationType = useNavigationType();
-  const { id } = useParams() as { id: string };
+  const bucketId = useBucketId();
 
   // React Query 활용하여 버킷 상세 정보 가져오기
-  const { data, isLoading, isError } = useGetBucketDetail(id);
+  const { data, isLoading, isError } = useGetBucketDetail(bucketId);
 
   // ID가 없거나 API 호출 실패 시 리다이렉트 처리
-  if (!id || isError) {
+  if (!bucketId || isError) {
     console.error('ID가 없거나 잘못되었습니다! 라우트 문제 확인 필요');
     navigate('/moment/bucket', { replace: true });
     return null;
@@ -31,8 +32,18 @@ const SelectMode = () => {
    * - 선택된 모드에 따라 경로 이동
    */
   const handleSelect = (mode: ModeType) => {
-    navigate(`/moment/create-moment/${id}?mode=${mode}`, {
-      state: { id, goal: data?.bucket?.content || '버킷리스트 없음' },
+    const goal = data?.bucket?.content || '버킷리스트 없음';
+
+    if (goal === '버킷리스트 없음') {
+      alert('유효한 버킷리스트 목표가 없습니다.');
+      return;
+    }
+
+    // sessionStorage에 버킷 ID 저장 (데이터 유지 목적)
+    sessionStorage.setItem('bucketId', bucketId);
+
+    navigate(`/moment/create-moment/${bucketId}?mode=${mode}`, {
+      state: { id: bucketId, goal, mode },
     });
   };
 
