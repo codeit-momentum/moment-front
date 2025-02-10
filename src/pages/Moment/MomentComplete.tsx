@@ -10,15 +10,11 @@ import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetai
 import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
 import useBucketId from '../../hooks/useBucketId';
 import useMomentData from '../../hooks/useMomentData';
-import { updateBucketAndMoments } from '../../utils/updateBucketandMomets';
 
-/**
- * MomentComlete
- * 임시 데이터를 사용하여 "모멘트 설계 완료" 페이지 렌더링
- */
 const MomentComplete = () => {
   const navigate = useNavigate();
   const bucketId = useBucketId();
+  const { momentData: momentConfig, saveMomentData } = useMomentData(bucketId);
 
   const {
     data,
@@ -30,37 +26,45 @@ const MomentComplete = () => {
     { id: string; content: string; startDate: string; endDate: string }[]
   >([]);
 
-  const momentData = useMomentData(bucketId);
-  const { mutateAsync: updateBucketChallenge } = usePatchBucketChallenge(); // ✅ `mutateAsync` 사용
+  const { mutateAsync: updateBucketChallenge } = usePatchBucketChallenge(); // `mutateAsync` 사용
   const { mutateAsync: createMoments, isPending } = usePostMoments();
 
   useEffect(() => {
+    if (isBucketLoading) return;
+
     if (
-      !momentData ||
-      !momentData.todoList ||
-      momentData.todoList.length === 0
+      !momentConfig ||
+      !momentConfig.todoList ||
+      momentConfig.todoList.length === 0
     ) {
       console.error(
-        `🚨 momentData-${bucketId}가 없습니다. sessionStorage에서도 없음`,
+        `momentConfig-${bucketId}가 없습니다. sessionStorage에서도 없음`,
       );
-      alert('잘못된 접근입니다. 처음부터 다시 시도해주세요.');
+      alert('세션 데이터가 유실되었습니다. 다시 생성해주세요.');
       navigate(`/moment/create-moment/${bucketId}`);
-    } else {
-      console.log(`✅ 최종 복구된 momentData-${bucketId}:`, momentData);
+      return;
     }
-  }, [momentData]);
 
-  // 실행 빈도 유효성 검사: `generateMomentDates` 실행 전 검증
-  const allowedFrequencies = ['daily', 'every2days', 'weekly', 'monthly'];
-  const frequency =
-    momentData && allowedFrequencies.includes(momentData.frequency)
-      ? momentData.frequency
-      : 'daily';
+    console.log(`최종 복구된 momentConfig-${bucketId}:`, momentConfig);
+  }, [isBucketLoading, navigate, bucketId]);
 
   useEffect(() => {
-    if (!momentData) return;
+    if (!momentConfig) return;
 
-    const generatedMoments = generateMomentDates(momentData);
+    const validFrequency = [
+      'daily',
+      'every2days',
+      'weekly',
+      'monthly',
+    ].includes(momentConfig.frequency)
+      ? momentConfig.frequency
+      : 'daily';
+
+    // moments가 없으면 `generateMomentDates` 실행
+    const generatedMoments = generateMomentDates({
+      ...momentConfig,
+      frequency: validFrequency,
+    });
 
     if (generatedMoments.length === 0) {
       console.warn('generateMomentDates가 빈 배열을 반환했습니다.');
@@ -70,79 +74,75 @@ const MomentComplete = () => {
     setMoments((prevMoments) => {
       const isSame =
         JSON.stringify(prevMoments) === JSON.stringify(generatedMoments);
-      if (isSame) return prevMoments;
-      console.log('최종 변환된 momentDates:', generatedMoments);
-      return generatedMoments;
+      return isSame ? prevMoments : generatedMoments;
     });
-  }, [momentData]);
+  }, [momentConfig]);
 
   useEffect(() => {
-    if (data?.bucket) {
-      // 이미 도전 중이라면 PATCH 요청을 보내지 않음
-      if (data.bucket.isChallenging) {
-        console.log('이미 도전 중인 버킷입니다. PATCH 요청을 생략합니다.');
-        return;
-      }
-      updateBucketChallenge(
-        { id: bucketId },
-        {
-          onSuccess: () => {
-            refetch(); // 최신 데이터 다시 가져오기
-          },
-          onError: (error) => {
-            console.error('도전 모드 활성화 실패:', error);
-          },
-        },
-      );
+    if (data?.bucket && !data.bucket.isChallenging) {
+      console.log('도전 모드 활성화 PATCH 요청 실행');
+
+      updateBucketChallenge({ id: bucketId })
+        .then(() => refetch())
+        .then(() => console.log('도전 모드 활성화 완료'))
+        .catch((error) =>
+          console.error('도전 모드 활성화 중 오류 발생:', error),
+        );
     }
-  }, [data, bucketId, updateBucketChallenge, refetch]);
+  }, [data, bucketId, refetch, updateBucketChallenge]);
 
   const handleConfirm = async () => {
-    if (!moments.length) {
-      alert('모멘트 데이터가 없습니다.');
+    if (!momentConfig) {
+      alert('모멘트 정보를 불러올 수 없습니다. 다시 시도해주세요.');
       return;
     }
 
-    if (isBucketLoading) {
-      alert('버킷 정보를 로딩 중입니다. 잠시 후 다시 시도해주세요.');
+    if (!bucketId || isBucketLoading || !data?.bucket) {
+      alert('버킷 정보를 불러올 수 없습니다. 다시 시도해주세요.');
       return;
     }
-    if (!data?.bucket) {
-      alert('버킷 정보를 불러올 수 없습니다.');
-      return;
-    }
-
-    console.log('최종 bucket 데이터:', data.bucket);
 
     if (data.bucket.type !== 'REPEAT') {
-      alert('이 버킷에서는 모멘트를 추가할 수 없습니다. (반복형이어야 함)');
+      alert(' 반복형 버킷만 모멘트를 추가할 수 있습니다.');
+      return;
+    }
+
+    if (moments.length === 0) {
+      alert('생성된 모멘트가 없습니다. 다시 시도해주세요.');
       return;
     }
 
     console.log('최종 API 요청 데이터:', {
-      startDate: moments[0].startDate,
-      endDate: moments[moments.length - 1].endDate,
+      startDate: moments[0]?.startDate || '',
+      endDate: moments[moments.length - 1]?.endDate || '',
       moments,
-      frequency,
+      frequency: momentConfig.frequency,
     });
 
     try {
-      const responseData = await updateBucketAndMoments(
-        bucketId,
-        moments,
-        frequency,
-        updateBucketChallenge,
-        createMoments,
-      );
+      if (!data.bucket.isChallenging) {
+        console.log('도전 모드 비활성화 상태. PATCH 요청 실행.');
+        await updateBucketChallenge({ id: bucketId });
+        refetch();
+      }
 
-      console.log('✅ 모멘트가 성공적으로 저장되었습니다:', responseData);
-      sessionStorage.setItem(
-        `momentData-${bucketId}`,
-        JSON.stringify(responseData),
-      );
+      const payload = {
+        startDate: moments[0]?.startDate,
+        endDate: moments[moments.length - 1]?.endDate,
+        moments,
+        frequency: momentConfig.frequency,
+      };
+
+      console.log('POST 요청 실행 (모멘트 생성)', payload);
+      const responseData = await createMoments({ bucketId, payload });
+
+      console.log('모멘트가 성공적으로 저장되었습니다:', responseData);
+
       navigate('/moment/bucket');
     } catch (error) {
-      alert('모멘트 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
+      console.error('모멘트 생성 중 오류 발생:', error);
+      saveMomentData(momentConfig);
+      alert('모멘트 생성에 실패했습니다. 다시 시도해주세요.');
     }
   };
 

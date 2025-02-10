@@ -32,7 +32,7 @@ const ToDoListComponent = ({
   const { Toast, openToast } = useToast();
 
   useEffect(() => {
-    if (mode === 'auto' && todoList.length > 0) {
+    if (mode === 'auto' && Array.isArray(todoList) && todoList.length > 0) {
       console.log('ToDoListComponent - todoList 업데이트됨:', todoList);
       setTodos(todoList);
     }

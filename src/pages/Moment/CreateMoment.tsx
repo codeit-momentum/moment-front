@@ -26,35 +26,26 @@ const CreateMoment = () => {
   const { data, isLoading } = useGetBucketDetail(bucketId);
   const bucketContent = data?.bucket?.content || '버킷리스트 없음';
 
-  useEffect(() => {
-    console.log('CreateMoment.tsx - 현재 버킷 ID:', bucketId);
-  }, [bucketId]);
+  const { momentData: momentConfig, saveMomentData } = useMomentData(bucketId);
 
-  useEffect(() => {
-    if (bucketContent === '버킷리스트 없음') {
-      console.error('목표 없음으로 모멘트 생성 불가');
-      navigate(`/moment/select-mode/${bucketId}`, { replace: true });
-    }
-  }, [bucketContent, navigate, bucketId]);
+  const [duration, setDuration] = useState<number | null>(
+    momentConfig?.duration || null,
+  );
+  const [todoList, setTodoList] = useState<string[]>(
+    momentConfig?.todoList || [],
+  );
+  const [frequency, setFrequency] = useState<string | null>(
+    momentConfig?.frequency || null,
+  );
+  const [isDurationConfirmed, setIsDurationConfirmed] = useState(
+    !!momentConfig?.duration,
+  );
+  const [isTodoConfirmed, setIsTodoConfirmed] = useState(
+    !!momentConfig?.todoList?.length,
+  );
 
-  const [duration, setDuration] = useState<number | null>(null);
-  const [todoList, setTodoList] = useState<string[]>([]);
-  const [frequency, setFrequency] = useState<string | null>(null);
-  const [isDurationConfirmed, setIsDurationConfirmed] = useState(false);
-  const [isTodoConfirmed, setIsTodoConfirmed] = useState(false);
   const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [isModeValid, setIsModeValid] = useState(true);
-
-  const momentData = useMomentData(bucketId);
-
-  useEffect(() => {
-    if (momentData) {
-      console.log('✅ CreateMoment.tsx - 복구된 momentData:', momentData);
-      setDuration(momentData.duration);
-      setTodoList(momentData.todoList);
-      setFrequency(momentData.frequency);
-    }
-  }, [momentData]);
 
   useEffect(() => {
     if (!mode || (mode !== 'auto' && mode !== 'manual')) {
@@ -117,26 +108,27 @@ const CreateMoment = () => {
       alert('빈도, 기간, 투두리스트를 입력해주세요.');
       return;
     }
+
     const momentData: CreateMomentResponse = {
-      id: bucketId, // 버킷 ID 유지
+      id: bucketId,
       duration,
       todoList,
       frequency,
       createdAt: new Date().toISOString(),
     };
 
-    console.log(
-      `CreateMoment - sessionStorage 저장 (버킷 ID: ${bucketId}):`,
-      momentData,
-    );
-    sessionStorage.setItem(
-      `momentData-${bucketId}`,
-      JSON.stringify(momentData),
-    );
+    saveMomentData(momentData);
 
+    const savedData = localStorage.getItem(`momentConfig-${bucketId}`);
+    if (!savedData) {
+      console.error('localStorage 저장 확인 실패! 데이터가 없습니다.');
+      alert('세션 데이터 저장에 실패했습니다. 다시 시도해주세요.');
+      return;
+    }
+
+    console.log('sessionStorage 데이터 저장 확인 완료, 페이지 이동');
     navigate('/moment/complete', { state: { ...momentData, bucketId } });
   };
-
   const handleBack = () => {
     if (navigationType === 'POP') {
       navigate(`/moment/select-mode/${bucketId}`);
@@ -167,7 +159,7 @@ const CreateMoment = () => {
       {isDurationConfirmed && (
         <ToDoListComponent
           mode={mode}
-          todoList={todoList}
+          todoList={todoList || []}
           duration={duration || 0}
           isLoading={!isTodoConfirmed && isLoadingAI}
           onSave={handleTodoConfirm}
