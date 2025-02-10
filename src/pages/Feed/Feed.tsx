@@ -13,13 +13,13 @@ import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
 import useDeleteFriend from '../../hooks/queries/Feed/useDeleteFriend';
 import { useNavigate } from 'react-router-dom';
 import IcNoFriend from '../../assets/svg/IcNoFriend';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import OKModal from '../../components/Modal/OKModal/OKModal';
 
 type ModalType = 'default' | 'delete' | 'ok';
 
 const Feed = () => {
-  const { friendList, isPending } = useGetFriends();
+  const { friendList } = useGetFriends();
   const { mutate: patchFix } = usePatchFix();
   const { mutate: deleteFriend } = useDeleteFriend();
   const { currentFriend, handleClickFriend, setCurrentFriend } =
@@ -57,8 +57,6 @@ const Feed = () => {
     setModalType('default');
   };
 
-  if (isPending) return <div>로딩중</div>;
-
   const caseModal = (modalType: string) => {
     switch (modalType) {
       case 'delete':
@@ -84,8 +82,8 @@ const Feed = () => {
       case 'default':
         return (
           <FeedModal
-            title={currentFriend.nickname}
-            isFixed={currentFriend.isFixed}
+            title={currentFriend?.nickname}
+            isFixed={currentFriend?.isFixed}
             onFix={handleFix}
             onDelete={() => {
               setModalType('delete');
@@ -97,6 +95,14 @@ const Feed = () => {
         return;
     }
   };
+
+  useEffect(() => {
+    if (currentFriend) {
+      setCurrentFriend(currentFriend);
+    } else {
+      setCurrentFriend(friendList[0]);
+    }
+  }, [currentFriend, friendList, setCurrentFriend]);
 
   return (
     <S.FeedLayout>
@@ -133,9 +139,9 @@ const Feed = () => {
         </S.EmptyFeedWrapper>
       ) : (
         <FeedList
-          friendId={currentFriend.userID}
-          friendNickname={currentFriend.nickname}
-          isKnocked={currentFriend.isKnock}
+          friendId={currentFriend?.userID}
+          friendNickname={currentFriend?.nickname}
+          isKnocked={currentFriend?.isKnock}
         />
       )}
     </S.FeedLayout>

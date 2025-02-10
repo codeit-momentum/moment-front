@@ -62,7 +62,12 @@ export default [
       'no-var': 'error', // var 사용 금지
 
       // 주석 및 들여쓰기
-      indent: ['error', 2, { SwitchCase: 1 }], // 2탭 들여쓰기 적용
+      indent: [
+        'error',
+        2,
+        { SwitchCase: 1 },
+        { flatTernaryExpressions: false },
+      ], // 2탭 들여쓰기 적용
 
       // React 관련 규칙
       'prefer-arrow-callback': 'warn',
