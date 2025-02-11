@@ -37,7 +37,6 @@ const CheckList = ({ type }: CheckListProps) => {
 
   const useTypeHook = TypeHooks[type];
   const { data } = useTypeHook();
-  console.log(data);
 
   const hadleSubmitItem = (target: HTMLTextAreaElement) => {
     const trimmedItem = newItem.trim();

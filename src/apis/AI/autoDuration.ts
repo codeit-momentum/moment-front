@@ -51,5 +51,3 @@ export async function autoDuration(goal: string) {
     return null;
   }
 }
-
-autoDuration('운동 루틴 만들기');
