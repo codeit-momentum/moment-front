@@ -1,11 +1,17 @@
 import * as S from './OnboardingSection.style';
 import IcLogo from '../../assets/svg/IcLogo';
 
-const OnboardingSection = () => {
+type OnboardingSectionProps = {
+  isStart: boolean;
+};
+
+const OnboardingSection = ({ isStart }: OnboardingSectionProps) => {
   return (
     <S.OnboardingContainer>
-      <IcLogo />
-      <S.DescriptionWrapper>
+      <S.OnboardingAnimation $isStart={isStart}>
+        <IcLogo />
+      </S.OnboardingAnimation>
+      <S.DescriptionWrapper $isStart={isStart}>
         당신의 중요한 모멘트를
         <br />
         기록하고, 달성하세요

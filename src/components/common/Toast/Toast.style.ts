@@ -12,4 +12,16 @@ export const ToastLayout = styled.div`
   border-radius: 20px;
   font-size: 14px;
   line-height: 25px;
+
+  animation: fadeIn 300ms ease-out;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;

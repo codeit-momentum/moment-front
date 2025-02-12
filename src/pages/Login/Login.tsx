@@ -10,7 +10,7 @@ const Login = () => {
 
   return (
     <S.LoginPageLayout>
-      <OnboardingSection />
+      <OnboardingSection isStart={false} />
       <S.LoginButton onClick={handleLogin}>
         <IcKakaoLogin />
       </S.LoginButton>
