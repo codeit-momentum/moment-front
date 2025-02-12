@@ -10,7 +10,6 @@ const BackBtn = ({ onClick }: BackBtnProps) => {
     <S.BackBtnField>
       <S.BackBtnWrapper
         onClick={() => {
-          console.log('BackBtn clicked');
           onClick();
         }}
       >
