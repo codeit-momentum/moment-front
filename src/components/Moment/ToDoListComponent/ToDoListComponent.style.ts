@@ -41,3 +41,12 @@ export const TodoLoadingWrapper = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   margin-top: 1rem;
 `;
+
+export const BtnContainer = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'row',
+    })};
+  gap: 3rem;
+  margin-bottom: 2rem;
+`;
