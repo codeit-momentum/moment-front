@@ -1,7 +1,7 @@
-//import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './NotificationModal.style';
 import IcCloseModal from '../../../assets/svg/IcCloseModal';
-//import { useGetNotifications } from '../../../hooks/queries/home/useGetNotifications';
+import useGetNotice from '../../../hooks/queries/home/useGetNotice';
 
 // NotificationItem 타입 정의
 export interface NotificationItem {
@@ -16,30 +16,26 @@ interface NotificationModalProps {
 }
 
 const NotificationModal = ({ onClose }: NotificationModalProps) => {
-  /*
-  const { data, isLoading, isError } = useGetNotifications();
+  const { data: noticeData, refetch } = useGetNotice(); // 30초마다 자동 갱신됨
   const [sortedNotifications, setSortedNotifications] = useState<
     NotificationItem[]
   >([]);
 
-  // 알림 데이터 정렬
   useEffect(() => {
-    if (data?.notifications) {
-      const sorted = [...data.notifications].sort(
+    if (noticeData?.notifications) {
+      const sorted = [...noticeData.notifications].sort(
         (a, b) =>
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
       );
-      setSortedNotifications(sorted.slice(0, 15)); // 최대 15개만 표시
+      setSortedNotifications(sorted.slice(0, 15)); // 최신순으로 정렬 후 15개 유지
     }
-  }, [data]);
+  }, [noticeData]);
 
-  // 로딩 및 에러 처리
-  if (isLoading) return <S.ModalOverlay>로딩 중...</S.ModalOverlay>;
-  if (isError)
-    return (
-      <S.ModalOverlay>알림 데이터를 불러오는 데 실패했습니다.</S.ModalOverlay>
-    );
-*/
+  // 모달이 열릴 때 최신 알림 데이터 가져오기
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
   return (
     <S.ModalOverlay onClick={onClose}>
       <S.ModalLayout onClick={(e) => e.stopPropagation()}>
@@ -51,7 +47,7 @@ const NotificationModal = ({ onClose }: NotificationModalProps) => {
           </S.CloseIcon>
         </S.Header>
 
-        {/* 알림 리스트 
+        {/* 알림 리스트 */}
         <S.NotificationList>
           {sortedNotifications.length > 0 ? (
             sortedNotifications.map((notification) => (
@@ -68,7 +64,7 @@ const NotificationModal = ({ onClose }: NotificationModalProps) => {
           ) : (
             <S.EmptyMessage>알림이 없습니다.</S.EmptyMessage>
           )}
-        </S.NotificationList>*/}
+        </S.NotificationList>
       </S.ModalLayout>
     </S.ModalOverlay>
   );

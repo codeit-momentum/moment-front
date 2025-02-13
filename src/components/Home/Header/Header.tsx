@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as S from './Header.style';
-// import IcNotice from '../../../../src/assets/svg/home/IcNotice';
-// import IcNoticeOff from '../../../assets/svg/home/IcNoticeOff';
+//import IcNotice from '../../../src/assets/svg/home/IcNotice';
+//import IcNoticeOff from '../../../assets/svg/home/IcNoticeOff';
 import IcClip from '../../../assets/svg/home/IcClip';
 import IcClipOff from '../../../assets/svg/home/IcClipOff';
 import useGetConsecutiveDays from '../../../hooks/queries/home/useGetConsecutiveDays';
@@ -65,7 +65,7 @@ const Header = () => {
       </S.StreakTextContainer>
 
       <S.BellIconWrapper onClick={handleNotificationClick}>
-        {(noticeCount ?? newNotificationCount) > 0 ? <IcClip /> : <IcClipOff />}
+        {noticeCount + newNotificationCount > 0 ? <IcClip /> : <IcClipOff />}
       </S.BellIconWrapper>
 
       {/* 알림 모달 */}
