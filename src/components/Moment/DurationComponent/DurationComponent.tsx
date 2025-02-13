@@ -70,7 +70,7 @@ const DurationComponent = ({
 
   return (
     <S.DurationLayout>
-      <Divider customStyle={{ marginTop: '1.5rem' }} />
+      <Divider customStyle={{ marginTop: '0.5rem' }} />
       <S.Label>예상 소요 기간은</S.Label>
       {isLoading ? (
         <S.DurationLoadingWrapper>

@@ -146,7 +146,7 @@ const CreateMoment = () => {
       <BackBtn onClick={handleBack} />
       <HeaderComponent
         title={isLoading ? '로딩 중...' : bucketContent}
-        subtitle="버킷리스트를 시작해볼까요!"
+        subtitle="버킷리스트를 시작해볼까요?"
       />
 
       <DurationComponent

@@ -2,12 +2,5 @@
   "routes": [
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }
-  ],
-  "redirects": [
-    {
-      "source": "https://codeit-momentum.vercel.app",
-      "destination": "https://www.codeit-momentum.shop",
-      "permanent": true
-    }
   ]
 }

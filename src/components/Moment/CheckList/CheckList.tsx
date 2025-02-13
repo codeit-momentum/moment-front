@@ -37,7 +37,6 @@ const CheckList = ({ type }: CheckListProps) => {
 
   const useTypeHook = TypeHooks[type];
   const { data } = useTypeHook();
-  console.log(data);
 
   const hadleSubmitItem = (target: HTMLTextAreaElement) => {
     const trimmedItem = newItem.trim();
@@ -122,7 +121,6 @@ const CheckList = ({ type }: CheckListProps) => {
 
         <S.NewItemInput
           value={newItem}
-          maxLength={30}
           onChange={handleChangeInput}
           onInput={handleResizeHeight}
           onKeyDown={handleKeyPress}

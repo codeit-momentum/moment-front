@@ -42,7 +42,6 @@ export const BucketlistLabel = styled.span`
   left: 2.5rem;
 `;
 export const IconWRapper = styled.div`
-  width: 100%;
   position: absolute;
   left: 10rem;
   top: 10rem;
