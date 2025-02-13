@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as S from './Header.style';
 import useGetConsecutiveDays from '../../../hooks/queries/home/useGetConsecutiveDays';
 import usePatchNotice from '../../../hooks/queries/home/usePatchNotice';
-import useGetNotice from '../../../hooks/queries/home/useGetNotice';
 import NotificationModal from '../NotificationModal/NotificationModal';
-import IcNotice from '../../../assets/svg/home/IcNotice';
 import IcNoticeOff from '../../../assets/svg/home/IcNoticeOff';
 import { NoticeItemType } from '../../../types/home';
 
@@ -16,7 +14,6 @@ const Header = () => {
     isLoading,
     isError,
   } = useGetConsecutiveDays();
-  const { data: noticeCount, refetch } = useGetNotice();
   const { mutate: patchNotice } = usePatchNotice();
   const [noticeData, setNoticeData] = useState<NoticeItemType[]>([]);
 
@@ -40,7 +37,7 @@ const Header = () => {
   if (isError || !consecutiveDaysData?.success) {
     return <S.HeaderLayout>데이터 로드 실패</S.HeaderLayout>;
   }
-  console.log(noticeData);
+
   return (
     <S.HeaderLayout>
       <S.StreakTextContainer>
@@ -52,7 +49,7 @@ const Header = () => {
       </S.StreakTextContainer>
 
       <S.BellIconWrapper onClick={handleNotificationClick}>
-        {noticeCount > 0 ? <IcNotice /> : <IcNoticeOff />}
+        <IcNoticeOff />
       </S.BellIconWrapper>
 
       {isModalOpen && (

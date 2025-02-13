@@ -1,8 +1,8 @@
 import * as S from './NotificationModal.style';
 import IcCloseModal from '../../../assets/svg/IcCloseModal';
 import { NoticeItemType, NoticeType } from '../../../types/home';
-import IcMomentBlue from '../../../assets/svg/home/IcMomentBlue';
-import IcFriendBlue from '../../../assets/svg/home/IcFriendBlue';
+import IcUnactiveMoment from '../../../assets/svg/IcUnactiveMoment';
+import IcUnactiveFriends from '../../../assets/svg/IcUnactiveFriends';
 
 interface NotificationModalProps {
   noticeData: NoticeItemType[];
@@ -11,7 +11,7 @@ interface NotificationModalProps {
 
 const NotificationModal = ({ noticeData, onClose }: NotificationModalProps) => {
   const rendalIcon = (type: NoticeType) => {
-    return type === 'KNOCK' ? <IcMomentBlue /> : <IcFriendBlue />;
+    return type === 'KNOCK' ? <IcUnactiveMoment /> : <IcUnactiveFriends />;
   };
   return (
     <S.ModalOverlay onClick={onClose}>
