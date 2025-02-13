@@ -26,16 +26,10 @@ export const MomentBox = styled.div<{ $isCompleted: boolean }>`
 `;
 export const ClearBadgeSpan = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
-  color: ${({ theme }) => theme.colors.red};
-  width: 7.1rem;
-  height: 2.52rem;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(40deg);
-  border: 3px solid ${({ theme }) => theme.colors.red};
-  font-size: 16px;
-  line-height: 20px;
+  transform: translate(-50%, -50%) rotate(-50deg);
 `;
 
 export const MomentTitleSpan = styled.div`

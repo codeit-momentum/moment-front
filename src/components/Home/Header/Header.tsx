@@ -11,12 +11,11 @@ import useGetNotice from '../../../hooks/queries/home/useGetNotice';
 
 const Header = () => {
   //const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const currentDate = new Date().toISOString().split('T')[0]; // 오늘 날짜
   const {
     data: consecutiveDaysData,
     isLoading,
     isError,
-  } = useGetConsecutiveDays(currentDate);
+  } = useGetConsecutiveDays();
   const { data: noticeCount } = useGetNotice();
   const { mutate: patchNotice } = usePatchNotice();
 

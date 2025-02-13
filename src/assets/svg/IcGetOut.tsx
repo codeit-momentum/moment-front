@@ -1,13 +1,13 @@
 const IcGetOut = () => (
   <svg
-    width="36"
-    height="36"
+    width="100%"
+    height="100%"
     viewBox="0 0 36 36"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
   >
-    <rect width="36" height="36" fill="url(#pattern0_597_154)" />
+    <rect width="100%" height="100%" fill="url(#pattern0_597_154)" />
     <defs>
       <pattern
         id="pattern0_597_154"

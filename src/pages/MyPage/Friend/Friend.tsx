@@ -45,20 +45,19 @@ const Friend = () => {
       },
       onSettled: () => {
         openModal();
+        setMessage('');
       },
     });
   };
 
   const handlePostFriend = () => {
     postFriend(friendCode, {
-      onSuccess: (data) => {
-        setMessage(data.message);
-      },
       onError: (error) => {
         handleError(error);
       },
       onSettled: () => {
         setIsFriend(true);
+        setMessage('');
       },
     });
   };
@@ -75,14 +74,16 @@ const Friend = () => {
       {isOpen && (
         <Modal>
           {isFriend ? (
-            <OKModal
-              mainText={
-                message === ''
-                  ? `${friendNickname}님과 친구가 되었습니다!`
-                  : message
-              }
-              onClose={handleClose}
-            />
+            <OKModal onClose={handleClose}>
+              {message === '' ? (
+                <>
+                  <span style={{ color: '#FAED46' }}>{friendNickname}</span>님과
+                  친구가 되었습니다!
+                </>
+              ) : (
+                message
+              )}
+            </OKModal>
           ) : (
             <SelectModal
               type="add"
@@ -90,7 +91,8 @@ const Friend = () => {
               onSubmit={handlePostFriend}
               onClose={handleClose}
             >
-              {friendNickname}님을 추가하시겠습니까?
+              <span style={{ color: '#FAED46' }}>{friendNickname}</span>님을
+              추가하시겠습니까?
             </SelectModal>
           )}
         </Modal>
