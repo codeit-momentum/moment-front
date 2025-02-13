@@ -73,11 +73,11 @@ const Feed = () => {
         );
       case 'ok':
         return (
-          <OKModal
-            mainText="친구 관계를
-            성공적으로 삭제했습니다."
-            onClose={handleClose}
-          />
+          <OKModal onClose={handleClose}>
+            친구 관계를
+            <br />
+            성공적으로 삭제했습니다.
+          </OKModal>
         );
       case 'default':
         return (

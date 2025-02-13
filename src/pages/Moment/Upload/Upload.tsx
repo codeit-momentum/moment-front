@@ -90,14 +90,15 @@ const Upload = ({ variant }: UploadProps) => {
         <Modal>
           <OKModal
             title={data.content}
-            mainText=" 완료!"
             subText={
               variant === 'moment'
                 ? '새로운 모멘트를 인증했네요'
                 : '새로운 버킷리스트를 달성했네요'
             }
             onClose={handleCloseModal}
-          />
+          >
+            완료!
+          </OKModal>
         </Modal>
       )}
       {renderModal()}
