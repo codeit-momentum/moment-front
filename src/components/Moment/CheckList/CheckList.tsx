@@ -16,6 +16,7 @@ import useGetRepeatBucket from '../../../hooks/queries/bucketList/useGetRepeatBu
 import useGetAchievementBucket from '../../../hooks/queries/bucketList/useGetAchievementBucket';
 import useDeleteBucket from '../../../hooks/queries/bucketList/useDeleteBucket';
 import useToast from '../../../hooks/common/useToast';
+import Toast from '../../common/Toast/Toast';
 
 const TypeHooks = {
   REPEAT: useGetRepeatBucket,
@@ -33,7 +34,7 @@ const CheckList = ({ type }: CheckListProps) => {
   const { mutate: postBucket } = usePostBucket();
   const { mutate: patchBucket } = usePatchBucket();
   const { mutate: deleteBucket } = useDeleteBucket();
-  const { Toast, openToast } = useToast();
+  const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
 
   const useTypeHook = TypeHooks[type];
   const { data } = useTypeHook();
@@ -141,7 +142,7 @@ const CheckList = ({ type }: CheckListProps) => {
         />
       ))}
       {renderModal()}
-      <Toast />
+      {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
     </CheckListLayout>
   );
 };

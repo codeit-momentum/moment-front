@@ -13,8 +13,8 @@ export const ToastLayout = styled.div`
   font-size: 14px;
   line-height: 25px;
 
-  animation: fadeIn 300ms ease-out;
-  @keyframes fadeIn {
+  animation: toastFadeIn 300ms ease-out;
+  @keyframes toastFadeIn {
     0% {
       opacity: 0;
       transform: translateY(30px);

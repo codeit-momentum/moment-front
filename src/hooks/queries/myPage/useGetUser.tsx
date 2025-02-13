@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 
 const USER_QUERY_KEY = ['user'];
@@ -9,7 +9,7 @@ const getUser = async () => {
 };
 
 const useGetUser = () => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useSuspenseQuery({
     queryKey: USER_QUERY_KEY,
     queryFn: getUser,
   });

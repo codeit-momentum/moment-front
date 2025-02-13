@@ -18,6 +18,7 @@ export const Label = styled.h3`
   margin-top: 3rem;
   margin-bottom: 1rem;
   font-size: 16px;
+  line-height: 37px;
 `;
 
 export const DurationLoadingWrapper = styled.div`
