@@ -73,7 +73,9 @@ const ToDoListComponent = ({
     <S.ToDoListLayout>
       <S.TodoDivider />
       <S.TodoLabel>
-        {duration}일 동안 진행할 모멘트는 다음과 같습니다!
+        {duration}일 동안 진행할 모멘트는
+        <br />
+        다음과 같습니다!
       </S.TodoLabel>
       {isLoading ? (
         <S.TodoLoadingWrapper>
