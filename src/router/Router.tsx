@@ -15,6 +15,7 @@ import SelectMode from '../pages/Moment/SelectMode';
 import Moment from '../pages/Moment/Moment';
 import Friend from '../pages/MyPage/Friend/Friend';
 import EditProfile from '../pages/MyPage/EditProfile/EditProfile';
+import NotFound from '../pages/NotFound/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
       {
         path: 'auth/kakao/callback',
         element: <KakaoCallback />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       },
     ],
   },

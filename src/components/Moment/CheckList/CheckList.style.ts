@@ -39,6 +39,7 @@ export const NewItemInput = styled.textarea`
   height: 2rem;
   background-color: transparent;
   border: none;
+  border-radius: 0;
   border-bottom: 0.15rem solid ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.white};
   font-family: inherit;

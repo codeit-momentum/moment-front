@@ -1,33 +1,26 @@
 import * as S from './MyPage.style';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import MyProfile from '../../components/MyPage/MyProfile/MyProfile';
 import MyMenu from '../../components/MyPage/MyMenu/MyMenu';
-import UserInfoContext from '../../store/User/UserContext';
-import { useContext, useEffect } from 'react';
 import useGetUser from '../../hooks/queries/myPage/useGetUser';
 import IcEditProfile from '../../assets/svg/IcEditProfile';
 import IcAddFriend from '../../assets/svg/IcAddFriend';
 import IcLogout from '../../assets/svg/IcLogout';
 import IcGetOut from '../../assets/svg/IcGetOut';
+import useDeleteAccount from '../../hooks/queries/myPage/useDeleteAccount';
+import useModal from '../../hooks/common/useModal';
+import Modal from '../../components/Modal/Modal';
+import SelectModal from '../../components/Modal/SelectModal/SelectModal';
+import OKModal from '../../components/Modal/OKModal/OKModal';
 
 const MyPage = () => {
-  const { data } = useGetUser();
+  const { data: userData } = useGetUser();
   const navigate = useNavigate();
-  const { userInfo, setUserInfo } = useContext(UserInfoContext);
-
-  useEffect(() => {
-    if (data) {
-      const userData = {
-        id: data.id,
-        nickname: data.nickname,
-        email: data.email,
-        friendCode: data.friendCode,
-        profileImage: data.profileImageUrl,
-      };
-      setUserInfo(userData);
-    }
-  }, [data, setUserInfo]);
-
+  const { mutate: deleteAccount } = useDeleteAccount();
+  const [isOpen, openModal, closeModal] = useModal();
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
   const menuItems = [
     {
       label: '내 정보 수정하기',
@@ -57,16 +50,58 @@ const MyPage = () => {
     {
       label: '회원탈퇴',
       name: 'cancel',
-      icon: <IcGetOut />,
-      action: () => {},
+      icon: (
+        <S.IconWrapper>
+          <IcGetOut />
+        </S.IconWrapper>
+      ),
+      action: () => {
+        openModal();
+      },
     },
   ];
+
+  const handleDelete = () => {
+    deleteAccount(
+      {},
+      {
+        onSuccess: (data) => {
+          setMessage(data.message);
+        },
+        onSettled: () => {
+          setIsDeleting(true);
+        },
+      },
+    );
+  };
+
+  const handleClos = () => {
+    closeModal();
+    navigate('/');
+  };
+
   return (
     <S.MyPageLayout>
+      {isOpen && (
+        <Modal>
+          {isDeleting ? (
+            <OKModal onClose={handleClos}>{message}</OKModal>
+          ) : (
+            <SelectModal
+              type="delete"
+              content="한번 탈퇴하면 되돌릴 수 없습니다..."
+              onSubmit={handleDelete}
+              onClose={closeModal}
+            >
+              정말 계정을 삭제하시겠습니까?
+            </SelectModal>
+          )}
+        </Modal>
+      )}
       <MyProfile
-        name={userInfo.nickname}
-        email={userInfo.email}
-        profileImage={userInfo.profileImage}
+        name={userData.nickname}
+        email={userData.email}
+        profileImage={userData.profileImageUrl}
       />
       <S.Horizontal />
       <MyMenu menuItems={menuItems} />

@@ -1,21 +1,21 @@
 import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';
 import * as S from './EditProfile.style';
-import React, { useState, useContext } from 'react';
-import UserInfoContext from '../../../store/User/UserContext';
+import React, { useState } from 'react';
 import Button from '../../../components/Button/Button';
 import usePatchProfile from '../../../hooks/queries/myPage/usePatchProfile';
 import useErrorHandler from '../../../hooks/common/useResponseMessage';
 import useImageHandler from '../../../hooks/common/useImageHandler';
-import useModal from '../../../hooks/common/useModal';
-import Modal from '../../../components/Modal/Modal';
-import OKModal from '../../../components/Modal/OKModal/OKModal';
 import { useNavigate } from 'react-router-dom';
+import useGetUser from '../../../hooks/queries/myPage/useGetUser';
 
 const EditProfile = () => {
-  const { userInfo } = useContext(UserInfoContext);
-  const [newNickname, setNewNickname] = useState<string>(userInfo.nickname);
-  const { handleError, message, setMessage } = useErrorHandler();
-  const [isOpen, openModal, closeModal] = useModal();
+  const { data: userData } = useGetUser();
+  const [newNickname, setNewNickname] = useState<string>(userData.nickname);
+  const handleClose = () => {
+    navigate('/mypage');
+  };
+  const { handleError, openModal, setMessage, renderModal } =
+    useErrorHandler(handleClose);
   const navigate = useNavigate();
   const {
     image: newImage,
@@ -49,25 +49,16 @@ const EditProfile = () => {
     });
   };
 
-  const handleClose = () => {
-    closeModal();
-    navigate('/mypage');
-  };
-
   return (
     <S.EditProfileLayout>
-      {isOpen && (
-        <Modal>
-          <OKModal mainText={message} onClose={handleClose} />
-        </Modal>
-      )}
+      {renderModal()}
       <ImageToast />
       <MyPageTitle>내 정보 수정하기</MyPageTitle>
 
       <S.EditForm onSubmit={handleSubmit}>
         <S.Label>
           <S.PreviewImage
-            src={newImage || userInfo.profileImage}
+            src={newImage || userData.profileImageUrl}
             alt="profile"
             onError={handleImageError}
           />
@@ -83,7 +74,7 @@ const EditProfile = () => {
           </S.InputItemContainer>
           <S.InputItemContainer>
             <S.InputTitleSpan>이메일</S.InputTitleSpan>
-            <S.ProfileItemInput value={userInfo.email} readOnly />
+            <S.ProfileItemInput value={userData.email} readOnly />
           </S.InputItemContainer>
         </S.InputContainer>
         <Button type="submit">저장하기</Button>

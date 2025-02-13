@@ -1,5 +1,5 @@
 import * as S from './HeaderComponent.style';
-import IcActiveMoment from '../../../assets/svg/IcActiveMoment';
+import IcUnactiveMoment from '../../../assets/svg/IcUnactiveMoment';
 /**
  * Header Component Props
  * -title : 화면 상단의 주요 제목
@@ -22,7 +22,7 @@ const HeaderComponent = ({ title, subtitle }: HeaderProps) => {
     <S.HeaderLayout>
       <S.HeaderTitleContainer>
         <S.IconWrapper>
-          <IcActiveMoment />
+          <IcUnactiveMoment />
         </S.IconWrapper>
         <S.HeaderTitle>{title}</S.HeaderTitle>
       </S.HeaderTitleContainer>
