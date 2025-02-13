@@ -1,33 +1,34 @@
-import { useEffect } from 'react';
-//import NotificationModal, {
-//  NotificationItem,
-//} from '../NotificationModal/NotificationModal';
+import { useState } from 'react';
 import * as S from './Header.style';
-//import IcNotice from './../../../assets/svg/IcNotice';
-//import IcNoticeOff from './../../../assets/svg/IcNoticeOff';
 import useGetConsecutiveDays from '../../../hooks/queries/home/useGetConsecutiveDays';
 import usePatchNotice from '../../../hooks/queries/home/usePatchNotice';
-import useGetNotice from '../../../hooks/queries/home/useGetNotice';
+import NotificationModal from '../NotificationModal/NotificationModal';
+import IcNoticeOff from '../../../assets/svg/home/IcNoticeOff';
+import { NoticeItemType } from '../../../types/home';
 
 const Header = () => {
-  //const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const {
     data: consecutiveDaysData,
     isLoading,
     isError,
   } = useGetConsecutiveDays();
-  const { data: noticeCount } = useGetNotice();
   const { mutate: patchNotice } = usePatchNotice();
+  const [noticeData, setNoticeData] = useState<NoticeItemType[]>([]);
 
-  console.log(noticeCount);
-  // 모달 토글 함수
-  const toggleModal = () => {
-    //  setIsModalOpen((prev: boolean) => !prev);
+  const handleNotificationClick = () => {
+    patchNotice(
+      {},
+      {
+        onSuccess: (data) => {
+          setNoticeData(data.notifications);
+        },
+      },
+    );
+    setIsModalOpen(true); // 모달 열기
   };
 
-  useEffect(() => {
-    patchNotice();
-  }, [patchNotice]);
   if (isLoading) {
     return <S.HeaderLayout>로딩 중...</S.HeaderLayout>;
   }
@@ -38,12 +39,6 @@ const Header = () => {
 
   return (
     <S.HeaderLayout>
-      {/*isModalOpen && (
-        /*<NotificationModal
-          notifications={consecutiveDaysData.notifications || []} // API에서 notifications 데이터 가져오기
-          onClose={() => setIsModalOpen(false)}
-        /> <></>
-      )*/}
       <S.StreakTextContainer>
         오늘은 작심
         <S.StreakHighlight>
@@ -51,9 +46,17 @@ const Header = () => {
         </S.StreakHighlight>
         일
       </S.StreakTextContainer>
-      <S.BellIconWrapper onClick={toggleModal}>
-        {/*hasUnreadNotifications ? <IcNotice /> : <IcNoticeOff />*/}
+
+      <S.BellIconWrapper onClick={handleNotificationClick}>
+        <IcNoticeOff />
       </S.BellIconWrapper>
+
+      {isModalOpen && (
+        <NotificationModal
+          noticeData={noticeData}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </S.HeaderLayout>
   );
 };
