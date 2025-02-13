@@ -1,10 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import useToast from './useToast';
+import Toast from '../../components/common/Toast/Toast';
 
 const useImageHandler = () => {
   const [image, setImage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const { Toast, openToast } = useToast();
+  const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
 
   useEffect(() => {
     return () => {
@@ -37,7 +38,12 @@ const useImageHandler = () => {
     setImage(null);
   };
 
-  return { image, imageFile, handleImage, handleImageError, ImageToast: Toast };
+  const ImageToast = () =>
+    isToastOpen ? (
+      <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>
+    ) : null;
+
+  return { image, imageFile, handleImage, handleImageError, ImageToast };
 };
 
 export default useImageHandler;

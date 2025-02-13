@@ -26,7 +26,8 @@ export const TodoLabel = styled.h3`
   color: ${({ theme }) => theme.colors.white};
   text-align: center;
   white-space: pre-wrap;
-  margin-top: 3.2rem;
+  margin-top: 3rem;
+  line-height: 25px;
 `;
 
 export const IconWrapper = styled.div`
@@ -40,4 +41,13 @@ export const IconWrapper = styled.div`
 export const TodoLoadingWrapper = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   margin-top: 1rem;
+`;
+
+export const BtnContainer = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({
+      direction: 'row',
+    })};
+  gap: 3rem;
+  margin-bottom: 2rem;
 `;

@@ -15,14 +15,14 @@ const Start = () => {
       } else {
         navigate('/login');
       }
-    }, 3000);
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
 
   return (
     <S.StartPageLayout>
-      <OnboardingSection />
+      <OnboardingSection isStart />
     </S.StartPageLayout>
   );
 };

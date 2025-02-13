@@ -45,10 +45,12 @@ const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
         <Modal>
           <OKModal
             title=""
-            mainText={`${friendNickname}님께 노크하였습니다!`}
             subText="피드를 곧 올려주실 거예요!"
             onClose={closeModal}
-          />
+          >
+            <span style={{ color: '#FAED46' }}>{friendNickname}</span>님께
+            노크하였습니다!
+          </OKModal>
         </Modal>
       )}
       {feed?.moments.length === 0 || feed === undefined ? (

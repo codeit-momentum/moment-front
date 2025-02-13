@@ -36,15 +36,16 @@ const CheckListModal = ({
         </S.ModalCloseButton>
       </S.ModalHeader>
       <S.ModalOptionContainer>
-        {challengingCount < MAX_MOMENT_COUNT && (
-          <S.ModalOptionButton onClick={onClickCreate}>
-            나만의 모멘트 생성
-          </S.ModalOptionButton>
-        )}
-        {type === 'ACHIEVEMENT' && (
+        {type === 'ACHIEVEMENT' ? (
           <S.ModalOptionButton onClick={onClickUpload}>
             목표 달성 인증
           </S.ModalOptionButton>
+        ) : (
+          challengingCount < MAX_MOMENT_COUNT && (
+            <S.ModalOptionButton onClick={onClickCreate}>
+              나만의 모멘트 생성
+            </S.ModalOptionButton>
+          )
         )}
         <S.ModalOptionButton onClick={onClickEdit}>
           수정하기

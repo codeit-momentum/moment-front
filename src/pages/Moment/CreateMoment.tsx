@@ -25,23 +25,22 @@ const CreateMoment = () => {
 
   const { data, isLoading } = useGetBucketDetail(bucketId);
   const bucketContent = data?.bucket?.content || '버킷리스트 없음';
-
-  const { momentData: momentConfig, saveMomentData } = useMomentData(bucketId);
+  const { momentData, saveMomentData } = useMomentData(bucketId);
 
   const [duration, setDuration] = useState<number | null>(
-    momentConfig?.duration || null,
+    momentData?.duration || null,
   );
   const [todoList, setTodoList] = useState<string[]>(
-    momentConfig?.todoList || [],
+    momentData?.todoList || [],
   );
   const [frequency, setFrequency] = useState<string | null>(
-    momentConfig?.frequency || null,
+    momentData?.frequency || null,
   );
   const [isDurationConfirmed, setIsDurationConfirmed] = useState(
-    !!momentConfig?.duration,
+    !!momentData?.duration,
   );
   const [isTodoConfirmed, setIsTodoConfirmed] = useState(
-    !!momentConfig?.todoList?.length,
+    !!momentData?.todoList?.length,
   );
 
   const [isLoadingAI, setIsLoadingAI] = useState(false);
@@ -127,7 +126,10 @@ const CreateMoment = () => {
     }
 
     console.log('sessionStorage 데이터 저장 확인 완료, 페이지 이동');
-    navigate('/moment/complete', { state: { ...momentData, bucketId } });
+    navigate('/moment/complete', {
+      state: { ...momentData, bucketId },
+      replace: true,
+    });
   };
   const handleBack = () => {
     if (navigationType === 'POP') {
@@ -146,7 +148,7 @@ const CreateMoment = () => {
       <BackBtn onClick={handleBack} />
       <HeaderComponent
         title={isLoading ? '로딩 중...' : bucketContent}
-        subtitle="버킷리스트를 시작해볼까요!"
+        subtitle="버킷리스트를 시작해볼까요?"
       />
 
       <DurationComponent

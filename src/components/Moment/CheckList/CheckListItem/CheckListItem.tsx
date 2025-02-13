@@ -10,6 +10,7 @@ import IcCheckboxPending from '../../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckListItem.style';
 import useToast from '../../../../hooks/common/useToast';
 import { getMaxLength } from '../../../../utils/moment';
+import Toast from '../../../common/Toast/Toast';
 
 interface BucketTypeProps {
   type: BucketType;
@@ -51,13 +52,13 @@ const CheckListItem = ({
   const [isOpen, openModal, closeModal] = useModal();
   const [isEditing, setIsEditing] = useState(editState);
   const [itemValue, setItemValue] = useState(value);
-  const { Toast, openToast } = useToast();
+  const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
   const navigate = useNavigate();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = ' 20px';
+      textareaRef.current.style.height = '20px';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [itemValue]);
@@ -109,7 +110,6 @@ const CheckListItem = ({
   };
 
   const handleCreateClick = () => {
-    // 여기서 버킷리스트 id 넘겨야 하는데,,, 어떻게 넘겨야 할지 지윤님과 논의 필요
     navigate(`/moment/select-mode/${id}`);
   };
 
@@ -132,7 +132,6 @@ const CheckListItem = ({
           onBlur={handleUpdateItem}
           onKeyDown={handleKeyPress}
           readOnly={!isEditing}
-          maxLength={getMaxLength(type)}
         />
       </S.CheckListItemLayout>
       {type !== '생성형' && isOpen && (
@@ -148,7 +147,7 @@ const CheckListItem = ({
           />
         </Modal>
       )}
-      <Toast />
+      {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
     </>
   );
 };

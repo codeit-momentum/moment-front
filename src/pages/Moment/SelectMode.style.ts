@@ -6,9 +6,7 @@ export const SelectModeLayout = styled.div`
       direction: 'column',
       justify: 'flex-start',
     })};
-  position: relative;
   width: 100%;
-  height: 100vh;
 `;
 
 export const BtnContainer = styled.div`
@@ -16,8 +14,8 @@ export const BtnContainer = styled.div`
     mixin.flexBox({
       direction: 'column',
     })};
-  gap: 5.7rem;
-  margin-top: 9rem;
+  gap: 5rem;
+  margin-top: 7.6rem;
 `;
 export const BtnHighlightedText = styled.span<{ color: string }>`
   color: ${(props) => props.color || 'inherit'};

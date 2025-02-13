@@ -14,6 +14,7 @@ import OKModal from '../../../components/Modal/OKModal/OKModal';
 import useErrorHandler from '../../../hooks/common/useResponseMessage';
 import useToast from '../../../hooks/common/useToast';
 import useGetFriendCode from '../../../hooks/queries/myPage/useGetFriendCode';
+import Toast from '../../../components/common/Toast/Toast';
 
 const Friend = () => {
   const { mutate: postCheckFriend } = usePostCheckFriend();
@@ -23,7 +24,7 @@ const Friend = () => {
   const [isFriend, setIsFriend] = useState(false);
   const { handleError, message, setMessage } = useErrorHandler();
   const [isOpen, openModal, closeModal] = useModal();
-  const { Toast, openToast } = useToast();
+  const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
   const { data: userCode } = useGetFriendCode();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,8 +51,8 @@ const Friend = () => {
 
   const handlePostFriend = () => {
     postFriend(friendCode, {
-      onSuccess: (data) => {
-        setMessage(data.message);
+      onSuccess: () => {
+        setMessage('');
       },
       onError: (error) => {
         handleError(error);
@@ -70,18 +71,20 @@ const Friend = () => {
 
   return (
     <S.FriendLayout>
-      <Toast />
+      {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
       {isOpen && (
         <Modal>
           {isFriend ? (
-            <OKModal
-              mainText={
-                message === ''
-                  ? `${friendNickname}님과 친구가 되었습니다!`
-                  : message
-              }
-              onClose={handleClose}
-            />
+            <OKModal onClose={handleClose}>
+              {message === '' ? (
+                <>
+                  <span style={{ color: '#FAED46' }}>{friendNickname}</span>님과
+                  친구가 되었습니다!
+                </>
+              ) : (
+                message
+              )}
+            </OKModal>
           ) : (
             <SelectModal
               type="add"
@@ -89,7 +92,8 @@ const Friend = () => {
               onSubmit={handlePostFriend}
               onClose={handleClose}
             >
-              {friendNickname}님을 추가하시겠습니까?
+              <span style={{ color: '#FAED46' }}>{friendNickname}</span>님을
+              추가하시겠습니까?
             </SelectModal>
           )}
         </Modal>

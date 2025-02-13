@@ -10,6 +10,10 @@ export const MyPageLayout = styled.div`
   width: 100%;
   padding-top: 6rem;
 `;
+export const IconWrapper = styled.div`
+  width: 3.6rem;
+  height: 3.6rem;
+`;
 export const Horizontal = styled.hr`
   border: none;
   height: 0.3rem;
