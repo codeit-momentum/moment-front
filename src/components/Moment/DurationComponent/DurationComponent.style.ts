@@ -55,7 +55,7 @@ export const DurationInput = styled.input`
   height: 4rem;
   font-size: 24px;
   text-align: center;
-  border: 0.5px solid $ ${({ theme }) => theme.colors.white};
+  border: 0.5px solid ${({ theme }) => theme.colors.white};
   background-color: ${({ readOnly, theme }) =>
     readOnly ? theme.colors.white : theme.colors.white};
   color: ${({ readOnly, theme }) =>
