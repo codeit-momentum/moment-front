@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import * as S from './NotificationModal.style';
 import IcCloseModal from '../../../assets/svg/IcCloseModal';
 import useGetNotice from '../../../hooks/queries/home/useGetNotice';
+import usePatchNotice from '../../../hooks/queries/home/usePatchNotice';
 
 // NotificationItem 타입 정의
 export interface NotificationItem {
@@ -17,6 +18,7 @@ interface NotificationModalProps {
 
 const NotificationModal = ({ onClose }: NotificationModalProps) => {
   const { data: noticeData, refetch } = useGetNotice(); // 30초마다 자동 갱신됨
+  const { mutate: patchNotice } = usePatchNotice();
   const [sortedNotifications, setSortedNotifications] = useState<
     NotificationItem[]
   >([]);
@@ -33,8 +35,9 @@ const NotificationModal = ({ onClose }: NotificationModalProps) => {
 
   // 모달이 열릴 때 최신 알림 데이터 가져오기
   useEffect(() => {
-    refetch();
-  }, [refetch]);
+    patchNotice(); // 알림 읽음 처리 실행
+    refetch(); // 최신 알림 불러오기
+  }, [patchNotice, refetch]);
 
   return (
     <S.ModalOverlay onClick={onClose}>
