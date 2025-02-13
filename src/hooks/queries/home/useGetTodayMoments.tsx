@@ -16,7 +16,7 @@ interface TodayMomentsResponse {
 
 // API 호출 함수
 const getTodayMoments = async (date: string): Promise<TodayMomentsResponse> => {
-  const response = await instance.get(`/api/home/${date}`);
+  const response = await instance.get(`/api/home`);
   return response.data;
 };
 
