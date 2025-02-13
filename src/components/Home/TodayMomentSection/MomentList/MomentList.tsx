@@ -7,8 +7,7 @@ import formatMomentList from '../../../../utils/formatMomentList';
 import IcStamp from '../../../../assets/svg/home/IcStamp';
 
 const MomentList = () => {
-  const currentDate = new Date().toISOString().split('T')[0];
-  const { data: todayData } = useGetTodayMoments(currentDate);
+  const { data: todayData } = useGetTodayMoments();
   const moments: MomentItemType[] = (todayData?.moments || []).map(
     (moment) => ({
       id: moment.momentID, // string으로 매핑
