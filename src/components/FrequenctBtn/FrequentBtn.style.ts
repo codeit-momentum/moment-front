@@ -18,15 +18,16 @@ export const SvgWrapper = styled.div`
   height: 90px;
 `;
 
-export const Label = styled.span<{ isSelected: boolean }>`
+export const Label = styled.span<{ $isSelected: boolean }>`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 16px;
-  color: ${({ isSelected }) => (isSelected ? '#FCFCFC' : '#999')};
+  color: ${({ $isSelected, theme }) =>
+    $isSelected ? theme.colors.white : theme.colors.darkGray};
   text-align: center;
   white-space: pre-wrap;
-  line-height: 2.5rem
-letter-spacing: -0.32rem;
+  line-height: 2.5rem;
+  letter-spacing: -0.32px;
 `;
