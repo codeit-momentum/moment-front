@@ -10,6 +10,7 @@ import IcCheckboxPending from '../../../../assets/svg/IcCheckboxPending';
 import * as S from './CheckListItem.style';
 import useToast from '../../../../hooks/common/useToast';
 import { getMaxLength } from '../../../../utils/moment';
+import Toast from '../../../common/Toast/Toast';
 
 interface BucketTypeProps {
   type: BucketType;
@@ -51,7 +52,7 @@ const CheckListItem = ({
   const [isOpen, openModal, closeModal] = useModal();
   const [isEditing, setIsEditing] = useState(editState);
   const [itemValue, setItemValue] = useState(value);
-  const { Toast, openToast } = useToast();
+  const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
   const navigate = useNavigate();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -146,7 +147,7 @@ const CheckListItem = ({
           />
         </Modal>
       )}
-      <Toast />
+      {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
     </>
   );
 };

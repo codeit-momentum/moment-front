@@ -7,6 +7,7 @@ import TodoContainer from '../ContainerLayout/ContainerLayout';
 import useToast from '../../../hooks/common/useToast';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '../../Button/Button';
+import Toast from '../../common/Toast/Toast';
 
 /**
  * ToDoListProps 인터페이스
@@ -30,7 +31,7 @@ const ToDoListComponent = ({
   const [isEditing, setIsEditing] = useState(mode === 'manual'); // 수정 상태
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [todos, setTodos] = useState<string[]>(new Array(duration).fill(''));
-  const { Toast, openToast } = useToast();
+  const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
 
   useEffect(() => {
     if (mode === 'auto' && Array.isArray(todoList) && todoList.length > 0) {
@@ -114,7 +115,7 @@ const ToDoListComponent = ({
           </S.BtnContainer>
         </>
       )}
-      <Toast />
+      {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
     </S.ToDoListLayout>
   );
 };
