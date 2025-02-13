@@ -6,9 +6,8 @@ import useGetTodayMoments from '../../../hooks/queries/home/useGetTodayMoments';
 import useGetWeekStatus from '../../../hooks/queries/home/useGetWeekStatus';
 
 function TodayMomentSection() {
-  const currentDate = new Date().toISOString().split('T')[0]; // 오늘 날짜
-  const { data: todayData } = useGetTodayMoments(currentDate);
-  const { data: weekData } = useGetWeekStatus(currentDate);
+  const { data: todayData } = useGetTodayMoments();
+  const { data: weekData } = useGetWeekStatus();
 
   // 데이터 기본값 설정
   const days =
