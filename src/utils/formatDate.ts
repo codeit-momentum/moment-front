@@ -1,13 +1,13 @@
 const formatDate = (date: string) => {
   const newDate = new Date(date);
   const formattedDate = `${newDate
-    .toLocaleDateString('en-US', {
+    .toLocaleDateString('ko-kr', {
       month: '2-digit',
       day: '2-digit',
       timeZone: 'UTC',
     })
     .replace('/', '.')
-    .replace('/', '.')}.`;
+    .replace('/', '.')}`;
 
   return formattedDate;
 };
