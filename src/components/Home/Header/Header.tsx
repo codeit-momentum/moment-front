@@ -6,6 +6,7 @@ import useGetNotice from '../../../hooks/queries/home/useGetNotice';
 import NotificationModal from '../NotificationModal/NotificationModal';
 import IcNotice from '../../../assets/svg/home/IcNotice';
 import IcNoticeOff from '../../../assets/svg/home/IcNoticeOff';
+import { NoticeItemType } from '../../../types/home';
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -17,23 +18,19 @@ const Header = () => {
   } = useGetConsecutiveDays();
   const { data: noticeCount, refetch } = useGetNotice();
   const { mutate: patchNotice } = usePatchNotice();
+  const [noticeData, setNoticeData] = useState<NoticeItemType[]>([]);
 
-  console.log(' 서버에서 받은 알림 개수:', noticeCount);
-
-  // 알림 아이콘 클릭 → 모달 열기 & 읽음 처리
   const handleNotificationClick = () => {
+    patchNotice(
+      {},
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          setNoticeData(data.notifications);
+        },
+      },
+    );
     setIsModalOpen(true); // 모달 열기
-    if (noticeCount && noticeCount > 0) {
-      patchNotice(); // 읽음 처리 API 호출
-      console.log(' 알림 확인! PATCH 요청 보냄');
-
-      if (refetch) {
-        setTimeout(() => {
-          refetch(); // PATCH 이후 알림 개수 다시 가져오기
-          console.log(' 알림 개수 refetch 실행!');
-        }, 500);
-      }
-    }
   };
 
   if (isLoading) {
@@ -43,7 +40,7 @@ const Header = () => {
   if (isError || !consecutiveDaysData?.success) {
     return <S.HeaderLayout>데이터 로드 실패</S.HeaderLayout>;
   }
-
+  console.log(noticeData);
   return (
     <S.HeaderLayout>
       <S.StreakTextContainer>
@@ -58,9 +55,11 @@ const Header = () => {
         {noticeCount > 0 ? <IcNotice /> : <IcNoticeOff />}
       </S.BellIconWrapper>
 
-      {/* 알림 모달 */}
       {isModalOpen && (
-        <NotificationModal onClose={() => setIsModalOpen(false)} />
+        <NotificationModal
+          noticeData={noticeData}
+          onClose={() => setIsModalOpen(false)}
+        />
       )}
     </S.HeaderLayout>
   );

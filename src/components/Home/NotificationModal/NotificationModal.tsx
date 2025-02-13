@@ -1,33 +1,18 @@
-import { useEffect, useState } from 'react';
 import * as S from './NotificationModal.style';
 import IcCloseModal from '../../../assets/svg/IcCloseModal';
-import useGetNotice from '../../../hooks/queries/home/useGetNotice';
-import usePatchNotice from '../../../hooks/queries/home/usePatchNotice';
-
-// NotificationItem 타입 정의
-export interface NotificationItem {
-  notificationID: string;
-  type: 'FRIEND' | 'CHEER' | 'KNOCK';
-  content: string;
-  created_at: string;
-}
+import { NoticeItemType, NoticeType } from '../../../types/home';
+import IcMomentBlue from '../../../assets/svg/home/IcMomentBlue';
+import IcFriendBlue from '../../../assets/svg/home/IcFriendBlue';
 
 interface NotificationModalProps {
+  noticeData: NoticeItemType[];
   onClose: () => void;
 }
 
-const NotificationModal = ({ onClose }: NotificationModalProps) => {
-  const { data: noticeData, refetch } = useGetNotice(); // 30초마다 자동 갱신됨
-  const { mutate: patchNotice } = usePatchNotice();
-  const [sortedNotifications, setSortedNotifications] = useState<
-    NotificationItem[]
-  >([]);
-
-  console.log(noticeData);
-  useEffect(() => {
-    patchNotice(); // 알림 읽음 처리 실행
-  }, [patchNotice]);
-
+const NotificationModal = ({ noticeData, onClose }: NotificationModalProps) => {
+  const rendalIcon = (type: NoticeType) => {
+    return type === 'KNOCK' ? <IcMomentBlue /> : <IcFriendBlue />;
+  };
   return (
     <S.ModalOverlay onClick={onClose}>
       <S.ModalLayout onClick={(e) => e.stopPropagation()}>
@@ -39,15 +24,12 @@ const NotificationModal = ({ onClose }: NotificationModalProps) => {
         </S.Header>
 
         <S.NotificationList>
-          {sortedNotifications.length > 0 ? (
-            sortedNotifications.map((notification) => (
+          {noticeData?.length > 0 ? (
+            noticeData.map((notification) => (
               <S.NotificationItem key={notification.notificationID}>
-                <S.IconContainer />
+                {rendalIcon(notification.type)}
                 <S.TextContainer>
-                  <S.UserName>
-                    {notification.content.split('님')[0]}님
-                  </S.UserName>
-                  <S.Message>{notification.content.split('님')[1]}</S.Message>
+                  <S.Message>{notification.content}</S.Message>
                 </S.TextContainer>
               </S.NotificationItem>
             ))
