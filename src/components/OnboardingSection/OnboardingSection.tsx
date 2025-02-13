@@ -12,9 +12,8 @@ const OnboardingSection = ({ isStart }: OnboardingSectionProps) => {
         <IcLogo />
       </S.OnboardingAnimation>
       <S.DescriptionWrapper $isStart={isStart}>
-        당신의 중요한 모멘트를
-        <br />
-        기록하고, 달성하세요
+        모멘텀으로,
+        <br />더 큰 성공을 향해 나아가세요
       </S.DescriptionWrapper>
     </S.OnboardingContainer>
   );

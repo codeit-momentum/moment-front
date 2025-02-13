@@ -15,7 +15,7 @@ const Start = () => {
       } else {
         navigate('/login');
       }
-    }, 4800);
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
