@@ -22,7 +22,6 @@ const Header = () => {
       {},
       {
         onSuccess: (data) => {
-          console.log(data);
           setNoticeData(data.notifications);
         },
       },
