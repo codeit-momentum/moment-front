@@ -23,26 +23,14 @@ const NotificationModal = ({ onClose }: NotificationModalProps) => {
     NotificationItem[]
   >([]);
 
-  useEffect(() => {
-    if (noticeData?.notifications) {
-      const sorted = [...noticeData.notifications].sort(
-        (a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-      );
-      setSortedNotifications(sorted.slice(0, 15)); // 최신순으로 정렬 후 15개 유지
-    }
-  }, [noticeData]);
-
-  // 모달이 열릴 때 최신 알림 데이터 가져오기
+  console.log(noticeData);
   useEffect(() => {
     patchNotice(); // 알림 읽음 처리 실행
-    refetch(); // 최신 알림 불러오기
-  }, [patchNotice, refetch]);
+  }, [patchNotice]);
 
   return (
     <S.ModalOverlay onClick={onClose}>
       <S.ModalLayout onClick={(e) => e.stopPropagation()}>
-        {/* 모달 헤더 */}
         <S.Header>
           <S.Title>알림</S.Title>
           <S.CloseIcon onClick={onClose}>
@@ -50,7 +38,6 @@ const NotificationModal = ({ onClose }: NotificationModalProps) => {
           </S.CloseIcon>
         </S.Header>
 
-        {/* 알림 리스트 */}
         <S.NotificationList>
           {sortedNotifications.length > 0 ? (
             sortedNotifications.map((notification) => (

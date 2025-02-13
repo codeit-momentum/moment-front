@@ -36,10 +36,6 @@ const Header = () => {
     }
   };
 
-  useEffect(() => {
-    patchNotice();
-  }, [patchNotice]);
-
   if (isLoading) {
     return <S.HeaderLayout>로딩 중...</S.HeaderLayout>;
   }
