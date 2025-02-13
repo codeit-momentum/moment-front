@@ -16,12 +16,8 @@ const MomentList = () => {
     }),
   );
 
-  /*
-  const handleMomentClick = (id: string, isCompleted: boolean) => {
-    if (isCompleted) return;
-    console.log(`Redirect to moment detail page for ID: ${id}`);
-  };*/
   const momentItems: MomentItemType[] = formatMomentList(moments);
+
   return (
     <S.MomentListLayout>
       {momentItems.map(({ id, title, isCompleted }) => (
