@@ -164,51 +164,105 @@
 
 ## ✨주요 기능
 
+### 0. 시작 및 로그인 페이지
+
+![Image](https://github.com/user-attachments/assets/63535c34-a3f8-4ace-98b5-5640be680dbd)
+
 ### 1. 홈 페이지
 
 #### 1-1. 주간 모멘트 진행률 및 진행 중인 모멘트 확인하기
 
-#### 1-2. 버킷리스트 달성 현황
+![Image](https://github.com/user-attachments/assets/18dcbae9-4563-49a0-b5a5-3c54db276b84)
+
+#### 1-2. 알림 확인
+
+![Image](https://github.com/user-attachments/assets/31ceddf7-df93-49f7-b343-e874048d9052)
+
+#### 1-3. 버킷리스트 달성 현황
+
+![Image](https://github.com/user-attachments/assets/ee5571c7-4e26-4aa4-9b1c-dbd4bdd15bdf)
+
+![Image](https://github.com/user-attachments/assets/7ec5af95-ada1-4c9c-bff7-ae349ac28df7)
+![Image](https://github.com/user-attachments/assets/f076207c-c0d2-4cdb-9675-9caeac705a8c)
+![Image](https://github.com/user-attachments/assets/4ea9eb05-ffd6-4a8e-bb80-a9d1d92b3478)
+![Image](https://github.com/user-attachments/assets/08725e5b-99f9-4060-9975-ee9fb68524bf)
+![Image](https://github.com/user-attachments/assets/24ac0fe3-2c25-4ad9-a1f6-55e481e7a463)
 
 ### 2. 모멘트 페이지
 
 #### 2-1. 진행 중인 모멘트 확인
 
-#### 2-2. 모멘트 인증하기
+![Image](https://github.com/user-attachments/assets/37e0dcc9-6226-4e1d-a3da-5718e1e96821)
 
-#### 2-3. 버킷리스트 생성
+#### 2-2. 버킷리스트 생성하기
+
+![Image](https://github.com/user-attachments/assets/16c7f139-b34f-4bbf-9a2d-1ce0d1fd3ba9)
+
+#### 2-3. 모멘트 인증하기
+
+![Image](https://github.com/user-attachments/assets/9a041c26-5932-46bd-bddb-22dcc115636e)
 
 #### 2-4. 달성형 버킷리스트 인증하기
+
+![Image](https://github.com/user-attachments/assets/e8568330-d030-4e3f-9376-59637c39d6e9)
 
 ### 3. 모멘트 생성 페이지
 
 #### 3-1. 모멘트 자동 생성
 
+![Image](https://github.com/user-attachments/assets/00862409-9b7a-45e1-ad6d-7ab539d3bdfc)
+
 #### 3-2. 모멘트 수동 생성
+
+![Image](https://github.com/user-attachments/assets/13aeed2b-d7b7-492f-af99-4b25064c02dc)
 
 ### 4. 피드 페이지
 
 #### 4-1. 친구 피드 확인
 
+![Image](https://github.com/user-attachments/assets/44d27e13-b9fa-4f81-90f7-d0cd6d035449)
+
 #### 4-2. 친구 찾으러 가기
+
+![Image](https://github.com/user-attachments/assets/f08e5181-e644-4b02-ad50-caacf58b4921)
 
 #### 4-3. 노크하기
 
+![Image](https://github.com/user-attachments/assets/24de00cd-7f87-441c-ba0d-73c32a09aba1)
+
 #### 4-4. 친구의 모멘트 응원하기
 
-#### 4-5. 친구 고정 및 삭제하기
+![Image](https://github.com/user-attachments/assets/39e86b6d-38c8-44cc-b674-57c8d2d032c9)
+
+#### 4-5. 친구 고정하기
+
+![Image](https://github.com/user-attachments/assets/8df6f1f2-830f-42d2-ad85-21b3fc9b7841)
+
+### 4-6. 친구 삭제하기
+
+![Image](https://github.com/user-attachments/assets/e1cdf250-a270-4bcd-ad45-60e1151696c1)
 
 ### 5. 마이 페이지
 
 #### 5-1. 프로필 조회
 
+![Image](https://github.com/user-attachments/assets/70023961-e4ca-4332-8a87-e18079114b72)
+
 #### 5-2. 프로필 수정하기
+
+![Image](https://github.com/user-attachments/assets/ba4bc85a-3cd7-424f-8d66-08dd4f74e91f)
 
 #### 5-3. 친구 추가하기
 
+![Image](https://github.com/user-attachments/assets/4653c8af-a585-48bb-bced-1f31a44956f7)
+
 #### 5-4. 로그아웃
 
+![Image](https://github.com/user-attachments/assets/1c456af8-d09d-435a-88a8-48cf9ef8d4f1)
+
 #### 5-5. 탈퇴하기
+
+![Image](https://github.com/user-attachments/assets/cf11242b-f1a1-4d3f-bc81-fdf35e5c0cfa)
 
 ## ⚙️기술스택
 
@@ -327,6 +381,7 @@
 - 초기 프로젝트 생성 및 배포 진행
 - 피드 페이지, 마이 페이지 UI 구현 및 API 연동
 - 홈 페이지 API 연동
+- 리드미 작성
 
 #### 권도희
 
