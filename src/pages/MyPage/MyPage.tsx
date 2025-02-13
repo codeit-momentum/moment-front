@@ -9,11 +9,19 @@ import IcEditProfile from '../../assets/svg/IcEditProfile';
 import IcAddFriend from '../../assets/svg/IcAddFriend';
 import IcLogout from '../../assets/svg/IcLogout';
 import IcGetOut from '../../assets/svg/IcGetOut';
+import useDeleteAccount from '../../hooks/queries/myPage/useDeleteAccount';
+import useResponseMessage from '../../hooks/common/useResponseMessage';
 
 const MyPage = () => {
   const { data } = useGetUser();
   const navigate = useNavigate();
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
+  const { mutate: deleteAccount } = useDeleteAccount();
+  const handleNavigate = () => {
+    navigate('/');
+  };
+  const { setMessage, openModal, renderModal } =
+    useResponseMessage(handleNavigate);
 
   useEffect(() => {
     if (data) {
@@ -58,11 +66,22 @@ const MyPage = () => {
       label: '회원탈퇴',
       name: 'cancel',
       icon: <IcGetOut />,
-      action: () => {},
+      action: () => {
+        deleteAccount(
+          {},
+          {
+            onSuccess: (data) => {
+              setMessage(data.message);
+              openModal();
+            },
+          },
+        );
+      },
     },
   ];
   return (
     <S.MyPageLayout>
+      {renderModal()}
       <MyProfile
         name={userInfo.nickname}
         email={userInfo.email}

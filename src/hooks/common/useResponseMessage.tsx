@@ -4,7 +4,7 @@ import useModal from './useModal';
 import Modal from '../../components/Modal/Modal';
 import OKModal from '../../components/Modal/OKModal/OKModal';
 
-const useResponseMessage = () => {
+const useResponseMessage = (handleEvent?: VoidFunction) => {
   const [message, setMessage] = useState('');
   const [isOpen, openModal, closeModal] = useModal();
 
@@ -18,11 +18,17 @@ const useResponseMessage = () => {
     }
   };
 
+  const handleClick = () => {
+    if (handleEvent) {
+      handleEvent();
+    }
+    closeModal();
+  };
   const renderModal = () => {
     return (
       isOpen && (
         <Modal>
-          <OKModal mainText={message} onClose={closeModal} />
+          <OKModal mainText={message} onClose={handleClick} />
         </Modal>
       )
     );
