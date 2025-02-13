@@ -18,7 +18,7 @@ const useMomentData = (
   useEffect(() => {
     const getMomentData = (): CreateMomentResponse | null => {
       try {
-        let storedMomentData =
+        const storedMomentData =
           localStorage.getItem(key) || sessionStorage.getItem(key);
 
         if (storedMomentData) {

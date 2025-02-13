@@ -26,7 +26,8 @@ export const TodoLabel = styled.h3`
   color: ${({ theme }) => theme.colors.white};
   text-align: center;
   white-space: pre-wrap;
-  margin-top: 3.2rem;
+  margin-top: 3rem;
+  line-height: 25px;
 `;
 
 export const IconWrapper = styled.div`

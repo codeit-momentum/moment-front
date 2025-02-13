@@ -4,7 +4,7 @@ import useModal from './useModal';
 import Modal from '../../components/Modal/Modal';
 import OKModal from '../../components/Modal/OKModal/OKModal';
 
-const useResponseMessage = (handleEvent?: VoidFunction) => {
+const useResponseMessage = (handleEvent?: () => void) => {
   const [message, setMessage] = useState('');
   const [isOpen, openModal, closeModal] = useModal();
 

@@ -10,6 +10,8 @@ import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetai
 import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
 import useBucketId from '../../hooks/useBucketId';
 import useMomentData from '../../hooks/useMomentData';
+import IcDateContainer from '../../assets/svg/IcDateContainer';
+import MethodContainer from '../../components/Moment/ContainerLayout/ContainerLayout';
 
 const MomentComplete = () => {
   const navigate = useNavigate();
@@ -149,17 +151,23 @@ const MomentComplete = () => {
       <S.MomentCompleteTitle>모멘트 설계 완료 !</S.MomentCompleteTitle>
       {/* 날짜 범위 */}
       <S.DateContainer>
+        <IcDateContainer />
         <S.DateText>
           {moments.length > 0 ? moments[0].startDate : 'N/A'}
-        </S.DateText>
-        <IcArrow />
-        <S.DateText>
+          <IcArrow />
           {moments.length > 0 ? moments[moments.length - 1].endDate : 'N/A'}
         </S.DateText>
       </S.DateContainer>
       {/* 방법 리스트 */}
-      <S.MethodContainer>
-        <S.MethodLabel>방법</S.MethodLabel>
+      <MethodContainer
+        title="방법"
+        containerStyle={{ marginTop: '1rem', padding: '1rem 1.8rem' }}
+        titleStyle={{
+          fontSize: '16px',
+          padding: '0.5rem 2.4rem',
+          marginBottom: '0',
+        }}
+      >
         <S.MethodListItemWrapper>
           {moments.map((moment) => (
             <S.MethodItem key={moment.id}>
@@ -168,7 +176,7 @@ const MomentComplete = () => {
             </S.MethodItem>
           ))}
         </S.MethodListItemWrapper>
-      </S.MethodContainer>
+      </MethodContainer>
       <S.BtnContainer>
         <Button onClick={handleConfirm} disabled={isPending}>
           {isPending ? '저장 중...' : '확인'}
