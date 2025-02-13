@@ -1,8 +1,9 @@
+import { ReactNode } from 'react';
 import * as S from './OKModal.style';
 
 interface OKModalProps {
   title?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   subText?: string;
   onClose: () => void;
 }
