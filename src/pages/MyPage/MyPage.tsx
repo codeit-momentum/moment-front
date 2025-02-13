@@ -50,7 +50,11 @@ const MyPage = () => {
     {
       label: '회원탈퇴',
       name: 'cancel',
-      icon: <IcGetOut />,
+      icon: (
+        <S.IconWrapper>
+          <IcGetOut />
+        </S.IconWrapper>
+      ),
       action: () => {
         openModal();
       },
