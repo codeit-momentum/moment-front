@@ -14,7 +14,7 @@ import useMomentData from '../../hooks/useMomentData';
 const MomentComplete = () => {
   const navigate = useNavigate();
   const bucketId = useBucketId();
-  const { momentData: momentConfig, saveMomentData } = useMomentData(bucketId);
+  const { momentData, saveMomentData } = useMomentData(bucketId);
 
   const {
     data,
@@ -33,36 +33,46 @@ const MomentComplete = () => {
     if (isBucketLoading) return;
 
     if (
-      !momentConfig ||
-      !momentConfig.todoList ||
-      momentConfig.todoList.length === 0
+      !momentData ||
+      !momentData.todoList ||
+      momentData.todoList.length === 0
     ) {
       console.error(
         `momentConfig-${bucketId}가 없습니다. sessionStorage에서도 없음`,
       );
+
+      const restoredData = localStorage.getItem(`momentConfig-${bucketId}`);
+      if (restoredData) {
+        console.log(
+          `localStorage에서 momentData 복구됨:`,
+          JSON.parse(restoredData),
+        );
+        saveMomentData(JSON.parse(restoredData));
+        return;
+      }
       alert('세션 데이터가 유실되었습니다. 다시 생성해주세요.');
-      navigate(`/moment/create-moment/${bucketId}`);
+      navigate(`/moment/create-moment/${bucketId}`, { replace: true });
       return;
     }
 
-    console.log(`최종 복구된 momentConfig-${bucketId}:`, momentConfig);
+    console.log(`최종 복구된 momentConfig-${bucketId}:`, momentData);
   }, [isBucketLoading, navigate, bucketId]);
 
   useEffect(() => {
-    if (!momentConfig) return;
+    if (!momentData) return;
 
     const validFrequency = [
       'daily',
       'every2days',
       'weekly',
       'monthly',
-    ].includes(momentConfig.frequency)
-      ? momentConfig.frequency
+    ].includes(momentData.frequency)
+      ? momentData.frequency
       : 'daily';
 
     // moments가 없으면 `generateMomentDates` 실행
     const generatedMoments = generateMomentDates({
-      ...momentConfig,
+      ...momentData,
       frequency: validFrequency,
     });
 
@@ -76,23 +86,10 @@ const MomentComplete = () => {
         JSON.stringify(prevMoments) === JSON.stringify(generatedMoments);
       return isSame ? prevMoments : generatedMoments;
     });
-  }, [momentConfig]);
-
-  useEffect(() => {
-    if (data?.bucket && !data.bucket.isChallenging) {
-      console.log('도전 모드 활성화 PATCH 요청 실행');
-
-      updateBucketChallenge({ id: bucketId })
-        .then(() => refetch())
-        .then(() => console.log('도전 모드 활성화 완료'))
-        .catch((error) =>
-          console.error('도전 모드 활성화 중 오류 발생:', error),
-        );
-    }
-  }, [data, bucketId, refetch, updateBucketChallenge]);
+  }, [momentData]);
 
   const handleConfirm = async () => {
-    if (!momentConfig) {
+    if (!momentData) {
       alert('모멘트 정보를 불러올 수 없습니다. 다시 시도해주세요.');
       return;
     }
@@ -116,7 +113,7 @@ const MomentComplete = () => {
       startDate: moments[0]?.startDate || '',
       endDate: moments[moments.length - 1]?.endDate || '',
       moments,
-      frequency: momentConfig.frequency,
+      frequency: momentData.frequency,
     });
 
     try {
@@ -130,7 +127,7 @@ const MomentComplete = () => {
         startDate: moments[0]?.startDate,
         endDate: moments[moments.length - 1]?.endDate,
         moments,
-        frequency: momentConfig.frequency,
+        frequency: momentData.frequency,
       };
 
       console.log('POST 요청 실행 (모멘트 생성)', payload);
@@ -141,7 +138,7 @@ const MomentComplete = () => {
       navigate('/moment/bucket');
     } catch (error) {
       console.error('모멘트 생성 중 오류 발생:', error);
-      saveMomentData(momentConfig);
+      saveMomentData(momentData);
       alert('모멘트 생성에 실패했습니다. 다시 시도해주세요.');
     }
   };
