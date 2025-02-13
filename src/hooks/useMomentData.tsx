@@ -13,7 +13,7 @@ const useMomentData = (
   // momentData 불러오기
   const getMomentData = (): CreateMomentResponse | null => {
     try {
-      let storedMomentData =
+      const storedMomentData =
         localStorage.getItem(key) || sessionStorage.getItem(key);
 
       if (storedMomentData) {
