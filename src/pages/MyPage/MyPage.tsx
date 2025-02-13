@@ -1,5 +1,6 @@
 import * as S from './MyPage.style';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import MyProfile from '../../components/MyPage/MyProfile/MyProfile';
 import MyMenu from '../../components/MyPage/MyMenu/MyMenu';
 import useGetUser from '../../hooks/queries/myPage/useGetUser';
@@ -8,18 +9,18 @@ import IcAddFriend from '../../assets/svg/IcAddFriend';
 import IcLogout from '../../assets/svg/IcLogout';
 import IcGetOut from '../../assets/svg/IcGetOut';
 import useDeleteAccount from '../../hooks/queries/myPage/useDeleteAccount';
-import useResponseMessage from '../../hooks/common/useResponseMessage';
+import useModal from '../../hooks/common/useModal';
+import Modal from '../../components/Modal/Modal';
+import SelectModal from '../../components/Modal/SelectModal/SelectModal';
+import OKModal from '../../components/Modal/OKModal/OKModal';
 
 const MyPage = () => {
   const { data: userData } = useGetUser();
   const navigate = useNavigate();
   const { mutate: deleteAccount } = useDeleteAccount();
-  const handleNavigate = () => {
-    navigate('/');
-  };
-  const { setMessage, openModal, renderModal } =
-    useResponseMessage(handleNavigate);
-
+  const [isOpen, openModal, closeModal] = useModal();
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
   const menuItems = [
     {
       label: '내 정보 수정하기',
@@ -51,21 +52,48 @@ const MyPage = () => {
       name: 'cancel',
       icon: <IcGetOut />,
       action: () => {
-        deleteAccount(
-          {},
-          {
-            onSuccess: (data) => {
-              setMessage(data.message);
-              openModal();
-            },
-          },
-        );
+        openModal();
       },
     },
   ];
+
+  const handleDelete = () => {
+    deleteAccount(
+      {},
+      {
+        onSuccess: (data) => {
+          setMessage(data.message);
+        },
+        onSettled: () => {
+          setIsDeleting(true);
+        },
+      },
+    );
+  };
+
+  const handleClos = () => {
+    closeModal();
+    navigate('/');
+  };
+
   return (
     <S.MyPageLayout>
-      {renderModal()}
+      {isOpen && (
+        <Modal>
+          {isDeleting ? (
+            <OKModal onClose={handleClos}>{message}</OKModal>
+          ) : (
+            <SelectModal
+              type="delete"
+              content="한번 탈퇴하면 되돌릴 수 없습니다..."
+              onSubmit={handleDelete}
+              onClose={closeModal}
+            >
+              정말 계정을 삭제하시겠습니까?
+            </SelectModal>
+          )}
+        </Modal>
+      )}
       <MyProfile
         name={userData.nickname}
         email={userData.email}
