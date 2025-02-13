@@ -852,6 +852,6 @@ export const FeedWrapper = styled.div`
 ```
 
 <h2>지금 바로 모멘텀을 사용해보세요 !</h2>
-<h3><a href='https://codeit-momentum.vercel.app/' />💫모멘텀 바로가기</h3>
+<h3><a href='https://www.codeit-momentum.shop/' />💫모멘텀 바로가기</h3>
 
 <h3><a href='https://www.notion.so/16aae340d48e803d8f5de079d26e34b2?pvs=4' />☺️노션 바로가기</h3>
