@@ -22,7 +22,12 @@ export const setBucketState = (
 
 export const checkDateRange = (startDate: string, endDate: string) => {
   const currentDate = new Date();
-  return currentDate < new Date(startDate) || currentDate > new Date(endDate);
+  const newStart = new Date(startDate);
+  newStart.setHours(0, 0, 0, 0);
+  const newEnd = new Date(endDate);
+  newEnd.setHours(23, 59, 59, 999);
+
+  return currentDate < newStart || currentDate > new Date(endDate);
 };
 
 export const getAchievementRate = (
