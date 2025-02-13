@@ -6,16 +6,16 @@ import Button from '../../../components/Button/Button';
 import usePatchProfile from '../../../hooks/queries/myPage/usePatchProfile';
 import useErrorHandler from '../../../hooks/common/useResponseMessage';
 import useImageHandler from '../../../hooks/common/useImageHandler';
-import useModal from '../../../hooks/common/useModal';
-import Modal from '../../../components/Modal/Modal';
-import OKModal from '../../../components/Modal/OKModal/OKModal';
 import { useNavigate } from 'react-router-dom';
 
 const EditProfile = () => {
   const { userInfo } = useContext(UserInfoContext);
   const [newNickname, setNewNickname] = useState<string>(userInfo.nickname);
-  const { handleError, message, setMessage } = useErrorHandler();
-  const [isOpen, openModal, closeModal] = useModal();
+  const handleClose = () => {
+    navigate('/mypage');
+  };
+  const { handleError, openModal, setMessage, renderModal } =
+    useErrorHandler(handleClose);
   const navigate = useNavigate();
   const {
     image: newImage,
@@ -49,18 +49,9 @@ const EditProfile = () => {
     });
   };
 
-  const handleClose = () => {
-    closeModal();
-    navigate('/mypage');
-  };
-
   return (
     <S.EditProfileLayout>
-      {isOpen && (
-        <Modal>
-          <OKModal mainText={message} onClose={handleClose} />
-        </Modal>
-      )}
+      {renderModal()}
       <ImageToast />
       <MyPageTitle>내 정보 수정하기</MyPageTitle>
 

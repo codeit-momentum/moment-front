@@ -28,7 +28,7 @@ const useResponseMessage = (handleEvent?: VoidFunction) => {
     return (
       isOpen && (
         <Modal>
-          <OKModal mainText={message} onClose={handleClick} />
+          <OKModal onClose={handleClick}>{message}</OKModal>
         </Modal>
       )
     );
