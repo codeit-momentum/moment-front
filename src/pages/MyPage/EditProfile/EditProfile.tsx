@@ -1,16 +1,16 @@
 import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';
 import * as S from './EditProfile.style';
-import React, { useState, useContext } from 'react';
-import UserInfoContext from '../../../store/User/UserContext';
+import React, { useState } from 'react';
 import Button from '../../../components/Button/Button';
 import usePatchProfile from '../../../hooks/queries/myPage/usePatchProfile';
 import useErrorHandler from '../../../hooks/common/useResponseMessage';
 import useImageHandler from '../../../hooks/common/useImageHandler';
 import { useNavigate } from 'react-router-dom';
+import useGetUser from '../../../hooks/queries/myPage/useGetUser';
 
 const EditProfile = () => {
-  const { userInfo } = useContext(UserInfoContext);
-  const [newNickname, setNewNickname] = useState<string>(userInfo.nickname);
+  const { data: userData } = useGetUser();
+  const [newNickname, setNewNickname] = useState<string>(userData.nickname);
   const handleClose = () => {
     navigate('/mypage');
   };
@@ -58,7 +58,7 @@ const EditProfile = () => {
       <S.EditForm onSubmit={handleSubmit}>
         <S.Label>
           <S.PreviewImage
-            src={newImage || userInfo.profileImage}
+            src={newImage || userData.profileImageUrl}
             alt="profile"
             onError={handleImageError}
           />
@@ -74,7 +74,7 @@ const EditProfile = () => {
           </S.InputItemContainer>
           <S.InputItemContainer>
             <S.InputTitleSpan>이메일</S.InputTitleSpan>
-            <S.ProfileItemInput value={userInfo.email} readOnly />
+            <S.ProfileItemInput value={userData.email} readOnly />
           </S.InputItemContainer>
         </S.InputContainer>
         <Button type="submit">저장하기</Button>

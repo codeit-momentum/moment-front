@@ -2,8 +2,6 @@ import * as S from './MyPage.style';
 import { useNavigate } from 'react-router-dom';
 import MyProfile from '../../components/MyPage/MyProfile/MyProfile';
 import MyMenu from '../../components/MyPage/MyMenu/MyMenu';
-import UserInfoContext from '../../store/User/UserContext';
-import { useContext, useEffect } from 'react';
 import useGetUser from '../../hooks/queries/myPage/useGetUser';
 import IcEditProfile from '../../assets/svg/IcEditProfile';
 import IcAddFriend from '../../assets/svg/IcAddFriend';
@@ -13,28 +11,14 @@ import useDeleteAccount from '../../hooks/queries/myPage/useDeleteAccount';
 import useResponseMessage from '../../hooks/common/useResponseMessage';
 
 const MyPage = () => {
-  const { data } = useGetUser();
+  const { data: userData } = useGetUser();
   const navigate = useNavigate();
-  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { mutate: deleteAccount } = useDeleteAccount();
   const handleNavigate = () => {
     navigate('/');
   };
   const { setMessage, openModal, renderModal } =
     useResponseMessage(handleNavigate);
-
-  useEffect(() => {
-    if (data) {
-      const userData = {
-        id: data.id,
-        nickname: data.nickname,
-        email: data.email,
-        friendCode: data.friendCode,
-        profileImage: data.profileImageUrl,
-      };
-      setUserInfo(userData);
-    }
-  }, [data, setUserInfo]);
 
   const menuItems = [
     {
@@ -83,9 +67,9 @@ const MyPage = () => {
     <S.MyPageLayout>
       {renderModal()}
       <MyProfile
-        name={userInfo.nickname}
-        email={userInfo.email}
-        profileImage={userInfo.profileImage}
+        name={userData.nickname}
+        email={userData.email}
+        profileImage={userData.profileImageUrl}
       />
       <S.Horizontal />
       <MyMenu menuItems={menuItems} />
