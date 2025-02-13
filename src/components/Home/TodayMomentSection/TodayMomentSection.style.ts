@@ -18,7 +18,8 @@ export const DividerLine = styled.hr`
   width: 24.5rem;
   height: 0.2rem;
   margin: 2rem 0 3.5rem 0;
-  background-color: ${({ theme }) => theme.colors.gray};
+  border: none;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 export const TodayMessageBox = styled.div`
