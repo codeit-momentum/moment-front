@@ -45,19 +45,20 @@ const Friend = () => {
       },
       onSettled: () => {
         openModal();
-        setMessage('');
       },
     });
   };
 
   const handlePostFriend = () => {
     postFriend(friendCode, {
+      onSuccess: () => {
+        setMessage('');
+      },
       onError: (error) => {
         handleError(error);
       },
       onSettled: () => {
         setIsFriend(true);
-        setMessage('');
       },
     });
   };
