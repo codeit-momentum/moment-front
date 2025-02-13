@@ -4,7 +4,9 @@ export const useWebSocketNotifications = (userID: string) => {
   const [newNotificationCount, setNewNotificationCount] = useState<number>(0);
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://localhost:3000?userID=${userID}`);
+    const ws = new WebSocket(
+      `wss://api.codeit-momentum.shop/ws?userID=${userID}`,
+    );
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);

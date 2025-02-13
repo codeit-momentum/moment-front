@@ -8,20 +8,17 @@ interface ConsecutiveDaysResponse {
   consecutiveDays: number;
 }
 
-// API 호출 함수
-const getConsecutiveDays = async (
-  date: string,
-): Promise<ConsecutiveDaysResponse> => {
-  const response = await instance.get(`/api/home/consecutiveDays/${date}`);
+// API 호출 함수 (date 제거)
+const getConsecutiveDays = async (): Promise<ConsecutiveDaysResponse> => {
+  const response = await instance.get(`/api/home/consecutiveDays`);
   return response.data;
 };
 
-// React Query 훅
-const useGetConsecutiveDays = (date: string) => {
+// React Query 훅 (date 파라미터 제거)
+const useGetConsecutiveDays = () => {
   return useQuery({
-    queryKey: ['ConsecutiveDays', date], // Query Key
-    queryFn: () => getConsecutiveDays(date), // Query Function
-    enabled: !!date, // date가 존재할 때만 실행
+    queryKey: ['ConsecutiveDays'], // 날짜 관련 Key 삭제
+    queryFn: getConsecutiveDays, // Query Function 수정
   });
 };
 

@@ -6,8 +6,8 @@ import useGetTodayMoments from '../../../../hooks/queries/home/useGetTodayMoment
 import formatMomentList from '../../../../utils/formatMomentList';
 
 const MomentList = () => {
-  const currentDate = new Date().toISOString().split('T')[0];
-  const { data: todayData } = useGetTodayMoments(currentDate);
+  const { data: todayData } = useGetTodayMoments();
+
   const moments: MomentItemType[] = (todayData?.moments || []).map(
     (moment) => ({
       id: moment.momentID, // string으로 매핑
@@ -16,12 +16,8 @@ const MomentList = () => {
     }),
   );
 
-  /*
-  const handleMomentClick = (id: string, isCompleted: boolean) => {
-    if (isCompleted) return;
-    console.log(`Redirect to moment detail page for ID: ${id}`);
-  };*/
   const momentItems: MomentItemType[] = formatMomentList(moments);
+
   return (
     <S.MomentListLayout>
       {momentItems.map(({ id, title, isCompleted }) => (

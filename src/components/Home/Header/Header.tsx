@@ -12,12 +12,12 @@ import NotificationModal from '../NotificationModal/NotificationModal';
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const currentDate = new Date().toISOString().split('T')[0]; // 오늘 날짜
+
   const {
     data: consecutiveDaysData,
     isLoading,
     isError,
-  } = useGetConsecutiveDays(currentDate);
+  } = useGetConsecutiveDays();
   const { data: noticeCount, refetch } = useGetNotice();
   const { mutate: patchNotice } = usePatchNotice();
 
@@ -31,19 +31,21 @@ const Header = () => {
     setIsModalOpen(true); // 모달 열기
     if (noticeCount && noticeCount > 0) {
       patchNotice(); // 읽음 처리 API 호출
-      console.log('📨 알림 확인! PATCH 요청 보냄');
+      console.log(' 알림 확인! PATCH 요청 보냄');
 
       if (refetch) {
         setTimeout(() => {
           refetch(); // PATCH 이후 알림 개수 다시 가져오기
-          console.log('🔄 알림 개수 refetch 실행!');
+          console.log(' 알림 개수 refetch 실행!');
         }, 500);
       }
     }
   };
+
   useEffect(() => {
     patchNotice();
   }, [patchNotice]);
+
   if (isLoading) {
     return <S.HeaderLayout>로딩 중...</S.HeaderLayout>;
   }
@@ -54,12 +56,6 @@ const Header = () => {
 
   return (
     <S.HeaderLayout>
-      {/*isModalOpen && (
-        /*<NotificationModal
-          notifications={consecutiveDaysData.notifications || []} // API에서 notifications 데이터 가져오기
-          onClose={() => setIsModalOpen(false)}
-        /> <></>
-      )*/}
       <S.StreakTextContainer>
         오늘은 작심
         <S.StreakHighlight>
@@ -67,8 +63,9 @@ const Header = () => {
         </S.StreakHighlight>
         일
       </S.StreakTextContainer>
+
       <S.BellIconWrapper onClick={handleNotificationClick}>
-        {(noticeCount || newNotificationCount) > 0 ? <IcClip /> : <IcClipOff />}
+        {(noticeCount ?? newNotificationCount) > 0 ? <IcClip /> : <IcClipOff />}
       </S.BellIconWrapper>
 
       {/* 알림 모달 */}

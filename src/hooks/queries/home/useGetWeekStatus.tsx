@@ -13,18 +13,17 @@ interface WeekStatusResponse {
   }[];
 }
 
-// API 호출 함수
-const getWeekStatus = async (date: string): Promise<WeekStatusResponse> => {
-  const response = await instance.get(`/api/home/momentsComplete/week/${date}`);
+// API 호출 함수 (date 제거)
+const getWeekStatus = async (): Promise<WeekStatusResponse> => {
+  const response = await instance.get(`/api/home/momentsComplete/week`);
   return response.data;
 };
 
-// React Query 훅
-const useGetWeekStatus = (date: string) => {
+// React Query 훅 (date 파라미터 제거)
+const useGetWeekStatus = () => {
   return useQuery({
-    queryKey: ['WeekStatus', date], // Query Key
-    queryFn: () => getWeekStatus(date), // Query Function
-    enabled: !!date, // date가 존재할 때만 실행
+    queryKey: ['WeekStatus'], // 날짜 관련 Key 삭제
+    queryFn: getWeekStatus, // Query Function 수정
   });
 };
 
