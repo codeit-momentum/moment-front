@@ -121,7 +121,6 @@ const CheckList = ({ type }: CheckListProps) => {
 
         <S.NewItemInput
           value={newItem}
-          maxLength={30}
           onChange={handleChangeInput}
           onInput={handleResizeHeight}
           onKeyDown={handleKeyPress}

@@ -11,18 +11,16 @@ export const HeaderLayout = styled.div`
       direction: 'column',
       justify: 'flex-start',
     })};
-  width: 100%;
   position: relative;
-  padding-top: 5rem;
+  padding-top: 2.3rem;
+  gap: 1rem;
 `;
 
 export const HeaderTitleContainer = styled.div`
   ${({ theme: { mixin } }) =>
     mixin.flexBox({ direction: 'row', align: 'center', justify: 'center' })};
-  margin-bottom: 2rem;
   gap: 1.5rem;
   display: flex;
-  margin-top: 2rem;
 `;
 export const IconWrapper = styled.div`
   width: 4.2rem;
@@ -33,11 +31,15 @@ export const IconWrapper = styled.div`
 
 export const HeaderTitle = styled.h1`
   font-size: 20px;
+  line-height: 37px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
   color: ${({ theme }) => theme.colors.white};
 `;
 
 export const HeaderSubtitle = styled.p`
   font-size: 16px;
   text-align: center;
+  line-height: 37px;
   color: ${({ theme }) => theme.colors.white};
 `;

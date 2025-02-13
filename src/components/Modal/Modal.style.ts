@@ -9,7 +9,18 @@ export const ModalOverlay = styled.div`
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
+  animation: fadeIn 200ms ease-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
+
 export const ModalLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexBox({ direction: 'column' })};
 `;

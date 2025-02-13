@@ -2,9 +2,6 @@ import OpenAI from 'openai';
 import { loadPlanExamples } from './loadExamples.ts';
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
 
-const planExamples = loadPlanExamples();
-console.log(planExamples);
-
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAI_API_KEY, // 환경변수에서 API 키 가져오기
   dangerouslyAllowBrowser: true,

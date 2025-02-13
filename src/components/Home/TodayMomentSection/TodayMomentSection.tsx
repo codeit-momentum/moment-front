@@ -36,7 +36,7 @@ function TodayMomentSection() {
 
       <DayCheckboxGroup days={days} />
       <S.DividerLine />
-      <MomentList moments={moments} />
+      <MomentList />
       <S.TodayMessageBox>
         {moments.length === 0 ? (
           <>
