@@ -264,6 +264,10 @@
 
 ![Image](https://github.com/user-attachments/assets/cf11242b-f1a1-4d3f-bc81-fdf35e5c0cfa)
 
+### 6. 404페이지
+
+![Image](https://github.com/user-attachments/assets/d50fa59c-1f4a-4e54-8d5f-f373bd6a811a)
+
 ## ⚙️기술스택
 
 <h4>Front-end</h4>
@@ -276,7 +280,7 @@
 
 <h4>Back-end</h4>
 
-<img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white"/>
+<img src="https://img.shields.io/badge/node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white"/> <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white"/> <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=Prisma&logoColor=white"/>
 
 <img src="https://img.shields.io/badge/mongodb-47A248?style=for-the-badge&logo=mongodb&logoColor=white"/> <img src="https://img.shields.io/badge/amazonwebservices-232F3E?style=for-the-badge&logo=amazonwebservices&logoColor=white"/> <img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"/> <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
 
@@ -422,7 +426,7 @@ MOMENT-FRONT\SRC
 └─utils
 ```
 
-`apis` axios 기반 instance 코드를 작성하고 ai api 코드를 관리합니다.
+`apis` - axios 기반 instance 코드를 작성하고 ai api 코드를 관리합니다.
 
 `assets` - 이미지 및 폰트를 관리합니다.
 
@@ -431,7 +435,7 @@ MOMENT-FRONT\SRC
 `hooks` - 리액트 훅을 관리합니다.
 
 - `common` - 공통적으로 사용되는 훅들을 관리합니다. `ex) useInput, useModal, useToast`
-- `queries`- React Query 기반 훅(api 요청 쿼리 코드)를 관리합니다.
+- `queries` - React Query 기반 훅(api 요청 쿼리 코드)를 관리합니다.
 
 `layouts` - 전체적인 레이아웃을 설정합니다. `ex) 웹앱뷰, 중첩 라우팅`
 
@@ -439,13 +443,13 @@ MOMENT-FRONT\SRC
 
 - 경로(주소)당 하나의 페이지 컴포넌트 대응
 
-`router`- 라우트를 관리합니다.
+`router` - 라우트를 관리합니다.
 
-`store`- context를 관리합니다.
+`store` - context를 관리합니다.
 
-`styles`- 스타일 코드를 관리합니다. `ex) theme, mixin, GlobalStyle`
+`styles` - 스타일 코드를 관리합니다. `ex) theme, mixin, GlobalStyle`
 
-`types`- 각종 타입을 관리합니다.
+`types` - 각종 타입을 관리합니다.
 
 `utils` - 상수, mockData, 반복해서 사용되는 변수, 훅이 아닌 공통 함수 등을 관리합니다.
 
