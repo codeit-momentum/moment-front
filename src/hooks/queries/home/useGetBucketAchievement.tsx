@@ -10,7 +10,9 @@ interface BucketResponse {
 
 // API 호출 함수
 const fetchBucketStatus = async (): Promise<BucketResponse> => {
-  const response = await instance.get<BucketResponse>('/api/home');
+  const response = await instance.get<BucketResponse>(
+    '/api/home/completedbucket',
+  );
   return response.data;
 };
 
