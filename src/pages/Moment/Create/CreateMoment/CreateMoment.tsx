@@ -1,18 +1,18 @@
 import * as S from './CreateMoment.style';
 import { useState, useEffect } from 'react';
 import { useNavigationType, useNavigate, useLocation } from 'react-router-dom';
-import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderComponent';
-import DurationComponent from '../../components/Moment/DurationComponent/DurationComponent';
-import ToDoListComponent from '../../components/Moment/ToDoListComponent/ToDoListComponent';
-import FrequencyBtnComponent from '../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
-import { autoDuration } from '../../apis/AI/autoDuration';
-import { ModeType } from '../../types/moment/modeType';
-import BackBtn from '../../components/BackBtn/BackBtn';
-import { generateDetailedPlan } from '../../apis/AI/autoPlanning';
-import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
-import useBucketId from '../../hooks/useBucketId';
-import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
-import useMomentData from '../../hooks/useMomentData';
+import HeaderComponent from '../../../../components/Moment/HeaderComponent/HeaderComponent';
+import DurationComponent from '../../../../components/Moment/DurationComponent/DurationComponent';
+import ToDoListComponent from '../../../../components/Moment/ToDoListComponent/ToDoListComponent';
+import FrequencyBtnComponent from '../../../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
+import { autoDuration } from '../../../../apis/AI/autoDuration';
+import { ModeType } from '../../../../types/moment/modeType';
+import BackBtn from '../../../../components/BackBtn/BackBtn';
+import { generateDetailedPlan } from '../../../../apis/AI/autoPlanning';
+import { CreateMomentResponse } from '../../../../types/moment/createMomentTypes';
+import useBucketId from '../../../../hooks/useBucketId';
+import useGetBucketDetail from '../../../../hooks/queries/bucketList/useGetBucketDetail';
+import useMomentData from '../../../../hooks/useMomentData';
 
 const CreateMoment = () => {
   const navigate = useNavigate();

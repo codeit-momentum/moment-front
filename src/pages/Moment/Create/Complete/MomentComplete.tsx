@@ -1,17 +1,17 @@
-import IcArrow from '../../assets/svg/IcArrow';
+import IcArrow from '../../../../assets/svg/IcArrow';
 import * as S from './MomentComplete.style';
 import { useEffect, useState } from 'react';
-import Button from '../../components/Button/Button';
+import Button from '../../../../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
-import { generateMomentDates } from '../../utils/generateMomentDates';
-import { formatListDate } from '../../utils/formatDate';
-import usePostMoments from '../../hooks/queries/moment/usePostMoments';
-import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
-import usePatchBucketChallenge from '../../hooks/queries/bucketList/usePatchBucektChallenge';
-import useBucketId from '../../hooks/useBucketId';
-import useMomentData from '../../hooks/useMomentData';
-import IcDateContainer from '../../assets/svg/IcDateContainer';
-import MethodContainer from '../../components/Moment/ContainerLayout/ContainerLayout';
+import { generateMomentDates } from '../../../../utils/generateMomentDates';
+import { formatListDate } from '../../../../utils/formatDate';
+import usePostMoments from '../../../../hooks/queries/moment/usePostMoments';
+import useGetBucketDetail from '../../../../hooks/queries/bucketList/useGetBucketDetail';
+import usePatchBucketChallenge from '../../../../hooks/queries/bucketList/usePatchBucektChallenge';
+import useBucketId from '../../../../hooks/useBucketId';
+import useMomentData from '../../../../hooks/useMomentData';
+import IcDateContainer from '../../../../assets/svg/IcDateContainer';
+import MethodContainer from '../../../../components/Moment/ContainerLayout/ContainerLayout';
 
 const MomentComplete = () => {
   const navigate = useNavigate();
