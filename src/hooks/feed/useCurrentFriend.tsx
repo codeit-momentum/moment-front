@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FriendType } from '../types/feed';
+import { FriendType } from '../../types/feed';
 
 const useCurrentFriend = (friendList: FriendType[]) => {
   const [currentFriend, setCurrentFriend] = useState<FriendType>(friendList[0]);

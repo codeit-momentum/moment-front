@@ -5,7 +5,7 @@ import FeedList from '../../components/Feed/FeedList/FeedList';
 import useModal from '../../hooks/common/useModal';
 import Modal from '../../components/Modal/Modal';
 import SelectModal from '../../components/Modal/SelectModal/SelectModal';
-import useCurrentFriend from '../../hooks/useCurrentFriend';
+import useCurrentFriend from '../../hooks/feed/useCurrentFriend';
 import IcMenu from '../../assets/svg/feed/IcMenu';
 import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
 import FeedModal from '../../components/Modal/FeedModal/FeedModal';

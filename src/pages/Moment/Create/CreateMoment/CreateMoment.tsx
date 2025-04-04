@@ -10,9 +10,9 @@ import { ModeType } from '../../../../types/moment/create';
 import BackBtn from '../../../../components/BackBtn/BackBtn';
 import { generateDetailedPlan } from '../../../../apis/AI/autoPlanning';
 import { CreateMomentResponse } from '../../../../types/moment/create';
-import useBucketId from '../../../../hooks/useBucketId';
+import useBucketId from '../../../../hooks/moment/useBucketId';
 import useGetBucketDetail from '../../../../hooks/queries/bucketList/useGetBucketDetail';
-import useMomentData from '../../../../hooks/useMomentData';
+import useMomentData from '../../../../hooks/moment/useMomentData';
 
 const CreateMoment = () => {
   const navigate = useNavigate();

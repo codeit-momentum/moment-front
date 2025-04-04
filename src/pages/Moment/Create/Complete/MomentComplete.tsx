@@ -8,8 +8,8 @@ import { formatListDate } from '../../../../utils/formatDate';
 import usePostMoments from '../../../../hooks/queries/moment/usePostMoments';
 import useGetBucketDetail from '../../../../hooks/queries/bucketList/useGetBucketDetail';
 import usePatchBucketChallenge from '../../../../hooks/queries/bucketList/usePatchBucektChallenge';
-import useBucketId from '../../../../hooks/useBucketId';
-import useMomentData from '../../../../hooks/useMomentData';
+import useBucketId from '../../../../hooks/moment/useBucketId';
+import useMomentData from '../../../../hooks/moment/useMomentData';
 import IcDateContainer from '../../../../assets/svg/moment/IcDateContainer';
 import MethodContainer from '../../../../components/Moment/ContainerLayout/ContainerLayout';
 

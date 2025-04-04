@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { CreateMomentResponse } from '../types/moment/create';
+import { CreateMomentResponse } from '../../types/moment/create';
 
 const useMomentData = (
   bucketId: string,

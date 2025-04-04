@@ -5,7 +5,7 @@ import Button from '../../../../components/Button/Button';
 import HeaderComponent from '../../../../components/Moment/HeaderComponent/HeaderComponent';
 import BackBtn from '../../../../components/BackBtn/BackBtn';
 import useGetBucketDetail from '../../../../hooks/queries/bucketList/useGetBucketDetail';
-import useBucketId from '../../../../hooks/useBucketId';
+import useBucketId from '../../../../hooks/moment/useBucketId';
 
 /**
  * SelectMode
