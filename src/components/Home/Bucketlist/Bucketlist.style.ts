@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import backgroundImage from '../../../assets/images/bucketAcheiveBackgroundImage.png';
+import backgroundImage from '../../../assets/images/bucketAcheiveBackgroundImage.webp';
 
 export const BucketlistLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
