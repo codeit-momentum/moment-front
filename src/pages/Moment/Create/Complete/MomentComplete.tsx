@@ -1,4 +1,4 @@
-import IcArrow from '../../../../assets/svg/IcArrow';
+import IcArrow from '../../../../assets/svg/common/IcArrow';
 import * as S from './MomentComplete.style';
 import { useEffect, useState } from 'react';
 import Button from '../../../../components/Button/Button';
@@ -10,7 +10,7 @@ import useGetBucketDetail from '../../../../hooks/queries/bucketList/useGetBucke
 import usePatchBucketChallenge from '../../../../hooks/queries/bucketList/usePatchBucektChallenge';
 import useBucketId from '../../../../hooks/useBucketId';
 import useMomentData from '../../../../hooks/useMomentData';
-import IcDateContainer from '../../../../assets/svg/IcDateContainer';
+import IcDateContainer from '../../../../assets/svg/moment/IcDateContainer';
 import MethodContainer from '../../../../components/Moment/ContainerLayout/ContainerLayout';
 
 const MomentComplete = () => {

@@ -10,7 +10,7 @@ import usePatchBucket from '../../../hooks/queries/bucketList/usePatchBucket';
 import useResponseMessage from '../../../hooks/common/useResponseMessage';
 import CheckListLayout from '../ContainerLayout/ContainerLayout';
 import CheckListItem from './CheckListItem/CheckListItem';
-import IcCheckboxPending from '../../../assets/svg/IcCheckboxPending';
+import IcCheckboxPending from '../../../assets/svg/moment/IcCheckboxPending';
 import * as S from './CheckList.style';
 import useGetRepeatBucket from '../../../hooks/queries/bucketList/useGetRepeatBucket';
 import useGetAchievementBucket from '../../../hooks/queries/bucketList/useGetAchievementBucket';

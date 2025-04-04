@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import MomentUploadStatusLayout from '../ContainerLayout/ContainerLayout';
-import IcMomentUpload from '../../../assets/svg/IcMomentUpload';
+import IcMomentUpload from '../../../assets/svg/moment/IcMomentUpload';
 import * as S from './MomentUploadStatus.style';
 import { ChallengingBucket } from '../../../types/moment';
 

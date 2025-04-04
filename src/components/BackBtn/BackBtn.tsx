@@ -1,4 +1,4 @@
-import IcBack from '../../assets/svg/IcBack';
+import IcBack from '../../assets/svg/common/IcBack';
 import * as S from './BackBtn.style';
 
 interface BackBtnProps {

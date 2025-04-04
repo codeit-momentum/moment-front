@@ -3,7 +3,7 @@ import * as S from './DurationComponent.style';
 import { useEditable } from '../../../hooks/useEditable';
 import { ModeType } from '../../../types/moment/modeType';
 import Button from '../../Button/Button';
-import IcLoading from '../../../assets/svg/IcLoading';
+import IcLoading from '../../../assets/svg/common/IcLoading';
 import Divider from '../../Divider/Divider';
 
 interface DurationProps {

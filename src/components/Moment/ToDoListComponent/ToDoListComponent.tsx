@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as S from './ToDoListComponent.style';
 import { ModeType } from '../../../types/moment/modeType';
-import IcLoading from '../../../assets/svg/IcLoading';
+import IcLoading from '../../../assets/svg/common/IcLoading';
 import ToDoItem from '../CheckList/CheckListItem/CheckListItem';
 import TodoContainer from '../ContainerLayout/ContainerLayout';
 import useToast from '../../../hooks/common/useToast';

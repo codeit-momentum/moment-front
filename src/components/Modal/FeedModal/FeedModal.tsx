@@ -1,5 +1,5 @@
 import * as S from './FeedModal.style';
-import IcCloseModal from '../../../assets/svg/IcCloseModal';
+import IcCloseModal from '../../../assets/svg/common/IcCloseModal';
 
 interface FeedModalProps {
   title: string;
@@ -30,7 +30,9 @@ const FeedModal = ({
         <S.ModalOptionButton onClick={onFix}>
           친구 고정 {isFixed === false ? 'on' : 'off'}
         </S.ModalOptionButton>
-        <S.ModalOptionButton onClick={onDelete}>친구 삭제하기</S.ModalOptionButton>
+        <S.ModalOptionButton onClick={onDelete}>
+          친구 삭제하기
+        </S.ModalOptionButton>
       </S.ModalOptionContainer>
     </S.FeedModalLayout>
   );

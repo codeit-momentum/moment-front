@@ -1,5 +1,5 @@
 import * as S from './OnboardingSection.style';
-import IcLogo from '../../assets/svg/IcLogo';
+import IcLogo from '../../assets/svg/common/IcLogo';
 
 type OnboardingSectionProps = {
   isStart: boolean;
