@@ -1,4 +1,4 @@
-import { CreateMomentPayload } from '../types/moment/createMomentTypes';
+import { CreateMomentPayload } from '../types/moment/create';
 import { formatApiDate } from './formatDate';
 
 /**

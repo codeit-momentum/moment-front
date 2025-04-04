@@ -1,6 +1,6 @@
 import { useNavigationType, useNavigate } from 'react-router-dom';
 import * as S from './SelectMode.style';
-import { ModeType } from '../../../../types/moment/modeType';
+import { ModeType } from '../../../../types/moment/create';
 import Button from '../../../../components/Button/Button';
 import HeaderComponent from '../../../../components/Moment/HeaderComponent/HeaderComponent';
 import BackBtn from '../../../../components/BackBtn/BackBtn';

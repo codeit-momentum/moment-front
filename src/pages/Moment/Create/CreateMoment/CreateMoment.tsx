@@ -6,10 +6,10 @@ import DurationComponent from '../../../../components/Moment/DurationComponent/D
 import ToDoListComponent from '../../../../components/Moment/ToDoListComponent/ToDoListComponent';
 import FrequencyBtnComponent from '../../../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
 import { autoDuration } from '../../../../apis/AI/autoDuration';
-import { ModeType } from '../../../../types/moment/modeType';
+import { ModeType } from '../../../../types/moment/create';
 import BackBtn from '../../../../components/BackBtn/BackBtn';
 import { generateDetailedPlan } from '../../../../apis/AI/autoPlanning';
-import { CreateMomentResponse } from '../../../../types/moment/createMomentTypes';
+import { CreateMomentResponse } from '../../../../types/moment/create';
 import useBucketId from '../../../../hooks/useBucketId';
 import useGetBucketDetail from '../../../../hooks/queries/bucketList/useGetBucketDetail';
 import useMomentData from '../../../../hooks/useMomentData';

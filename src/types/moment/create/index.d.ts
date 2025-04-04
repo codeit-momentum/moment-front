@@ -1,3 +1,5 @@
+export type ModeType = 'auto' | 'manual';
+
 // 요청 타입
 export interface CreateMomentPayload {
   duration: number | null;
