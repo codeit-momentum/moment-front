@@ -4,7 +4,7 @@ import { useEditable } from '../../../../hooks/moment/useEditable';
 import { ModeType } from '../../../../types/moment/create';
 import Button from '../../../buttons/Button';
 import IcLoading from '../../../../assets/svg/common/IcLoading';
-import Divider from '../../../Divider/Divider';
+import Divider from '../../../common/Divider/Divider';
 
 interface DurationProps {
   mode: ModeType; // 'auto' 또는 'manual'

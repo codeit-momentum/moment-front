@@ -8,7 +8,7 @@ import useToast from '../../../../hooks/common/useToast';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '../../../buttons/Button';
 import Toast from '../../../common/Toast/Toast';
-
+import Divider from '../../../common/Divider/Divider';
 /**
  * ToDoListProps 인터페이스
  */
@@ -71,7 +71,7 @@ const ToDoListComponent = ({
 
   return (
     <S.ToDoListLayout>
-      <S.TodoDivider />
+      <Divider />
       <S.TodoLabel>
         {duration}일 동안 진행할 모멘트는
         <br />

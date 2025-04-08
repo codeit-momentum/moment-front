@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as S from './FrequencyBtnComponent.style';
 import Button from '../../../buttons/Button';
-import Divider from '../../../Divider/Divider';
+import Divider from '../../../common/Divider/Divider';
 import BtnFrequency from '../../../buttons/Frequency/BtnFrequency';
 import formatFrequency from '../../../../utils/formatFrequency';
 /**
