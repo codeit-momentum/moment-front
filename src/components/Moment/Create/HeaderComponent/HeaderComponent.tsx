@@ -1,5 +1,5 @@
 import * as S from './HeaderComponent.style';
-import IcUnactiveMoment from '../../../assets/svg/navigation/IcUnactiveMoment';
+import IcUnactiveMoment from '../../../../assets/svg/navigation/IcUnactiveMoment';
 /**
  * Header Component Props
  * -title : 화면 상단의 주요 제목

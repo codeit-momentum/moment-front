@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import * as S from './FrequencyBtnComponent.style';
-import Button from '../../buttons/Button';
-import Divider from '../../Divider/Divider';
-import BtnFrequency from '../../buttons/Frequency/BtnFrequency';
-import formatFrequency from '../../../utils/formatFrequency';
+import Button from '../../../buttons/Button';
+import Divider from '../../../Divider/Divider';
+import BtnFrequency from '../../../buttons/Frequency/BtnFrequency';
+import formatFrequency from '../../../../utils/formatFrequency';
 /**
  * FrequencyBtn Props
  * - options: 버튼에 표시될 옵션 목록

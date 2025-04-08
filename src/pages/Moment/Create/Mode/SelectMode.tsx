@@ -2,8 +2,8 @@ import { useNavigationType, useNavigate } from 'react-router-dom';
 import * as S from './SelectMode.style';
 import { ModeType } from '../../../../types/moment/create';
 import Button from '../../../../components/buttons/Button';
-import HeaderComponent from '../../../../components/Moment/HeaderComponent/HeaderComponent';
-import BackBtn from '../../../../components/BackBtn/BackBtn';
+import HeaderComponent from '../../../../components/Moment/Create/HeaderComponent/HeaderComponent';
+import BtnBack from '../../../../components/buttons/Back/BtnBack';
 import useGetBucketDetail from '../../../../hooks/queries/bucketList/useGetBucketDetail';
 import useBucketId from '../../../../hooks/moment/useBucketId';
 
@@ -56,7 +56,7 @@ const SelectMode = () => {
   };
   return (
     <S.SelectModeLayout>
-      <BackBtn onClick={handleBack} />
+      <BtnBack onClick={handleBack} />
       {/* HeaderComponent 적용 */}
       <HeaderComponent
         title={
