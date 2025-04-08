@@ -62,17 +62,14 @@ const MyPage = () => {
   ];
 
   const handleDelete = () => {
-    deleteAccount(
-      {},
-      {
-        onSuccess: (data) => {
-          setMessage(data.message);
-        },
-        onSettled: () => {
-          setIsDeleting(true);
-        },
+    deleteAccount(undefined, {
+      onSuccess: (data) => {
+        setMessage(data.message);
       },
-    );
+      onSettled: () => {
+        setIsDeleting(true);
+      },
+    });
   };
 
   const handleClos = () => {
