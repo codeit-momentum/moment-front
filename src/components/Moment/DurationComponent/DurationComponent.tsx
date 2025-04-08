@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import * as S from './DurationComponent.style';
 import { useEditable } from '../../../hooks/moment/useEditable';
 import { ModeType } from '../../../types/moment/create';
-import Button from '../../Button/Button';
+import Button from '../../buttons/Button';
 import IcLoading from '../../../assets/svg/common/IcLoading';
 import Divider from '../../Divider/Divider';
 

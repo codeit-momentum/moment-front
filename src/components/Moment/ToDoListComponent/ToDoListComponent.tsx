@@ -6,7 +6,7 @@ import ToDoItem from '../CheckList/CheckListItem/CheckListItem';
 import TodoContainer from '../ContainerLayout/ContainerLayout';
 import useToast from '../../../hooks/common/useToast';
 import { v4 as uuidv4 } from 'uuid';
-import Button from '../../Button/Button';
+import Button from '../../buttons/Button';
 import Toast from '../../common/Toast/Toast';
 
 /**

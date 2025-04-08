@@ -7,7 +7,7 @@ import ToDoListComponent from '../../../../components/Moment/ToDoListComponent/T
 import FrequencyBtnComponent from '../../../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
 import { autoDuration } from '../../../../apis/AI/autoDuration';
 import { ModeType } from '../../../../types/moment/create';
-import BackBtn from '../../../../components/BackBtn/BackBtn';
+import BtnBack from '../../../../components/buttons/Back/BtnBack';
 import { generateDetailedPlan } from '../../../../apis/AI/autoPlanning';
 import { CreateMomentResponse } from '../../../../types/moment/create';
 import useBucketId from '../../../../hooks/moment/useBucketId';
@@ -145,7 +145,7 @@ const CreateMoment = () => {
 
   return (
     <S.CreateMomentLayout>
-      <BackBtn onClick={handleBack} />
+      <BtnBack onClick={handleBack} />
       <HeaderComponent
         title={isLoading ? '로딩 중...' : bucketContent}
         subtitle="버킷리스트를 시작해볼까요?"

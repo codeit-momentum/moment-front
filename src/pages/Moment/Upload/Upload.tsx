@@ -4,7 +4,7 @@ import useModal from '../../../hooks/common/useModal';
 import ImageUpload from '../../../components/Moment/ImageUpload/ImageUpload';
 import Modal from '../../../components/Modal/Modal';
 import OKModal from '../../../components/Modal/OKModal/OKModal';
-import Button from '../../../components/Button/Button';
+import Button from '../../../components/buttons/Button';
 import IcBack from '../../../assets/svg/common/IcBack';
 import * as S from './Upload.style';
 import useResponseMessage from '../../../hooks/common/useResponseMessage';

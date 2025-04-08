@@ -1,4 +1,4 @@
-import * as S from './FrequentBtn.style';
+import * as S from './BtnFrequency.style';
 
 interface FrequentBtnProps {
   isSelected: boolean;

@@ -1,7 +1,7 @@
 import IcArrow from '../../../../assets/svg/common/IcArrow';
 import * as S from './MomentComplete.style';
 import { useEffect, useState } from 'react';
-import Button from '../../../../components/Button/Button';
+import Button from '../../../../components/buttons/Button';
 import { useNavigate } from 'react-router-dom';
 import { generateMomentDates } from '../../../../utils/generateMomentDates';
 import { formatListDate } from '../../../../utils/formatDate';

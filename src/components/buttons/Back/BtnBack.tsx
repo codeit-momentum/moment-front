@@ -1,11 +1,11 @@
-import IcBack from '../../assets/svg/common/IcBack';
-import * as S from './BackBtn.style';
+import IcBack from '../../../assets/svg/common/IcBack';
+import * as S from './BtnBack.style';
 
-interface BackBtnProps {
+interface BtnBackProps {
   onClick: () => void; // 클릭 이벤트 핸들러
 }
 
-const BackBtn = ({ onClick }: BackBtnProps) => {
+const BtnBack = ({ onClick }: BtnBackProps) => {
   return (
     <S.BackBtnField>
       <S.BackBtnWrapper
@@ -19,4 +19,4 @@ const BackBtn = ({ onClick }: BackBtnProps) => {
   );
 };
 
-export default BackBtn;
+export default BtnBack;
