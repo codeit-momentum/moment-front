@@ -1,10 +1,10 @@
 import * as S from './CreateMoment.style';
 import { useState, useEffect } from 'react';
 import { useNavigationType, useNavigate, useLocation } from 'react-router-dom';
-import HeaderComponent from '../../../../components/Moment/HeaderComponent/HeaderComponent';
-import DurationComponent from '../../../../components/Moment/DurationComponent/DurationComponent';
-import ToDoListComponent from '../../../../components/Moment/ToDoListComponent/ToDoListComponent';
-import FrequencyBtnComponent from '../../../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
+import HeaderComponent from '../../../../components/Moment/Create/HeaderComponent/HeaderComponent';
+import DurationComponent from '../../../../components/Moment/Create/DurationComponent/DurationComponent';
+import ToDoListComponent from '../../../../components/Moment/Create/ToDoListComponent/ToDoListComponent';
+import FrequencyBtnComponent from '../../../../components/Moment/Create/FrequencyBtnComponent/FrequencyBtnComponent';
 import { autoDuration } from '../../../../apis/AI/autoDuration';
 import { ModeType } from '../../../../types/moment/create';
 import BtnBack from '../../../../components/buttons/Back/BtnBack';

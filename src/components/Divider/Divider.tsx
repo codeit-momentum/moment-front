@@ -6,6 +6,6 @@ interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
 }
 
 const Divider = ({ customStyle }: DividerProps) => {
-  return <S.CommonDiv style={customStyle} />;
+  return <S.Divider style={customStyle} />;
 };
 export default Divider;
