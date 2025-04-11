@@ -1,6 +1,5 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 import * as S from './DurationComponent.style';
-import { useEditable } from '../../../hooks/useEditable';
 import { ModeType } from '../../../types/moment/modeType';
 import Button from '../../Button/Button';
 import IcLoading from '../../../assets/svg/IcLoading';
@@ -20,7 +19,7 @@ interface DurationProps {
  */
 const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
   const [duration, setDuration] = useState<number>(0);
-  const { isEditing, toggleEditing } = useEditable();
+  const [isEditing, setIsEditing] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false); // 확정 상태 관리
   const [isLoadingAI, setIsLoadingAI] = useState(false);
 
@@ -54,11 +53,6 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
     setDuration(newValue === '' ? 0 : Number(newValue));
   };
 
-  // 수정완료 핸들러
-  const handleEditComplete = () => {
-    toggleEditing(); // 수정 상태 종료
-  };
-
   // 확정하기 핸들러
   const handleConfirm = () => {
     if (duration < 1) {
@@ -67,7 +61,7 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
     }
     onEdit(duration); //부모컴포넌트에 전달
     setIsConfirmed(true); //확정 상태 설정
-    if (isEditing) toggleEditing(); // 수정 상태 종료
+    if (isEditing) setIsEditing(false); // 수정 상태 종료
   };
 
   return (
@@ -102,12 +96,15 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
             !isConfirmed && <Button onClick={handleConfirm}>확정하기</Button>
           ) : !isConfirmed ? (
             isEditing ? (
-              <Button onClick={handleEditComplete} disabled={duration <= 0}>
+              <Button
+                onClick={() => setIsEditing(false)}
+                disabled={duration <= 0}
+              >
                 수정완료
               </Button>
             ) : (
               <>
-                <Button onClick={toggleEditing}>수정하기</Button>
+                <Button onClick={() => setIsEditing(true)}>수정하기</Button>
                 <Button onClick={handleConfirm}>확정하기</Button>
               </>
             )
