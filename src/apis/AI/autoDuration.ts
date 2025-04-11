@@ -39,13 +39,19 @@ export async function autoDuration(goal: string) {
     const content = response.choices?.[0]?.message?.content?.trim();
     console.log('AI 예상 소요 기간 응답:', content); // AI 응답 확인
 
-    if (!content || isNaN(parseInt(content, 10))) {
+    if (
+      !content ||
+      isNaN(parseInt(content, 10)) ||
+      parseInt(content, 10) <= 0
+    ) {
       throw new Error('AI가 올바른 숫자를 반환하지 않았습니다.');
     }
-
-    const duration = parseInt(content, 10);
-    return duration > 0 ? duration : null;
+    return parseInt(content, 10);
   } catch (error) {
-    throw new Error(`추천 기간 생성 오류: ${error.message}`);
+    if (error instanceof Error) {
+      throw new Error(`추천 기간 생성 오류: ${error.message}`);
+    } else {
+      throw new Error('추천 기간 생성 오류: 알 수 없는 오류');
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import * as S from './DurationComponent.style';
 import { useEditable } from '../../../hooks/useEditable';
 import { ModeType } from '../../../types/moment/modeType';
@@ -19,7 +19,7 @@ interface DurationProps {
  * - 예상 소요 기간을 표시하거나 수정할 수 있는 컴포넌트
  */
 const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
-  const [duration, setDuration] = useState<string>('');
+  const [duration, setDuration] = useState<number>(0);
   const { isEditing, toggleEditing } = useEditable();
   const [isConfirmed, setIsConfirmed] = useState(false); // 확정 상태 관리
   const [isLoadingAI, setIsLoadingAI] = useState(false);
@@ -31,12 +31,13 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
 
       try {
         const days = await autoDuration(goal);
-        setDuration(String(days));
-      } catch {
+        setDuration(days);
+      } catch (error) {
+        console.error(error);
         alert(
           'AI 예상 소요 기간 생성 중 오류가 발생했습니다. 다시 시도해주세요.',
         );
-        setDuration('0');
+        setDuration(0);
       } finally {
         setIsLoadingAI(false);
       }
@@ -45,31 +46,26 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
     if (mode === 'auto') {
       getAutoDuration();
     }
-  }, [mode]);
+  }, [mode, goal]);
 
   //입력값 변경 핸들러
-  const handleInputChange = (value: string) => {
-    if (/^\d*$/.test(value)) {
-      setDuration(value);
-    }
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setDuration(newValue === '' ? 0 : Number(newValue));
   };
 
   // 수정완료 핸들러
   const handleEditComplete = () => {
-    if (Number(duration) < 1) {
-      alert('1일 이상으로 설정해주세요.');
-      return;
-    }
     toggleEditing(); // 수정 상태 종료
   };
 
   // 확정하기 핸들러
   const handleConfirm = () => {
-    if (Number(duration) < 1) {
+    if (duration < 1) {
       alert('1일 이상으로 설정해주세요.');
       return;
     }
-    onEdit(Number(duration)); //부모컴포넌트에 전달
+    onEdit(duration); //부모컴포넌트에 전달
     setIsConfirmed(true); //확정 상태 설정
     if (isEditing) toggleEditing(); // 수정 상태 종료
   };
@@ -86,9 +82,9 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
         // 입력 필드 노출
         <S.InputContainer>
           <S.DurationInput
-            type="text"
-            value={duration}
-            onChange={(e) => handleInputChange(e.target.value)}
+            type="number"
+            value={duration === 0 ? '' : duration}
+            onChange={handleInputChange}
             min={1}
           />
           <S.Unit>일</S.Unit>
@@ -106,7 +102,9 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
             !isConfirmed && <Button onClick={handleConfirm}>확정하기</Button>
           ) : !isConfirmed ? (
             isEditing ? (
-              <Button onClick={handleEditComplete}>수정완료</Button>
+              <Button onClick={handleEditComplete} disabled={duration <= 0}>
+                수정완료
+              </Button>
             ) : (
               <>
                 <Button onClick={toggleEditing}>수정하기</Button>
