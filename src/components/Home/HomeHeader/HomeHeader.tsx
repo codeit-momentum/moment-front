@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import * as S from './Header.style';
+import * as S from './HomeHeader.style';
 import useGetConsecutiveDays from '../../../hooks/queries/home/useGetConsecutiveDays';
 import usePatchNotice from '../../../hooks/queries/home/usePatchNotice';
 import NotificationModal from '../NotificationModal/NotificationModal';
 import IcNoticeOff from '../../../assets/svg/home/IcNoticeOff';
 import { NoticeItemType } from '../../../types/home';
 
-const Header = () => {
+const HomeHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const {
@@ -61,4 +61,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HomeHeader;

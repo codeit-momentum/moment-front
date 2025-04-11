@@ -1,12 +1,12 @@
 import * as S from './Home.style';
-import Header from '../../components/Home/Header/Header';
+import HomeHeader from '../../components/Home/HomeHeader/HomeHeader';
 import TodayMomentSection from '../../components/Home/TodayMomentSection/TodayMomentSection';
 import Bucketlist from '../../components/Home/Bucketlist/Bucketlist';
 
 const Home = () => {
   return (
     <S.HomeLayout>
-      <Header />
+      <HomeHeader />
       <TodayMomentSection />
       <Bucketlist />
     </S.HomeLayout>
