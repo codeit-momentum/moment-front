@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 import * as S from './MyMenu.style';
-import IcArrowRight from '../../../assets/svg/IcArrowRight';
+import IcArrowRight from '../../../assets/svg/myPage/IcArrowRight';
 
 interface MyMenuProps {
   menuItems: {
     label: string;
     name: string;
-    icon: ReactNode; // replace with actual icon component
+    icon: ReactNode;
     action: () => void;
   }[];
 }
