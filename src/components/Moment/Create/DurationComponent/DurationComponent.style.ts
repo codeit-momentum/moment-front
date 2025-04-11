@@ -34,18 +34,9 @@ export const InputContainer = styled.div`
     mixin.flexBox({
       direction: 'row',
     })};
-  margin: 1rem;
-  gap: 1rem;
-`;
-/**
- * DisplayWarpper: 텍스트와 버튼을 포함하는 컨테이너
- */
-export const DisplayContainer = styled.div`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({
-      direction: 'row',
-    })};
-  margin-top: 0.5rem;
+  height: 4rem;
+  font-size: 32px;
+  color: ${({ theme }) => theme.colors.yellow};
 `;
 
 /**
@@ -53,37 +44,19 @@ export const DisplayContainer = styled.div`
  */
 export const DurationInput = styled.input`
   width: 8rem;
-  height: 4rem;
-  font-size: 24px;
+  height: 100%;
+  margin-right: 1rem;
+  font-size: inherit;
   text-align: center;
-  border: 0.5px solid ${({ theme }) => theme.colors.white};
-  background-color: ${({ readOnly, theme }) =>
-    readOnly ? theme.colors.white : theme.colors.white};
-  color: ${({ readOnly, theme }) =>
-    readOnly ? theme.colors.black : theme.colors.black};
-  cursor: ${({ readOnly }) => (readOnly ? 'default' : 'text')};
+  border: none;
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.black};
 
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
     -webkit-appearance: none; // 브라우저 기본 스핀 버튼 제거
     margin: 0;
   }
-`;
-
-/**
- * DurationText: 날짜을 표시하는 텍스트
- */
-export const DurationText = styled.span`
-  font-size: 32px;
-  color: ${({ theme }) => theme.colors.yellow};
-`;
-
-/**
- * Unit : 날짜의 단위를 나타내는 텍스트
- */
-export const Unit = styled.span`
-  font-size: 32px;
-  color: ${({ theme }) => theme.colors.yellow};
 `;
 
 /**
@@ -95,5 +68,5 @@ export const BtnContainer = styled.div`
       direction: 'row',
     })};
   gap: 3rem;
-  margin-top: 2rem;
+  margin-top: 3rem;
 `;

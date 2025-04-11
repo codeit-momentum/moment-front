@@ -23,7 +23,7 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
   const [isConfirmed, setIsConfirmed] = useState(false); // 확정 상태 관리
   const [isLoadingAI, setIsLoadingAI] = useState(false);
 
-  // 자동 모드 초기 값 설정
+  // 수동 / 자동 모드 초기 값 설정
   useEffect(() => {
     const getAutoDuration = async () => {
       setIsLoadingAI(true);
@@ -44,6 +44,8 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
 
     if (mode === 'auto') {
       getAutoDuration();
+    } else {
+      setIsEditing(true);
     }
   }, [mode, goal]);
 
@@ -59,9 +61,29 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
       alert('1일 이상으로 설정해주세요.');
       return;
     }
-    onEdit(duration); //부모컴포넌트에 전달
+    setIsEditing(false); // 수정 상태 종료
     setIsConfirmed(true); //확정 상태 설정
-    if (isEditing) setIsEditing(false); // 수정 상태 종료
+    onEdit(duration); //부모컴포넌트에 전달
+  };
+
+  const renderButtons = () => {
+    if (isConfirmed) return null;
+
+    if (mode === 'manual') {
+      return <Button onClick={handleConfirm}>확정하기</Button>;
+    }
+
+    // mode === 'auto'
+    return isEditing ? (
+      <Button onClick={() => setIsEditing(false)} disabled={duration <= 0}>
+        수정완료
+      </Button>
+    ) : (
+      <>
+        <Button onClick={() => setIsEditing(true)}>수정하기</Button>
+        <Button onClick={handleConfirm}>확정하기</Button>
+      </>
+    );
   };
 
   return (
@@ -72,44 +94,23 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
         <S.DurationLoadingWrapper>
           <IcLoading />
         </S.DurationLoadingWrapper>
-      ) : isEditing || (!isConfirmed && mode === 'manual') ? (
-        // 입력 필드 노출
-        <S.InputContainer>
-          <S.DurationInput
-            type="number"
-            value={duration === 0 ? '' : duration}
-            onChange={handleInputChange}
-            min={1}
-          />
-          <S.Unit>일</S.Unit>
-        </S.InputContainer>
       ) : (
-        // 텍스트 노출
-        <S.DisplayContainer>
-          <S.DurationText>{duration}</S.DurationText>
-          <S.Unit>일</S.Unit>
-        </S.DisplayContainer>
-      )}
-      {!isLoadingAI && (
-        <S.BtnContainer>
-          {mode === 'manual' ? (
-            !isConfirmed && <Button onClick={handleConfirm}>확정하기</Button>
-          ) : !isConfirmed ? (
-            isEditing ? (
-              <Button
-                onClick={() => setIsEditing(false)}
-                disabled={duration <= 0}
-              >
-                수정완료
-              </Button>
+        <>
+          <S.InputContainer>
+            {isEditing ? (
+              <S.DurationInput
+                type="number"
+                value={duration === 0 ? '' : duration}
+                onChange={handleInputChange}
+                min={1}
+              />
             ) : (
-              <>
-                <Button onClick={() => setIsEditing(true)}>수정하기</Button>
-                <Button onClick={handleConfirm}>확정하기</Button>
-              </>
-            )
-          ) : null}
-        </S.BtnContainer>
+              <span>{duration}</span>
+            )}
+            <span>일</span>
+          </S.InputContainer>
+          <S.BtnContainer>{renderButtons()}</S.BtnContainer>
+        </>
       )}
     </S.DurationLayout>
   );
