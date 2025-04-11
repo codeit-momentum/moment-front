@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import * as S from './EmptyFeed.style';
-import Button from '../../Button/Button';
+import Button from '../../buttons/Button';
 
 interface EmptyFeedProps {
   type: 'friend' | 'feed';

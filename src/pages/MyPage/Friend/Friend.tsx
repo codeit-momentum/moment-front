@@ -1,7 +1,7 @@
 import * as S from './Friend.style';
 import React from 'react';
-import IcSearch from '../../../assets/svg/IcSearch';
-import Button from '../../../components/Button/Button';
+import IcSearch from '../../../assets/svg/myPage/IcSearch';
+import Button from '../../../components/buttons/Button';
 import Modal from '../../../components/Modal/Modal';
 import SelectModal from '../../../components/Modal/SelectModal/SelectModal';
 import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';

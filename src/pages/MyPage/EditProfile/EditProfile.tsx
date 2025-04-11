@@ -1,7 +1,7 @@
 import MyPageTitle from '../../../components/MyPage/MyPageTitle/MyPageTitle';
 import * as S from './EditProfile.style';
 import React, { useState } from 'react';
-import Button from '../../../components/Button/Button';
+import Button from '../../../components/buttons/Button';
 import usePatchProfile from '../../../hooks/queries/myPage/usePatchProfile';
 import useErrorHandler from '../../../hooks/common/useResponseMessage';
 import useImageHandler from '../../../hooks/common/useImageHandler';

@@ -38,7 +38,6 @@ export default [
         { component: true, html: true }, // children이 없는 경우 단일 태그 사용 권장
       ],
       'react/jsx-no-useless-fragment': 'warn', // 불필요한 Fragment 사용 제한
-      'react/jsx-pascal-case': 'warn', // 컴포넌트 네이밍 PascalCase 권장
       'react/jsx-no-duplicate-props': 'warn', // JSX에서 중복 props 방지
       'react/jsx-boolean-value': ['warn', 'never'], // 불필요한 `={true}` 생략 권장
 
@@ -82,7 +81,6 @@ export default [
 
       // 기타 규칙
       eqeqeq: ['error', 'always'], // 삼중 등호(===) 사용 강제
-      'no-console': 'warn', // console 사용 경고
       'react/jsx-key': 'error', // React key 필수 사용
 
       // 추가된 규칙들

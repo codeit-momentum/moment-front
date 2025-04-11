@@ -1,5 +1,5 @@
 import { BucketType } from '../../../types/moment';
-import IcCloseModal from '../../../assets/svg/IcCloseModal';
+import IcCloseModal from '../../../assets/svg/common/IcCloseModal';
 import * as S from './CheckListModal.style';
 import useGetChallengingCount from '../../../hooks/queries/moment/useGetChallengingCount';
 import { MAX_MOMENT_COUNT } from '../../../utils/moment';
