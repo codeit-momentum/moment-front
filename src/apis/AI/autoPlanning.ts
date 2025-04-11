@@ -93,7 +93,10 @@ export async function generateDetailedPlan(
 
     return finalPlan;
   } catch (error) {
-    console.error('계획 생성 오류:', error);
-    return [];
+    if (error instanceof Error) {
+      throw new Error(`계획 생성 오류: ${error.message}`);
+    } else {
+      throw new Error('계획 생성 오류: 알 수 없는 오류');
+    }
   }
 }

@@ -7,7 +7,6 @@ import ToDoListComponent from '../../../../components/Moment/Create/ToDoListComp
 import FrequencyBtnComponent from '../../../../components/Moment/Create/FrequencyBtnComponent/FrequencyBtnComponent';
 import { ModeType } from '../../../../types/moment/create';
 import BtnBack from '../../../../components/buttons/Back/BtnBack';
-import { generateDetailedPlan } from '../../../../apis/AI/autoPlanning';
 import { CreateMomentResponse } from '../../../../types/moment/create';
 import useMomentData from '../../../../hooks/moment/useMomentData';
 import Fallback from '../../../Fallback/Fallback';
@@ -26,9 +25,7 @@ const CreateMoment = () => {
     sessionStorage.getItem('bucketId') || '',
   );
 
-  const [duration, setDuration] = useState<number | null>(
-    momentData?.duration || null,
-  );
+  const [duration, setDuration] = useState<number>(momentData?.duration || 0);
   const [todoList, setTodoList] = useState<string[]>(
     momentData?.todoList || [],
   );
@@ -41,8 +38,6 @@ const CreateMoment = () => {
   const [isTodoConfirmed, setIsTodoConfirmed] = useState(
     !!momentData?.todoList?.length,
   );
-
-  const [isLoadingAI, setIsLoadingAI] = useState(false);
 
   const state = location.state as LocationState;
 
@@ -64,22 +59,6 @@ const CreateMoment = () => {
   const handleDurationConfirm = (newDuration: number) => {
     setDuration(newDuration);
     setIsDurationConfirmed(true);
-    setIsLoadingAI(true);
-
-    generateDetailedPlan(
-      goal,
-      new Date().toISOString().split('T')[0],
-      newDuration,
-    )
-      .then((plan) => {
-        console.log('생성된 투두 리스트:', plan);
-        setTodoList(plan);
-      })
-      .catch((error) => {
-        console.error('자동 생성 오류:', error);
-        alert('투두 리스트 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
-      })
-      .finally(() => setIsLoadingAI(false));
   };
 
   const handleTodoConfirm = (updatedList: string[]) => {
@@ -136,10 +115,9 @@ const CreateMoment = () => {
 
       {isDurationConfirmed && (
         <ToDoListComponent
+          goal={goal}
           mode={mode}
-          todoList={todoList || []}
-          duration={duration || 0}
-          isLoading={!isTodoConfirmed && isLoadingAI}
+          duration={duration}
           onSave={handleTodoConfirm}
         />
       )}

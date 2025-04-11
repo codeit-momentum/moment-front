@@ -9,35 +9,49 @@ import { v4 as uuidv4 } from 'uuid';
 import Button from '../../../buttons/Button';
 import Toast from '../../../common/Toast/Toast';
 import Divider from '../../../common/Divider/Divider';
+import { generateDetailedPlan } from '../../../../apis/AI/autoPlanning';
 /**
  * ToDoListProps 인터페이스
  */
 interface ToDoListProps {
+  goal: string;
   mode: ModeType; // 'auto' 또는 'manual'
-  todoList: string[]; // API에서 받아오는 todo 리스트
   duration: number; // Duration 값
-  isLoading: boolean; // 로딩 상태
   onSave: (todoList: string[]) => void; // 상위 컴포넌트로 전달
 }
 
-const ToDoListComponent = ({
-  mode,
-  duration,
-  todoList,
-  isLoading,
-  onSave,
-}: ToDoListProps) => {
+const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
   // 편집 모드 상태 관리: 수동 모드일 경우 초기값 true
   const [isEditing, setIsEditing] = useState(mode === 'manual'); // 수정 상태
+  const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [todos, setTodos] = useState<string[]>(new Array(duration).fill(''));
+  const [todos, setTodos] = useState<string[]>([]);
   const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
 
   useEffect(() => {
-    if (mode === 'auto' && Array.isArray(todoList) && todoList.length > 0) {
-      setTodos(todoList);
+    const getGeneratedPlan = async () => {
+      setIsLoadingAI(true);
+      try {
+        const plan = await generateDetailedPlan(
+          goal,
+          new Date().toISOString().split('T')[0],
+          duration,
+        );
+        setTodos(plan);
+      } catch (error) {
+        console.error(error);
+        alert('투두 리스트 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
+      } finally {
+        setIsLoadingAI(false);
+      }
+    };
+
+    if (mode === 'auto') {
+      getGeneratedPlan();
+    } else {
+      setTodos(new Array(duration).fill(''));
     }
-  }, [mode, todoList]);
+  }, [goal, mode, duration]);
 
   // 투두 리스트 변경 핸들러
   const handleEditTodo = (index: number, value: string) => {
@@ -77,7 +91,7 @@ const ToDoListComponent = ({
         <br />
         다음과 같습니다!
       </S.TodoLabel>
-      {isLoading ? (
+      {isLoadingAI ? (
         <S.TodoLoadingWrapper>
           <IcLoading />
         </S.TodoLoadingWrapper>
