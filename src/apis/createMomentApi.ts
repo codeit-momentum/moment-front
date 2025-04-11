@@ -2,7 +2,7 @@ import axiosInstance from './client'; // 공통 axios 인스턴스 가져오기
 import {
   CreateMomentPayload,
   CreateMomentResponse,
-} from '../types/moment/createMomentTypes';
+} from '../types/moment/create';
 
 // Moment 생성 API
 export const createMoment = async (

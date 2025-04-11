@@ -1,5 +1,5 @@
 import * as S from './DayCheckboxGroup.style';
-import CheckIcon from '../../../../assets/svg/IcCheckboxCompleted';
+import CheckIcon from '../../../../assets/svg/moment/IcCheckboxCompleted';
 
 // Props 인터페이스 선언
 interface DayCheckboxGroupProps {

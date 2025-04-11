@@ -1,13 +1,13 @@
 import { NavLink } from 'react-router-dom';
 import * as S from './GNB.style';
-import IcActiveHome from '../../assets/svg/IcActiveHome';
-import IcActiveMoment from '../../assets/svg/IcActiveMoment';
-import IcActiveFriends from '../../assets/svg/IcActiveFriends';
-import IcActiveMyPage from '../../assets/svg/IcActiveMyPage';
-import IcUnactiveHome from '../../assets/svg/IcUnactiveHome';
-import IcUnactiveMoment from '../../assets/svg/IcUnactiveMoment';
-import IcUnactiveFriends from '../../assets/svg/IcUnactiveFriends';
-import IcUnactiveMyPage from '../../assets/svg/IcUnactiveMyPage';
+import IcActiveHome from '../../assets/svg/navigation/IcActiveHome';
+import IcActiveMoment from '../../assets/svg/navigation/IcActiveMoment';
+import IcActiveFriends from '../../assets/svg/navigation/IcActiveFriends';
+import IcActiveMyPage from '../../assets/svg/navigation/IcActiveMyPage';
+import IcUnactiveHome from '../../assets/svg/navigation/IcUnactiveHome';
+import IcUnactiveMoment from '../../assets/svg/navigation/IcUnactiveMoment';
+import IcUnactiveFriends from '../../assets/svg/navigation/IcUnactiveFriends';
+import IcUnactiveMyPage from '../../assets/svg/navigation/IcUnactiveMyPage';
 
 const GNB = () => {
   const navList = [

@@ -8,7 +8,7 @@ import usePostKnock from '../../../hooks/queries/Feed/usePostKnock';
 import useModal from '../../../hooks/common/useModal';
 import OKModal from '../../Modal/OKModal/OKModal';
 import Modal from '../../Modal/Modal';
-import IcKnock from '../../../assets/svg/IcKnock';
+import IcKnock from '../../../assets/svg/feed/IcKnock';
 import formatFrequency from '../../../utils/formatFrequency';
 import useGetFriends from '../../../hooks/queries/Feed/useGetFriends';
 

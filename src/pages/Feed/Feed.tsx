@@ -5,14 +5,14 @@ import FeedList from '../../components/Feed/FeedList/FeedList';
 import useModal from '../../hooks/common/useModal';
 import Modal from '../../components/Modal/Modal';
 import SelectModal from '../../components/Modal/SelectModal/SelectModal';
-import useCurrentFriend from '../../hooks/useCurrentFriend';
-import IcMenu from '../../assets/svg/IcMenu';
+import useCurrentFriend from '../../hooks/feed/useCurrentFriend';
+import IcMenu from '../../assets/svg/feed/IcMenu';
 import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
 import FeedModal from '../../components/Modal/FeedModal/FeedModal';
 import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
 import useDeleteFriend from '../../hooks/queries/Feed/useDeleteFriend';
 import { useNavigate } from 'react-router-dom';
-import IcNoFriend from '../../assets/svg/IcNoFriend';
+import IcNoFriend from '../../assets/svg/feed/IcNoFriend';
 import { useState, useEffect } from 'react';
 import OKModal from '../../components/Modal/OKModal/OKModal';
 

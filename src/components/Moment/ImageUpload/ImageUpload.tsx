@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import * as S from './ImageUpload.style';
-import IcUploadPreview from '../../../assets/svg/IcUploadPreview';
+import IcUploadPreview from '../../../assets/svg/moment/IcUploadPreview';
 
 interface ImageUploadProps {
   image: string | null;

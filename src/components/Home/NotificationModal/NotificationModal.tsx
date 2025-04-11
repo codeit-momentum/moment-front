@@ -1,8 +1,8 @@
 import * as S from './NotificationModal.style';
-import IcCloseModal from '../../../assets/svg/IcCloseModal';
+import IcCloseModal from '../../../assets/svg/common/IcCloseModal';
 import { NoticeItemType, NoticeType } from '../../../types/home';
-import IcUnactiveMoment from '../../../assets/svg/IcUnactiveMoment';
-import IcUnactiveFriends from '../../../assets/svg/IcUnactiveFriends';
+import IcUnactiveMoment from '../../../assets/svg/navigation/IcUnactiveMoment';
+import IcUnactiveFriends from '../../../assets/svg/navigation/IcUnactiveFriends';
 
 interface NotificationModalProps {
   noticeData: NoticeItemType[];

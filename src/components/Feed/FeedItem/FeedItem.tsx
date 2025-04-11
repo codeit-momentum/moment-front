@@ -1,8 +1,8 @@
 import * as S from './FeedItem.style';
-import IcHello from '../../../assets/svg/IcHello';
+import IcHello from '../../../assets/svg/feed/IcHello';
 import usePostCheer from '../../../hooks/queries/Feed/usePostCheer';
 import useResponseMessage from '../../../hooks/common/useResponseMessage';
-import IcHelloOff from '../../../assets/svg/IcHelloOff';
+import IcHelloOff from '../../../assets/svg/feed/IcHelloOff';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface FeedItemProps {

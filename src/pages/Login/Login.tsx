@@ -1,5 +1,5 @@
 import OnboardingSection from '../../components/OnboardingSection/OnboardingSection';
-import IcKakaoLogin from '../../assets/svg/IcKakaoLogin';
+import IcKakaoLogin from '../../assets/svg/common/IcKakaoLogin';
 import { KAKAO_AUTH_URL } from '../../utils/login';
 import * as S from './Login.style';
 

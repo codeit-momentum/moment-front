@@ -1,6 +1,6 @@
 import React from 'react';
 import * as S from './MyPageTitle.style';
-import IcBack from '../../../assets/svg/IcBack';
+import IcBack from '../../../assets/svg/common/IcBack';
 import { useNavigate } from 'react-router-dom';
 
 interface MyPageTitleProps {
