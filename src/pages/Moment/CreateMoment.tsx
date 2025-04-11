@@ -6,26 +6,26 @@ import DurationComponent from '../../components/Moment/DurationComponent/Duratio
 import ToDoListComponent from '../../components/Moment/ToDoListComponent/ToDoListComponent';
 import FrequencyBtnComponent from '../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
 import { autoDuration } from '../../apis/AI/autoDuration';
-import { ModeType } from '../../types/moment/modeType';
 import BackBtn from '../../components/BackBtn/BackBtn';
 import { generateDetailedPlan } from '../../apis/AI/autoPlanning';
 import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
-import useBucketId from '../../hooks/useBucketId';
-import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
 import useMomentData from '../../hooks/useMomentData';
+import { ModeType } from '../../types/moment/modeType';
+import Fallback from '../Fallback/Fallback';
+
+interface LocationState {
+  goal: string;
+  mode: ModeType;
+  id: string;
+}
 
 const CreateMoment = () => {
   const navigate = useNavigate();
   const navigationType = useNavigationType();
   const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const mode =
-    (location.state?.mode as ModeType) || (query.get('mode') as ModeType);
-  const bucketId = useBucketId();
-
-  const { data, isLoading } = useGetBucketDetail(bucketId);
-  const bucketContent = data?.bucket?.content || '버킷리스트 없음';
-  const { momentData, saveMomentData } = useMomentData(bucketId);
+  const { momentData, saveMomentData } = useMomentData(
+    sessionStorage.getItem('bucketId') || '',
+  );
 
   const [duration, setDuration] = useState<number | null>(
     momentData?.duration || null,
@@ -44,20 +44,29 @@ const CreateMoment = () => {
   );
 
   const [isLoadingAI, setIsLoadingAI] = useState(false);
-  const [isModeValid, setIsModeValid] = useState(true);
+
+  const state = location.state as LocationState;
 
   useEffect(() => {
-    if (!mode || (mode !== 'auto' && mode !== 'manual')) {
-      setIsModeValid(false);
+    if (!state || !state?.goal || !state.id || !state.mode) {
+      alert('location state 없음');
+      navigate('/moment/bucket', { replace: true });
     }
-  }, [mode]);
+  }, [state, navigate]);
+
+  // 렌더링 중 상태 반환
+  if (!state) {
+    return <Fallback />;
+  }
+
+  const { goal, id: bucketId, mode } = state;
 
   // 자동 모드일 경우 AI API 호출
   useEffect(() => {
     if (mode === 'auto') {
       setIsLoadingAI(true);
 
-      autoDuration(bucketContent)
+      autoDuration(goal)
         .then((days) => {
           if (!days || isNaN(days)) {
             throw new Error('AI가 예상 소요 기간을 반환하지 않았습니다.');
@@ -73,7 +82,7 @@ const CreateMoment = () => {
         })
         .finally(() => setIsLoadingAI(false));
     }
-  }, [mode, bucketContent]);
+  }, [mode, goal]);
 
   // 사용자가 duration을 확정한 후에 `todoList` API 호출
   const handleDurationConfirm = (newDuration: number) => {
@@ -82,7 +91,7 @@ const CreateMoment = () => {
     setIsLoadingAI(true);
 
     generateDetailedPlan(
-      bucketContent,
+      goal,
       new Date().toISOString().split('T')[0],
       newDuration,
     )
@@ -139,17 +148,10 @@ const CreateMoment = () => {
     }
   };
 
-  if (!isModeValid) {
-    return <div>올바른 모드를 선택해주세요.</div>;
-  }
-
   return (
     <S.CreateMomentLayout>
       <BackBtn onClick={handleBack} />
-      <HeaderComponent
-        title={isLoading ? '로딩 중...' : bucketContent}
-        subtitle="버킷리스트를 시작해볼까요?"
-      />
+      <HeaderComponent title={goal} subtitle="버킷리스트를 시작해볼까요?" />
 
       <DurationComponent
         mode={mode}
