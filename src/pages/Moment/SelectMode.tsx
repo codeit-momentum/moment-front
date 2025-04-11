@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigationType, useNavigate } from 'react-router-dom';
 import * as S from './SelectMode.style';
 import { ModeType } from '../../types/moment/modeType';
@@ -6,6 +7,7 @@ import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderCompo
 import BackBtn from '../../components/BackBtn/BackBtn';
 import useGetBucketDetail from '../../hooks/queries/bucketList/useGetBucketDetail';
 import useBucketId from '../../hooks/useBucketId';
+import Fallback from '../Fallback/Fallback';
 
 /**
  * SelectMode
@@ -21,24 +23,22 @@ const SelectMode = () => {
   const { data, isLoading, isError } = useGetBucketDetail(bucketId);
 
   // ID가 없거나 API 호출 실패 시 리다이렉트 처리
-  if (!bucketId || isError) {
-    console.error('ID가 없거나 잘못되었습니다! 라우트 문제 확인 필요');
-    navigate('/moment/bucket', { replace: true });
-    return null;
+  useEffect(() => {
+    if (!bucketId || isError) {
+      console.error('ID가 없거나 API 호출 중 에러가 발생했습니다.');
+      alert('버킷 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.');
+      navigate('/moment/bucket', { replace: true });
+    }
+  }, [bucketId, isError, navigate]);
+
+  // 로딩 처리
+  if (isLoading || !data) {
+    return <Fallback />;
   }
 
-  /**
-   * handleSelect
-   * - 선택된 모드에 따라 경로 이동
-   */
+  const goal = data.bucket.content;
+
   const handleSelect = (mode: ModeType) => {
-    const goal = data?.bucket?.content || '버킷리스트 없음';
-
-    if (goal === '버킷리스트 없음') {
-      alert('유효한 버킷리스트 목표가 없습니다.');
-      return;
-    }
-
     // sessionStorage에 버킷 ID 저장 (데이터 유지 목적)
     sessionStorage.setItem('bucketId', bucketId);
 
@@ -54,14 +54,13 @@ const SelectMode = () => {
       navigate(-1); // 다른 상태에서는 이전 페이지로 이동
     }
   };
+
   return (
     <S.SelectModeLayout>
       <BackBtn onClick={handleBack} />
       {/* HeaderComponent 적용 */}
       <HeaderComponent
-        title={
-          isLoading ? '로딩 중...' : data?.bucket?.content || '버킷리스트 없음'
-        }
+        title={goal}
         subtitle="모멘트 생성 방법을 골라주세요..."
         onBackClick={handleBack}
       />
