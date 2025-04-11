@@ -9,33 +9,18 @@ import { NoticeItemType } from '../../../types/home';
 const HomeHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const {
-    data: consecutiveDaysData,
-    isLoading,
-    isError,
-  } = useGetConsecutiveDays();
+  const { data: consecutiveDaysData } = useGetConsecutiveDays();
   const { mutate: patchNotice } = usePatchNotice();
   const [noticeData, setNoticeData] = useState<NoticeItemType[]>([]);
 
   const handleNotificationClick = () => {
-    patchNotice(
-      {},
-      {
-        onSuccess: (data) => {
-          setNoticeData(data.notifications);
-        },
+    patchNotice(undefined, {
+      onSuccess: (data) => {
+        setNoticeData(data.notifications);
       },
-    );
+    });
     setIsModalOpen(true); // 모달 열기
   };
-
-  if (isLoading) {
-    return <S.HeaderLayout>로딩 중...</S.HeaderLayout>;
-  }
-
-  if (isError || !consecutiveDaysData?.success) {
-    return <S.HeaderLayout>데이터 로드 실패</S.HeaderLayout>;
-  }
 
   return (
     <S.HeaderLayout>
