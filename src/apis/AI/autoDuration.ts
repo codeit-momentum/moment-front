@@ -40,14 +40,12 @@ export async function autoDuration(goal: string) {
     console.log('AI 예상 소요 기간 응답:', content); // AI 응답 확인
 
     if (!content || isNaN(parseInt(content, 10))) {
-      console.error('AI가 올바른 숫자를 반환하지 않았습니다.');
-      return null;
+      throw new Error('AI가 올바른 숫자를 반환하지 않았습니다.');
     }
 
     const duration = parseInt(content, 10);
     return duration > 0 ? duration : null;
   } catch (error) {
-    console.error('추천 기간 생성 오류:', error);
-    return null;
+    throw new Error(`추천 기간 생성 오류: ${error.message}`);
   }
 }

@@ -5,7 +5,6 @@ import HeaderComponent from '../../components/Moment/HeaderComponent/HeaderCompo
 import DurationComponent from '../../components/Moment/DurationComponent/DurationComponent';
 import ToDoListComponent from '../../components/Moment/ToDoListComponent/ToDoListComponent';
 import FrequencyBtnComponent from '../../components/Moment/FrequencyBtnComponent/FrequencyBtnComponent';
-import { autoDuration } from '../../apis/AI/autoDuration';
 import BackBtn from '../../components/BackBtn/BackBtn';
 import { generateDetailedPlan } from '../../apis/AI/autoPlanning';
 import { CreateMomentResponse } from '../../types/moment/createMomentTypes';
@@ -60,29 +59,6 @@ const CreateMoment = () => {
   }
 
   const { goal, id: bucketId, mode } = state;
-
-  // 자동 모드일 경우 AI API 호출
-  useEffect(() => {
-    if (mode === 'auto') {
-      setIsLoadingAI(true);
-
-      autoDuration(goal)
-        .then((days) => {
-          if (!days || isNaN(days)) {
-            throw new Error('AI가 예상 소요 기간을 반환하지 않았습니다.');
-          }
-
-          setDuration(days); // AI에서 받은 duration을 먼저 설정
-        })
-        .catch((error) => {
-          console.error('자동 생성 오류:', error);
-          alert(
-            'AI 예상 소요 기간 생성 중 오류가 발생했습니다. 다시 시도해주세요.',
-          );
-        })
-        .finally(() => setIsLoadingAI(false));
-    }
-  }, [mode, goal]);
 
   // 사용자가 duration을 확정한 후에 `todoList` API 호출
   const handleDurationConfirm = (newDuration: number) => {
@@ -155,8 +131,7 @@ const CreateMoment = () => {
 
       <DurationComponent
         mode={mode}
-        initialDuration={duration}
-        isLoading={!isDurationConfirmed && isLoadingAI}
+        goal={goal}
         onEdit={handleDurationConfirm}
       />
 
