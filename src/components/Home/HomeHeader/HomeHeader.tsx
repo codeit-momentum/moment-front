@@ -13,7 +13,7 @@ const HomeHeader = () => {
   const { mutate: patchNotice } = usePatchNotice();
   const [noticeData, setNoticeData] = useState<NoticeItemType[]>([]);
 
-  const handleNotificationClick = () => {
+  const handleNotice = () => {
     patchNotice(undefined, {
       onSuccess: (data) => {
         setNoticeData(data.notifications);
@@ -24,18 +24,11 @@ const HomeHeader = () => {
 
   return (
     <S.HeaderLayout>
-      <S.StreakTextContainer>
-        오늘은 작심
-        <S.StreakHighlight>
-          {consecutiveDaysData.consecutiveDays}
-        </S.StreakHighlight>
-        일
-      </S.StreakTextContainer>
-
-      <S.BellIconWrapper onClick={handleNotificationClick}>
+      오늘은 작심
+      <S.DateSpan>{consecutiveDaysData.consecutiveDays}</S.DateSpan>일
+      <S.IconWrapper onClick={handleNotice}>
         <IcNoticeOff />
-      </S.BellIconWrapper>
-
+      </S.IconWrapper>
       {isModalOpen && (
         <NotificationModal
           noticeData={noticeData}
