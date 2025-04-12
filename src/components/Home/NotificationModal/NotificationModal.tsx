@@ -3,6 +3,7 @@ import IcCloseModal from '../../../assets/svg/common/IcCloseModal';
 import { NoticeItemType, NoticeType } from '../../../types/home';
 import IcUnactiveMoment from '../../../assets/svg/navigation/IcUnactiveMoment';
 import IcUnactiveFriends from '../../../assets/svg/navigation/IcUnactiveFriends';
+import Modal from '../../Modal/Modal';
 
 interface NotificationModalProps {
   noticeData: NoticeItemType[];
@@ -13,9 +14,10 @@ const NotificationModal = ({ noticeData, onClose }: NotificationModalProps) => {
   const rendalIcon = (type: NoticeType) => {
     return type === 'KNOCK' ? <IcUnactiveMoment /> : <IcUnactiveFriends />;
   };
+
   return (
-    <S.ModalOverlay onClick={onClose}>
-      <S.ModalLayout onClick={(e) => e.stopPropagation()}>
+    <Modal>
+      <S.ModalLayout>
         <S.Header>
           <S.Title>알림</S.Title>
           <S.CloseIcon onClick={onClose}>
@@ -38,7 +40,7 @@ const NotificationModal = ({ noticeData, onClose }: NotificationModalProps) => {
           )}
         </S.NotificationList>
       </S.ModalLayout>
-    </S.ModalOverlay>
+    </Modal>
   );
 };
 
