@@ -1,3 +1,5 @@
+import { FrequencyType } from '../moment/create';
+
 export interface FriendType {
   createdAt: string;
   fixedAt: string;
@@ -23,7 +25,7 @@ export interface MomentItemType {
   momentId: string;
   momentContent?: string;
   cheered: boolean;
-  frequency: string;
+  frequency: FrequencyType;
 }
 
 export interface FeedResponseType {

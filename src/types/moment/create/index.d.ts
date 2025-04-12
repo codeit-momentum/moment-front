@@ -1,4 +1,5 @@
 export type ModeType = 'auto' | 'manual';
+export type FrequencyType = 'daily' | 'every2days' | 'weekly' | 'monthly';
 
 // 요청 타입
 export interface CreateMomentPayload {

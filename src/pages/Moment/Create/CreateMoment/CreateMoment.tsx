@@ -29,9 +29,7 @@ const CreateMoment = () => {
   const [todoList, setTodoList] = useState<string[]>(
     momentData?.todoList || [],
   );
-  const [frequency, setFrequency] = useState<string | null>(
-    momentData?.frequency || null,
-  );
+
   const [isDurationConfirmed, setIsDurationConfirmed] = useState(
     !!momentData?.duration,
   );
@@ -55,7 +53,7 @@ const CreateMoment = () => {
 
   const { goal, id: bucketId, mode } = state;
 
-  // 사용자가 duration을 확정한 후에 `todoList` API 호출
+  // 사용자 duration 확정
   const handleDurationConfirm = (newDuration: number) => {
     setDuration(newDuration);
     setIsDurationConfirmed(true);
@@ -66,7 +64,7 @@ const CreateMoment = () => {
     setIsTodoConfirmed(true);
   };
 
-  const handleNext = () => {
+  const handleNext = (frequency: string) => {
     if (!frequency || !duration || todoList.length === 0) {
       alert('빈도, 기간, 투두리스트를 입력해주세요.');
       return;
@@ -91,7 +89,7 @@ const CreateMoment = () => {
 
     console.log('sessionStorage 데이터 저장 확인 완료, 페이지 이동');
     navigate('/moment/complete', {
-      state: { ...momentData, bucketId },
+      state: { ...momentData },
       replace: true,
     });
   };
@@ -122,12 +120,7 @@ const CreateMoment = () => {
         />
       )}
 
-      {isTodoConfirmed && (
-        <FrequencyBtnComponent
-          onSelect={setFrequency} // 상태 저장
-          onNext={handleNext}
-        />
-      )}
+      {isTodoConfirmed && <FrequencyBtnComponent onNext={handleNext} />}
     </S.CreateMomentLayout>
   );
 };
