@@ -11,13 +11,6 @@ export const ToDoListLayout = styled.div`
   width: 100%;
 `;
 
-export const TodoDivider = styled.hr`
-  width: 27.5rem;
-  height: 1px;
-  background-color: ${({ theme }) => theme.colors.yellow};
-  border: none;
-`;
-
 /**
  * Label : 투두리스트 제목 라벨 텍스트
  */
@@ -28,14 +21,6 @@ export const TodoLabel = styled.h3`
   white-space: pre-wrap;
   margin-top: 3rem;
   line-height: 25px;
-`;
-
-export const IconWrapper = styled.div`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({ align: 'center', justify: 'center' })};
-  position: absolute; /* 부모 컨테이너를 기준으로 우측에 배치 */
-  top: 1.3rem;
-  right: 2rem;
 `;
 
 export const TodoLoadingWrapper = styled.div`

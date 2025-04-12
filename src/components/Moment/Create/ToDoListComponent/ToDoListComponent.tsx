@@ -60,16 +60,6 @@ const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
     setTodos(updatedTodos);
   };
 
-  // 수정 시작 핸들러
-  const handleEditStart = () => {
-    setIsEditing(true);
-  };
-
-  // 수정 완료 핸들러
-  const handleEditComplete = () => {
-    setIsEditing(false);
-  };
-
   // 확정하기 핸들러
   const handleConfirm = () => {
     if (todos.some((todo) => todo.trim() === '')) {
@@ -81,6 +71,24 @@ const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
     onSave([...todos]); // 상위 컴포넌트로 데이터 전달
     setIsEditing(false);
     setIsConfirmed(true);
+  };
+
+  const renderButtons = () => {
+    if (isConfirmed) return null;
+
+    if (mode === 'manual') {
+      return <Button onClick={handleConfirm}>확정하기</Button>;
+    }
+
+    // mode === 'auto'
+    return isEditing ? (
+      <Button onClick={() => setIsEditing(false)}>수정완료</Button>
+    ) : (
+      <>
+        <Button onClick={() => setIsEditing(true)}>수정하기</Button>
+        <Button onClick={handleConfirm}>확정하기</Button>
+      </>
+    );
   };
 
   return (
@@ -114,21 +122,7 @@ const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
               />
             ))}
           </TodoContainer>
-
-          <S.BtnContainer>
-            {mode === 'manual' ? (
-              !isConfirmed && <Button onClick={handleConfirm}>확정하기</Button>
-            ) : !isConfirmed ? (
-              isEditing ? (
-                <Button onClick={handleEditComplete}>수정완료</Button>
-              ) : (
-                <>
-                  <Button onClick={handleEditStart}>수정하기</Button>
-                  <Button onClick={handleConfirm}>확정하기</Button>
-                </>
-              )
-            ) : null}
-          </S.BtnContainer>
+          <S.BtnContainer>{renderButtons()}</S.BtnContainer>
         </>
       )}
       {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
