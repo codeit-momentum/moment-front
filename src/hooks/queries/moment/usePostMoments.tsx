@@ -1,19 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import instance from '../../../apis/client';
+import { PostMomentsPayload } from '../../../types/moment/create';
 
 //API 요청 데이터 타입 정의
-interface Moment {
-  content: string;
-  startDate: string;
-  endDate: string;
-}
-
-interface PostMomentsPayload {
-  startDate: string;
-  endDate: string;
-  moments: Moment[];
-  frequency: string;
-}
 
 interface PostMomentsResponse {
   success: boolean;
