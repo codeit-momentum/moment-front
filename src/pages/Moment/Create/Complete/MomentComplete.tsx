@@ -7,17 +7,21 @@ import usePostMoments from '../../../../hooks/queries/moment/usePostMoments';
 import IcDateContainer from '../../../../assets/svg/moment/IcDateContainer';
 import MethodContainer from '../../../../components/Moment/ContainerLayout/ContainerLayout';
 import { CreatedMoment, FrequencyType } from '../../../../types/moment/create';
+import useResponseMessage from '../../../../hooks/common/useResponseMessage';
 
 const MomentComplete = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { mutate: createMoments, isPending } = usePostMoments();
+  const { handleError, openModal, renderModal } = useResponseMessage(
+    () => navigate,
+  );
+
   const state = location.state as {
     bucketId: string;
     frequency: FrequencyType;
     moments: CreatedMoment[];
   };
-
-  const { mutate: createMoments, isPending } = usePostMoments();
 
   if (!state || !state.bucketId || !state.frequency || !state.moments) {
     alert('location state 없음');
@@ -26,11 +30,6 @@ const MomentComplete = () => {
   const { bucketId, moments, frequency } = state;
 
   const handleConfirm = async () => {
-    if (moments.length === 0) {
-      alert('생성된 모멘트가 없습니다. 다시 시도해주세요.');
-      return;
-    }
-
     const payload = {
       startDate: moments[0]?.startDate,
       endDate: moments[moments.length - 1]?.endDate,
@@ -42,8 +41,9 @@ const MomentComplete = () => {
       { bucketId, payload },
       {
         onSuccess: () => navigate('/moment/bucket'),
-        onError: () => {
-          alert('모멘트 생성 실패');
+        onError: (error) => {
+          handleError(error);
+          openModal();
         },
       },
     );
@@ -57,9 +57,9 @@ const MomentComplete = () => {
       <S.DateContainer>
         <IcDateContainer />
         <S.DateText>
-          {moments.length > 0 ? moments[0].startDate : 'N/A'}
+          {moments[0].startDate}
           <IcArrow />
-          {moments.length > 0 ? moments[moments.length - 1].endDate : 'N/A'}
+          {moments[moments.length - 1].endDate}
         </S.DateText>
       </S.DateContainer>
       {/* 방법 리스트 */}
@@ -86,6 +86,7 @@ const MomentComplete = () => {
           {isPending ? '저장 중...' : '확인'}
         </Button>
       </S.BtnContainer>
+      {renderModal()}
     </S.MomentCompleteLayout>
   );
 };

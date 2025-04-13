@@ -20,11 +20,16 @@ const postMoments = async ({
   payload,
 }: PostMomentsParams): Promise<PostMomentsResponse> => {
   await instance.patch(`/api/bucket/${bucketId}/challenge`);
-  const response = await instance.post(
-    `/api/bucket/moments/${bucketId}`,
-    payload,
-  );
-  return response.data;
+  try {
+    const response = await instance.post(
+      `/api/bucket/moments/${bucketId}`,
+      payload,
+    );
+    return response.data;
+  } catch (error) {
+    await instance.patch(`/api/bucket/${bucketId}/un-challenge`);
+    throw error;
+  }
 };
 
 // React Query의 `useMutation`을 활용한 API 요청 함수
