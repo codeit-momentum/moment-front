@@ -6,25 +6,19 @@ import { formatListDate } from '../../../../utils/formatDate';
 import usePostMoments from '../../../../hooks/queries/moment/usePostMoments';
 import IcDateContainer from '../../../../assets/svg/moment/IcDateContainer';
 import MethodContainer from '../../../../components/Moment/ContainerLayout/ContainerLayout';
-import { CreatedMoment, FrequencyType } from '../../../../types/moment/create';
+import { CompleteStateType } from '../../../../types/moment/create';
 import useResponseMessage from '../../../../hooks/common/useResponseMessage';
 
 const MomentComplete = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { mutate: createMoments, isPending } = usePostMoments();
-  const { handleError, openModal, renderModal } = useResponseMessage(
-    () => navigate,
-  );
+  const { handleError, openModal, renderModal } = useResponseMessage();
 
-  const state = location.state as {
-    bucketId: string;
-    frequency: FrequencyType;
-    moments: CreatedMoment[];
-  };
+  const state = location.state as CompleteStateType;
 
   if (!state || !state.bucketId || !state.frequency || !state.moments) {
-    alert('location state 없음');
+    alert('페이지 정보를 불러올 수 없습니다. 버킷리스트 페이지로 이동합니다.');
     return <Navigate to="/moment/bucket" replace />;
   }
   const { bucketId, moments, frequency } = state;
@@ -40,7 +34,7 @@ const MomentComplete = () => {
     createMoments(
       { bucketId, payload },
       {
-        onSuccess: () => navigate('/moment/bucket'),
+        onSuccess: () => navigate('/moment/bucket', { replace: true }),
         onError: (error) => {
           handleError(error);
           openModal();

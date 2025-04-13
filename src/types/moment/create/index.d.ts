@@ -1,17 +1,7 @@
+import { Bucket, Moment } from '..';
+
 export type ModeType = 'auto' | 'manual';
 export type FrequencyType = 'daily' | 'every2days' | 'weekly' | 'monthly';
-
-export interface LocationStateType {
-  goal: string;
-  mode: ModeType;
-  id: string;
-}
-
-export interface CreateMomentPayload {
-  duration: number;
-  todoList: string[];
-  frequency: FrequencyType;
-}
 
 export interface CreatedMoment {
   content: string;
@@ -19,7 +9,23 @@ export interface CreatedMoment {
   endDate: string;
 }
 
-// 요청 타입
+export interface CreateStateType {
+  goal: string;
+  mode: ModeType;
+  id: string;
+}
+
+export interface CompleteStateType {
+  bucketId: string;
+  frequency: FrequencyType;
+  moments: CreatedMoment[];
+}
+
+export interface CreateMomentPayload {
+  duration: number;
+  todoList: string[];
+  frequency: FrequencyType;
+}
 
 export interface PostMomentsPayload {
   startDate: string;
@@ -29,10 +35,9 @@ export interface PostMomentsPayload {
 }
 
 // 응답 타입
-export interface CreateMomentResponse {
-  id: string;
-  duration: number;
-  todoList: string[];
-  frequency: FrequencyType;
-  createdAt: string;
+export interface PostMomentsResponse {
+  success: boolean;
+  message: string;
+  bucket: Bucket;
+  moments: Moment[];
 }

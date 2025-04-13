@@ -23,7 +23,7 @@ interface ToDoListProps {
 const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
   // 편집 모드 상태 관리: 수동 모드일 경우 초기값 true
   const [isEditing, setIsEditing] = useState(mode === 'manual'); // 수정 상태
-  const [isLoadingAI, setIsLoadingAI] = useState(false);
+  const [isLoadingAI, setIsLoadingAI] = useState(mode === 'auto');
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [todos, setTodos] = useState<string[]>([]);
   const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();

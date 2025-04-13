@@ -1,14 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import instance from '../../../apis/client';
-import { PostMomentsPayload } from '../../../types/moment/create';
+import {
+  PostMomentsPayload,
+  PostMomentsResponse,
+} from '../../../types/moment/create';
 
 //API 요청 데이터 타입 정의
-
-interface PostMomentsResponse {
-  success: boolean;
-  message: string;
-}
-
 interface PostMomentsParams {
   bucketId: string;
   payload: PostMomentsPayload;
@@ -25,6 +22,7 @@ const postMoments = async ({
       `/api/bucket/moments/${bucketId}`,
       payload,
     );
+    console.log(response.data);
     return response.data;
   } catch (error) {
     await instance.patch(`/api/bucket/${bucketId}/un-challenge`);

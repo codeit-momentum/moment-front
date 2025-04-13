@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './FrequencyBtnComponent.style';
 import Button from '../../../buttons/Button';
 import Divider from '../../../common/Divider/Divider';
@@ -25,8 +25,14 @@ const FrequencyBtnComponent = ({ onNext }: FrequencyBtnProps) => {
     null,
   );
 
+  useEffect(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth',
+    });
+  });
+
   const handleNext = () => {
-    console.log('Next 버튼 클릭됨');
     if (selectedOption) {
       onNext(selectedOption); // 상위에서 전달된 onNext 호출
     } else {

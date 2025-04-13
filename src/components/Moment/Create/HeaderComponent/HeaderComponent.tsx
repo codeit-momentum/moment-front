@@ -9,7 +9,6 @@ import IcUnactiveMoment from '../../../../assets/svg/navigation/IcUnactiveMoment
 interface HeaderProps {
   title?: string;
   subtitle?: string;
-  onBackClick?: () => void;
 }
 
 /**

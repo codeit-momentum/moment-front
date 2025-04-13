@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigationType, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as S from './SelectMode.style';
 import { ModeType } from '../../../../types/moment/create';
 import Button from '../../../../components/buttons/Button';
@@ -16,7 +16,6 @@ import Fallback from '../../../Fallback/Fallback';
  */
 const SelectMode = () => {
   const navigate = useNavigate();
-  const navigationType = useNavigationType();
   const bucketId = useBucketId();
 
   // React Query 활용하여 버킷 상세 정보 가져오기
@@ -29,7 +28,12 @@ const SelectMode = () => {
       alert('버킷 정보를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.');
       navigate('/moment/bucket', { replace: true });
     }
-  }, [bucketId, isError, navigate]);
+
+    if (data?.bucket.isChallenging) {
+      alert('이미 진행 중인 버킷리스트입니다.');
+      navigate('/moment/bucket', { replace: true });
+    }
+  }, [data, bucketId, isError, navigate]);
 
   // 로딩 처리
   if (isLoading || !data) {
@@ -47,22 +51,13 @@ const SelectMode = () => {
     });
   };
 
-  const handleBack = () => {
-    if (navigationType === 'POP') {
-      navigate('/moment/bucket'); // POP 상태에서는 지정된 경로로 이동
-    } else {
-      navigate(-1); // 다른 상태에서는 이전 페이지로 이동
-    }
-  };
-
   return (
     <S.SelectModeLayout>
-      <BtnBack onClick={handleBack} />
+      <BtnBack navigateURL={'/moment/bucket'} />
       {/* HeaderComponent 적용 */}
       <HeaderComponent
         title={goal}
         subtitle="모멘트 생성 방법을 골라주세요..."
-        onBackClick={handleBack}
       />
       <S.BtnContainer>
         <Button
