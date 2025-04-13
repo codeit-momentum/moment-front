@@ -9,11 +9,17 @@ interface PostMomentsResponse {
   message: string;
 }
 
+interface PostMomentsParams {
+  bucketId: string;
+  payload: PostMomentsPayload;
+}
+
 // API 요청 함수 정의
-const postMoments = async (
-  bucketId: string,
-  payload: PostMomentsPayload,
-): Promise<PostMomentsResponse> => {
+const postMoments = async ({
+  bucketId,
+  payload,
+}: PostMomentsParams): Promise<PostMomentsResponse> => {
+  await instance.patch(`/api/bucket/${bucketId}/challenge`);
   const response = await instance.post(
     `/api/bucket/moments/${bucketId}`,
     payload,
@@ -23,12 +29,8 @@ const postMoments = async (
 
 // React Query의 `useMutation`을 활용한 API 요청 함수
 const usePostMoments = () => {
-  return useMutation<
-    PostMomentsResponse,
-    Error,
-    { bucketId: string; payload: PostMomentsPayload }
-  >({
-    mutationFn: ({ bucketId, payload }) => postMoments(bucketId, payload),
+  return useMutation({
+    mutationFn: postMoments,
   });
 };
 

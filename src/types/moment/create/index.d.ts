@@ -25,7 +25,7 @@ export interface PostMomentsPayload {
   startDate: string;
   endDate: string;
   moments: CreatedMoment[];
-  frequency: string;
+  frequency: FrequencyType;
 }
 
 // 응답 타입
