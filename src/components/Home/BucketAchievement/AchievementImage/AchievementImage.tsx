@@ -26,7 +26,7 @@ const AchievementImage = () => {
   ];
 
   //선언적으로 표현
-  const targetRange = achievementList.find(
+  const targetRange: AcheivementListType = achievementList.find(
     (item) => achievement >= item.min && achievement < item.max,
   );
 
