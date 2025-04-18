@@ -5,7 +5,7 @@ import useGetTodayMoments from '../../../hooks/queries/home/useGetTodayMoments';
 
 const CurrentMoment = () => {
   const { data: todayData } = useGetTodayMoments();
-  const { completedCount } = todayData;
+  const { completedCount, moments } = todayData;
 
   return (
     <S.TodayMomentLayout>
@@ -16,9 +16,9 @@ const CurrentMoment = () => {
 
       <DayCheckList />
       <S.DividerLine />
-      <MomentList moments={todayData.moments} />
+      <MomentList moments={moments} />
       <S.SummaryBox>
-        {todayData.moments.length === 0 ? (
+        {moments.length === 0 ? (
           <>
             <span>새로운 모멘트</span>를 등록해보세요!
           </>
