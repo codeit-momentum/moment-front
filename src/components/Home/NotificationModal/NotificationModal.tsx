@@ -1,6 +1,6 @@
 import * as S from './NotificationModal.style';
 import IcCloseModal from '../../../assets/svg/common/IcCloseModal';
-import { NoticeItemType, NoticeType } from '../../../types/home';
+import { NoticeItemType } from '../../../types/home';
 import IcUnactiveMoment from '../../../assets/svg/navigation/IcUnactiveMoment';
 import IcUnactiveFriends from '../../../assets/svg/navigation/IcUnactiveFriends';
 import Modal from '../../Modal/Modal';
@@ -11,10 +11,6 @@ interface NotificationModalProps {
 }
 
 const NotificationModal = ({ noticeData, onClose }: NotificationModalProps) => {
-  const rendalIcon = (type: NoticeType) => {
-    return type === 'KNOCK' ? <IcUnactiveMoment /> : <IcUnactiveFriends />;
-  };
-
   return (
     <Modal>
       <S.ModalLayout>
@@ -29,7 +25,7 @@ const NotificationModal = ({ noticeData, onClose }: NotificationModalProps) => {
           {noticeData?.length > 0 ? (
             noticeData.map((notification) => (
               <S.NotificationItem key={notification.notificationID}>
-                {rendalIcon(notification.type)}
+                {notification.type === 'KNOCK' ? <IcUnactiveMoment /> : <IcUnactiveFriends />}
                 <S.TextContainer>
                   <S.Message>{notification.content}</S.Message>
                 </S.TextContainer>
