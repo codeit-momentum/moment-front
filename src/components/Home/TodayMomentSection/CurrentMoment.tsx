@@ -2,15 +2,10 @@ import * as S from './CurrentMoment.style';
 import DayCheckList from './DayCheckList/DayCheckList';
 import MomentList from './MomentList/MomentList';
 import useGetTodayMoments from '../../../hooks/queries/home/useGetTodayMoments';
-import useGetWeekStatus from '../../../hooks/queries/home/useGetWeekStatus';
 
 const CurrentMoment = () => {
   const { data: todayData } = useGetTodayMoments();
-  const { data: weekData } = useGetWeekStatus();
-
-  // 데이터 기본값 설정
   const { completedCount } = todayData;
-  const { weekStatus } = weekData;
 
   return (
     <S.TodayMomentLayout>
@@ -19,7 +14,7 @@ const CurrentMoment = () => {
       <S.BottomLeftArea />
       <S.BottomRightArea />
 
-      <DayCheckList days={weekStatus} />
+      <DayCheckList />
       <S.DividerLine />
       <MomentList moments={todayData.moments} />
       <S.SummaryBox>

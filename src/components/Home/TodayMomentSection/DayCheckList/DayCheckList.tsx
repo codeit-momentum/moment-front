@@ -1,18 +1,18 @@
 import * as S from './DayCheckList.style';
 import CheckIcon from '../../../../assets/svg/moment/IcCheckboxCompleted';
+import useGetWeekStatus from '../../../../hooks/queries/home/useGetWeekStatus';
 
-interface DayCheckListProps {
-  days: { date: string; isComplete: boolean }[];
-}
+const DayCheckList = () => {
+  const { data: weekData } = useGetWeekStatus();
+  const { weekStatus } = weekData;
 
-const DayCheckList = ({ days }: DayCheckListProps) => {
   const formatDay = (date: string) => {
     return new Date(date).toLocaleDateString('ko-KR', { weekday: 'short' });
   };
 
   return (
     <S.DayCheckListLayout>
-      {days.map((day) => (
+      {weekStatus.map((day) => (
         <S.CheckContainer key={day.date}>
           <S.DaySpan>{formatDay(day.date)}</S.DaySpan>
           <S.CheckBox $isChecked={day.isComplete}>
