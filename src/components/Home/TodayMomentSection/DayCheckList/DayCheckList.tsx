@@ -1,5 +1,6 @@
 import * as S from './DayCheckList.style';
-import CheckIcon from '../../../../assets/svg/moment/IcCheckboxCompleted';
+import IcCheckboxCompleted from '../../../../assets/svg/moment/IcCheckboxCompleted';
+import IcCheckboxPending from '../../../../assets/svg/moment/IcCheckboxPending';
 import useGetWeekStatus from '../../../../hooks/queries/home/useGetWeekStatus';
 
 const DayCheckList = () => {
@@ -15,9 +16,7 @@ const DayCheckList = () => {
       {weekStatus.map((day) => (
         <S.CheckContainer key={day.date}>
           <S.DaySpan>{formatDay(day.date)}</S.DaySpan>
-          <S.CheckBox $isChecked={day.isComplete}>
-            {day.isComplete && <CheckIcon />}
-          </S.CheckBox>
+          {day.isComplete ? <IcCheckboxCompleted /> : <IcCheckboxPending />}
         </S.CheckContainer>
       ))}
     </S.DayCheckListLayout>

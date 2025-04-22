@@ -18,11 +18,3 @@ export const DaySpan = styled.span`
   font-size: 12px;
   line-height: 20px;
 `;
-
-export const CheckBox = styled.div<{ $isChecked: boolean }>`
-  ${({ theme: { mixin } }) => mixin.flexCenter()};
-  width: 2rem;
-  height: 2rem;
-  border-radius: 2px;
-  outline: 2px solid ${({ theme }) => theme.colors.white};
-`;
