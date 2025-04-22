@@ -4,9 +4,10 @@ import AchievementImage from './AchievementImage/AchievementImage';
 const BucketAchievement = () => {
   return (
     <S.BucketlistLayout>
-      <S.BucketlistTitle>
-        <span>{new Date().getFullYear()}</span>
-      </S.BucketlistTitle>
+      <S.BucketlistTitleSpan>
+        <span>{new Date().getFullYear()} </span>
+        버킷리스트 달성 현황
+      </S.BucketlistTitleSpan>
       <S.ImageContainer>
         <AchievementImage />
       </S.ImageContainer>

@@ -7,7 +7,7 @@ export const BucketlistLayout = styled.div`
   gap: 1rem;
 `;
 
-export const BucketlistTitle = styled.span`
+export const BucketlistTitleSpan = styled.span`
   font-size: 16px;
   text-align: center;
   line-height: 20px;
