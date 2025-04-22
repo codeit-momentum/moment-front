@@ -26,22 +26,22 @@ const GlobalStyle = createGlobalStyle`
 	text-decoration: none;
 	color: inherit;
 	&:hover {
-    	text-decoration: none;
+    text-decoration: none;
 		color: none;
 	}
     
 	&:active {
-    	text-decoration: none;
+    text-decoration: none;
 		color: black;
 	}
         
     &:visited {
-    	text-decoration: none;
+    text-decoration: none;
 		color: black;
 	}
         
 	&:link {
-    	text-decoration: none;
+    text-decoration: none;
 		color: black; 
 	}
   }

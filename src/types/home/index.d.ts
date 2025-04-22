@@ -1,8 +1,8 @@
 type NoticeType = 'KNOCK' | 'FRIEND' | 'CHEER';
 
 export interface MomentItemType {
-  id: string;
-  title: string;
+  momentID: string;
+  content: string;
   isCompleted: boolean;
 }
 

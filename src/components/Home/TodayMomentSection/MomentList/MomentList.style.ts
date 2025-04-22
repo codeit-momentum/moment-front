@@ -32,7 +32,7 @@ export const ClearBadgeSpan = styled.div`
   transform: translate(-50%, -50%) rotate(-50deg);
 `;
 
-export const MomentTitleSpan = styled.div`
+export const MomentTitleSpan = styled.span`
   font-size: 12px;
   line-height: 20px;
   text-align: center;

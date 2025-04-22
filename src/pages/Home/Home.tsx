@@ -1,14 +1,14 @@
 import * as S from './Home.style';
-import Header from '../../components/Home/Header/Header';
-import TodayMomentSection from '../../components/Home/TodayMomentSection/TodayMomentSection';
-import Bucketlist from '../../components/Home/Bucketlist/Bucketlist';
+import HomeHeader from '../../components/Home/HomeHeader/HomeHeader';
+import CurrnetMoment from '../../components/Home/TodayMomentSection/CurrentMoment';
+import BucketAchievement from '../../components/Home/BucketAchievement/BucketAchievement';
 
 const Home = () => {
   return (
     <S.HomeLayout>
-      <Header />
-      <TodayMomentSection />
-      <Bucketlist />
+      <HomeHeader />
+      <CurrnetMoment />
+      <BucketAchievement />
     </S.HomeLayout>
   );
 };
