@@ -18,16 +18,15 @@ const AchievementImage = () => {
   const achievement = Number(data.completionRate);
 
   const achievementList: AcheivementListType[] = [
-    { image: <IcSnakeLv0 />, min: 0, max: 19 },
-    { image: <IcSnakeLv1 />, min: 20, max: 39 },
-    { image: <IcSnakeLv2 />, min: 40, max: 59 },
-    { image: <IcSnakeLv3 />, min: 60, max: 79 },
+    { image: <IcSnakeLv0 />, min: 0, max: 19.99 },
+    { image: <IcSnakeLv1 />, min: 20, max: 39.99 },
+    { image: <IcSnakeLv2 />, min: 40, max: 59.99 },
+    { image: <IcSnakeLv3 />, min: 60, max: 79.99 },
     { image: <IcSnakeLv4 />, min: 80, max: 100 },
   ];
 
-  //선언적으로 표현
   const targetRange: AcheivementListType = achievementList.find(
-    (item) => achievement >= item.min && achievement < item.max,
+    (item) => achievement >= item.min && achievement <= item.max,
   );
 
   return <S.Wrapper>{targetRange.image}</S.Wrapper>;
