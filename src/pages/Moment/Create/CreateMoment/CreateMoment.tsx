@@ -19,11 +19,11 @@ const CreateMoment = () => {
   const location = useLocation();
   const state = location.state as CreateStateType;
 
-  if (!state || !state.goal || !state.id || !state.mode) {
+  if (!state || !state.goal || !state.bucketId || !state.mode) {
     alert('페이지 정보를 불러올 수 없습니다. 버킷리스트 페이지로 이동합니다.');
     return <Navigate to="/moment/bucket" replace />;
   }
-  const { goal, id: bucketId, mode } = state;
+  const { goal, bucketId, mode } = state;
 
   const handleNext = (frequency: FrequencyType) => {
     if (!frequency || !duration || todoList.length === 0) {

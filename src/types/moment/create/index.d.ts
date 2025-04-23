@@ -12,7 +12,7 @@ export interface CreatedMoment {
 export interface CreateStateType {
   goal: string;
   mode: ModeType;
-  id: string;
+  bucketId: string;
 }
 
 export interface CompleteStateType {

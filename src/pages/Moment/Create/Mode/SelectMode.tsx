@@ -1,24 +1,16 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as S from './SelectMode.style';
 import { ModeType } from '../../../../types/moment/create';
 import Button from '../../../../components/buttons/Button';
 import HeaderComponent from '../../../../components/Moment/Create/HeaderComponent/HeaderComponent';
 import BtnBack from '../../../../components/buttons/Back/BtnBack';
 import useGetBucketDetail from '../../../../hooks/queries/bucketList/useGetBucketDetail';
-import useBucketId from '../../../../hooks/moment/useBucketId';
 import Fallback from '../../../Fallback/Fallback';
 
-/**
- * SelectMode
- * - 자동/수동 모드를 선택하는 페이지
- * - 선택된 모드에 따라 다음페이지로 이동
- */
 const SelectMode = () => {
   const navigate = useNavigate();
-  const bucketId = useBucketId();
-
-  // React Query 활용하여 버킷 상세 정보 가져오기
+  const { id: bucketId } = useParams();
   const { data, isLoading, isError } = useGetBucketDetail(bucketId);
 
   // ID가 없거나 API 호출 실패 시 리다이렉트 처리
@@ -36,25 +28,21 @@ const SelectMode = () => {
   }, [data, bucketId, isError, navigate]);
 
   // 로딩 처리
-  if (isLoading || !data) {
+  if (isLoading || !data || !bucketId) {
     return <Fallback />;
   }
 
   const goal = data.bucket.content;
 
   const handleSelect = (mode: ModeType) => {
-    // sessionStorage에 버킷 ID 저장 (데이터 유지 목적)
-    sessionStorage.setItem('bucketId', bucketId);
-
-    navigate(`/moment/create-moment/${bucketId}?mode=${mode}`, {
-      state: { id: bucketId, goal, mode },
+    navigate(`/moment/create-moment`, {
+      state: { bucketId, goal, mode },
     });
   };
 
   return (
     <S.SelectModeLayout>
       <BtnBack navigateURL={'/moment/bucket'} />
-      {/* HeaderComponent 적용 */}
       <HeaderComponent
         title={goal}
         subtitle="모멘트 생성 방법을 골라주세요..."
