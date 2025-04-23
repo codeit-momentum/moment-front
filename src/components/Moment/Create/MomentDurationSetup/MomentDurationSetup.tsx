@@ -1,12 +1,13 @@
 import { useState, useEffect, ChangeEvent } from 'react';
-import * as S from './MomentDurationSetup.style';
-import { autoDuration } from '../../../../apis/AI/autoDuration';
+import { useNavigate } from 'react-router-dom';
 import { ModeType } from '../../../../types/moment/create';
-import EditConfirmButtons from '../EditConfirmButtons/EditConfirmButtons';
-import IcLoading from '../../../../assets/svg/common/IcLoading';
-import Divider from '../../../common/Divider/Divider';
+import useGetAIDuration from '../../../../hooks/queries/moment/useGetAIDuration';
 import useToast from '../../../../hooks/common/useToast';
+import EditConfirmButtons from '../EditConfirmButtons/EditConfirmButtons';
+import Divider from '../../../common/Divider/Divider';
 import Toast from '../../../common/Toast/Toast';
+import IcLoading from '../../../../assets/svg/common/IcLoading';
+import * as S from './MomentDurationSetup.style';
 
 interface MomentDurationSetupProps {
   goal: string;
@@ -20,34 +21,27 @@ const MomentDurationSetup = ({
   onEdit,
 }: MomentDurationSetupProps) => {
   const [duration, setDuration] = useState(0);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isLoadingAI, setIsLoadingAI] = useState(false);
+  const [isEditing, setIsEditing] = useState(mode === 'manual');
   const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
+  const {
+    data: aiDuration,
+    isLoading: isLoadingAI,
+    isError,
+  } = useGetAIDuration({ goal, mode });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const getAutoDuration = async () => {
-      setIsLoadingAI(true);
-
-      try {
-        const days = await autoDuration(goal);
-        setDuration(days);
-      } catch (error) {
-        console.error(error);
-        alert(
-          'AI 예상 소요 기간 생성 중 오류가 발생했습니다. 다시 시도해주세요.',
-        );
-        setDuration(0);
-      } finally {
-        setIsLoadingAI(false);
-      }
-    };
-
-    if (mode === 'auto') {
-      getAutoDuration();
-    } else {
-      setIsEditing(true);
+    if (aiDuration) {
+      setDuration(aiDuration);
     }
-  }, [mode, goal]);
+
+    if (isError) {
+      alert(
+        'AI 예상 소요 기간 생성 중 오류가 발생했습니다. 다시 시도해주세요.',
+      );
+      navigate('/moment/bucket');
+    }
+  }, [aiDuration, isError, navigate]);
 
   const handleChangeDuration = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
