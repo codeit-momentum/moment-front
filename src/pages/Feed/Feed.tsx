@@ -4,96 +4,25 @@ import FriendCarousel from '../../components/Feed/FriendCarousel/FriendCarousel'
 import FeedList from '../../components/Feed/FeedList/FeedList';
 import useModal from '../../hooks/common/useModal';
 import Modal from '../../components/Modal/Modal';
-import SelectModal from '../../components/Modal/SelectModal/SelectModal';
 import useCurrentFriend from '../../hooks/feed/useCurrentFriend';
 import IcMenu from '../../assets/svg/feed/IcMenu';
 import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
-import FeedModal from '../../components/Modal/FeedModal/FeedModal';
-import usePatchFix from '../../hooks/queries/Feed/usePatchFix';
-import useDeleteFriend from '../../hooks/queries/Feed/useDeleteFriend';
 import { useNavigate } from 'react-router-dom';
 import IcNoFriend from '../../assets/svg/feed/IcNoFriend';
 import { useState, useEffect } from 'react';
-import OKModal from '../../components/Modal/OKModal/OKModal';
-
-type ModalType = 'default' | 'delete' | 'ok';
+import FeedModal from '../../components/Feed/FeedModal/FeedModal';
+import ModalType from '../../types/feed';
 
 const Feed = () => {
   const { friendList } = useGetFriends();
-  const { mutate: patchFix } = usePatchFix();
-  const { mutate: deleteFriend } = useDeleteFriend();
   const { currentFriend, handleClickFriend, setCurrentFriend } =
     useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
-  const [modalType, setModalType] = useState<ModalType>('default');
+  const [modalType, setModalType] = useState<ModalType>('friend');
   const navigate = useNavigate();
 
   const handleNavigate = () => {
     navigate('/mypage/friend');
-  };
-
-  const handleDelete = () => {
-    deleteFriend(currentFriend.userID, {
-      onSuccess: () => {
-        setModalType('ok');
-        setCurrentFriend(friendList[0]);
-      },
-    });
-  };
-
-  const handleFix = () => {
-    patchFix(currentFriend.userID, {
-      onSuccess: () => {
-        setCurrentFriend({
-          ...currentFriend,
-          isFixed: !currentFriend.isFixed,
-        });
-      },
-    });
-  };
-
-  const handleClose = () => {
-    closeModal();
-    setModalType('default');
-  };
-
-  const caseModal = (modalType: string) => {
-    switch (modalType) {
-      case 'delete':
-        return (
-          <SelectModal
-            type="delete"
-            content="이 행위는 되돌릴 수 없습니다."
-            onClose={handleClose}
-            onSubmit={handleDelete}
-          >
-            <span style={{ color: '#FAED46' }}>{currentFriend?.nickname}</span>
-            님을 삭제하겠습니까?
-          </SelectModal>
-        );
-      case 'ok':
-        return (
-          <OKModal onClose={handleClose}>
-            친구 관계를
-            <br />
-            성공적으로 삭제했습니다.
-          </OKModal>
-        );
-      case 'default':
-        return (
-          <FeedModal
-            title={currentFriend?.nickname}
-            isFixed={currentFriend?.isFixed}
-            onFix={handleFix}
-            onDelete={() => {
-              setModalType('delete');
-            }}
-            onClose={closeModal}
-          />
-        );
-      default:
-        return;
-    }
   };
 
   useEffect(() => {
@@ -106,7 +35,18 @@ const Feed = () => {
 
   return (
     <S.FeedLayout>
-      {isOpen && <Modal>{caseModal(modalType)}</Modal>}
+      {isOpen && (
+        <Modal>
+          <FeedModal
+            modalType={modalType}
+            setModalType={setModalType}
+            currentFriend={currentFriend}
+            setCurrentFriend={setCurrentFriend}
+            closeModal={closeModal}
+            friendList={friendList}
+          />
+        </Modal>
+      )}
       <S.FeedHeaderContatiner>
         <S.FeedTitleContainer>
           <S.FeedTitleHeader>친구들의 모멘트</S.FeedTitleHeader>

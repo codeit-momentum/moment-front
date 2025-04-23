@@ -1,3 +1,5 @@
+export type ModalType = 'friend' | 'delete' | 'ok';
+
 export interface FriendType {
   createdAt: string;
   fixedAt: string;

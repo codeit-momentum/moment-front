@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const FeedModalLayout = styled.div`
+export const FriendModalLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 30rem;
   border-radius: 1rem;
