@@ -1,13 +1,13 @@
-import IcArrow from '../../../../assets/svg/common/IcArrow';
+import IcArrow from '../../../assets/svg/common/IcArrow';
 import * as S from './MomentComplete.style';
-import Button from '../../../../components/buttons/Button';
+import Button from '../../../components/buttons/Button';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import { formatListDate } from '../../../../utils/formatDate';
-import usePostMoments from '../../../../hooks/queries/moment/usePostMoments';
-import IcDateContainer from '../../../../assets/svg/moment/IcDateContainer';
-import MethodContainer from '../../../../components/Moment/ContainerLayout/ContainerLayout';
-import { CompleteStateType } from '../../../../types/moment/create';
-import useResponseMessage from '../../../../hooks/common/useResponseMessage';
+import { formatListDate } from '../../../utils/formatDate';
+import usePostMoments from '../../../hooks/queries/moment/usePostMoments';
+import IcDateContainer from '../../../assets/svg/moment/IcDateContainer';
+import MethodContainer from '../../../components/Moment/ContainerLayout/ContainerLayout';
+import { CompleteStateType } from '../../../types/moment/create';
+import useResponseMessage from '../../../hooks/common/useResponseMessage';
 
 const MomentComplete = () => {
   const navigate = useNavigate();

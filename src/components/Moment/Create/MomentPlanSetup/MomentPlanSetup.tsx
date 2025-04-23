@@ -1,39 +1,44 @@
 import { useState, useEffect } from 'react';
-import * as S from './ToDoListComponent.style';
-import { ModeType } from '../../../../types/moment/create';
-import IcLoading from '../../../../assets/svg/common/IcLoading';
-import ToDoItem from '../../CheckList/CheckListItem/CheckListItem';
-import TodoContainer from '../../ContainerLayout/ContainerLayout';
-import useToast from '../../../../hooks/common/useToast';
 import { v4 as uuidv4 } from 'uuid';
+import { generateDetailedPlan } from '../../../../apis/AI/autoPlanning';
+import { ModeType } from '../../../../types/moment/create';
+import useToast from '../../../../hooks/common/useToast';
+import PlanContainer from '../../ContainerLayout/ContainerLayout';
+import PlanItem from '../../CheckList/CheckListItem/CheckListItem';
+import EditConfirmButtons from '../EditConfirmButtons/EditConfirmButtons';
 import Toast from '../../../common/Toast/Toast';
 import Divider from '../../../common/Divider/Divider';
-import { generateDetailedPlan } from '../../../../apis/AI/autoPlanning';
-import EditConfirmButtons from '../EditConfirmButtons/EditConfirmButtons';
+import IcLoading from '../../../../assets/svg/common/IcLoading';
+import * as S from './MomentPlanSetup.style';
 
-interface ToDoListProps {
+interface MomentPlanSetupLayoutProps {
   goal: string;
   mode: ModeType;
   duration: number;
-  onSave: (todoList: string[]) => void;
+  onSave: (plan: string[]) => void;
 }
 
-const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
+const MomentPlanSetup = ({
+  goal,
+  mode,
+  duration,
+  onSave,
+}: MomentPlanSetupLayoutProps) => {
   const [isEditing, setIsEditing] = useState(mode === 'manual'); // 수정 상태
   const [isLoadingAI, setIsLoadingAI] = useState(mode === 'auto');
-  const [todos, setTodos] = useState<string[]>([]);
+  const [plan, setPlan] = useState<string[]>([]);
   const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
 
   useEffect(() => {
     const getGeneratedPlan = async () => {
       setIsLoadingAI(true);
       try {
-        const plan = await generateDetailedPlan(
+        const AIplan = await generateDetailedPlan(
           goal,
           new Date().toISOString().split('T')[0],
           duration,
         );
-        setTodos(plan);
+        setPlan(AIplan);
       } catch (error) {
         console.error(error);
         alert('투두 리스트 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -45,68 +50,67 @@ const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
     if (mode === 'auto') {
       getGeneratedPlan();
     } else {
-      setTodos(new Array(duration).fill(''));
+      setPlan(new Array(duration).fill(''));
     }
   }, [goal, mode, duration]);
 
-  const handleEditTodo = (index: number, value: string) => {
-    const updatedTodos = [...todos];
-    updatedTodos[index] = value;
-    setTodos(updatedTodos);
+  const handleEditPlan = (index: number, value: string) => {
+    const updatedPlan = plan.map((item, i) => (i === index ? value : item));
+    setPlan(updatedPlan);
   };
 
-  const handleConfirmTodo = () => {
-    if (todos.some((todo) => todo.trim() === '')) {
+  const handleConfirmPlan = () => {
+    if (plan.some((item) => item.trim() === '')) {
       openToast('내용을 작성해주세요!');
       return false;
     }
 
-    onSave([...todos]);
+    onSave([...plan]);
     return true;
   };
 
   return (
-    <S.ToDoListLayout>
+    <S.MomentPlanSetupLayout>
       <Divider />
-      <S.ToDoListTitle>
+      <S.PlanTitle>
         {duration}일 동안 진행할 모멘트는
         <br />
         다음과 같습니다!
-      </S.ToDoListTitle>
+      </S.PlanTitle>
       {isLoadingAI ? (
-        <S.ToDoListLoadingWrapper>
+        <S.PlanLoadingWrapper>
           <IcLoading />
-        </S.ToDoListLoadingWrapper>
+        </S.PlanLoadingWrapper>
       ) : (
         <>
-          <TodoContainer
+          <PlanContainer
             title="방법"
             containerStyle={{ margin: '2rem 0rem', padding: '1rem 2.2rem' }}
             titleStyle={{ fontSize: '16px', padding: '0.5rem 2.4rem' }}
           >
-            {todos.map((todo, index) => (
-              <ToDoItem
+            {plan.map((item, index) => (
+              <PlanItem
                 key={uuidv4()}
                 id={index}
                 type="생성형"
                 state={index + 1}
-                value={todo}
+                value={item}
                 editState={isEditing}
-                onUpdateItem={handleEditTodo}
+                onUpdateItem={handleEditPlan}
               />
             ))}
-          </TodoContainer>
+          </PlanContainer>
           <EditConfirmButtons
             mode={mode}
             isEditing={isEditing}
             setIsEditing={setIsEditing}
-            onConfirm={handleConfirmTodo}
+            onConfirm={handleConfirmPlan}
           />
         </>
       )}
       {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
-    </S.ToDoListLayout>
+    </S.MomentPlanSetupLayout>
   );
 };
 
-export default ToDoListComponent;
+export default MomentPlanSetup;

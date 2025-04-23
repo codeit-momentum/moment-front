@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const DurationLayout = styled.div`
+export const MomentDurationSetupLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   position: relative;
   width: 100%;

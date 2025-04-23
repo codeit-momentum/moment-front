@@ -1,16 +1,13 @@
 import * as S from './CreateMoment.style';
 import { useState } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import HeaderComponent from '../../../../components/Moment/Create/HeaderComponent/HeaderComponent';
-import DurationComponent from '../../../../components/Moment/Create/DurationComponent/DurationComponent';
-import ToDoListComponent from '../../../../components/Moment/Create/ToDoListComponent/ToDoListComponent';
-import FrequencyBtnComponent from '../../../../components/Moment/Create/FrequencyBtnComponent/FrequencyBtnComponent';
-import {
-  FrequencyType,
-  CreateStateType,
-} from '../../../../types/moment/create';
-import BtnBack from '../../../../components/buttons/Back/BtnBack';
-import { generateMomentDates } from '../../../../utils/generateMomentDates';
+import CreateMomentHeader from '../../../components/Moment/Create/CreateMomentHeader/CreateMomentHeader';
+import MomentDurationSetup from '../../../components/Moment/Create/MomentDurationSetup/MomentDurationSetup';
+import MomentPlanSetup from '../../../components/Moment/Create/MomentPlanSetup/MomentPlanSetup';
+import MomentFrequencySetup from '../../../components/Moment/Create/MomentFrequencySetup/MomentFrequencySetup';
+import { FrequencyType, CreateStateType } from '../../../types/moment/create';
+import BtnBack from '../../../components/buttons/Back/BtnBack';
+import { generateMomentDates } from '../../../utils/generateMomentDates';
 
 const CreateMoment = () => {
   const [duration, setDuration] = useState<number>(0);
@@ -41,11 +38,11 @@ const CreateMoment = () => {
   return (
     <S.CreateMomentLayout>
       <BtnBack navigateURL={`/moment/select-mode/${bucketId}`} />
-      <HeaderComponent title={goal} subtitle="버킷리스트를 시작해볼까요?" />
-      <DurationComponent mode={mode} goal={goal} onEdit={setDuration} />
+      <CreateMomentHeader title={goal} subtitle="버킷리스트를 시작해볼까요?" />
+      <MomentDurationSetup mode={mode} goal={goal} onEdit={setDuration} />
 
       {duration > 0 && (
-        <ToDoListComponent
+        <MomentPlanSetup
           goal={goal}
           mode={mode}
           duration={duration}
@@ -53,7 +50,7 @@ const CreateMoment = () => {
         />
       )}
 
-      {todoList.length !== 0 && <FrequencyBtnComponent onNext={handleNext} />}
+      {todoList.length !== 0 && <MomentFrequencySetup onNext={handleNext} />}
     </S.CreateMomentLayout>
   );
 };

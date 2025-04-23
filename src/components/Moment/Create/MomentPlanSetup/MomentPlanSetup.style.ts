@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-export const ToDoListLayout = styled.div`
+export const MomentPlanSetupLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 100%;
 `;
 
-export const ToDoListTitle = styled.h3`
+export const PlanTitle = styled.h3`
   margin-top: 3rem;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.white};
@@ -13,7 +13,7 @@ export const ToDoListTitle = styled.h3`
   line-height: 25px;
 `;
 
-export const ToDoListLoadingWrapper = styled.div`
+export const PlanLoadingWrapper = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   margin-top: 1.5rem;
 `;

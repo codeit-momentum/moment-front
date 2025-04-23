@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import * as S from './FrequencyBtnComponent.style';
-import Button from '../../../buttons/Button';
-import Divider from '../../../common/Divider/Divider';
 import { frequencyOptions } from '../../../../utils/formatFrequency';
 import { FrequencyType } from '../../../../types/moment/create';
+import Button from '../../../buttons/Button';
+import Divider from '../../../common/Divider/Divider';
 import IcFrequencyButton from '../../../../assets/svg/moment/IcFrequencyButton';
+import * as S from './MomentFrequencySetup.style';
 
-interface FrequencyBtnProps {
+interface MomentFrequencySetupProps {
   onNext: (frequency: FrequencyType) => void;
 }
 
-const FrequencyBtnComponent = ({ onNext }: FrequencyBtnProps) => {
+const MomentFrequencySetup = ({ onNext }: MomentFrequencySetupProps) => {
   const [selectedOption, setSelectedOption] = useState<FrequencyType | null>(
     null,
   );
@@ -29,27 +29,29 @@ const FrequencyBtnComponent = ({ onNext }: FrequencyBtnProps) => {
   };
 
   return (
-    <S.FrequencyBtnLayout>
+    <S.MomentFrequencySetupLayout>
       <Divider />
-      <S.FrequencyBtnTitle>모멘트의 실행 빈도는</S.FrequencyBtnTitle>
-      <S.FrequencyBtnContainer>
+      <S.FrequencyTitle>모멘트의 실행 빈도는</S.FrequencyTitle>
+      <S.FrequencyButtonContainer>
         {frequencyOptions.map((option) => (
-          <S.FrequencyBtnWrapper
+          <S.FrequencyButtonWrapper
             key={option.value}
             onClick={() => setSelectedOption(option.value)}
           >
             <IcFrequencyButton isSelected={selectedOption === option.value} />
-            <S.FrequencyBtnLabel $isSelected={selectedOption === option.value}>
+            <S.FrequencyButtonLabel
+              $isSelected={selectedOption === option.value}
+            >
               {option.label}
-            </S.FrequencyBtnLabel>
-          </S.FrequencyBtnWrapper>
+            </S.FrequencyButtonLabel>
+          </S.FrequencyButtonWrapper>
         ))}
-      </S.FrequencyBtnContainer>
+      </S.FrequencyButtonContainer>
       <Button disabled={!selectedOption} onClick={handleConfirmFrequency}>
         확인
       </Button>
-    </S.FrequencyBtnLayout>
+    </S.MomentFrequencySetupLayout>
   );
 };
 
-export default FrequencyBtnComponent;
+export default MomentFrequencySetup;

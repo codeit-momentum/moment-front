@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as S from './SelectMode.style';
-import { ModeType } from '../../../../types/moment/create';
-import Button from '../../../../components/buttons/Button';
-import HeaderComponent from '../../../../components/Moment/Create/HeaderComponent/HeaderComponent';
-import BtnBack from '../../../../components/buttons/Back/BtnBack';
-import useGetBucketDetail from '../../../../hooks/queries/bucketList/useGetBucketDetail';
-import Fallback from '../../../Fallback/Fallback';
+import { ModeType } from '../../../types/moment/create';
+import Button from '../../../components/buttons/Button';
+import CreateMomentHeader from '../../../components/Moment/Create/CreateMomentHeader/CreateMomentHeader';
+import BtnBack from '../../../components/buttons/Back/BtnBack';
+import useGetBucketDetail from '../../../hooks/queries/bucketList/useGetBucketDetail';
+import Fallback from '../../Fallback/Fallback';
 
 const SelectMode = () => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const SelectMode = () => {
   return (
     <S.SelectModeLayout>
       <BtnBack navigateURL={'/moment/bucket'} />
-      <HeaderComponent
+      <CreateMomentHeader
         title={goal}
         subtitle="모멘트 생성 방법을 골라주세요..."
       />

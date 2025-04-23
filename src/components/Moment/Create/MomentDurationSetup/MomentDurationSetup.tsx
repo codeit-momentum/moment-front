@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent } from 'react';
-import * as S from './DurationComponent.style';
+import * as S from './MomentDurationSetup.style';
 import { autoDuration } from '../../../../apis/AI/autoDuration';
 import { ModeType } from '../../../../types/moment/create';
 import EditConfirmButtons from '../EditConfirmButtons/EditConfirmButtons';
@@ -8,13 +8,17 @@ import Divider from '../../../common/Divider/Divider';
 import useToast from '../../../../hooks/common/useToast';
 import Toast from '../../../common/Toast/Toast';
 
-interface DurationProps {
+interface MomentDurationSetupProps {
   goal: string;
   mode: ModeType;
   onEdit: (duration: number) => void;
 }
 
-const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
+const MomentDurationSetup = ({
+  goal,
+  mode,
+  onEdit,
+}: MomentDurationSetupProps) => {
   const [duration, setDuration] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoadingAI, setIsLoadingAI] = useState(false);
@@ -61,7 +65,7 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
   };
 
   return (
-    <S.DurationLayout>
+    <S.MomentDurationSetupLayout>
       <Divider />
       <S.DurationTitle>예상 소요 기간은</S.DurationTitle>
       {isLoadingAI ? (
@@ -92,8 +96,8 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
         </>
       )}
       {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
-    </S.DurationLayout>
+    </S.MomentDurationSetupLayout>
   );
 };
 
-export default DurationComponent;
+export default MomentDurationSetup;
