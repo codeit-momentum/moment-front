@@ -1,47 +1,41 @@
 import styled from 'styled-components';
 
-/**
- * FrequencyBtnContainer : 실행 빈도 선택 버튼 전체를 감싸는 컨테이너
- */
 export const FrequencyBtnLayout = styled.div`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({
-      direction: 'column',
-      justify: 'flex-start',
-    })};
+  ${({ theme: { mixin } }) => mixin.flexCenter()}
   position: relative;
   width: 100%;
-  padding: 0rem 3rem;
+  margin-top: 2rem;
 `;
 
-/**
- * Label : 실행 빈도 선택 섹션의 제목
- */
-export const Label = styled.h3`
+export const FrequencyBtnTitle = styled.h3`
+  margin-top: 3rem;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.white};
   text-align: center;
-  white-space: pre-wrap;
-  margin-top: 3.2rem;
+  line-height: 25px;
 `;
+
 export const FrequencyBtnContainer = styled.div`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({ align: 'center', justify: 'center' })}
-  width: 100%;
-`;
-
-/**
- * BtnGrid : 실행 빈도 선택 버튼을 감싸는 컨테이너
- */
-
-export const FrequencyBtnGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 4.5rem;
+  gap: 3rem 4.5rem;
   justify-content: center;
   margin: 3rem auto;
 `;
 
-export const BtnContainer = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'center' })};
+export const FrequencyBtnWrapper = styled.button`
+  ${({ theme: { mixin } }) => mixin.flexCenter()}
+  position: relative;
+  border: none;
+  background: none;
+`;
+
+export const FrequencyBtnLabel = styled.span<{ $isSelected: boolean }>`
+  width: 4rem;
+  position: absolute;
+  font-size: 16px;
+  color: ${({ $isSelected, theme }) =>
+    $isSelected ? theme.colors.white : theme.colors.darkGray};
+  text-align: center;
+  line-height: 2.5rem;
 `;
