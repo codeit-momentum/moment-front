@@ -1,8 +1,5 @@
 import styled from 'styled-components';
 
-/**
- * Container : 전체 페이지 컨테이너
- */
 export const MomentCompleteLayout = styled.div`
   ${({ theme: { mixin } }) =>
     mixin.flexBox({
@@ -13,9 +10,7 @@ export const MomentCompleteLayout = styled.div`
   gap: 1rem;
   position: relative;
 `;
-/**
- * Title: 상단 제목
- */
+
 export const MomentCompleteTitle = styled.h1`
   font-size: 20px;
   margin-bottom: 20px;
@@ -23,9 +18,6 @@ export const MomentCompleteTitle = styled.h1`
   color: ${({ theme }) => theme.colors.white};
 `;
 
-/**
- * DateContainer : 날짜 박스 컨테이너
- */
 export const DateContainer = styled.div`
   position: relative;
   width: 29.5rem;
@@ -33,9 +25,6 @@ export const DateContainer = styled.div`
   margin-top: 2rem;
 `;
 
-/**
- * DateBox : 날짜 박스
- */
 export const DateText = styled.div`
   ${({ theme: { mixin } }) => mixin.flexBox({ direction: 'row' })};
   width: 100%;
@@ -48,50 +37,30 @@ export const DateText = styled.div`
   text-align: center;
 `;
 
-/**
- * MethodList : 방법 리스트
- */
-export const MethodListItemWrapper = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexBox({ direction: 'column' })};
-  gap: 1.5rem;
+export const MethodList = styled.div`
+  ${({ theme: { mixin } }) =>
+    mixin.flexBox({ direction: 'column', align: 'flex-start' })};
+  gap: 1rem;
   width: 100%;
   padding: 1.5rem 0;
 `;
 
-/**
- * MethodItem : 방법 항목
- */
 export const MethodItem = styled.div`
   ${({ theme: { mixin } }) =>
-    mixin.flexBox({ direction: 'row', align: 'flex-start' })};
+    mixin.flexBox({ direction: 'row', justify: 'flex-start' })};
+  height: 2.8rem;
   gap: 1rem;
 `;
 
-/**
- * MethodId : 방법 항목 ID
- */
-export const MethodId = styled.span`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({ align: 'center', justify: 'center' })};
-  width: 3.7rem;
-  height: 2.8rem;
+export const MethodItemDate = styled.span`
   font-size: 16px;
+  line-height: 28px;
   color: ${({ theme }) => theme.colors.yellow};
 `;
 
-/**
- * MethodDescription : 방법 항목 설명
- */
-export const MethodDescription = styled.span`
-  width: 24.2rem;
-  height: auto;
+export const MethodItemContent = styled.span`
   font-size: 12px;
   white-space: pre-wrap;
   line-height: 26px;
   color: ${({ theme }) => theme.colors.white};
-`;
-
-export const BtnContainer = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'center' })};
-  margin-top: 2rem;
 `;

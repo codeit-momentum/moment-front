@@ -2,7 +2,7 @@ import IcArrow from '../../../assets/svg/common/IcArrow';
 import * as S from './MomentComplete.style';
 import Button from '../../../components/buttons/Button';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import { formatListDate } from '../../../utils/formatDate';
+import { formatListDate, formatHeaderDate } from '../../../utils/formatDate';
 import usePostMoments from '../../../hooks/queries/moment/usePostMoments';
 import IcDateContainer from '../../../assets/svg/moment/IcDateContainer';
 import MethodContainer from '../../../components/Moment/ContainerLayout/ContainerLayout';
@@ -45,41 +45,42 @@ const MomentComplete = () => {
 
   return (
     <S.MomentCompleteLayout>
-      {/* 타이틀 */}
       <S.MomentCompleteTitle>모멘트 설계 완료 !</S.MomentCompleteTitle>
-      {/* 날짜 범위 */}
       <S.DateContainer>
         <IcDateContainer />
         <S.DateText>
-          {moments[0].startDate}
+          {formatHeaderDate(moments[0].startDate)}
           <IcArrow />
-          {moments[moments.length - 1].endDate}
+          {formatHeaderDate(moments[moments.length - 1].endDate)}
         </S.DateText>
       </S.DateContainer>
-      {/* 방법 리스트 */}
+
       <MethodContainer
         title="방법"
-        containerStyle={{ marginTop: '1rem', padding: '1rem 1.8rem' }}
+        containerStyle={{
+          margin: '1rem 0rem 3rem 0rem',
+          padding: '1rem 2rem',
+        }}
         titleStyle={{
           fontSize: '16px',
           padding: '0.5rem 2.4rem',
           marginBottom: '0',
         }}
       >
-        <S.MethodListItemWrapper>
+        <S.MethodList>
           {moments.map((moment) => (
             <S.MethodItem key={moment.startDate}>
-              <S.MethodId>{formatListDate(moment.startDate)}</S.MethodId>
-              <S.MethodDescription>{moment.content}</S.MethodDescription>
+              <S.MethodItemDate>
+                {formatListDate(moment.startDate)}
+              </S.MethodItemDate>
+              <S.MethodItemContent>{moment.content}</S.MethodItemContent>
             </S.MethodItem>
           ))}
-        </S.MethodListItemWrapper>
+        </S.MethodList>
       </MethodContainer>
-      <S.BtnContainer>
-        <Button onClick={handleConfirm} disabled={isPending}>
-          {isPending ? '저장 중...' : '확인'}
-        </Button>
-      </S.BtnContainer>
+      <Button onClick={handleConfirm} disabled={isPending}>
+        {isPending ? '저장 중...' : '확인'}
+      </Button>
       {renderModal()}
     </S.MomentCompleteLayout>
   );
