@@ -6,25 +6,21 @@ import ToDoItem from '../../CheckList/CheckListItem/CheckListItem';
 import TodoContainer from '../../ContainerLayout/ContainerLayout';
 import useToast from '../../../../hooks/common/useToast';
 import { v4 as uuidv4 } from 'uuid';
-import Button from '../../../buttons/Button';
 import Toast from '../../../common/Toast/Toast';
 import Divider from '../../../common/Divider/Divider';
 import { generateDetailedPlan } from '../../../../apis/AI/autoPlanning';
-/**
- * ToDoListProps 인터페이스
- */
+import EditConfirmButtons from '../EditConfirmButtons/EditConfirmButtons';
+
 interface ToDoListProps {
   goal: string;
-  mode: ModeType; // 'auto' 또는 'manual'
-  duration: number; // Duration 값
-  onSave: (todoList: string[]) => void; // 상위 컴포넌트로 전달
+  mode: ModeType;
+  duration: number;
+  onSave: (todoList: string[]) => void;
 }
 
 const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
-  // 편집 모드 상태 관리: 수동 모드일 경우 초기값 true
   const [isEditing, setIsEditing] = useState(mode === 'manual'); // 수정 상태
   const [isLoadingAI, setIsLoadingAI] = useState(mode === 'auto');
-  const [isConfirmed, setIsConfirmed] = useState(false);
   const [todos, setTodos] = useState<string[]>([]);
   const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
 
@@ -53,42 +49,20 @@ const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
     }
   }, [goal, mode, duration]);
 
-  // 투두 리스트 변경 핸들러
   const handleEditTodo = (index: number, value: string) => {
     const updatedTodos = [...todos];
     updatedTodos[index] = value;
     setTodos(updatedTodos);
   };
 
-  // 확정하기 핸들러
-  const handleConfirm = () => {
+  const handleConfirmTodo = () => {
     if (todos.some((todo) => todo.trim() === '')) {
       openToast('내용을 작성해주세요!');
-      return;
+      return false;
     }
 
-    // 전달되는 데이터 콘솔에 출력
-    onSave([...todos]); // 상위 컴포넌트로 데이터 전달
-    setIsEditing(false);
-    setIsConfirmed(true);
-  };
-
-  const renderButtons = () => {
-    if (isConfirmed) return null;
-
-    if (mode === 'manual') {
-      return <Button onClick={handleConfirm}>확정하기</Button>;
-    }
-
-    // mode === 'auto'
-    return isEditing ? (
-      <Button onClick={() => setIsEditing(false)}>수정완료</Button>
-    ) : (
-      <>
-        <Button onClick={() => setIsEditing(true)}>수정하기</Button>
-        <Button onClick={handleConfirm}>확정하기</Button>
-      </>
-    );
+    onSave([...todos]);
+    return true;
   };
 
   return (
@@ -122,7 +96,12 @@ const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
               />
             ))}
           </TodoContainer>
-          <S.BtnContainer>{renderButtons()}</S.BtnContainer>
+          <EditConfirmButtons
+            mode={mode}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            onConfirm={handleConfirmTodo}
+          />
         </>
       )}
       {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}

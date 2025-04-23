@@ -2,28 +2,24 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import * as S from './DurationComponent.style';
 import { autoDuration } from '../../../../apis/AI/autoDuration';
 import { ModeType } from '../../../../types/moment/create';
-import Button from '../../../buttons/Button';
+import EditConfirmButtons from '../EditConfirmButtons/EditConfirmButtons';
 import IcLoading from '../../../../assets/svg/common/IcLoading';
 import Divider from '../../../common/Divider/Divider';
+import useToast from '../../../../hooks/common/useToast';
+import Toast from '../../../common/Toast/Toast';
 
 interface DurationProps {
   goal: string;
-  mode: ModeType; // 'auto' 또는 'manual'
-  onEdit: (duration: number) => void; // 수정 및 확정 시 상위 컴포넌트로 전달
+  mode: ModeType;
+  onEdit: (duration: number) => void;
 }
 
-/**
- * DurationComponent
- * - 자동/수동 모드에 따라 초기 상태와 UI 분기 처리
- * - 예상 소요 기간을 표시하거나 수정할 수 있는 컴포넌트
- */
 const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
   const [duration, setDuration] = useState<number>(0);
   const [isEditing, setIsEditing] = useState(false);
-  const [isConfirmed, setIsConfirmed] = useState(false); // 확정 상태 관리
   const [isLoadingAI, setIsLoadingAI] = useState(false);
+  const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
 
-  // 수동 / 자동 모드 초기 값 설정
   useEffect(() => {
     const getAutoDuration = async () => {
       setIsLoadingAI(true);
@@ -49,41 +45,19 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
     }
   }, [mode, goal]);
 
-  //입력값 변경 핸들러
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleDurationChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setDuration(newValue === '' ? 0 : Number(newValue));
   };
 
-  // 확정하기 핸들러
-  const handleConfirm = () => {
+  const handleConfirmDuration = () => {
     if (duration < 1) {
-      alert('1일 이상으로 설정해주세요.');
-      return;
-    }
-    setIsEditing(false); // 수정 상태 종료
-    setIsConfirmed(true); //확정 상태 설정
-    onEdit(duration); //부모컴포넌트에 전달
-  };
-
-  const renderButtons = () => {
-    if (isConfirmed) return null;
-
-    if (mode === 'manual') {
-      return <Button onClick={handleConfirm}>확정하기</Button>;
+      openToast('1일 이상으로 설정해주세요!');
+      return false;
     }
 
-    // mode === 'auto'
-    return isEditing ? (
-      <Button onClick={() => setIsEditing(false)} disabled={duration <= 0}>
-        수정완료
-      </Button>
-    ) : (
-      <>
-        <Button onClick={() => setIsEditing(true)}>수정하기</Button>
-        <Button onClick={handleConfirm}>확정하기</Button>
-      </>
-    );
+    onEdit(duration);
+    return true;
   };
 
   return (
@@ -101,7 +75,7 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
               <S.DurationInput
                 type="number"
                 value={duration === 0 ? '' : duration}
-                onChange={handleInputChange}
+                onChange={handleDurationChange}
                 min={1}
               />
             ) : (
@@ -109,9 +83,15 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
             )}
             <span>일</span>
           </S.InputContainer>
-          <S.BtnContainer>{renderButtons()}</S.BtnContainer>
+          <EditConfirmButtons
+            mode={mode}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            onConfirm={handleConfirmDuration}
+          />
         </>
       )}
+      {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
     </S.DurationLayout>
   );
 };
