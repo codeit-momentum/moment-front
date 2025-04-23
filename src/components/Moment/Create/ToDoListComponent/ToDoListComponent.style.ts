@@ -1,22 +1,19 @@
 import styled from 'styled-components';
 
 export const ToDoListLayout = styled.div`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({ direction: 'column', justify: 'flex-start' })};
-  position: relative;
+  ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 100%;
 `;
 
-export const TodoLabel = styled.h3`
+export const ToDoListTitle = styled.h3`
+  margin-top: 3rem;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.white};
   text-align: center;
-  white-space: pre-wrap;
-  margin-top: 3rem;
   line-height: 25px;
 `;
 
-export const TodoLoadingWrapper = styled.div`
+export const ToDoListLoadingWrapper = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 `;

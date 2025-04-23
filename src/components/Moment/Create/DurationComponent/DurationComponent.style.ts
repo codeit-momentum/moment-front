@@ -4,10 +4,10 @@ export const DurationLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   position: relative;
   width: 100%;
-  padding: 0rem 3rem;
+  margin-top: 0.5rem;
 `;
 
-export const Label = styled.h3`
+export const DurationTitle = styled.h3`
   color: ${({ theme }) => theme.colors.white};
   margin-top: 3rem;
   margin-bottom: 1rem;
@@ -17,24 +17,19 @@ export const Label = styled.h3`
 
 export const DurationLoadingWrapper = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 `;
 
-export const InputContainer = styled.div`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({
-      direction: 'row',
-    })};
-  height: 4rem;
-  font-size: 32px;
-  color: ${({ theme }) => theme.colors.yellow};
+export const DurationInputContainer = styled.div`
+  ${({ theme: { mixin } }) => mixin.flexBox({ direction: 'row' })};
+  gap: 1rem;
 `;
 
 export const DurationInput = styled.input`
   width: 8rem;
-  height: 100%;
-  margin-right: 1rem;
-  font-size: inherit;
+  height: 4rem;
+  margin-bottom: 3rem;
+  font-size: 32px;
   text-align: center;
   border: none;
   background-color: ${({ theme }) => theme.colors.white};
@@ -47,11 +42,8 @@ export const DurationInput = styled.input`
   }
 `;
 
-export const BtnContainer = styled.div`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({
-      direction: 'row',
-    })};
-  gap: 3rem;
-  margin-top: 3rem;
+export const DurationTextSpan = styled.span`
+  margin-bottom: 3rem;
+  font-size: 32px;
+  color: ${({ theme }) => theme.colors.yellow};
 `;

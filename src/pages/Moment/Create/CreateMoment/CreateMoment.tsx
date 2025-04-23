@@ -44,7 +44,7 @@ const CreateMoment = () => {
       <HeaderComponent title={goal} subtitle="버킷리스트를 시작해볼까요?" />
       <DurationComponent mode={mode} goal={goal} onEdit={setDuration} />
 
-      {duration && (
+      {duration > 0 && (
         <ToDoListComponent
           goal={goal}
           mode={mode}

@@ -15,7 +15,7 @@ interface DurationProps {
 }
 
 const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
-  const [duration, setDuration] = useState<number>(0);
+  const [duration, setDuration] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoadingAI, setIsLoadingAI] = useState(false);
   const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
@@ -45,7 +45,7 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
     }
   }, [mode, goal]);
 
-  const handleDurationChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeDuration = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setDuration(newValue === '' ? 0 : Number(newValue));
   };
@@ -62,27 +62,27 @@ const DurationComponent = ({ goal, mode, onEdit }: DurationProps) => {
 
   return (
     <S.DurationLayout>
-      <Divider customStyle={{ marginTop: '0.5rem' }} />
-      <S.Label>예상 소요 기간은</S.Label>
+      <Divider />
+      <S.DurationTitle>예상 소요 기간은</S.DurationTitle>
       {isLoadingAI ? (
         <S.DurationLoadingWrapper>
           <IcLoading />
         </S.DurationLoadingWrapper>
       ) : (
         <>
-          <S.InputContainer>
-            {isEditing ? (
+          {isEditing ? (
+            <S.DurationInputContainer>
               <S.DurationInput
                 type="number"
                 value={duration === 0 ? '' : duration}
-                onChange={handleDurationChange}
-                min={1}
+                onChange={handleChangeDuration}
+                min="1"
               />
-            ) : (
-              <span>{duration}</span>
-            )}
-            <span>일</span>
-          </S.InputContainer>
+              <S.DurationTextSpan>일</S.DurationTextSpan>
+            </S.DurationInputContainer>
+          ) : (
+            <S.DurationTextSpan>{duration}일</S.DurationTextSpan>
+          )}
           <EditConfirmButtons
             mode={mode}
             isEditing={isEditing}

@@ -6,5 +6,4 @@ export const EditConfirmButtonsLayout = styled.div`
       direction: 'row',
     })};
   gap: 3rem;
-  margin-bottom: 3rem;
 `;

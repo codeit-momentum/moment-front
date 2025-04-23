@@ -68,15 +68,15 @@ const ToDoListComponent = ({ goal, mode, duration, onSave }: ToDoListProps) => {
   return (
     <S.ToDoListLayout>
       <Divider />
-      <S.TodoLabel>
+      <S.ToDoListTitle>
         {duration}일 동안 진행할 모멘트는
         <br />
         다음과 같습니다!
-      </S.TodoLabel>
+      </S.ToDoListTitle>
       {isLoadingAI ? (
-        <S.TodoLoadingWrapper>
+        <S.ToDoListLoadingWrapper>
           <IcLoading />
-        </S.TodoLoadingWrapper>
+        </S.ToDoListLoadingWrapper>
       ) : (
         <>
           <TodoContainer
