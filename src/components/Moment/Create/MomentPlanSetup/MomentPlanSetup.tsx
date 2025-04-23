@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { generateDetailedPlan } from '../../../../apis/AI/autoPlanning';
-import { ModeType } from '../../../../types/moment/create';
+import useGetAIPlan from '../../../../hooks/queries/moment/useGetAIPlan';
 import useToast from '../../../../hooks/common/useToast';
+import { ModeType } from '../../../../types/moment/create';
 import PlanContainer from '../../ContainerLayout/ContainerLayout';
 import PlanItem from '../../CheckList/CheckListItem/CheckListItem';
 import EditConfirmButtons from '../EditConfirmButtons/EditConfirmButtons';
@@ -24,35 +25,26 @@ const MomentPlanSetup = ({
   duration,
   onSave,
 }: MomentPlanSetupLayoutProps) => {
-  const [isEditing, setIsEditing] = useState(mode === 'manual'); // 수정 상태
-  const [isLoadingAI, setIsLoadingAI] = useState(mode === 'auto');
-  const [plan, setPlan] = useState<string[]>([]);
+  const [plan, setPlan] = useState(new Array(duration).fill(''));
+  const [isEditing, setIsEditing] = useState(mode === 'manual');
   const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
+  const {
+    data: aiPlan,
+    isLoading: isLoadingAI,
+    isError,
+  } = useGetAIPlan({ goal, duration, mode });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const getGeneratedPlan = async () => {
-      setIsLoadingAI(true);
-      try {
-        const AIplan = await generateDetailedPlan(
-          goal,
-          new Date().toISOString().split('T')[0],
-          duration,
-        );
-        setPlan(AIplan);
-      } catch (error) {
-        console.error(error);
-        alert('투두 리스트 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
-      } finally {
-        setIsLoadingAI(false);
-      }
-    };
-
-    if (mode === 'auto') {
-      getGeneratedPlan();
-    } else {
-      setPlan(new Array(duration).fill(''));
+    if (aiPlan) {
+      setPlan(aiPlan);
     }
-  }, [goal, mode, duration]);
+
+    if (isError) {
+      alert('계획 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
+      navigate('/moment/bucket');
+    }
+  }, [aiPlan, isError, navigate]);
 
   const handleEditPlan = (index: number, value: string) => {
     const updatedPlan = plan.map((item, i) => (i === index ? value : item));
