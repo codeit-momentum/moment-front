@@ -29,7 +29,7 @@ type CheckListProps = {
 
 const CheckList = ({ type }: CheckListProps) => {
   const [newItem, setNewItem] = useState<string>('');
-  const { handleError, setMessage, openModal, renderModal } =
+  const { handleError, setMessage, openModal, RenderModal } =
     useResponseMessage();
   const { mutate: postBucket } = usePostBucket();
   const { mutate: patchBucket } = usePatchBucket();
@@ -141,7 +141,7 @@ const CheckList = ({ type }: CheckListProps) => {
           onDeleteItem={handleDeleteItem}
         />
       ))}
-      {renderModal()}
+      <RenderModal />
       {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
     </CheckListLayout>
   );

@@ -27,7 +27,7 @@ const FeedItem = ({
   frequency,
 }: FeedItemProps) => {
   const { mutate: postCheer } = usePostCheer();
-  const { handleError, setMessage, openModal, renderModal } =
+  const { handleError, setMessage, openModal, RenderModal } =
     useResponseMessage();
   const queryClient = useQueryClient();
 
@@ -53,7 +53,7 @@ const FeedItem = ({
 
   return (
     <S.FeedItemLayout>
-      {renderModal()}
+      <RenderModal />
       <S.FeedInfoContainer>
         <S.FeedTitleParagraph>
           <span>{name}</span> 님이
