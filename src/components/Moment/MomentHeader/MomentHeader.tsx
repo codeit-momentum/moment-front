@@ -1,4 +1,4 @@
-import MomentTabBar from '../MomentTabBar/MomentTabBar';
+import MomentTabBar from './MomentTabBar/MomentTabBar';
 import * as S from './MomentHeader.style';
 
 const MomentHeader = () => {

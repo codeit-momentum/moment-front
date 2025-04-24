@@ -18,10 +18,10 @@ export const formatHeaderDate = (date: string) => {
   return newDate.toISOString().split('T')[0].replace(/-/g, '.');
 };
 
-// MM.DD. 형식 변환 (방법 리스트에서 사용)
+// MM.DD 형식 변환 (방법 리스트에서 사용)
 export const formatListDate = (date: string) => {
   const newDate = new Date(date);
-  return `${String(newDate.getMonth() + 1).padStart(2, '0')}.${String(newDate.getDate()).padStart(2, '0')}.`;
+  return `${String(newDate.getMonth() + 1).padStart(2, '0')}.${String(newDate.getDate()).padStart(2, '0')}`;
 };
 
 //YYYY-MM-DD 형식 변환 (API 요청용)
