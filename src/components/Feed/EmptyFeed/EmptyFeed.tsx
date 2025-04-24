@@ -1,26 +1,23 @@
 import { ReactNode } from 'react';
 import * as S from './EmptyFeed.style';
 import Button from '../../buttons/Button';
+import IcKnock from '../../../assets/svg/feed/IcKnock';
+import IcNoFriend from '../../../assets/svg/feed/IcNoFriend';
 
 interface EmptyFeedProps {
   type: 'friend' | 'feed';
   children: ReactNode;
-  icon: ReactNode;
   isKnocked?: boolean;
   onClick: () => void;
 }
 
-const EmptyFeed = ({
-  type,
-  children,
-  icon,
-  isKnocked,
-  onClick,
-}: EmptyFeedProps) => {
+const EmptyFeed = ({ type, children, isKnocked, onClick }: EmptyFeedProps) => {
   return (
     <S.EmptyFeedLayout>
       <S.EmptyFeedTitleBox>{children}</S.EmptyFeedTitleBox>
-      <S.EmptyFeedIcon>{icon}</S.EmptyFeedIcon>
+      <S.EmptyFeedIcon>
+        {type === 'friend' ? <IcNoFriend /> : <IcKnock />}
+      </S.EmptyFeedIcon>
       <Button
         disabled={isKnocked}
         $customstyle={{

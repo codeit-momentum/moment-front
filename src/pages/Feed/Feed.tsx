@@ -8,7 +8,6 @@ import useCurrentFriend from '../../hooks/feed/useCurrentFriend';
 import IcMenu from '../../assets/svg/feed/IcMenu';
 import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
 import { useNavigate } from 'react-router-dom';
-import IcNoFriend from '../../assets/svg/feed/IcNoFriend';
 import { useState, useEffect } from 'react';
 import FeedModal from '../../components/Feed/FeedModal/FeedModal';
 import ModalType from '../../types/feed';
@@ -68,11 +67,7 @@ const Feed = () => {
       </S.FeedHeaderContatiner>
       {friendList.length === 0 ? (
         <S.EmptyFeedWrapper>
-          <EmptyFeed
-            type="friend"
-            icon={<IcNoFriend />}
-            onClick={handleNavigate}
-          >
+          <EmptyFeed type="friend" onClick={handleNavigate}>
             친구를 추가해서
             <br /> 달성기록을 공유해보세요.
           </EmptyFeed>
