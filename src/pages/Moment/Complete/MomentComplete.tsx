@@ -12,7 +12,7 @@ import useResponseMessage from '../../../hooks/common/useResponseMessage';
 const MomentComplete = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { mutate: createMoments, isPending } = usePostMoments();
+  const { mutate: postMoments, isPending } = usePostMoments();
   const { handleError, openModal, renderModal } = useResponseMessage();
 
   const state = location.state as CompleteStateType;
@@ -31,7 +31,7 @@ const MomentComplete = () => {
       frequency,
     };
 
-    createMoments(
+    postMoments(
       { bucketId, payload },
       {
         onSuccess: () => navigate('/moment/bucket', { replace: true }),

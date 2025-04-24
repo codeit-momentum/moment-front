@@ -12,13 +12,13 @@ import * as S from './MomentDurationSetup.style';
 interface MomentDurationSetupProps {
   goal: string;
   mode: ModeType;
-  onEdit: (duration: number) => void;
+  onDurationConfirm: (duration: number) => void;
 }
 
 const MomentDurationSetup = ({
   goal,
   mode,
-  onEdit,
+  onDurationConfirm,
 }: MomentDurationSetupProps) => {
   const [duration, setDuration] = useState(0);
   const [isEditing, setIsEditing] = useState(mode === 'manual');
@@ -54,7 +54,7 @@ const MomentDurationSetup = ({
       return false;
     }
 
-    onEdit(duration);
+    onDurationConfirm(duration);
     return true;
   };
 

@@ -7,10 +7,12 @@ import IcFrequencyButton from '../../../../assets/svg/moment/IcFrequencyButton';
 import * as S from './MomentFrequencySetup.style';
 
 interface MomentFrequencySetupProps {
-  onNext: (frequency: FrequencyType) => void;
+  onFrequencyConfirm: (frequency: FrequencyType) => void;
 }
 
-const MomentFrequencySetup = ({ onNext }: MomentFrequencySetupProps) => {
+const MomentFrequencySetup = ({
+  onFrequencyConfirm,
+}: MomentFrequencySetupProps) => {
   const [selectedOption, setSelectedOption] = useState<FrequencyType | null>(
     null,
   );
@@ -25,7 +27,7 @@ const MomentFrequencySetup = ({ onNext }: MomentFrequencySetupProps) => {
   const handleConfirmFrequency = () => {
     if (!selectedOption) return;
 
-    onNext(selectedOption);
+    onFrequencyConfirm(selectedOption);
   };
 
   return (

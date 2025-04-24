@@ -25,9 +25,13 @@ const EditConfirmButtons = ({
     }
   };
 
+  if (isConfirmed) {
+    return null;
+  }
+
   return (
     <S.EditConfirmButtonsLayout>
-      {isConfirmed ? null : mode === 'manual' ? (
+      {mode === 'manual' ? (
         <Button onClick={handleConfirm}>확정하기</Button>
       ) : isEditing ? (
         <Button onClick={() => setIsEditing(false)}>수정완료</Button>

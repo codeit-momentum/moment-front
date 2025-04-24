@@ -16,14 +16,14 @@ interface MomentPlanSetupLayoutProps {
   goal: string;
   mode: ModeType;
   duration: number;
-  onSave: (plan: string[]) => void;
+  onPlanConfirm: (plan: string[]) => void;
 }
 
 const MomentPlanSetup = ({
   goal,
   mode,
   duration,
-  onSave,
+  onPlanConfirm,
 }: MomentPlanSetupLayoutProps) => {
   const [plan, setPlan] = useState(new Array(duration).fill(''));
   const [isEditing, setIsEditing] = useState(mode === 'manual');
@@ -57,7 +57,7 @@ const MomentPlanSetup = ({
       return false;
     }
 
-    onSave([...plan]);
+    onPlanConfirm([...plan]);
     return true;
   };
 

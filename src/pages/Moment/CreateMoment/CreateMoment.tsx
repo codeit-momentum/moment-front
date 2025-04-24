@@ -22,7 +22,7 @@ const CreateMoment = () => {
   }
   const { goal, bucketId, mode } = state;
 
-  const handleNext = (frequency: FrequencyType) => {
+  const handleCreateMoments = (frequency: FrequencyType) => {
     if (!frequency || !duration || todoList.length === 0) {
       alert('빈도, 기간, 투두리스트를 입력해주세요.');
       return;
@@ -39,18 +39,24 @@ const CreateMoment = () => {
     <S.CreateMomentLayout>
       <BtnBack navigateURL={`/moment/select-mode/${bucketId}`} />
       <CreateMomentHeader title={goal} subtitle="버킷리스트를 시작해볼까요?" />
-      <MomentDurationSetup mode={mode} goal={goal} onEdit={setDuration} />
+      <MomentDurationSetup
+        mode={mode}
+        goal={goal}
+        onDurationConfirm={setDuration}
+      />
 
       {duration > 0 && (
         <MomentPlanSetup
           goal={goal}
           mode={mode}
           duration={duration}
-          onSave={setTodoList}
+          onPlanConfirm={setTodoList}
         />
       )}
 
-      {todoList.length !== 0 && <MomentFrequencySetup onNext={handleNext} />}
+      {todoList.length !== 0 && (
+        <MomentFrequencySetup onFrequencyConfirm={handleCreateMoments} />
+      )}
     </S.CreateMomentLayout>
   );
 };
