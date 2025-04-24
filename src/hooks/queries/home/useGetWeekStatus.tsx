@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import instance from '../../../apis/client';
 
 // API 응답 타입 정의
@@ -21,7 +21,7 @@ const getWeekStatus = async (): Promise<WeekStatusResponse> => {
 
 // React Query 훅
 const useGetWeekStatus = () => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ['WeekStatus'], // Query Key
     queryFn: getWeekStatus, // Query Function
   });

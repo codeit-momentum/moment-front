@@ -1,4 +1,4 @@
-const formatDate = (date: string) => {
+export const formatDate = (date: string) => {
   const newDate = new Date(date);
   const formattedDate = `${newDate
     .toLocaleDateString('ko-kr', {
@@ -11,8 +11,6 @@ const formatDate = (date: string) => {
 
   return formattedDate;
 };
-
-export default formatDate;
 
 // YYYY.MM.DD 형식 변환 (헤더에서 사용)
 export const formatHeaderDate = (date: string) => {

@@ -22,7 +22,7 @@ export const DividerLine = styled.hr`
   background-color: ${({ theme }) => theme.colors.white};
 `;
 
-export const TodayMessageBox = styled.div`
+export const SummaryBox = styled.div`
   color: ${({ theme }) => theme.colors.white};
   padding-top: 4.2rem;
   font-size: 16px;
