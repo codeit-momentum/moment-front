@@ -7,7 +7,7 @@ import Modal from '../../components/Modal/Modal';
 import useCurrentFriend from './hooks/useCurrentFriend';
 import IcMenu from '../../assets/svg/feed/IcMenu';
 import useGetFriends from './hooks/queries/useGetFriends';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import FeedModal from './components/FeedModal/FeedModal';
 import ModalType from './types/feed';
 
@@ -17,14 +17,6 @@ const Feed = () => {
     useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
   const [modalType, setModalType] = useState<ModalType>('friend');
-
-  useEffect(() => {
-    if (currentFriend) {
-      setCurrentFriend(currentFriend);
-    } else {
-      setCurrentFriend(friendList[0]);
-    }
-  }, [currentFriend, friendList, setCurrentFriend]);
 
   return (
     <S.FeedLayout>
@@ -44,11 +36,7 @@ const Feed = () => {
         <S.FeedTitleContainer>
           <S.FeedTitleHeader>친구들의 모멘트</S.FeedTitleHeader>
           {friendList.length > 0 && (
-            <S.IconWrapper
-              onClick={() => {
-                openModal();
-              }}
-            >
+            <S.IconWrapper onClick={openModal}>
               <IcMenu />
             </S.IconWrapper>
           )}

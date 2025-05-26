@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FriendType } from '../../types/feed';
 
 const useCurrentFriend = (friendList: FriendType[]) => {
@@ -10,6 +10,14 @@ const useCurrentFriend = (friendList: FriendType[]) => {
       setCurrentFriend(targetFriend);
     }
   };
+
+  useEffect(() => {
+    if (currentFriend) {
+      setCurrentFriend(currentFriend);
+    } else {
+      setCurrentFriend(friendList[0]);
+    }
+  }, [currentFriend, friendList, setCurrentFriend]);
 
   return { currentFriend, handleClickFriend, setCurrentFriend };
 };
