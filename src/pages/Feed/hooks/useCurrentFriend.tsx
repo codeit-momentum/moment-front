@@ -10,7 +10,7 @@ const useCurrentFriend = (friendList: FriendType[]) => {
       setCurrentFriend(targetFriend);
     }
   };
-
+  /*
   useEffect(() => {
     if (currentFriend) {
       setCurrentFriend(currentFriend);
@@ -18,7 +18,7 @@ const useCurrentFriend = (friendList: FriendType[]) => {
       setCurrentFriend(friendList[0]);
     }
   }, [currentFriend, friendList]);
-
+*/
   return { currentFriend, handleClickFriend, setCurrentFriend };
 };
 

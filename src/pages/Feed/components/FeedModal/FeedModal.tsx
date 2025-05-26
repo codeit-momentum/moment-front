@@ -30,8 +30,6 @@ const FeedModal = ({
     deleteFriend(currentFriend.userID, {
       onSuccess: () => {
         setModalType('ok');
-        console.log(friendList[0]);
-        console.log('나 state 바꿨어');
       },
     });
   };
@@ -75,8 +73,8 @@ const FeedModal = ({
     case 'friend':
       return (
         <FriendModal
-          title={currentFriend?.nickname}
-          isFixed={currentFriend?.isFixed}
+          title={currentFriend.nickname}
+          isFixed={currentFriend.isFixed}
           onFix={handleFix}
           onDelete={() => {
             setModalType('delete');
