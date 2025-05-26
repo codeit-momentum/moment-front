@@ -26,6 +26,7 @@ const useDeleteFriend = () => {
       queryClient.invalidateQueries({
         queryKey: ['friends'],
       });
+      console.log('나 삭제하고 리스트 갱신했어');
     },
   });
 };

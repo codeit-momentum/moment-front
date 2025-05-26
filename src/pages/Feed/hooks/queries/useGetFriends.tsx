@@ -12,7 +12,7 @@ const useGetFriends = () => {
     queryKey: FRIENDS_QUERY_KEY,
     queryFn: getFriends,
   });
-
+  console.log('친구 리스트 호출되었음');
   return { friendList: data, refetch };
 };
 

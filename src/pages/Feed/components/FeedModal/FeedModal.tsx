@@ -30,7 +30,8 @@ const FeedModal = ({
     deleteFriend(currentFriend.userID, {
       onSuccess: () => {
         setModalType('ok');
-        setCurrentFriend(friendList[0]);
+        console.log(friendList[0]);
+        console.log('나 state 바꿨어');
       },
     });
   };
@@ -47,6 +48,7 @@ const FeedModal = ({
   };
 
   const handleClose = () => {
+    setCurrentFriend(friendList[0]);
     closeModal();
     setModalType('friend');
   };

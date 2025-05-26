@@ -18,6 +18,7 @@ const Feed = () => {
   const [isOpen, openModal, closeModal] = useModal();
   const [modalType, setModalType] = useState<ModalType>('friend');
 
+  console.log('페이지 리렌더링 했고 현재 친구 리스트는', friendList);
   return (
     <S.FeedLayout>
       {isOpen && (
@@ -43,7 +44,7 @@ const Feed = () => {
         </S.FeedTitleContainer>
         <FriendCarousel
           friendList={friendList}
-          currentFriendId={currentFriend?.userID}
+          currentFriendId={currentFriend.userID}
           onClickFriend={handleClickFriend}
         />
       </S.FeedHeaderContatiner>
@@ -51,9 +52,9 @@ const Feed = () => {
         <EmptyFriend />
       ) : (
         <FeedList
-          friendId={currentFriend?.userID}
-          friendNickname={currentFriend?.nickname}
-          isKnocked={currentFriend?.isKnock}
+          friendId={currentFriend.userID}
+          friendNickname={currentFriend.nickname}
+          isKnocked={currentFriend.isKnock}
         />
       )}
     </S.FeedLayout>
