@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import instance from '../../../apis/client';
+import instance from '../../../../apis/client';
 import { MomentItemType } from '../../../types/feed';
 
 interface FeedResponseType {

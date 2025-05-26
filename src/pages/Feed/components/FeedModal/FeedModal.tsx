@@ -1,9 +1,9 @@
-import SelectModal from '../../Modal/SelectModal/SelectModal';
-import OKModal from '../../Modal/OKModal/OKModal';
-import FriendModal from '../../Modal/FriendModal/FriendModal';
-import useDeleteFriend from '../../../hooks/queries/Feed/useDeleteFriend';
-import usePatchFix from '../../../hooks/queries/Feed/usePatchFix';
-import { FriendType, ModalType } from '../../../types/feed';
+import SelectModal from '../../../../components/Modal/SelectModal/SelectModal';
+import OKModal from '../../../../components/Modal/OKModal/OKModal';
+import FriendModal from '../../../../components/Modal/FriendModal/FriendModal';
+import useDeleteFriend from '../../hooks/queries/useDeleteFriend';
+import usePatchFix from '../../hooks/queries/usePatchFix';
+import { FriendType, ModalType } from '../../types/index.d.ts';
 
 //타입 정의하기
 interface FeedModalProps {

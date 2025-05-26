@@ -1,4 +1,4 @@
-import instance from '../../../apis/client';
+import instance from '../../../../apis/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface DeleteFriendResponseType {

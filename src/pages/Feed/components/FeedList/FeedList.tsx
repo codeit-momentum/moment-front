@@ -1,15 +1,15 @@
 import * as S from './FeedList.style';
 import FeedItem from '../FeedItem/FeedItem';
 import EmptyFeed from '../EmptyFeed/EmptyFeed';
-import useGetFeed from '../../../hooks/queries/Feed/useGetFeed';
-import { formatDate } from '../../../utils/formatDate';
-import { FriendType, MomentItemType } from '../../../types/feed';
-import usePostKnock from '../../../hooks/queries/Feed/usePostKnock';
-import useModal from '../../../hooks/common/useModal';
-import OKModal from '../../Modal/OKModal/OKModal';
-import Modal from '../../Modal/Modal';
-import formatFrequency from '../../../utils/formatFrequency';
-import useGetFriends from '../../../hooks/queries/Feed/useGetFriends';
+import useGetFeed from '../../hooks/queries/useGetFeed';
+import { formatDate } from '../../../../utils/formatDate';
+import { FriendType, MomentItemType } from '../../types/feed';
+import usePostKnock from '../../hooks/queries/usePostKnock';
+import useModal from '../../../../hooks/common/useModal';
+import OKModal from '../../../../components/Modal/OKModal/OKModal';
+import Modal from '../../../../components/Modal/Modal';
+import formatFrequency from '../../../../utils/formatFrequency';
+import useGetFriends from '../../hooks/queries/useGetFriends';
 
 interface FeedListProps {
   friendId: string;

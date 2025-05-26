@@ -1,16 +1,16 @@
 import * as S from './Feed.style';
-import EmptyFeed from '../../components/Feed/EmptyFeed/EmptyFeed';
-import FriendCarousel from '../../components/Feed/FriendCarousel/FriendCarousel';
-import FeedList from '../../components/Feed/FeedList/FeedList';
+import EmptyFeed from './components/EmptyFeed/EmptyFeed';
+import FriendCarousel from './components/FriendCarousel/FriendCarousel';
+import FeedList from './components/FeedList/FeedList';
 import useModal from '../../hooks/common/useModal';
 import Modal from '../../components/Modal/Modal';
-import useCurrentFriend from '../../hooks/feed/useCurrentFriend';
+import useCurrentFriend from './hooks/useCurrentFriend';
 import IcMenu from '../../assets/svg/feed/IcMenu';
-import useGetFriends from '../../hooks/queries/Feed/useGetFriends';
+import useGetFriends from './hooks/queries/useGetFriends';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import FeedModal from '../../components/Feed/FeedModal/FeedModal';
-import ModalType from '../../types/feed';
+import FeedModal from './components/FeedModal/FeedModal';
+import ModalType from './types/feed';
 
 const Feed = () => {
   const { friendList } = useGetFriends();

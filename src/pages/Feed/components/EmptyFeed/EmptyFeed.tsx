@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import * as S from './EmptyFeed.style';
-import Button from '../../buttons/Button';
-import IcKnock from '../../../assets/svg/feed/IcKnock';
-import IcNoFriend from '../../../assets/svg/feed/IcNoFriend';
+import Button from '../../../../components/buttons/Button';
+import IcKnock from '../../../../assets/svg/feed/IcKnock';
+import IcNoFriend from '../../../../assets/svg/feed/IcNoFriend';
 
 interface EmptyFeedProps {
   type: 'friend' | 'feed';

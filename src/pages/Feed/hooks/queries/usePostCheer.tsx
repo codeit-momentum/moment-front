@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import instance from '../../../apis/client';
+import instance from '../../../../apis/client';
 
 interface CheerResponseType {
   data: {

@@ -1,7 +1,7 @@
 import * as S from './FriendCarousel.style';
 import { EmblaOptionsType } from 'embla-carousel';
 import useEmblaCarousel from 'embla-carousel-react';
-import { FriendType } from '../../../types/feed';
+import { FriendType } from '../../types/index.d.ts';
 
 interface FriendCarouselProps {
   friendList: FriendType[];
