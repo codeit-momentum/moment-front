@@ -1,41 +1,62 @@
-import { ReactNode } from 'react';
 import * as S from './EmptyFeed.style';
 import Button from '../../../../components/buttons/Button';
 import IcKnock from '../../../../assets/svg/feed/IcKnock';
-import IcNoFriend from '../../../../assets/svg/feed/IcNoFriend';
+import usePostKnock from '../../hooks/queries/usePostKnock';
+import useModal from '../../../../hooks/common/useModal';
+import Modal from '../../../../components/Modal/Modal';
+import OKModal from '../../../../components/Modal/OKModal/OKModal';
 
 interface EmptyFeedProps {
-  type: 'friend' | 'feed';
-  children: ReactNode;
-  isKnocked?: boolean;
-  onClick: () => void;
+  isKnocked: boolean;
 }
 
-const EmptyFeed = ({ type, children, isKnocked, onClick }: EmptyFeedProps) => {
+const EmptyFeed = ({ friendId, friendNickname, isKnocked }: EmptyFeedProps) => {
+  const { mutate: postKnock } = usePostKnock();
+  const [isOpen, openModal, closeModal] = useModal();
+
+  const handleKnock = () => {
+    postKnock(friendId, {
+      onSuccess: () => {
+        openModal();
+      },
+      onError: () => {
+        alert('에러 발생');
+      },
+    });
+  };
+
   return (
     <S.EmptyFeedLayout>
-      <S.EmptyFeedTitleBox>{children}</S.EmptyFeedTitleBox>
+      {isOpen && (
+        <Modal>
+          <OKModal
+            title=""
+            subText="피드를 곧 올려주실 거예요!"
+            onClose={closeModal}
+          >
+            <S.HighlightSpan>{friendNickname}</S.HighlightSpan>님께
+            노크하였습니다!
+          </OKModal>
+        </Modal>
+      )}
+      <S.EmptyFeedTitleBox>
+        친구가 피드를 안 올리네요...
+        <br /> <S.HighlightSpan>노크를 해서 </S.HighlightSpan>
+        재촉해보세요!
+      </S.EmptyFeedTitleBox>
       <S.EmptyFeedIcon>
-        {type === 'friend' ? <IcNoFriend /> : <IcKnock />}
+        <IcKnock />
       </S.EmptyFeedIcon>
       <Button
         disabled={isKnocked}
         $customstyle={{
           width: '13rem',
-          backgroundColor: isKnocked
-            ? '#D3D3D3'
-            : type === 'friend'
-              ? '#6A7CB7'
-              : '#FAED46',
-          color: isKnocked
-            ? '#A9A9A9'
-            : type === 'friend'
-              ? '#FCFCFC'
-              : '#020202',
+          backgroundColor: isKnocked ? '#D3D3D3' : '#FAED46',
+          color: isKnocked ? '#A9A9A9' : '#020202',
         }}
-        onClick={onClick}
+        onClick={handleKnock}
       >
-        {type === 'friend' ? '친구 추가하기' : '노크하기'}
+        노크하기
       </Button>
     </S.EmptyFeedLayout>
   );

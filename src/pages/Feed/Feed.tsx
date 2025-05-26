@@ -1,5 +1,5 @@
 import * as S from './Feed.style';
-import EmptyFeed from './components/EmptyFeed/EmptyFeed';
+import EmptyFriend from './components/EmptyFriend/EmptyFriend';
 import FriendCarousel from './components/FriendCarousel/FriendCarousel';
 import FeedList from './components/FeedList/FeedList';
 import useModal from '../../hooks/common/useModal';
@@ -7,7 +7,6 @@ import Modal from '../../components/Modal/Modal';
 import useCurrentFriend from './hooks/useCurrentFriend';
 import IcMenu from '../../assets/svg/feed/IcMenu';
 import useGetFriends from './hooks/queries/useGetFriends';
-import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import FeedModal from './components/FeedModal/FeedModal';
 import ModalType from './types/feed';
@@ -18,11 +17,6 @@ const Feed = () => {
     useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
   const [modalType, setModalType] = useState<ModalType>('friend');
-  const navigate = useNavigate();
-
-  const handleNavigate = () => {
-    navigate('/mypage/friend');
-  };
 
   useEffect(() => {
     if (currentFriend) {
@@ -66,12 +60,7 @@ const Feed = () => {
         />
       </S.FeedHeaderContatiner>
       {friendList.length === 0 ? (
-        <S.EmptyFeedWrapper>
-          <EmptyFeed type="friend" onClick={handleNavigate}>
-            친구를 추가해서
-            <br /> 달성기록을 공유해보세요.
-          </EmptyFeed>
-        </S.EmptyFeedWrapper>
+        <EmptyFriend />
       ) : (
         <FeedList
           friendId={currentFriend?.userID}

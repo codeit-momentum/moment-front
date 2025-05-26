@@ -11,6 +11,7 @@ export const ButtonWrapper = styled.button`
   letter-spacing: -0.32px;
   &:disabled {
     background-color: ${({ theme }) => theme.colors.gray};
+    color: ${({ theme }) => theme.colors.darkGray};
     cursor: not-allowed;
   }
 `;
