@@ -4,10 +4,9 @@ import FriendModal from '../../../../components/Modal/FriendModal/FriendModal';
 import useDeleteFriend from '../../hooks/queries/useDeleteFriend';
 import usePatchFix from '../../hooks/queries/usePatchFix';
 import { FriendType, ModalType } from '../../types/index.d.ts';
+import { useState } from 'react';
 
 interface FeedModalProps {
-  modalType: ModalType;
-  setModalType: () => void;
   currentFriend: FriendType;
   setCurrentFriend: () => void;
   closeModal: () => void;
@@ -15,13 +14,12 @@ interface FeedModalProps {
 }
 
 const FeedModal = ({
-  modalType,
-  setModalType,
   currentFriend,
   setCurrentFriend,
   closeModal,
   setAction,
 }: FeedModalProps) => {
+  const [modalType, setModalType] = useState<ModalType>('friend');
   const { mutate: deleteFriend } = useDeleteFriend();
   const { mutate: patchFix } = usePatchFix();
 
