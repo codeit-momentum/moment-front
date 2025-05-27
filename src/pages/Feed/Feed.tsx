@@ -13,7 +13,7 @@ import ModalType from './types/feed';
 
 const Feed = () => {
   const { friendList } = useGetFriends();
-  const { currentFriend, handleClickFriend, setCurrentFriend } =
+  const { currentFriend, handleClickFriend, setCurrentFriend, setAction } =
     useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
   const [modalType, setModalType] = useState<ModalType>('friend');
@@ -29,6 +29,7 @@ const Feed = () => {
             setCurrentFriend={setCurrentFriend}
             closeModal={closeModal}
             friendList={friendList}
+            setAction={setAction}
           />
         </Modal>
       )}

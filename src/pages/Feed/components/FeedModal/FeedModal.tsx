@@ -22,6 +22,7 @@ const FeedModal = ({
   setCurrentFriend,
   closeModal,
   friendList,
+  setAction,
 }: FeedModalProps) => {
   const { mutate: deleteFriend } = useDeleteFriend();
   const { mutate: patchFix } = usePatchFix();
@@ -29,7 +30,11 @@ const FeedModal = ({
   const handleDelete = () => {
     deleteFriend(currentFriend.userID, {
       onSuccess: () => {
-        setModalType('ok');
+        setTimeout(() => {
+          const updatedFriend = friendList[0];
+          setCurrentFriend(updatedFriend);
+          setModalType('ok');
+        }, 100);
       },
     });
   };
@@ -37,6 +42,7 @@ const FeedModal = ({
   const handleFix = () => {
     patchFix(currentFriend.userID, {
       onSuccess: () => {
+        setAction('fix');
         setCurrentFriend({
           ...currentFriend,
           isFixed: !currentFriend.isFixed,
@@ -46,7 +52,6 @@ const FeedModal = ({
   };
 
   const handleClose = () => {
-    setCurrentFriend(friendList[0]);
     closeModal();
     setModalType('friend');
   };
