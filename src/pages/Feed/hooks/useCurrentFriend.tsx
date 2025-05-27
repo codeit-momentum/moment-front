@@ -18,8 +18,6 @@ const useCurrentFriend = (friendList: FriendType[]) => {
     if (action === 'delete' || !currentFriend) {
       setCurrentFriend(friendList[0]);
     }
-
-    setAction(null);
   }, [currentFriend, friendList, action]);
 
   return { currentFriend, handleClickFriend, setCurrentFriend, setAction };

@@ -21,7 +21,6 @@ const FeedModal = ({
   currentFriend,
   setCurrentFriend,
   closeModal,
-  friendList,
   setAction,
 }: FeedModalProps) => {
   const { mutate: deleteFriend } = useDeleteFriend();
@@ -30,11 +29,8 @@ const FeedModal = ({
   const handleDelete = () => {
     deleteFriend(currentFriend.userID, {
       onSuccess: () => {
-        setTimeout(() => {
-          const updatedFriend = friendList[0];
-          setCurrentFriend(updatedFriend);
-          setModalType('ok');
-        }, 100);
+        setAction('delete');
+        setModalType('ok');
       },
     });
   };
@@ -54,6 +50,7 @@ const FeedModal = ({
   const handleClose = () => {
     closeModal();
     setModalType('friend');
+    setAction(null);
   };
 
   switch (modalType) {

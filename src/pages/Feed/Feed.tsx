@@ -7,7 +7,7 @@ import Modal from '../../components/Modal/Modal';
 import useCurrentFriend from './hooks/useCurrentFriend';
 import IcMenu from '../../assets/svg/feed/IcMenu';
 import useGetFriends from './hooks/queries/useGetFriends';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import FeedModal from './components/FeedModal/FeedModal';
 import ModalType from './types/feed';
 
