@@ -10,7 +10,7 @@ interface FeedModalProps {
   currentFriend: FriendType;
   setCurrentFriend: () => void;
   closeModal: () => void;
-  friendList;
+  setAction: () => void;
 }
 
 const FeedModal = ({

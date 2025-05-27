@@ -23,7 +23,6 @@ const Feed = () => {
             currentFriend={currentFriend}
             setCurrentFriend={setCurrentFriend}
             closeModal={closeModal}
-            friendList={friendList}
             setAction={setAction}
           />
         </Modal>
