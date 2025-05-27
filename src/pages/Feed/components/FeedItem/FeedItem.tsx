@@ -4,32 +4,29 @@ import usePostCheer from '../../hooks/queries/usePostCheer';
 import useResponseMessage from '../../../../hooks/common/useResponseMessage';
 import IcHelloOff from '../../../../assets/svg/feed/IcHelloOff';
 import { useQueryClient } from '@tanstack/react-query';
+import { MomentItemType } from '../../types/feed';
+import { formatDate } from '../../../../utils/formatDate';
+import formatFrequency from '../../../../utils/formatFrequency';
 
 interface FeedItemProps {
   friendId: string;
-  momentId: string;
+  momentItem: MomentItemType;
   name: string;
-  content: string;
-  date: string;
-  image: string;
-  cheered: boolean;
-  frequency: string;
 }
 
-const FeedItem = ({
-  friendId,
-  momentId,
-  name,
-  content,
-  date,
-  image,
-  cheered,
-  frequency,
-}: FeedItemProps) => {
+const FeedItem = ({ friendId, momentItem, name }: FeedItemProps) => {
   const { mutate: postCheer } = usePostCheer();
   const { handleError, setMessage, openModal, RenderModal } =
     useResponseMessage();
   const queryClient = useQueryClient();
+  const {
+    momentId: momentId,
+    bucketContent: content,
+    imageUrl: image,
+    cheered: cheered,
+  } = momentItem;
+  const date = formatDate(momentItem.date);
+  const frequency = formatFrequency(momentItem.frequency);
 
   const handleCheer = () => {
     postCheer(

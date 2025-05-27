@@ -2,9 +2,7 @@ import * as S from './FeedList.style';
 import FeedItem from '../FeedItem/FeedItem';
 import EmptyFeed from '../EmptyFeed/EmptyFeed';
 import useGetFeed from '../../hooks/queries/useGetFeed';
-import { formatDate } from '../../../../utils/formatDate';
 import { MomentItemType } from '../../types/feed';
-import formatFrequency from '../../../../utils/formatFrequency';
 
 interface FeedListProps {
   friendId: string;
@@ -19,11 +17,14 @@ const FeedList = ({
   isKnocked,
   setCurrentFriend,
 }: FeedListProps) => {
-  const { feed } = useGetFeed(friendId);
+  const { feed, isPending } = useGetFeed(friendId);
 
+  if (isPending) {
+    return <div>로딩 중</div>;
+  }
   return (
     <S.FeedListLayout>
-      {feed?.moments.length === 0 || feed === undefined ? (
+      {feed.moments.length === 0 || feed === undefined ? (
         <EmptyFeed
           friendId={friendId}
           friendNickname={friendNickname}
@@ -31,17 +32,12 @@ const FeedList = ({
           setCurrentFriend={setCurrentFriend}
         />
       ) : (
-        feed?.moments.map((moment: MomentItemType) => (
+        feed.moments.map((moment: MomentItemType) => (
           <FeedItem
             key={moment.momentId}
             friendId={friendId}
-            momentId={moment.momentId}
+            momentItem={moment}
             name={friendNickname}
-            content={moment.bucketContent}
-            date={formatDate(moment.date)}
-            image={moment.imageUrl}
-            cheered={moment.cheered}
-            frequency={formatFrequency(moment.frequency)}
           />
         ))
       )}
