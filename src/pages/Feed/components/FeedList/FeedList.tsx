@@ -3,21 +3,22 @@ import FeedItem from '../FeedItem/FeedItem';
 import EmptyFeed from '../EmptyFeed/EmptyFeed';
 import useGetFeed from '../../hooks/queries/useGetFeed';
 import { formatDate } from '../../../../utils/formatDate';
-import { FriendType, MomentItemType } from '../../types/feed';
+import { MomentItemType } from '../../types/feed';
 import formatFrequency from '../../../../utils/formatFrequency';
-import useGetFriends from '../../hooks/queries/useGetFriends';
 
 interface FeedListProps {
   friendId: string;
   friendNickname: string;
   isKnocked: boolean;
+  setCurrentFriend: () => void;
 }
 
-const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
-  const { friendList } = useGetFriends();
-  const current = friendList.find(
-    (friend: FriendType) => friend.userID === friendId,
-  );
+const FeedList = ({
+  friendId,
+  friendNickname,
+  isKnocked,
+  setCurrentFriend,
+}: FeedListProps) => {
   const { feed } = useGetFeed(friendId);
 
   return (
@@ -26,7 +27,8 @@ const FeedList = ({ friendId, friendNickname }: FeedListProps) => {
         <EmptyFeed
           friendId={friendId}
           friendNickname={friendNickname}
-          isKnocked={current?.isKnock}
+          isKnocked={isKnocked}
+          setCurrentFriend={setCurrentFriend}
         />
       ) : (
         feed?.moments.map((moment: MomentItemType) => (

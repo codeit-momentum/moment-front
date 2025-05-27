@@ -7,10 +7,18 @@ import Modal from '../../../../components/Modal/Modal';
 import OKModal from '../../../../components/Modal/OKModal/OKModal';
 
 interface EmptyFeedProps {
+  friendId: string;
+  friendNickname: string;
   isKnocked: boolean;
+  setCurrentFriend: () => void;
 }
 
-const EmptyFeed = ({ friendId, friendNickname, isKnocked }: EmptyFeedProps) => {
+const EmptyFeed = ({
+  friendId,
+  friendNickname,
+  isKnocked,
+  setCurrentFriend,
+}: EmptyFeedProps) => {
   const { mutate: postKnock } = usePostKnock();
   const [isOpen, openModal, closeModal] = useModal();
 
@@ -18,6 +26,10 @@ const EmptyFeed = ({ friendId, friendNickname, isKnocked }: EmptyFeedProps) => {
     postKnock(friendId, {
       onSuccess: () => {
         openModal();
+        setCurrentFriend((prev) => ({
+          ...prev,
+          isKnock: !prev.isKnock,
+        }));
       },
       onError: () => {
         alert('에러 발생');

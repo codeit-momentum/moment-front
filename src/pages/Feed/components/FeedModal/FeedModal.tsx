@@ -38,10 +38,10 @@ const FeedModal = ({
     patchFix(currentFriend.userID, {
       onSuccess: () => {
         setAction('fix');
-        setCurrentFriend({
-          ...currentFriend,
-          isFixed: !currentFriend.isFixed,
-        });
+        setCurrentFriend((prev) => ({
+          ...prev,
+          isFixed: !prev.isFixed,
+        }));
       },
     });
   };

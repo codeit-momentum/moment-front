@@ -55,6 +55,7 @@ const Feed = () => {
           friendId={currentFriend?.userID}
           friendNickname={currentFriend?.nickname}
           isKnocked={currentFriend?.isKnock}
+          setCurrentFriend={setCurrentFriend}
         />
       )}
     </S.FeedLayout>
