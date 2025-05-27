@@ -5,7 +5,6 @@ import useDeleteFriend from '../../hooks/queries/useDeleteFriend';
 import usePatchFix from '../../hooks/queries/usePatchFix';
 import { FriendType, ModalType } from '../../types/index.d.ts';
 
-//타입 정의하기
 interface FeedModalProps {
   modalType: ModalType;
   setModalType: () => void;

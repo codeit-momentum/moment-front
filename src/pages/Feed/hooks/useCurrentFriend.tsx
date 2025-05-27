@@ -15,6 +15,7 @@ const useCurrentFriend = (friendList: FriendType[]) => {
   };
 
   useEffect(() => {
+    //친구를 삭제한 상태이거나 현재 친구가 설정되지 않은 경우우
     if (action === 'delete' || !currentFriend) {
       setCurrentFriend(friendList[0]);
     }
