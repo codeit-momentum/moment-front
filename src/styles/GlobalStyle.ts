@@ -1,19 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
-import NeoDunggeunmoProRegular from '../assets/fonts/NeoDunggeunmoPro-Regular.woff2';
 import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
   ${reset};
 
-  @font-face {
-    font-family: 'NeoDunggeunmoPro-Regular';
-    src: url(${NeoDunggeunmoProRegular}) format('woff2');
-    font-style: normal;
-    font-display: swap;
-  }
-
   * {
-    font-family: 'NeoDunggeunmoPro-Regular', sans-serif;
     box-sizing: border-box;
     letter-spacing: -0.32px;
     padding: 0;
@@ -51,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     border: none;
     background: none;
-    font-family: 'NeoDunggeunmoPro-Regular', sans-serif;
+    font-family: NeoDunggeunmoPro-Regular;
   }
 
   input {
