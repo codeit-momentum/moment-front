@@ -9,6 +9,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'NeoDunggeunmoPro-Regular';
     src: url(${NeoDunggeunmoProRegular}) format('woff2');
     font-style: normal;
+    font-display: swap;
   }
 
   * {
