@@ -1,4 +1,4 @@
-import { CreateMomentPayload } from '../types/moment/create';
+import { CreateMomentPayload, CreatedMoment } from '../types/moment/create';
 import { formatApiDate } from './formatDate';
 
 /**
@@ -6,9 +6,8 @@ import { formatApiDate } from './formatDate';
  */
 export const generateMomentDates = (
   payload: CreateMomentPayload,
-): { id: string; startDate: string; endDate: string; content: string }[] => {
+): CreatedMoment[] => {
   const { duration, frequency, todoList } = payload;
-  if (!duration || !frequency || todoList.length === 0) return [];
 
   // 현재 날짜를 UTC 기준으로 설정
   const baseDate = new Date();
@@ -30,7 +29,6 @@ export const generateMomentDates = (
     const formattedEnd = formatApiDate(newEndDate.toISOString());
 
     return {
-      id: `moment-${i}`,
       startDate: formattedStart,
       endDate: formattedEnd,
       content: todoList[i % todoList.length],
