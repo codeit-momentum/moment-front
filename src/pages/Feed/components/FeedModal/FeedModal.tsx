@@ -3,14 +3,14 @@ import OKModal from '../../../../components/Modal/OKModal/OKModal';
 import FriendModal from '../../../../components/Modal/FriendModal/FriendModal';
 import useDeleteFriend from '../../hooks/queries/useDeleteFriend';
 import usePatchFix from '../../hooks/queries/usePatchFix';
-import { FriendType, ModalType } from '../../types/index.d.ts';
-import { useState } from 'react';
+import { FriendType, ModalType, ActionType } from '../../types';
+import React, { useState } from 'react';
 
 interface FeedModalProps {
   currentFriend: FriendType;
-  setCurrentFriend: () => void;
+  setCurrentFriend: React.Dispatch<React.SetStateAction<FriendType>>;
   closeModal: () => void;
-  setAction: () => void;
+  setAction: React.Dispatch<React.SetStateAction<ActionType>>;
 }
 
 const FeedModal = ({
@@ -36,7 +36,7 @@ const FeedModal = ({
     patchFix(currentFriend.userID, {
       onSuccess: () => {
         setAction('fix');
-        setCurrentFriend((prev) => ({
+        setCurrentFriend((prev: FriendType) => ({
           ...prev,
           isFixed: !prev.isFixed,
         }));

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import instance from '../../../../apis/client';
-import { MomentItemType } from '../../../types/feed';
+import { MomentItemType } from '../../types';
 
 interface FeedResponseType {
   friendCode: string;

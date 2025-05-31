@@ -1,14 +1,15 @@
 import * as S from './FeedList.style';
+import React from 'react';
 import FeedItem from '../FeedItem/FeedItem';
 import EmptyFeed from '../EmptyFeed/EmptyFeed';
 import useGetFeed from '../../hooks/queries/useGetFeed';
-import { MomentItemType } from '../../types/feed';
+import { MomentItemType, FriendType } from '../../types';
 
 interface FeedListProps {
   friendId: string;
   friendNickname: string;
   isKnocked: boolean;
-  setCurrentFriend: () => void;
+  setCurrentFriend: React.Dispatch<React.SetStateAction<FriendType>>;
 }
 
 const FeedList = ({
@@ -24,7 +25,7 @@ const FeedList = ({
   }
   return (
     <S.FeedListLayout>
-      {feed.moments.length === 0 || feed === undefined ? (
+      {feed?.moments.length === 0 || feed === undefined ? (
         <EmptyFeed
           friendId={friendId}
           friendNickname={friendNickname}

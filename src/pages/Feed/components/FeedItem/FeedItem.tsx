@@ -4,7 +4,7 @@ import usePostCheer from '../../hooks/queries/usePostCheer';
 import useResponseMessage from '../../../../hooks/common/useResponseMessage';
 import IcHelloOff from '../../../../assets/svg/feed/IcHelloOff';
 import { useQueryClient } from '@tanstack/react-query';
-import { MomentItemType } from '../../types/feed';
+import { MomentItemType } from '../../types/index';
 import { formatDate } from '../../../../utils/formatDate';
 import formatFrequency from '../../../../utils/formatFrequency';
 

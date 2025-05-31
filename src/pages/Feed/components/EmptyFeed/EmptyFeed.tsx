@@ -1,16 +1,18 @@
 import * as S from './EmptyFeed.style';
+import React from 'react';
 import Button from '../../../../components/buttons/Button';
 import IcKnock from '../../../../assets/svg/feed/IcKnock';
 import usePostKnock from '../../hooks/queries/usePostKnock';
 import useModal from '../../../../hooks/common/useModal';
 import Modal from '../../../../components/Modal/Modal';
 import OKModal from '../../../../components/Modal/OKModal/OKModal';
+import { FriendType } from '../../types';
 
 interface EmptyFeedProps {
   friendId: string;
   friendNickname: string;
   isKnocked: boolean;
-  setCurrentFriend: () => void;
+  setCurrentFriend: React.Dispatch<React.SetStateAction<FriendType>>;
 }
 
 const EmptyFeed = ({
@@ -26,7 +28,7 @@ const EmptyFeed = ({
     postKnock(friendId, {
       onSuccess: () => {
         openModal();
-        setCurrentFriend((prev) => ({
+        setCurrentFriend((prev: FriendType) => ({
           ...prev,
           isKnock: !prev.isKnock,
         }));

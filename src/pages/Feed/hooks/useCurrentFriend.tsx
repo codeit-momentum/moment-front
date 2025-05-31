@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FriendType } from '../../types/feed';
-
-type ActionType = 'delete' | 'fix' | null;
+import { FriendType, ActionType } from '../types';
 
 const useCurrentFriend = (friendList: FriendType[]) => {
   const [currentFriend, setCurrentFriend] = useState<FriendType>(friendList[0]);

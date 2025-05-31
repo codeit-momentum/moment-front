@@ -25,11 +25,11 @@ const AchievementImage = () => {
     { image: <IcSnakeLv4 />, min: 80, max: 100 },
   ];
 
-  const targetRange: AcheivementListType = achievementList.find(
+  const targetRange: AcheivementListType | undefined = achievementList.find(
     (item) => achievement >= item.min && achievement <= item.max,
   );
 
-  return <S.Wrapper>{targetRange.image}</S.Wrapper>;
+  return <S.Wrapper>{targetRange?.image}</S.Wrapper>;
 };
 
 export default AchievementImage;
