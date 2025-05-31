@@ -1,4 +1,6 @@
-const formatFrequency = (frequency: string) => {
+import { FrequencyType } from '../types/moment/create';
+
+const formatFrequency = (frequency: FrequencyType) => {
   switch (frequency) {
     case 'daily':
       return `1일에 1번`;
@@ -14,3 +16,15 @@ const formatFrequency = (frequency: string) => {
 };
 
 export default formatFrequency;
+
+const frequencyValues: FrequencyType[] = [
+  'daily',
+  'every2days',
+  'weekly',
+  'monthly',
+];
+
+export const frequencyOptions = frequencyValues.map((value) => ({
+  label: formatFrequency(value), // 기존 유틸 함수 사용
+  value,
+}));

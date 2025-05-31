@@ -1,4 +1,5 @@
 export type ModalType = 'friend' | 'delete' | 'ok';
+import { FrequencyType } from '../moment/create';
 
 export interface FriendType {
   createdAt: string;
@@ -25,7 +26,7 @@ export interface MomentItemType {
   momentId: string;
   momentContent?: string;
   cheered: boolean;
-  frequency: string;
+  frequency: FrequencyType;
 }
 
 export interface FeedResponseType {

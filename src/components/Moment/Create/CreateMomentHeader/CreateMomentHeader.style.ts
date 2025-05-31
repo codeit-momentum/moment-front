@@ -1,10 +1,5 @@
 import styled from 'styled-components';
 
-/**
- * HeaderContainer
- * - 제목과 부제목을 포함하는 최상위 컨테이너
- */
-
 export const HeaderLayout = styled.div`
   ${({ theme: { mixin } }) =>
     mixin.flexBox({
