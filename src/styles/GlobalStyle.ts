@@ -42,11 +42,12 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     border: none;
     background: none;
-    font-family: NeoDunggeunmoPro-Regular;
+    font-family: inherit;
   }
 
   input {
     outline: none;
+    font-family: inherit;
   }
 
   :root {
