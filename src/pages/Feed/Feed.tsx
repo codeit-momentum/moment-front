@@ -15,6 +15,11 @@ const Feed = () => {
     useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
 
+  console.log(currentFriend);
+  console.log(typeof friendList);
+
+  console.log(currentFriend !== undefined);
+
   return (
     <S.FeedLayout>
       {isOpen && (
@@ -42,13 +47,13 @@ const Feed = () => {
           onClickFriend={handleClickFriend}
         />
       </S.FeedHeaderContatiner>
-      {friendList.length === 0 ? (
+      {currentFriend === undefined ? (
         <EmptyFriend />
       ) : (
         <FeedList
-          friendId={currentFriend?.userID}
-          friendNickname={currentFriend?.nickname}
-          isKnocked={currentFriend?.isKnock}
+          friendId={currentFriend.userID}
+          friendNickname={currentFriend.nickname}
+          isKnocked={currentFriend.isKnock}
           setCurrentFriend={setCurrentFriend}
         />
       )}

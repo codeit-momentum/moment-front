@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { FriendType, ActionType } from '../types';
 
 const useCurrentFriend = (friendList: FriendType[]) => {
-  const [currentFriend, setCurrentFriend] = useState<FriendType>(friendList[0]);
+  const [currentFriend, setCurrentFriend] = useState<FriendType | object>(
+    friendList[0],
+  );
   const [action, setAction] = useState<ActionType>(null);
 
   const handleClickFriend = (userID: string) => {
