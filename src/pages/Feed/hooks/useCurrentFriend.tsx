@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { FriendType, ActionType } from '../types';
 
 const useCurrentFriend = (friendList: FriendType[]) => {
-  const [currentFriend, setCurrentFriend] = useState<FriendType | object>(
+  const [currentFriend, setCurrentFriend] = useState<FriendType | undefined>(
     friendList[0],
   );
   const [action, setAction] = useState<ActionType>(null);
