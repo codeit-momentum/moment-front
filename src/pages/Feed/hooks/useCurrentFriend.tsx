@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
-import { FriendType, ActionType } from '../types';
+import { FriendType } from '../types';
 
 const useCurrentFriend = (friendList: FriendType[]) => {
-  const [currentFriend, setCurrentFriend] = useState<FriendType | undefined>(
-    friendList[0],
-  );
-  const [action, setAction] = useState<ActionType>(null);
+  const [currentFriend, setCurrentFriend] = useState<FriendType | null>(null);
 
   const handleClickFriend = (userID: string) => {
     const targetFriend = friendList.find((friend) => friend.userID === userID);
@@ -13,15 +10,16 @@ const useCurrentFriend = (friendList: FriendType[]) => {
       setCurrentFriend(targetFriend);
     }
   };
+  console.log(friendList, currentFriend);
+  console.log('리렌더링');
 
   useEffect(() => {
-    //친구를 삭제한 상태이거나 현재 친구가 설정되지 않은 경우
-    if (action === 'delete' || !currentFriend) {
-      setCurrentFriend(friendList[0]);
+    console.log('useEffect 호출');
+    if (currentFriend === null) {
+      setCurrentFriend(friendList[0] ?? null);
     }
-  }, [currentFriend, friendList, action]);
-
-  return { currentFriend, handleClickFriend, setCurrentFriend, setAction };
+  }, [currentFriend, friendList]);
+  return { currentFriend, handleClickFriend, setCurrentFriend };
 };
 
 export default useCurrentFriend;

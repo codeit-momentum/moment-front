@@ -3,21 +3,19 @@ import OKModal from '../../../../components/Modal/OKModal/OKModal';
 import FriendModal from '../../../../components/Modal/FriendModal/FriendModal';
 import useDeleteFriend from '../../hooks/queries/useDeleteFriend';
 import usePatchFix from '../../hooks/queries/usePatchFix';
-import { FriendType, ModalType, ActionType } from '../../types';
+import { FriendType, ModalType } from '../../types';
 import React, { useState } from 'react';
 
 interface FeedModalProps {
   currentFriend: FriendType;
   setCurrentFriend: React.Dispatch<React.SetStateAction<FriendType>>;
   closeModal: () => void;
-  setAction: React.Dispatch<React.SetStateAction<ActionType>>;
 }
 
 const FeedModal = ({
   currentFriend,
   setCurrentFriend,
   closeModal,
-  setAction,
 }: FeedModalProps) => {
   const [modalType, setModalType] = useState<ModalType>('friend');
   const { mutate: deleteFriend } = useDeleteFriend();
@@ -26,7 +24,7 @@ const FeedModal = ({
   const handleDelete = () => {
     deleteFriend(currentFriend.userID, {
       onSuccess: () => {
-        setAction('delete');
+        setCurrentFriend(null);
         setModalType('ok');
       },
     });
@@ -35,7 +33,6 @@ const FeedModal = ({
   const handleFix = () => {
     patchFix(currentFriend.userID, {
       onSuccess: () => {
-        setAction('fix');
         setCurrentFriend((prev: FriendType) => ({
           ...prev,
           isFixed: !prev.isFixed,
@@ -47,7 +44,6 @@ const FeedModal = ({
   const handleClose = () => {
     closeModal();
     setModalType('friend');
-    setAction(null);
   };
 
   switch (modalType) {

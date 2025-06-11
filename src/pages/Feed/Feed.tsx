@@ -11,14 +11,9 @@ import FeedModal from './components/FeedModal/FeedModal';
 
 const Feed = () => {
   const { friendList } = useGetFriends();
-  const { currentFriend, handleClickFriend, setCurrentFriend, setAction } =
+  const { currentFriend, handleClickFriend, setCurrentFriend } =
     useCurrentFriend(friendList);
   const [isOpen, openModal, closeModal] = useModal();
-
-  console.log(currentFriend);
-  console.log(typeof friendList);
-
-  console.log(currentFriend !== undefined);
 
   return (
     <S.FeedLayout>
@@ -28,7 +23,6 @@ const Feed = () => {
             currentFriend={currentFriend}
             setCurrentFriend={setCurrentFriend}
             closeModal={closeModal}
-            setAction={setAction}
           />
         </Modal>
       )}
@@ -47,7 +41,7 @@ const Feed = () => {
           onClickFriend={handleClickFriend}
         />
       </S.FeedHeaderContatiner>
-      {currentFriend === undefined ? (
+      {currentFriend === null ? (
         <EmptyFriend />
       ) : (
         <FeedList
