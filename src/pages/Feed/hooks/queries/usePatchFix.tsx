@@ -24,8 +24,8 @@ const usePatchFix = () => {
 
   return useMutation({
     mutationFn: patchFix,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
         queryKey: ['friends'],
       });
     },
