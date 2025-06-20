@@ -13,6 +13,7 @@ interface FeedModalProps {
 }
 
 const FeedModal = ({
+  friendList,
   currentFriend,
   setCurrentFriend,
   closeModal,
