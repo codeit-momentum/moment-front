@@ -17,7 +17,7 @@ const Feed = () => {
 
   return (
     <S.FeedLayout>
-      {isOpen && (
+      {isOpen && currentFriend !== null && (
         <Modal>
           <FeedModal
             currentFriend={currentFriend}

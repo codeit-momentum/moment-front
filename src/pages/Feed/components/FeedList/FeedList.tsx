@@ -9,7 +9,7 @@ interface FeedListProps {
   friendId: string;
   friendNickname: string;
   isKnocked: boolean;
-  setCurrentFriend: React.Dispatch<React.SetStateAction<FriendType>>;
+  setCurrentFriend: React.Dispatch<React.SetStateAction<FriendType | null>>;
 }
 
 const FeedList = ({

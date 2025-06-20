@@ -12,7 +12,7 @@ interface EmptyFeedProps {
   friendId: string;
   friendNickname: string;
   isKnocked: boolean;
-  setCurrentFriend: React.Dispatch<React.SetStateAction<FriendType>>;
+  setCurrentFriend: React.Dispatch<React.SetStateAction<FriendType | null>>;
 }
 
 const EmptyFeed = ({
@@ -28,10 +28,14 @@ const EmptyFeed = ({
     postKnock(friendId, {
       onSuccess: () => {
         openModal();
-        setCurrentFriend((prev: FriendType) => ({
-          ...prev,
-          isKnock: !prev.isKnock,
-        }));
+        setCurrentFriend((prev: FriendType | null) => {
+          if (prev === null) return prev;
+
+          return {
+            ...prev,
+            isKnock: !prev.isKnock,
+          };
+        });
       },
       onError: () => {
         alert('에러 발생');
