@@ -1,5 +1,8 @@
 import { FrequencyType } from '../moment/create';
 
+export type ActionType = 'delete' | 'fix' | null;
+export type ModalType = 'friend' | 'delete' | 'ok';
+
 export interface FriendType {
   createdAt: string;
   fixedAt: string;

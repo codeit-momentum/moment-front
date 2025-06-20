@@ -13,7 +13,7 @@ const MomentComplete = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { mutate: postMoments, isPending } = usePostMoments();
-  const { handleError, openModal, renderModal } = useResponseMessage();
+  const { handleError, openModal, RenderModal } = useResponseMessage();
 
   const state = location.state as CompleteStateType;
 
@@ -81,7 +81,7 @@ const MomentComplete = () => {
       <Button onClick={handleConfirm} disabled={isPending}>
         {isPending ? '저장 중...' : '확인'}
       </Button>
-      {renderModal()}
+      {RenderModal()}
     </S.MomentCompleteLayout>
   );
 };

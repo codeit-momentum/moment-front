@@ -11,7 +11,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import usePostCheckFriend from '../../../hooks/queries/myPage/usePostCheckFriend';
 import usePostFriend from '../../../hooks/queries/myPage/usePostFriend';
 import OKModal from '../../../components/Modal/OKModal/OKModal';
-import useErrorHandler from '../../../hooks/common/useResponseMessage';
+import useResponseMessage from '../../../hooks/common/useResponseMessage';
 import useToast from '../../../hooks/common/useToast';
 import useGetFriendCode from '../../../hooks/queries/myPage/useGetFriendCode';
 import Toast from '../../../components/common/Toast/Toast';
@@ -22,7 +22,7 @@ const Friend = () => {
   const [friendCode, setFriendCode] = useState<string>('');
   const [friendNickname, setFriendNickname] = useState<string>('');
   const [isFriend, setIsFriend] = useState(false);
-  const { handleError, message, setMessage } = useErrorHandler();
+  const { handleError, message, setMessage } = useResponseMessage();
   const [isOpen, openModal, closeModal] = useModal();
   const { openToast, setIsToastOpen, isToastOpen, toastMessage } = useToast();
   const { data: userCode } = useGetFriendCode();

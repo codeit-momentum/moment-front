@@ -3,7 +3,7 @@ import * as S from './EditProfile.style';
 import React, { useState } from 'react';
 import Button from '../../../components/buttons/Button';
 import usePatchProfile from '../../../hooks/queries/myPage/usePatchProfile';
-import useErrorHandler from '../../../hooks/common/useResponseMessage';
+import useResponseMessage from '../../../hooks/common/useResponseMessage';
 import useImageHandler from '../../../hooks/common/useImageHandler';
 import { useNavigate } from 'react-router-dom';
 import useGetUser from '../../../hooks/queries/myPage/useGetUser';
@@ -14,8 +14,8 @@ const EditProfile = () => {
   const handleClose = () => {
     navigate('/mypage');
   };
-  const { handleError, openModal, setMessage, renderModal } =
-    useErrorHandler(handleClose);
+  const { handleError, openModal, setMessage, RenderModal } =
+    useResponseMessage(handleClose);
   const navigate = useNavigate();
   const {
     image: newImage,
@@ -51,7 +51,7 @@ const EditProfile = () => {
 
   return (
     <S.EditProfileLayout>
-      {renderModal()}
+      <RenderModal />
       <ImageToast />
       <MyPageTitle>내 정보 수정하기</MyPageTitle>
 

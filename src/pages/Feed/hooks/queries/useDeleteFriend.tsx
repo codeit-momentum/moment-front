@@ -1,4 +1,4 @@
-import instance from '../../../apis/client';
+import instance from '../../../../apis/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface DeleteFriendResponseType {
@@ -22,8 +22,8 @@ const useDeleteFriend = () => {
 
   return useMutation({
     mutationFn: deleteFriend,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
         queryKey: ['friends'],
       });
     },

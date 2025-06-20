@@ -24,7 +24,8 @@ const useResponseMessage = (handleEvent?: () => void) => {
     }
     closeModal();
   };
-  const renderModal = () => {
+
+  const RenderModal = () => {
     return (
       isOpen && (
         <Modal>
@@ -33,12 +34,13 @@ const useResponseMessage = (handleEvent?: () => void) => {
       )
     );
   };
+
   return {
     handleError,
     message,
     setMessage,
     openModal,
-    renderModal,
+    RenderModal,
   };
 };
 

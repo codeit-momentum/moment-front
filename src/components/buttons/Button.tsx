@@ -3,10 +3,17 @@ import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   $customstyle?: React.CSSProperties;
+  disabled?: boolean;
 }
 
 const Button = ({ ...props }: ButtonProps) => {
-  return <S.ButtonWrapper {...props} style={props.$customstyle} />;
+  return (
+    <S.ButtonWrapper
+      {...props}
+      style={props.$customstyle}
+      disabled={props.disabled}
+    />
+  );
 };
 
 export default Button;

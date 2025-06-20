@@ -13,7 +13,9 @@ export const EmptyFeedTitleBox = styled.div`
   text-align: center;
   white-space: pre-line;
 `;
-//추후 img 태그 수정 예정
+export const HighlightSpan = styled.span`
+  color: ${({ theme }) => theme.colors.yellow};
+`;
 export const EmptyFeedIcon = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 12.8rem;
