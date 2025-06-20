@@ -5,15 +5,19 @@ import router from './router/Router';
 import queryClient from './apis/queryClient';
 import { Suspense } from 'react';
 import Fallback from './pages/Fallback/Fallback';
+import Style from './styles/index';
+import '../src/styles/font.css';
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<Fallback />}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </Suspense>
-    </QueryClientProvider>
+    <Style>
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={<Fallback />}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </Suspense>
+      </QueryClientProvider>
+    </Style>
   );
 }
 

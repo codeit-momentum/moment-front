@@ -1,7 +1,7 @@
-import * as S from './FeedModal.style';
+import * as S from './FriendModal.style';
 import IcCloseModal from '../../../assets/svg/common/IcCloseModal';
 
-interface FeedModalProps {
+interface FriendModalProps {
   title: string;
   isFixed: boolean;
   onFix: () => void;
@@ -9,15 +9,15 @@ interface FeedModalProps {
   onClose: () => void;
 }
 
-const FeedModal = ({
+const FriendModal = ({
   title,
   isFixed,
   onFix,
   onDelete,
   onClose,
-}: FeedModalProps) => {
+}: FriendModalProps) => {
   return (
-    <S.FeedModalLayout>
+    <S.FriendModalLayout>
       <S.ModalHeader>
         <S.ModalTitle>
           <span>{title}</span>님
@@ -34,8 +34,8 @@ const FeedModal = ({
           친구 삭제하기
         </S.ModalOptionButton>
       </S.ModalOptionContainer>
-    </S.FeedModalLayout>
+    </S.FriendModalLayout>
   );
 };
 
-export default FeedModal;
+export default FriendModal;

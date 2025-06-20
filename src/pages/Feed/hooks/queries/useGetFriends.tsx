@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import instance from '../../../apis/client';
+import instance from '../../../../apis/client';
 export const FRIENDS_QUERY_KEY = ['friends'];
 
 const getFriends = async () => {

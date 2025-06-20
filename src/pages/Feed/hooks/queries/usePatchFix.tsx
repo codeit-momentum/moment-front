@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import instance from '../../../apis/client';
+import instance from '../../../../apis/client';
 
 interface FixFriendResponseType {
   friend: {
@@ -24,8 +24,8 @@ const usePatchFix = () => {
 
   return useMutation({
     mutationFn: patchFix,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
         queryKey: ['friends'],
       });
     },

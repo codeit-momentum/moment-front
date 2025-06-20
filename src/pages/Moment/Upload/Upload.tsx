@@ -25,7 +25,7 @@ const Upload = ({ variant }: UploadProps) => {
   const {
     handleError,
     openModal: openErrorModal,
-    renderModal,
+    RenderModal,
   } = useResponseMessage();
   const { data, isLoading, isError, patchUpload } = useUpload(variant, id);
   const navigate = useNavigate();
@@ -101,7 +101,7 @@ const Upload = ({ variant }: UploadProps) => {
           </OKModal>
         </Modal>
       )}
-      {renderModal()}
+      <RenderModal />
       <ImageToast />
     </S.UploadLayout>
   );

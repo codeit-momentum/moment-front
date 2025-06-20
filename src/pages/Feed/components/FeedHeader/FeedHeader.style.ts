@@ -1,14 +1,6 @@
 import styled from 'styled-components';
 
-export const FeedLayout = styled.div`
-  ${({ theme: { mixin } }) =>
-    mixin.flexBox({
-      direction: 'column',
-      justify: 'flex-start',
-    })};
-  width: 100%;
-`;
-export const FeedHeaderContatiner = styled.div`
+export const FeedHeaderLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   background-color: ${({ theme }) => theme.colors.black};
   color: ${({ theme }) => theme.colors.white};
@@ -24,7 +16,7 @@ export const FeedTitleContainer = styled.div`
   padding-top: 4rem;
   padding-bottom: 4rem;
 `;
-export const FeedTitleHeader = styled.div`
+export const FeedTitleHeader = styled.h1`
   font-size: 20px;
   letter-spacing: 0.6px;
 `;
