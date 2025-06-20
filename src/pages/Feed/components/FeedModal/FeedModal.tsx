@@ -13,12 +13,12 @@ interface FeedModalProps {
 }
 
 const FeedModal = ({
+  friendList,
   currentFriend,
   setCurrentFriend,
   closeModal,
 }: FeedModalProps) => {
   const [modalType, setModalType] = useState<ModalType>('friend');
-  const [isFixed, setIsFixed] = useState<boolean>(currentFriend?.isFixed);
   const { mutate: deleteFriend } = useDeleteFriend();
   const { mutate: patchFix } = usePatchFix();
 
@@ -33,8 +33,11 @@ const FeedModal = ({
 
   const handleFix = () => {
     patchFix(currentFriend.userID, {
-      onSuccess: ({ friend }) => {
-        setIsFixed(friend.isFixed);
+      onSuccess: () => {
+        setCurrentFriend({
+          ...currentFriend,
+          isFixed: !currentFriend.isFixed,
+        });
       },
     });
   };
@@ -67,7 +70,7 @@ const FeedModal = ({
       return (
         <FriendModal
           title={currentFriend.nickname}
-          isFixed={isFixed}
+          isFixed={currentFriend.isFixed}
           onFix={handleFix}
           onDelete={() => {
             setModalType('delete');

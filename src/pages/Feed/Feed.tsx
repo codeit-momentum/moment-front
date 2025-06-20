@@ -20,6 +20,7 @@ const Feed = () => {
       {isOpen && (
         <Modal>
           <FeedModal
+            friendList={friendList}
             currentFriend={currentFriend}
             setCurrentFriend={setCurrentFriend}
             closeModal={closeModal}
