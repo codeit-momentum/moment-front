@@ -1,0 +1,25 @@
+name: PR Build
+
+on:
+  pull_request:
+    branches: ['**']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Corepack
+        run: corepack enable
+
+      - name: Install Dependency
+        run: yarn install
+
+      - name: Lint test
+        run: yarn lint
+
+      - name: Build test
+        working-directory: ./src
+        run: yarn build
