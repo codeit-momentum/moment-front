@@ -55,18 +55,7 @@ const MomentComplete = () => {
         </S.DateText>
       </S.DateContainer>
 
-      <MethodContainer
-        title="방법"
-        containerStyle={{
-          margin: '1rem 0rem 3rem 0rem',
-          padding: '1rem 2rem',
-        }}
-        titleStyle={{
-          fontSize: '16px',
-          padding: '0.5rem 2.4rem',
-          marginBottom: '0',
-        }}
-      >
+      <MethodContainer title="방법">
         <S.MethodList>
           {moments.map((moment) => (
             <S.MethodItem key={moment.startDate}>

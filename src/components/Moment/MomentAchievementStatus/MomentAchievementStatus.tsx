@@ -11,11 +11,7 @@ type MomentAchievementStatusProps = {
 
 const MomentAchievementStatus = ({ data }: MomentAchievementStatusProps) => {
   return (
-    <MomentAchievementStatusLayout
-      containerStyle={{ padding: '2rem' }}
-      titleStyle={{ padding: '0.5rem 1.9rem', marginBottom: '0.5rem' }}
-      title="모멘트 달성 현황"
-    >
+    <MomentAchievementStatusLayout title="모멘트 달성 현황">
       {data.length > 0 ? (
         <S.MomentContainer>
           {data.map((bucket, index) => (

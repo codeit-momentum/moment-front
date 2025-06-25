@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const MomentContainer = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
   width: 100%;
-  padding: 1.4rem 1.5rem;
+  margin-top: 0.2rem;
+  padding: 1.4rem 1.1rem;
   border-radius: 1rem;
   background-color: ${({ theme }) => theme.colors.black};
   display: flex;
@@ -19,10 +20,10 @@ export const MomentItem = styled.div`
 export const MomentDetailsBox = styled.div`
   ${({ theme: { mixin } }) => mixin.flexBox({ justify: `space-between` })};
   width: 100%;
+  margin-bottom: 0.5rem;
   padding: 0rem 1rem;
   gap: 1rem;
   font-size: 12px;
-  line-height: 26px;
   word-break: keep-all;
   overflow-wrap: anywhere;
 `;
@@ -37,7 +38,7 @@ export const PercentageSpan = styled.span`
 
 export const Divider = styled.hr`
   width: 26.5rem;
-  height: 5px;
+  height: 3px;
   margin: 1.5rem 0rem;
   border: none;
   border-radius: 5px;
@@ -46,8 +47,10 @@ export const Divider = styled.hr`
 
 export const EmptyContainer = styled.div`
   ${({ theme: { mixin } }) => mixin.flexCenter()};
-  padding: 3.7rem 7.4rem;
-  margin: 1.5rem 0rem;
+  width: 100%;
+  padding: 5.1rem 0rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.3rem;
   border-radius: 1rem;
   background-color: ${({ theme }) => theme.colors.black};
   display: flex;

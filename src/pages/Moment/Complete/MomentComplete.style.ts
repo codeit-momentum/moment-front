@@ -42,7 +42,7 @@ export const MethodList = styled.div`
     mixin.flexBox({ direction: 'column', align: 'flex-start' })};
   gap: 1rem;
   width: 100%;
-  padding: 1.5rem 0;
+  padding: 0.5rem 0;
 `;
 
 export const MethodItem = styled.div`

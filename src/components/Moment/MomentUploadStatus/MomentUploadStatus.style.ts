@@ -8,6 +8,8 @@ export const MomentContainer = styled.div`
       justify: 'flex-start',
     })};
   width: 30.1rem;
+  margin-top: 0.9rem;
+  margin-bottom: 1rem;
   gap: 0.8rem;
 `;
 

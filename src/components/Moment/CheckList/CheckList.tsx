@@ -113,7 +113,9 @@ const CheckList = ({ type }: CheckListProps) => {
   };
 
   return (
-    <CheckListLayout title={type === 'REPEAT' ? '반복형' : '달성형'}>
+    <CheckListLayout
+      title={type === 'REPEAT' ? '반복형 버킷리스트' : '달성형 버킷리스트'}
+    >
       {/* 새 버킷리스트 추가 */}
       <S.InputContainer>
         <S.CheckBoxWrapper>

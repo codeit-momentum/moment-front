@@ -75,11 +75,7 @@ const MomentPlanSetup = ({
         </S.PlanLoadingWrapper>
       ) : (
         <>
-          <PlanContainer
-            title="방법"
-            containerStyle={{ margin: '2rem 0rem', padding: '1rem 2.2rem' }}
-            titleStyle={{ fontSize: '16px', padding: '0.5rem 2.4rem' }}
-          >
+          <PlanContainer title="방법">
             {plan.map((item, index) => (
               <PlanItem
                 key={uuidv4()}
