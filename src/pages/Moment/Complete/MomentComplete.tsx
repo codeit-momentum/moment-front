@@ -1,4 +1,3 @@
-import IcArrow from '../../../assets/svg/common/IcArrow';
 import * as S from './MomentComplete.style';
 import Button from '../../../components/buttons/Button';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -49,9 +48,10 @@ const MomentComplete = () => {
       <S.DateContainer>
         <IcDateContainer />
         <S.DateText>
-          {formatHeaderDate(moments[0].startDate)}
-          <IcArrow />
-          {formatHeaderDate(moments[moments.length - 1].endDate)}
+          <span>{formatHeaderDate(moments[0].startDate)}</span>
+          부터&emsp;
+          <span>{formatHeaderDate(moments[moments.length - 1].endDate)}</span>
+          까지
         </S.DateText>
       </S.DateContainer>
 
@@ -67,7 +67,11 @@ const MomentComplete = () => {
           ))}
         </S.MethodList>
       </MethodContainer>
-      <Button onClick={handleConfirm} disabled={isPending}>
+      <Button
+        onClick={handleConfirm}
+        disabled={isPending}
+        $customstyle={{ marginTop: '2.9rem' }}
+      >
         {isPending ? '저장 중...' : '확인'}
       </Button>
       {RenderModal()}
