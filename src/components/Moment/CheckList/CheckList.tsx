@@ -4,7 +4,7 @@ import {
   handleResizeHeight,
   setBucketState,
 } from '../../../utils/moment';
-import { BucketType } from '../../../types/moment';
+import { BucketType, BucketItemType } from '../../../types/moment';
 import usePostBucket from '../../../hooks/queries/bucketList/usePostBucket';
 import usePatchBucket from '../../../hooks/queries/bucketList/usePatchBucket';
 import useResponseMessage from '../../../hooks/common/useResponseMessage';
@@ -38,6 +38,8 @@ const CheckList = ({ type }: CheckListProps) => {
 
   const useTypeHook = TypeHooks[type];
   const { data } = useTypeHook();
+
+  console.log(data);
 
   const hadleSubmitItem = (target: HTMLTextAreaElement) => {
     const trimmedItem = newItem.trim();
@@ -132,17 +134,23 @@ const CheckList = ({ type }: CheckListProps) => {
       </S.InputContainer>
 
       {/* 기존 버킷리스트 목록 */}
-      {data.buckets.map((item) => (
-        <CheckListItem
-          key={item.bucketID}
-          id={item.bucketID}
-          type={type}
-          value={item.content}
-          state={setBucketState(item.isCompleted, item.isChallenging)}
-          onUpdateItem={handleUpdateItem}
-          onDeleteItem={handleDeleteItem}
-        />
-      ))}
+      {data.buckets
+        .sort((a, b) => {
+          const priority = (item: BucketItemType) =>
+            item.isCompleted ? 2 : item.isChallenging ? 1 : 0;
+          return priority(a) - priority(b);
+        })
+        .map((item) => (
+          <CheckListItem
+            key={item.bucketID}
+            id={item.bucketID}
+            type={type}
+            value={item.content}
+            state={setBucketState(item.isCompleted, item.isChallenging)}
+            onUpdateItem={handleUpdateItem}
+            onDeleteItem={handleDeleteItem}
+          />
+        ))}
       <RenderModal />
       {isToastOpen && <Toast setToast={setIsToastOpen}>{toastMessage}</Toast>}
     </CheckListLayout>
