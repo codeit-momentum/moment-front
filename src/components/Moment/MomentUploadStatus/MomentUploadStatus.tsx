@@ -10,11 +10,7 @@ type MomentUploadStatusProps = {
 
 const MomentUploadStatus = ({ data }: MomentUploadStatusProps) => {
   return (
-    <MomentUploadStatusLayout
-      title="모멘트 인증하기"
-      containerStyle={{ padding: '2rem 1.7rem' }}
-      titleStyle={{ padding: '0.5rem 1.9rem', marginBottom: '2rem' }}
-    >
+    <MomentUploadStatusLayout title="모멘트 인증하기">
       <S.MomentContainer>
         {data.length > 0 ? (
           data.map(({ moments: [moment] }) => (

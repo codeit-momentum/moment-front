@@ -4,7 +4,7 @@ export const CheckListItemLayout = styled.div`
   ${({ theme: { mixin } }) => mixin.flexBox({ align: 'flex-start' })};
   width: 100%;
   min-height: 4rem;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   gap: 1rem;
 `;
 

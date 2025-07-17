@@ -7,14 +7,13 @@ export const MomentCompleteLayout = styled.div`
       justify: 'flex-start',
     })};
   width: 100%;
-  gap: 1rem;
+  padding-top: 2rem;
   position: relative;
 `;
 
 export const MomentCompleteTitle = styled.h1`
   font-size: 20px;
-  margin-bottom: 20px;
-  margin-top: 40px;
+  line-height: 3.7rem;
   color: ${({ theme }) => theme.colors.white};
 `;
 
@@ -22,19 +21,24 @@ export const DateContainer = styled.div`
   position: relative;
   width: 29.5rem;
   height: 4.7rem;
-  margin-top: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 2.2rem;
 `;
 
 export const DateText = styled.div`
-  ${({ theme: { mixin } }) => mixin.flexBox({ direction: 'row' })};
+  ${({ theme: { mixin } }) => mixin.flexBox({ align: 'center' })};
   width: 100%;
-  height: 100%;
+  height: 4.5rem;
   position: absolute;
   top: 0;
-  gap: 2.2rem;
-  font-size: 16px;
+  font-size: 12px;
   color: ${({ theme }) => theme.colors.black};
   text-align: center;
+  span {
+    margin-right: 0.5rem;
+    font-size: 16px;
+    text-decoration-line: underline;
+  }
 `;
 
 export const MethodList = styled.div`
@@ -42,7 +46,7 @@ export const MethodList = styled.div`
     mixin.flexBox({ direction: 'column', align: 'flex-start' })};
   gap: 1rem;
   width: 100%;
-  padding: 1.5rem 0;
+  padding: 0.5rem 0;
 `;
 
 export const MethodItem = styled.div`

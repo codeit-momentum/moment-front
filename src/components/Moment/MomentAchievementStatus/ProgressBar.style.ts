@@ -1,29 +1,56 @@
 import styled from 'styled-components';
 
 export const ProgressBar = styled.div`
+  ${({ theme: { mixin } }) => mixin.flexBox({ justify: 'flex-start' })};
+  position: relative;
   width: 100%;
-  height: 2.3rem;
-  border-radius: 2rem;
+  height: 2.7rem;
+  padding: 0rem 0.4rem;
+  gap: 0.1rem;
   background-color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
 `;
 
-export const ProgressValue = styled.div<{ $value: number }>`
-  width: ${({ $value }) => `${$value}%`};
-  height: 2.3rem;
-  border-radius: 2rem;
-  background: ${({ theme }) => theme.colors.yellow};
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-  animation: scale-up-hor-left 700ms ease-out;
+export const ProgressBarTopCorners = styled.div`
+  &::before {
+    content: '';
+    position: absolute;
+    width: 0.4rem;
+    height: 0.5rem;
+    background-color: ${({ theme }) => theme.colors.black};
+    top: 0;
+    left: 0;
+  }
 
-  @keyframes scale-up-hor-left {
-    0% {
-      transform: scaleX(0);
-      transform-origin: 0% 0%;
-    }
-    100% {
-      transform: scaleX(1);
-      transform-origin: 0% 0%;
-    }
+  &::after {
+    content: '';
+    position: absolute;
+    width: 0.4rem;
+    height: 0.5rem;
+    background-color: ${({ theme }) => theme.colors.black};
+    top: 0;
+    right: 0;
+  }
+`;
+
+export const ProgressBarBottomCorners = styled.div`
+  &::before {
+    content: '';
+    position: absolute;
+    width: 0.4rem;
+    height: 0.5rem;
+    background-color: ${({ theme }) => theme.colors.black};
+    bottom: 0;
+    left: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 0.4rem;
+    height: 0.5rem;
+    background-color: ${({ theme }) => theme.colors.black};
+    bottom: 0;
+    right: 0;
   }
 `;

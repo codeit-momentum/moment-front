@@ -1,22 +1,19 @@
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import * as S from './ContainerLayout.style';
+import IcTitleBox from '../../../assets/svg/moment/IcTitleBox';
 
 interface ContainerLayoutProps {
   title: string;
-  containerStyle?: CSSProperties;
-  titleStyle?: CSSProperties;
   children: ReactNode;
 }
 
-const ContainerLayout = ({
-  title,
-  containerStyle,
-  titleStyle,
-  children,
-}: ContainerLayoutProps) => {
+const ContainerLayout = ({ title, children }: ContainerLayoutProps) => {
   return (
-    <S.ContainerLayout style={containerStyle}>
-      <S.TitleSpan style={titleStyle}>{title}</S.TitleSpan>
+    <S.ContainerLayout>
+      <S.TitleBox>
+        <IcTitleBox />
+        <S.TitleSpan>{title}</S.TitleSpan>
+      </S.TitleBox>
       <S.TopRightPixel />
       <S.TopLeftPixel />
       <S.BottomRightPixel />

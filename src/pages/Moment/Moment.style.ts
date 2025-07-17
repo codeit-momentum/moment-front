@@ -5,5 +5,5 @@ export const MomentLayout = styled.div`
     mixin.flexBox({ direction: 'column', justify: 'flex-start' })};
   width: 100%;
   margin-top: 8rem;
-  gap: 2rem;
+  gap: 1rem;
 `;

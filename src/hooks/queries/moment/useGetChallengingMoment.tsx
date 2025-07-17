@@ -8,10 +8,13 @@ const getChallengingMoment =
     return response.data;
   };
 
-const useGetChallengingMoment = () =>
-  useSuspenseQuery({
+const useGetChallengingMoment = () => {
+  const { data } = useSuspenseQuery({
     queryKey: ['moments', 'challenging'],
     queryFn: getChallengingMoment,
   });
+
+  return { buckets: data.data };
+};
 
 export default useGetChallengingMoment;
